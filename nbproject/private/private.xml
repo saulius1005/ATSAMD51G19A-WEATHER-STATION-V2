@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/settings.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/A7672E.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/TCVar.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/RTC.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/RTCVar.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/CLK.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/A7672E.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/main.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/keyboard.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/DMA.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/TC.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/BMP180.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/DMA.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/BMP180.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/keyboard.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/XPT2046.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/keyboardVar.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/I2C.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/USART.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/XPT2046.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/TC.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/SERCOM.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/GPIO.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/DMAVar.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/ILI9341.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/A7672EVar.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/SERCOM.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/ILI9341.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/RTC.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/imageVar.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X/BMP180Var.h</file>
+        </group>
+    </open-files>
+</project-private>
