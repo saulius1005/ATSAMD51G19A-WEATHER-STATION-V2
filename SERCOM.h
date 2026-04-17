@@ -45,7 +45,8 @@ extern "C" {
  */
 typedef enum {
     USART,   // Universal Synchronous/Asynchronous Receiver/Transmitter
-    SPI,     // Serial Peripheral Interface
+    SPI_SCREEN, //SPI for LCD and Touch screen
+    SPI_SENSOR, //SPI for sensors
     I2C      // Inter-Integrated Circuit
 } sercom_init_t;
 

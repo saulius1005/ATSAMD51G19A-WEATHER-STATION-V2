@@ -14,7 +14,8 @@ int main(void) {
     GCLK1_SERCOM_SPIM_core_init();
     GCLK2_SERCOM_I2CM_core_init();
     GCLK3_SERCOM_TC_core_init(); //clock core 1Mhz for TC0-us (16bit) and TC2-ms(32bit)
-    SERCOM_init(SPI);                    // Initialize SERCOM0 peripheral in SPI master mode
+    SERCOM_init(SPI_SCREEN);                    // Initialize SERCOM0 peripheral in SPI master mode
+    SERCOM_init(SPI_SENSOR);
     SERCOM_init(I2C);
     SERCOM_init(USART);
     TC0_init();    
@@ -59,9 +60,8 @@ int main(void) {
                 RTC_read_date_and_time();
                 draw_formatted_line(10, &y, WHITE, RED,  "RTC date and time: %02d%02d%02d %02d%02d%02d", RTC_Date_and_Time.RTC_year, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second); 
                 draw_formatted_line(10, &y, WHITE, RED,  "sys time: %lu", time_test);       
-                //draw_formatted_line(10, &y, WHITE, RED,  "gnss converted time: %lu", A7672EGSM.GNSS_sys_time);
-                //draw_formatted_line(10, &y, WHITE, RED,  "gsm converted time: %lu", A7672EGSM.GSM_sys_time);
                 draw_formatted_line(10, &y, WHITE, RED,  "time sync value: %d", RTC_Date_and_Time.time_sync);
+                draw_formatted_line(10, &y, WHITE, RED,  "BME680 ID: %d", BME680_exchange_data(0xD0, 1));
             }
             time_test = RTC_Date_and_Time.RTC_sys_time;
             RTC_date_and_time_update(); //update rtc time with gsm or gnss          

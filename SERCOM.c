@@ -4,7 +4,6 @@
 
 
 void GCLK1_SERCOM_SPIM_core_init(){
-        /* --- Configure DPLL1 as SERCOM clock source --- */
         OSCCTRL_REGS->DPLL[1].OSCCTRL_DPLLCTRLB = OSCCTRL_DPLLCTRLB_REFCLK_XOSC1 | OSCCTRL_DPLLCTRLB_DIV(8);//3Mhz
 
         OSCCTRL_REGS->DPLL[1].OSCCTRL_DPLLRATIO = OSCCTRL_DPLLRATIO_LDR(39);//120Mhz
@@ -13,8 +12,7 @@ void GCLK1_SERCOM_SPIM_core_init(){
         OSCCTRL_REGS->DPLL[1].OSCCTRL_DPLLCTRLA = OSCCTRL_DPLLCTRLA_ENABLE_Msk;
         while (OSCCTRL_REGS->DPLL[1].OSCCTRL_DPLLSYNCBUSY &  OSCCTRL_DPLLSYNCBUSY_ENABLE_Msk);
         while (!(OSCCTRL_REGS->DPLL[1].OSCCTRL_DPLLSTATUS & OSCCTRL_DPLLSTATUS_LOCK_Msk));
-        
-        /* --- Configure GCLK1 from DPLL1 --- */
+
         GCLK_REGS->GCLK_GENCTRL[1] = GCLK_GENCTRL_SRC_DPLL1 | GCLK_GENCTRL_DIV(1) | GCLK_GENCTRL_GENEN_Msk; //GCLK1 Max speed is 200Mhz
         while (GCLK_REGS->GCLK_SYNCBUSY & GCLK_SYNCBUSY_GENCTRL_GCLK1);
 }
@@ -51,43 +49,60 @@ void SERCOM_init(sercom_init_t interface){
                 while (SERCOM2_REGS->I2CM.SERCOM_SYNCBUSY & SERCOM_I2CM_SYNCBUSY_SYSOP_Msk);
         break;
 
-        case SPI: // SERCOM0 SPI
-            /* --- Route GCLK1 to SERCOM0 core --- */
+        case SPI_SCREEN: // SERCOM0 SPI
+
             GCLK_REGS->GCLK_PCHCTRL[SERCOM0_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM0_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
 
             GCLK_REGS->GCLK_PCHCTRL[SERCOM0_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK1 | GCLK_PCHCTRL_CHEN(1); //connect sercom0 core to GCLK1
             while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM0_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk));
 
-            /* --- Enable SERCOM0 peripheral clock --- */
             MCLK_REGS->MCLK_APBAMASK |= MCLK_APBAMASK_SERCOM0_Msk;
 
-            /* --- Configure SERCOM0 SPI --- */
             SERCOM0_REGS->SPIM.SERCOM_CTRLA = SERCOM_SPIM_CTRLA_ENABLE(0); // Disable before configuration
             while(SERCOM0_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
 
-            // 8-bit character size, enable receiver (required for TXC flag),
-            // hardware SS management enabled
             SERCOM0_REGS->SPIM.SERCOM_CTRLB = SERCOM_SPIM_CTRLB_CHSIZE_8_BIT | SERCOM_SPIM_CTRLB_RXEN_Msk; //mssen is used when hw controls SS (single device)
             while (SERCOM0_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_CTRLB_Msk);
 
-            // Enable 32-bit data packing mode for faster SPI transfers
             SERCOM0_REGS->SPIM.SERCOM_CTRLC = SERCOM_SPIM_CTRLC_DATA32B_DATA_TRANS_32BIT;
 
-            // SPI baud rate divider (depends on SERCOM core clock)
             SERCOM0_REGS->SPIM.SERCOM_BAUD = SERCOM_SPI_BAUD(30000000);//~30Mhz (Core speed 60Mhz)
 
-            // Enable SPI master mode, CPOL/CPHA configuration,
-            // DOPO defines MOSI/SCK/SS pad mapping
             SERCOM0_REGS->SPIM.SERCOM_CTRLA = SERCOM_SPIM_CTRLA_ENABLE(1) | SERCOM_SPIM_CTRLA_MODE_SPI_MASTER | SERCOM_SPIM_CTRLA_CPOL_IDLE_HIGH | SERCOM_SPIM_CTRLA_CPHA_TRAILING_EDGE| SERCOM_SPIM_CTRLA_DIPO_PAD0 | SERCOM_SPIM_CTRLA_DOPO_PAD2 | SERCOM_SPIM_CTRLA_DORD_MSB;
             while(SERCOM0_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
 
         break;
+        
+        case SPI_SENSOR: // SERCOM4 SPI
+
+            GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
+            while (GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
+
+            GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK1 | GCLK_PCHCTRL_CHEN(1); //connect sercom4 core to GCLK1
+            while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk));
+
+            MCLK_REGS->MCLK_APBDMASK |= MCLK_APBDMASK_SERCOM4_Msk;
+
+            SERCOM4_REGS->SPIM.SERCOM_CTRLA = SERCOM_SPIM_CTRLA_ENABLE(0); // Disable before configuration
+            while(SERCOM4_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
+
+            SERCOM4_REGS->SPIM.SERCOM_CTRLB = SERCOM_SPIM_CTRLB_CHSIZE_8_BIT | SERCOM_SPIM_CTRLB_RXEN_Msk; //mssen is used when hw controls SS (single device)
+            while (SERCOM4_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_CTRLB_Msk);
+
+            SERCOM4_REGS->SPIM.SERCOM_CTRLC = SERCOM_SPIM_CTRLC_DATA32B_DATA_TRANS_32BIT;
+
+            SERCOM4_REGS->SPIM.SERCOM_BAUD = SERCOM_SPI_BAUD(10000000);//~10Mhz (Core speed 60Mhz)
+
+            SERCOM4_REGS->SPIM.SERCOM_CTRLA = SERCOM_SPIM_CTRLA_ENABLE(1) | SERCOM_SPIM_CTRLA_MODE_SPI_MASTER | SERCOM_SPIM_CTRLA_CPOL_IDLE_HIGH | SERCOM_SPIM_CTRLA_CPHA_TRAILING_EDGE| SERCOM_SPIM_CTRLA_DIPO_PAD0 | SERCOM_SPIM_CTRLA_DOPO_PAD2 | SERCOM_SPIM_CTRLA_DORD_MSB;
+            while(SERCOM4_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
+
+        break;        
 
         case USART: // USART as default (initialization not implemented) //26,27,28
             
-            SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_SWRST_Msk;
-while       (SERCOM3_REGS->USART_INT.SERCOM_CTRLA & SERCOM_USART_INT_CTRLA_SWRST_Msk);
+            //SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_SWRST_Msk;
+            //while(SERCOM3_REGS->USART_INT.SERCOM_CTRLA & SERCOM_USART_INT_CTRLA_SWRST_Msk);
             
             GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
@@ -109,7 +124,8 @@ while       (SERCOM3_REGS->USART_INT.SERCOM_CTRLA & SERCOM_USART_INT_CTRLA_SWRST
     }
 }
 
-// Blocking SPI transfer using SERCOM hardware length control and 32-bit packed mode
+//SPI
+
 void SPI0_Transfer_32b_HW(uint32_t data, uint8_t length){
     // Configure transfer length in bytes (1?4) using hardware length register
     SERCOM0_REGS->SPIM.SERCOM_LENGTH = SERCOM_SPIM_LENGTH_LEN(length) | SERCOM_SPIM_LENGTH_LENEN(1);
@@ -148,6 +164,8 @@ void SPI0_Baud_Switch(uint32_t baud){
     SERCOM0_REGS->SPIM.SERCOM_CTRLA |= SERCOM_SPIM_CTRLA_ENABLE_Msk;
         while(SERCOM0_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
 }
+
+//I2C
 
 bool I2C_have_error(){
   if(SERCOM2_REGS->I2CM.SERCOM_INTFLAG & SERCOM_I2CM_INTFLAG_ERROR_Msk){ //only if error 
@@ -235,6 +253,8 @@ uint32_t I2C_write_and_read(uint8_t addr, uint32_t reg, uint8_t writelen, uint8_
     I2C_write(addr, reg, writelen, I2C_CMD_Stop);
     return I2C_read(addr, readlen);
 }
+
+//USART
 
 void USART_set_read_length(uint8_t length){ //how much bytes we need to read
     SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;

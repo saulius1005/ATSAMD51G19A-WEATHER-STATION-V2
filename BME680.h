@@ -12,6 +12,9 @@
 extern "C" {
 #endif
     
+#define BME680_CS_LOW()    (PORT_REGS->GROUP[1].PORT_OUTCLR = PORT_PB10) // CS LOW
+#define BME680_CS_HIGH()   (PORT_REGS->GROUP[1].PORT_OUTSET = PORT_PB10) // CS HIGH
+    
 typedef enum {
     sleep_mode = 0,
     forced_mode,

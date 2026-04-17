@@ -42,7 +42,7 @@ extern "C" {
 #include "image.h"
 #include "A7672E.h"
 #include "RTC.h"
-
+#include "BME680.h"
 
 /* --- GPIO --- */
 // Initialize all required GPIO pins (LCD, SPI, control lines)
@@ -137,8 +137,12 @@ void SPI0_Transfer_set_length(uint8_t length);
 
 void SPI0_Transfer_32b_HW_cycle(uint32_t data);
 
-
 uint16_t XPT2046_Read(uint32_t cmd);
+
+uint32_t BME680_exchange_data(uint32_t cmd, uint8_t tx_length);
+
+void BME680_write(uint32_t cmd, uint8_t length);
+
 
 uint32_t I2C_read(uint8_t addr, uint8_t readlen);
 
