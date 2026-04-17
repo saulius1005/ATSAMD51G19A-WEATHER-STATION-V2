@@ -51,6 +51,9 @@
       <itemPath>RTC.h</itemPath>
       <itemPath>RTC.c</itemPath>
       <itemPath>RTCVar.h</itemPath>
+      <itemPath>BME680Var.h</itemPath>
+      <itemPath>BME680.c</itemPath>
+      <itemPath>BME680.h</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

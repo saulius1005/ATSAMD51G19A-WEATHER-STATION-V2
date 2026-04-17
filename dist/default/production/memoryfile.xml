@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <executable name="dist/default/production/ATSAMD51G19A-SERCOM-SPI-USART-I2C.X.production.elf">
+  <executable name="dist/default/production/ATSAMD51G19A-WEATHER-STATION-V2.X.production.elf">
     <memory name="program">
       <units>bytes</units>
       <length>524288</length>
