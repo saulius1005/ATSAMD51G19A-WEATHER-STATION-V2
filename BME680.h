@@ -202,6 +202,8 @@ typedef struct {
     BME680_eas_status_0_t eas_status_0;
 } BME680_t;
 
+extern BME680_t BME680;
+
 
 #ifdef	__cplusplus
 }

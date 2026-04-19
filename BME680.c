@@ -41,9 +41,14 @@ static inline uint8_t BME680_SPI_ReadAddr(uint8_t reg){
     return reg | 0x80;
 }
 
-uint8_t BME680_change_page(BME680_page_no_t page){ //set spi page and return page value after write
+void BME680_change_page(BME680_page_no_t page){ //set spi page and return page value after write once
     
-    uint32_t cmd = ((uint32_t) status_ADD << 16) | ((uint16_t) (page == BME680_page_1 ? 16 : 0) << 8) | BME680_SPI_ReadAddr(status_ADD) ; //set write add (0x73) | set page (0x00 or 0x10) | set read add (0xF3)  
-    
-    return ((swap_and_align(BME680_exchange_data(cmd, 3), 4) & 16) >> 4) == BME680_page_1 ? BME680_page_1 : BME680_page_0; //swap bytes in places from answer total received is 4 bytes, then if 1st page return 1 else 0
+    if(BME680.STATUS_spi_mem_page == page) //if it is the same page do not change it and skip further code
+        return;   
+    uint32_t cmd = ((uint32_t) status_ADD << 16) | ((uint16_t) (page == BME680_page_1 ? 16 : 0) << 8) | BME680_SPI_ReadAddr(status_ADD) ; //set write add (0x73) | set page (0x00 or 0x10) | set read add (0xF3)     
+    BME680.STATUS_spi_mem_page = ((swap_and_align(BME680_exchange_data(cmd, 3), 4) & 16) >> 4) == BME680_page_1 ? BME680_page_1 : BME680_page_0; //swap bytes in places from answer total received is 4 bytes, then if 1st page return 1 else 0
+}
+
+void BME680_read_ID(){ //can be readed corectly only when spi mem page = 0, otherwise receive 0x00;
+    BME680.ID =  swap_and_align(BME680_exchange_data(ID_ADD | 0x80, 1), 2) & 0xff;
 }

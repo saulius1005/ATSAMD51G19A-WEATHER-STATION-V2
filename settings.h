@@ -143,7 +143,13 @@ uint32_t BME680_exchange_data(uint32_t cmd, uint8_t tx_length);
 
 void BME680_write(uint32_t cmd, uint8_t length);
 
-uint8_t BME680_change_page(BME680_page_no_t page);
+void BME680_change_page(BME680_page_no_t page);
+
+void BME680_read_ID();
+
+
+
+
 
 
 

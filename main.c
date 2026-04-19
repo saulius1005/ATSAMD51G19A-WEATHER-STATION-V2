@@ -61,10 +61,11 @@ int main(void) {
                 draw_formatted_line(10, &y, WHITE, RED,  "RTC date and time: %02d%02d%02d %02d%02d%02d", RTC_Date_and_Time.RTC_year, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second); 
                 draw_formatted_line(10, &y, WHITE, RED,  "sys time: %lu", time_test);       
                 draw_formatted_line(10, &y, WHITE, RED,  "time sync value: %d", RTC_Date_and_Time.time_sync);
-                draw_formatted_line(10, &y, WHITE, RED,  "BME680 page1? : %X", BME680_change_page(BME680_page_0)); //with page 1 receive bad id 0x00, with 0 page good id 0x61 (as it should be)                 
-                draw_formatted_line(10, &y, WHITE, RED,  "BME680 ID: %X", swap_and_align(BME680_exchange_data(ID_ADD | 0x80, 1), 2) & 0xff); //0x50|0x80 - to make it read register of ID address
-             
-                
+                BME680_change_page(BME680_page_0); //should be not executed (init value is 0 page)
+                BME680_read_ID();
+                draw_formatted_line(10, &y, WHITE, RED,  "BME680 page: %X", BME680.STATUS_spi_mem_page);                
+                draw_formatted_line(10, &y, WHITE, RED,  "BME680 ID: %X", BME680.ID);
+    
             }
             time_test = RTC_Date_and_Time.RTC_sys_time;
             RTC_date_and_time_update(); //update rtc time with gsm or gnss          
