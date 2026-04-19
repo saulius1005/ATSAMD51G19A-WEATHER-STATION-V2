@@ -143,6 +143,9 @@ uint32_t BME680_exchange_data(uint32_t cmd, uint8_t tx_length);
 
 void BME680_write(uint32_t cmd, uint8_t length);
 
+uint8_t BME680_change_page(BME680_page_no_t page);
+
+
 
 uint32_t I2C_read(uint8_t addr, uint8_t readlen);
 

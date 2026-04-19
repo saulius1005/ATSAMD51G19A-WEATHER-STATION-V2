@@ -15,6 +15,58 @@ extern "C" {
 #define BME680_CS_LOW()    (PORT_REGS->GROUP[1].PORT_OUTCLR = PORT_PB10) // CS LOW
 #define BME680_CS_HIGH()   (PORT_REGS->GROUP[1].PORT_OUTSET = PORT_PB10) // CS HIGH
     
+#define status_ADD 0x73
+#define Reset_ADD 0x60
+#define ID_ADD 0x50
+#define Config_ADD 0x75
+#define Ctrl_meas_ADD 0x74
+#define Ctrl_hum_ADD 0x72
+#define Ctrl_gas_ADD 0x71 //0x70- ctrl_gas0  //16bit
+#define Gas_wait_x_ADD 0x6D //0x64-0x6D //10 bytes?
+#define Res_heat_x_ADD 0x63 //0x5A-0x63 //10 bytes?
+#define Idac_heat_x_ADD 0x59 //0x50-0x59 //10 bytes?
+#define Gas_r_lsb_ADD 0x2B //0x2A - msb //16bit
+#define hum_lsb_ADD 0x26 //0x25- msb //16bit
+#define temp_xlsb_ADD 0x24 //(7:4), 0x23- lsb, 0x22- msb //24bit
+#define pres_xlsb_ADD 0x21 //(7:4), 0x20- lsb, 0x1F- msb //24bit      
+#define eas_status_0_ADD 0x1D 
+    
+#define par_t1_ADD 0xE9 //0xE9-0xEA
+#define par_t2_ADD 0x8A //0x8A-0x8B
+#define par_t3_ADD 0x8C
+    
+#define par_p1_ADD 0x8E //0x8E-0x8F
+#define par_p2_ADD 0x90 //0x90-0x91
+#define par_p3_ADD 0x92 
+#define par_p4_ADD 0x94 //0x94-0x95
+#define par_p5_ADD 0x96 //0x96-0x97
+#define par_p6_ADD 0x99 
+#define par_p7_ADD 0x98 
+#define par_p8_ADD 0x9C //0x9C-0x9D
+#define par_p9_ADD 0x9E //0x9E-0x9F
+#define par_p10_ADD 0xA0
+  
+#define par_h1_ADD 0xE2 //0xE2 (3:0)- 0xE3
+#define par_h2_ADD 0xE2 //0xE2 (7:4)- E1
+#define par_h3_ADD 0xE4 
+#define par_h4_ADD 0xE5
+#define par_h5_ADD 0xE6
+#define par_h6_ADD 0xE7 
+#define par_h7_ADD 0xE8 
+    
+#define par_g1_ADD 0xED
+#define par_g2_ADD 0xEB //0xEB- 0xEC
+#define par_g3_ADD 0xEE 
+
+#define res_heat_rang_ADD 0x02 //(5:4) 
+#define res_heat_val_ADD 0x00 
+    
+    
+typedef enum {
+    BME680_page_0 = 0,
+    BME680_page_1,
+}BME680_page_no_t;    
+    
 typedef enum {
     sleep_mode = 0,
     forced_mode,

@@ -61,7 +61,9 @@ int main(void) {
                 draw_formatted_line(10, &y, WHITE, RED,  "RTC date and time: %02d%02d%02d %02d%02d%02d", RTC_Date_and_Time.RTC_year, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second); 
                 draw_formatted_line(10, &y, WHITE, RED,  "sys time: %lu", time_test);       
                 draw_formatted_line(10, &y, WHITE, RED,  "time sync value: %d", RTC_Date_and_Time.time_sync);
-                draw_formatted_line(10, &y, WHITE, RED,  "BME680 ID: %X", BME680_exchange_data(0xD0, 1)); //0x50|0x80 - to make it read register of ID address
+                draw_formatted_line(10, &y, WHITE, RED,  "BME680 ID: %X", BME680_exchange_data(ID_ADD | 0x80, 1)>>8); //0x50|0x80 - to make it read register of ID address
+                draw_formatted_line(10, &y, WHITE, RED,  "BME680 page1? : %X", BME680_change_page(BME680_page_1));              
+                
             }
             time_test = RTC_Date_and_Time.RTC_sys_time;
             RTC_date_and_time_update(); //update rtc time with gsm or gnss          
