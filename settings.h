@@ -145,9 +145,13 @@ void BME680_write(uint32_t cmd, uint8_t length);
 
 void BME680_change_page(BME680_page_no_t page);
 
-void BME680_read_ID();
+void BME680_read_ID(); //read ID
 
+void BME680_reset(); //reset sensor (same as power up reset)
 
+void BME680_Config(BME680_filter_t filter, bool spi_3w_en); //modify Config register
+
+void BME680_Ctrl_meas(BME680_meas_os_t os_t, BME680_meas_os_t os_p, BME680_mode_t mode); //modify Ctrl_meas register
 
 
 

@@ -61,10 +61,12 @@ int main(void) {
                 draw_formatted_line(10, &y, WHITE, RED,  "RTC date and time: %02d%02d%02d %02d%02d%02d", RTC_Date_and_Time.RTC_year, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second); 
                 draw_formatted_line(10, &y, WHITE, RED,  "sys time: %lu", time_test);       
                 draw_formatted_line(10, &y, WHITE, RED,  "time sync value: %d", RTC_Date_and_Time.time_sync);
-                BME680_change_page(BME680_page_0); //should be not executed (init value is 0 page)
-                BME680_read_ID();
-                draw_formatted_line(10, &y, WHITE, RED,  "BME680 page: %X", BME680.STATUS_spi_mem_page);                
-                draw_formatted_line(10, &y, WHITE, RED,  "BME680 ID: %X", BME680.ID);
+                BME680_change_page(BME680_page_0); //should be not executed first time(init value is 0 page)
+                BME680_read_ID(); //swap back page 0 if needed
+                BME680_Config(Filter_coef_63, false); //if page 0 swap it to 1, then change filter value to 15 and keep spi 3wire mode disabled
+                BME680_Ctrl_meas(oversampling_x4, oversampling_x8, forced_mode);
+                draw_formatted_line(10, &y, WHITE, RED,  "BME680 pg:%X, ID:%X, fltr:%X, s3w:%X", BME680.STATUS_spi_mem_page, BME680.ID, BME680.Config.filter, BME680.Config.spi_3w_en);    
+                draw_formatted_line(10, &y, WHITE, RED,  "os_t:%X, os_p:%X, mode:%X", BME680.Ctrl_meas.osrs_t, BME680.Ctrl_meas.osrs_p, BME680.Ctrl_meas.mode);
     
             }
             time_test = RTC_Date_and_Time.RTC_sys_time;

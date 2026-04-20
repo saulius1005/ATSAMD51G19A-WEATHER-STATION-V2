@@ -61,6 +61,8 @@ extern "C" {
 #define res_heat_rang_ADD 0x02 //(5:4) 
 #define res_heat_val_ADD 0x00 
     
+#define BME680_RESET_value 0xB6
+    
     
 typedef enum {
     BME680_page_0 = 0,
@@ -116,7 +118,7 @@ typedef enum {
 typedef struct {
     uint8_t filter; //IIR filter settings
     bool spi_3w_en; //enable SPI 3 wire mode
-} BME680_Confif_t;
+} BME680_Config_t;
 
 typedef struct {
     uint8_t osrs_t; //temperature oversampling
@@ -181,10 +183,10 @@ typedef struct {
        
 typedef struct {
     bool STATUS_spi_mem_page; //spi page selection 0- page: 0x80-0xff, 1- page: 0x00-0x7F
-    uint8_t RESET; //resets device //default value is 0x00 and writing to it 0xB6 gives same effect as power-on reset 
+    bool RESET; //resets device //default value is 0x00 and writing to it 0xB6 gives same effect as power-on reset 
     uint8_t ID; //device id
 
-    BME680_Confif_t Config;
+    BME680_Config_t Config;
     BME680_Ctrl_meas_t Ctrl_meas; 
     BME680_Ctrl_hum_t Ctrl_hum;
     BME680_Ctrl_gas_t Ctrl_gas;

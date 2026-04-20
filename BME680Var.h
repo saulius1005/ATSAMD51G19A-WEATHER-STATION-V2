@@ -16,8 +16,18 @@ extern "C" {
 #endif
 
 BME680_t BME680 = {
-    .ID = 0,
+    .ID = 0, 
     .STATUS_spi_mem_page = 0,
+    .RESET = false,
+    .Config = {
+        .filter = Filter_coef_0,
+        .spi_3w_en = false,
+    },
+    .Ctrl_meas = {
+        .osrs_t = oversampling_SKIP,
+        .osrs_p = oversampling_SKIP,
+        .mode = sleep_mode,
+    },
 };
 
 
