@@ -28,6 +28,26 @@ BME680_t BME680 = {
         .osrs_p = oversampling_SKIP,
         .mode = sleep_mode,
     },
+    .Ctrl_hum = {
+        .osrs_h = oversampling_SKIP,
+        .spi_3w_init_en = false,
+    },
+    .Ctrl_gas = {
+        .nb_conv = heater_set_point_0,
+        .heat_off = false,
+        .run_gas = false,
+    },
+    .Gas_wait_x = {0},
+    .Res_heat_x = {0},
+    .Idac_heat_x = {0},
+    .gas_r = {
+        .gas_r_90 = 0,
+        .gas_range_r = 0,
+        .gas_valid_r = 0,
+        .heat_stab_r = 0,
+    },
+    .gas_r_recived = false,
+    
 };
 
 

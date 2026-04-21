@@ -91,3 +91,114 @@ void BME680_Ctrl_meas(BME680_meas_os_t os_t, BME680_meas_os_t os_p, BME680_mode_
     BME680.Ctrl_meas.osrs_p = (answer >> 2) & 7;
     BME680.Ctrl_meas.mode = answer & 3;
 }
+
+void BME680_Ctrl_hum(BME680_meas_os_t os_h, bool spi_3w_int_en){
+    if((os_h == BME680.Ctrl_hum.osrs_h) && (spi_3w_int_en == BME680.Ctrl_hum.spi_3w_init_en))
+        return;
+    if(BME680.STATUS_spi_mem_page != 1){ //if page 0 change it to 1
+        BME680_change_page(BME680_page_1);
+    }
+    uint32_t cmd = ((uint32_t) Ctrl_hum_ADD << 16) | ((uint16_t)spi_3w_int_en << 14) | ((uint16_t)os_h << 8) | BME680_SPI_ReadAddr(Ctrl_hum_ADD);
+    uint32_t answer = swap_and_align(BME680_exchange_data(cmd, 3), 4);
+    
+    BME680.Ctrl_hum.osrs_h = answer & 7;
+    BME680.Ctrl_hum.spi_3w_init_en = (answer >> 6) & 1;
+}
+
+void BME680_Ctrl_gas(bool run_gas, bool heat_off, BME680_nb_conv_t nb_conv){
+    if((run_gas == BME680.Ctrl_gas.run_gas) && (heat_off == BME680.Ctrl_gas.heat_off) && (nb_conv == BME680.Ctrl_gas.nb_conv))
+        return;
+    if(BME680.STATUS_spi_mem_page != 1){ //if page 0 change it to 1
+        BME680_change_page(BME680_page_1);
+    }
+    uint32_t cmd = ((uint32_t) Ctrl_gas_ADD << 16) | ((uint16_t)run_gas << 12) | ((uint16_t)nb_conv << 8) | BME680_SPI_ReadAddr(Ctrl_gas_ADD); //ctrl_gas_1 register
+    uint32_t answer = swap_and_align(BME680_exchange_data(cmd, 3), 4);
+    
+    BME680.Ctrl_gas.nb_conv = answer & 15;
+    BME680.Ctrl_gas.run_gas = (answer >> 4) & 1;
+    
+    cmd = ((uint32_t) (Ctrl_gas_ADD - 1) << 16) | ((uint16_t)heat_off << 11) | BME680_SPI_ReadAddr(Ctrl_gas_ADD - 1); //ctrl_gas_0 register
+    answer = swap_and_align(BME680_exchange_data(cmd, 3), 4);
+    
+    BME680.Ctrl_gas.heat_off = (answer >> 3) & 1;
+}
+
+void BME680_gas_wait_90(uint8_t * gas_wait){
+    uint8_t datachanged = 0;
+    for(uint8_t i = 0; i < 10; i++){
+        if(gas_wait[i] == BME680.Gas_wait_x[i])
+            datachanged++;
+        else
+            break;
+    }
+    if(datachanged == 9) //data is the same
+        return;
+    
+    if(BME680.STATUS_spi_mem_page != 1){ //if page 0 change it to 1
+        BME680_change_page(BME680_page_1);
+    }
+    
+    for(uint8_t i = 0; i < 10; i++){
+        uint32_t cmd = ((uint32_t) (Gas_wait_x_ADD - i) << 16) | ((uint16_t)gas_wait[9 - i] << 8) | BME680_SPI_ReadAddr(Gas_wait_x_ADD - i);
+        BME680.Gas_wait_x[9 - i]  = swap_and_align(BME680_exchange_data(cmd, 3), 4);
+    }
+}
+
+void BME680_res_heat_90(uint8_t * res_heat){
+    uint8_t datachanged = 0;
+    for(uint8_t i = 0; i < 10; i++){
+        if(res_heat[i] == BME680.Res_heat_x[i])
+            datachanged++;
+        else
+            break;
+    }
+    if(datachanged == 9) //data is the same
+        return;
+    
+    if(BME680.STATUS_spi_mem_page != 1){ //if page 0 change it to 1
+        BME680_change_page(BME680_page_1);
+    }
+    
+    for(uint8_t i = 0; i < 10; i++){
+        uint32_t cmd = ((uint32_t) (Res_heat_x_ADD - i) << 16) | ((uint16_t)res_heat[9 - i] << 8) | BME680_SPI_ReadAddr(Res_heat_x_ADD - i);
+        BME680.Res_heat_x[9 - i]  = swap_and_align(BME680_exchange_data(cmd, 3), 4);
+    }
+}
+
+void BME680_idac_heat_90(uint8_t * idac_heat){
+    uint8_t datachanged = 0;
+    for(uint8_t i = 0; i < 10; i++){
+        if(idac_heat[i] == BME680.Idac_heat_x[i])
+            datachanged++;
+        else
+            break;
+    }
+    if(datachanged == 9) //data is the same
+        return;
+    
+    if(BME680.STATUS_spi_mem_page != 1){ //if page 0 change it to 1
+        BME680_change_page(BME680_page_1);
+    }
+    
+    for(uint8_t i = 0; i < 10; i++){
+        uint32_t cmd = ((uint32_t) (Idac_heat_x_ADD - i) << 16) | ((uint16_t)idac_heat[9 - i] << 8) | BME680_SPI_ReadAddr(Idac_heat_x_ADD - i);
+        BME680.Idac_heat_x[9 - i]  = swap_and_align(BME680_exchange_data(cmd, 3), 4);
+    }
+}
+
+void BME680_read_gas(){ //need manually reset BME680.gas_r_recived = false; // to begin new reading
+    if(!BME680.gas_r_recived)
+        return;
+    uint32_t cmd = BME680_SPI_ReadAddr(Gas_r_msb_ADD);
+    uint32_t answer = swap_and_align(BME680_exchange_data(cmd, 3), 4);
+    
+    BME680.gas_r_recived = true;
+    BME680.gas_r.gas_range_r = answer & 15;
+    BME680.gas_r.heat_stab_r = (answer >> 4) & 1;
+    BME680.gas_r.gas_valid_r = (answer >> 5) & 1;
+    BME680.gas_r.gas_r_90 = 
+}
+
+void BME680_read_gas_calib(){
+    
+}

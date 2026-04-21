@@ -25,10 +25,10 @@ extern "C" {
 #define Gas_wait_x_ADD 0x6D //0x64-0x6D //10 bytes?
 #define Res_heat_x_ADD 0x63 //0x5A-0x63 //10 bytes?
 #define Idac_heat_x_ADD 0x59 //0x50-0x59 //10 bytes?
-#define Gas_r_lsb_ADD 0x2B //0x2A - msb //16bit
-#define hum_lsb_ADD 0x26 //0x25- msb //16bit
-#define temp_xlsb_ADD 0x24 //(7:4), 0x23- lsb, 0x22- msb //24bit
-#define pres_xlsb_ADD 0x21 //(7:4), 0x20- lsb, 0x1F- msb //24bit      
+#define Gas_r_msb_ADD 0x2A //0x2B - lsb //16bit
+#define hum_msb_ADD 0x25 //0x26- lsb //16bit
+#define temp_msb_ADD 0x22 //(7:4), 0x23- lsb, 0x24- xlsb //24bit
+#define pres_msb_ADD 0x1F //(7:4), 0x20- lsb, 0x21- xlsb //24bit      
 #define eas_status_0_ADD 0x1D 
     
 #define par_t1_ADD 0xE9 //0xE9-0xEA
@@ -138,11 +138,10 @@ typedef struct {
 } BME680_Ctrl_gas_t;
 
 typedef struct {
-    uint8_t gas_r_10;
+    uint16_t gas_r_90;
     bool gas_valid_r;
-    uint8_t heat_stab_r;
+    bool heat_stab_r;
     uint8_t gas_range_r;
-    uint8_t gas_r_92;  
 } BME680_gas_r_t;
 
 typedef struct {
@@ -191,11 +190,12 @@ typedef struct {
     BME680_Ctrl_hum_t Ctrl_hum;
     BME680_Ctrl_gas_t Ctrl_gas;
     
-    uint8_t Gas_wait_x;
-    uint8_t Res_heat_x; //target of heater resistance
-    uint8_t Idac_heat_x; //particular heater set point
+    uint8_t Gas_wait_x[10];
+    uint8_t Res_heat_x[10]; //target of heater resistance
+    uint8_t Idac_heat_x[10]; //particular heater set point
     
     BME680_gas_r_t gas_r;
+    bool gas_r_recived;
     
     uint16_t hum;
     uint32_t temp;
