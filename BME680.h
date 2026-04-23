@@ -33,18 +33,18 @@ extern "C" {
     
 #define par_t1_ADD 0xE9 //0xE9-0xEA
 #define par_t2_ADD 0x8A //0x8A-0x8B
-#define par_t3_ADD 0x8C
+//#define par_t3_ADD 0x8C
     
 #define par_p1_ADD 0x8E //0x8E-0x8F
 #define par_p2_ADD 0x90 //0x90-0x91
-#define par_p3_ADD 0x92 
+//#define par_p3_ADD 0x92 
 #define par_p4_ADD 0x94 //0x94-0x95
 #define par_p5_ADD 0x96 //0x96-0x97
-#define par_p6_ADD 0x99 
+//#define par_p6_ADD 0x99 
 #define par_p7_ADD 0x98 
 #define par_p8_ADD 0x9C //0x9C-0x9D
 #define par_p9_ADD 0x9E //0x9E-0x9F
-#define par_p10_ADD 0xA0
+//#define par_p10_ADD 0xA0
   
 #define par_h1_ADD 0xE2 //0xE2 (3:0)- 0xE3
 #define par_h2_ADD 0xE2 //0xE2 (7:4)- E1
@@ -155,6 +155,8 @@ typedef struct {
     int32_t  par_t1;
     int32_t  par_t2;
     int32_t  par_t3;
+    
+    bool temp_calib_received;
 
     int32_t  par_p1;
     int32_t  par_p2;
@@ -166,6 +168,8 @@ typedef struct {
     int32_t  par_p8;
     int32_t  par_p9;
     int32_t  par_p10;
+    
+    bool pres_calib_received;
 
     int32_t  par_h1;
     int32_t  par_h2;
@@ -174,10 +178,15 @@ typedef struct {
     int32_t  par_h5;
     int32_t  par_h6;
     int32_t  par_h7;
+    
+    bool hum_calib_received;
 
     int32_t  par_g1;
     int32_t  par_g2;
     int32_t  par_g3;
+    
+    bool gas_calib_received;
+    
 } BME680_CalibData_t;
        
 typedef struct {
@@ -197,11 +206,25 @@ typedef struct {
     BME680_gas_r_t gas_r;
     bool gas_r_recived;
     
-    uint16_t hum;
-    uint32_t temp;
-    uint32_t pres;
+    int16_t hum;
+    bool hum_recived;
+    
+    int32_t temp;
+    bool temp_recived;
+    
+    int32_t pres;
+    bool pres_recived;
     
     BME680_eas_status_0_t eas_status_0;
+    bool eas_status_received;
+    
+    BME680_CalibData_t calibration_data;
+    
+    int32_t t_fine;
+    int32_t temperature;
+    
+    int32_t pressure;
+    
 } BME680_t;
 
 extern BME680_t BME680;

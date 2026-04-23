@@ -47,7 +47,25 @@ BME680_t BME680 = {
         .heat_stab_r = 0,
     },
     .gas_r_recived = false,
-    
+    .hum = 0,
+    .hum_recived = false,
+    .temp = 0,
+    .temp_recived = false,
+    .pres = 0,
+    .pres_recived = 0,
+    .eas_status_0 = {
+        .gas_maes_index_0 = 0,
+        .gas_measuring = false,
+        .measuring = false,
+        .new_data_0 = false,
+    },
+    .eas_status_received = false,
+    .calibration_data = {
+        .temp_calib_received = false,
+        .par_t1 = 0,
+        .par_t2 = 0,
+        .par_t2 = 0,
+    },
 };
 
 
