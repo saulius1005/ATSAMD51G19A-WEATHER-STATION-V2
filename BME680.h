@@ -152,22 +152,22 @@ typedef struct {
 } BME680_eas_status_0_t;
 
 typedef struct {
-    int32_t  par_t1;
-    int32_t  par_t2;
-    int32_t  par_t3;
+    uint16_t  par_t1;
+    int16_t  par_t2;
+    int8_t  par_t3;
     
     bool temp_calib_received;
 
-    int32_t  par_p1;
-    int32_t  par_p2;
-    int32_t  par_p3;
-    int32_t  par_p4;
-    int32_t  par_p5;
-    int32_t  par_p6;
-    int32_t  par_p7;
-    int32_t  par_p8;
-    int32_t  par_p9;
-    int32_t  par_p10;
+    uint16_t  par_p1;
+    int16_t  par_p2;
+    int8_t  par_p3;
+    int16_t  par_p4;
+    int16_t  par_p5;
+    int8_t  par_p6;
+    int8_t  par_p7;
+    int16_t  par_p8;
+    int16_t  par_p9;
+    int8_t  par_p10;
     
     bool pres_calib_received;
 

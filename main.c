@@ -65,6 +65,18 @@ int main(void) {
                 BME680_Ctrl_meas(oversampling_x16, oversampling_x16, forced_mode);                    
                 BME680_Config(Filter_coef_63, false); //if page 0 swap it to 1, then change filter value to 15 and keep spi 3wire mode disabled            
                 draw_formatted_line(10, &y, WHITE, RED, "BME680 T: %d.%02d, P: %4d.%02dhPa", BME680.temperature/100, BME680.temperature%100, BME680.pressure / 100, BME680.pressure % 100 );
+                draw_formatted_line(10, &y, WHITE, RED, "cal: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, raw: %ld", 
+                        BME680.calibration_data.par_p1,
+                        BME680.calibration_data.par_p2,
+                        BME680.calibration_data.par_p3,
+                        BME680.calibration_data.par_p4,
+                        BME680.calibration_data.par_p5,
+                        BME680.calibration_data.par_p6,
+                        BME680.calibration_data.par_p7,
+                        BME680.calibration_data.par_p8,
+                        BME680.calibration_data.par_p9,
+                        BME680.calibration_data.par_p10,
+                        BME680.pres);
             }
             time_test = RTC_Date_and_Time.RTC_sys_time;
             RTC_date_and_time_update(); //update rtc time with gsm or gnss          

@@ -320,8 +320,8 @@ if(BME680.calibration_data.pres_calib_received) //if calibration data already re
     if(BME680.STATUS_spi_mem_page != 0){ //if page 1 change it to 0
         BME680_change_page(BME680_page_0);
     }   
-    uint32_t cmd = par_p1_ADD;
-    uint32_t answer = BME680_exchange_data_simple(cmd, 3);
+    int32_t cmd = par_p1_ADD;
+    int32_t answer = BME680_exchange_data_simple(cmd, 3);
     
     BME680.calibration_data.par_p1 = answer >> 8; //exmp. received ff8e65 but flipped 658eff >> 8 = 658e
     
