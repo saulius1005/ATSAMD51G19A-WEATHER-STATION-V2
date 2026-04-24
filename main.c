@@ -62,21 +62,20 @@ int main(void) {
                 draw_formatted_line(10, &y, WHITE, RED,  "time sync value: %d", RTC_Date_and_Time.time_sync);
                 BME680_calculate_temperature();
                 BME680_calculate_pressure();
-                BME680_Ctrl_meas(oversampling_x16, oversampling_x16, forced_mode);                    
-                BME680_Config(Filter_coef_63, false); //if page 0 swap it to 1, then change filter value to 15 and keep spi 3wire mode disabled            
-                draw_formatted_line(10, &y, WHITE, RED, "BME680 T: %d.%02d, P: %4d.%02dhPa", BME680.temperature/100, BME680.temperature%100, BME680.pressure / 100, BME680.pressure % 100 );
-                draw_formatted_line(10, &y, WHITE, RED, "cal: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, raw: %ld", 
-                        BME680.calibration_data.par_p1,
-                        BME680.calibration_data.par_p2,
-                        BME680.calibration_data.par_p3,
-                        BME680.calibration_data.par_p4,
-                        BME680.calibration_data.par_p5,
-                        BME680.calibration_data.par_p6,
-                        BME680.calibration_data.par_p7,
-                        BME680.calibration_data.par_p8,
-                        BME680.calibration_data.par_p9,
-                        BME680.calibration_data.par_p10,
-                        BME680.pres);
+                BME680_calculate_humidity();
+                BME680_Ctrl_meas(oversampling_x16, oversampling_x16, forced_mode);
+                BME680_Ctrl_hum(oversampling_x16, false); //humidity oversample and interrupt off
+                BME680_Config(Filter_coef_3, false); //if page 0 swap it to 1, then change filter value to 15 and keep spi 3wire mode disabled            
+                draw_formatted_line(10, &y, WHITE, RED, "BME T:%3d.%02d P:%4d.%02dhPa Rh: %d.%02d%%", BME680.temperature/100, BME680.temperature%100, BME680.pressure / 100, BME680.pressure % 100, BME680.humidity/100, BME680.humidity%100);
+                draw_formatted_line(10, &y, WHITE, RED, "cal: %d, %d, %d, %d, %d, %d, %d, raw: %X", 
+                        BME680.calibration_data.par_h1,
+                        BME680.calibration_data.par_h2,
+                        BME680.calibration_data.par_h3,
+                        BME680.calibration_data.par_h4,
+                        BME680.calibration_data.par_h5,
+                        BME680.calibration_data.par_h6,
+                        BME680.calibration_data.par_h7,
+                        BME680.hum);
             }
             time_test = RTC_Date_and_Time.RTC_sys_time;
             RTC_date_and_time_update(); //update rtc time with gsm or gnss          

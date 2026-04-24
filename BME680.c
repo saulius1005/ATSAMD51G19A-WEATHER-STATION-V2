@@ -229,7 +229,7 @@ void BME680_read_hum(){ //need manually reset BME680.hum_recived = false; // to 
     }
     
     uint32_t cmd = BME680_SPI_ReadAddr(hum_msb_ADD);
-    uint32_t answer = swap_and_align(BME680_exchange_data(cmd, 2), 3);
+    uint32_t answer = swap_and_align(BME680_exchange_data_simple(cmd, 3), 3) & 0xffff;
     
     BME680.hum_recived = true;
     BME680.hum = answer;
@@ -289,7 +289,42 @@ void BME680_read_gas_calib(){
 }
 
 void BME680_read_hum_calib(){
-   
+    if(BME680.calibration_data.hum_calib_received) //if calibration data already received skip further code
+        return;
+    
+    if(BME680.STATUS_spi_mem_page != 0){ //if page 1 change it to 0
+        BME680_change_page(BME680_page_0);
+    }   
+    uint32_t cmd = par_h2_ADD;
+    uint32_t answer = BME680_exchange_data_simple(cmd, 4) >> 8; //remove ff
+    
+    //BME680.calibration_data.par_h1 = answer & 0xfff; 
+    //BME680.calibration_data.par_h2 = answer >> 12;
+    
+    //BME680.calibration_data.par_h1 = ((answer & 0xff) << 4) | ((answer >> 12) & 0xf);
+    //BME680.calibration_data.par_h2 = ((answer >> 16) << 4) | ((answer >> 8) & 0xf);
+    
+    
+    BME680.calibration_data.par_h1 = (answer & 0xff) | ((answer >> 12) & 0xf);
+    BME680.calibration_data.par_h2 = (answer >> 16) | ((answer >> 8) & 0xf);
+    
+    //BME680.calibration_data.par_h1 = ((answer & 0x0000FF) << 4) | ((answer >> 8) & 0x0F);
+    //BME680.calibration_data.par_h2 = ((answer >> 16) << 4) | ((answer >> 12) & 0x0F);
+    
+    cmd = par_h3_ADD;
+    answer = BME680_exchange_data_simple(cmd, 4) >> 8; //received 142d00ff >> 8 = 142d00
+    
+    BME680.calibration_data.par_h3 = answer & 0xff; //00
+    BME680.calibration_data.par_h4 = (answer >> 8) & 0xff; //142d = 2d
+    BME680.calibration_data.par_h5 = answer >> 16;
+    
+    cmd = par_h6_ADD;
+    answer = BME680_exchange_data_simple(cmd, 3) >> 8;
+    
+    BME680.calibration_data.par_h6 = answer & 0xff;
+    BME680.calibration_data.par_h7 = answer >> 8;
+    
+    BME680.calibration_data.hum_calib_received = true;
 }
 
 void BME680_read_temp_calib(){ //first lsb then msb
@@ -388,5 +423,21 @@ void BME680_calculate_pressure(){
     BME680.pressure = (int32_t)(BME680.pressure) + ((var1 + var2 + var3 + ((int32_t)BME680.calibration_data.par_p7 << 7)) >> 4);
     
     BME680.pres_recived = false; //reset for new measurement 
+    BME680.Ctrl_meas.mode = sleep_mode;
+}
+
+void BME680_calculate_humidity(){
+    BME680_read_hum_calib(); //if already readed it will be skipped
+    BME680_read_hum();
+    int32_t temp_scaled = (int32_t)BME680.temperature; 
+    int32_t var1 = (int32_t)BME680.hum - (int32_t)((int32_t)BME680.calibration_data.par_h1 << 4) - (((temp_scaled * (int32_t)BME680.calibration_data.par_h3) / ((int32_t)100)) >> 1); 
+    int32_t var2 = ((int32_t)BME680.calibration_data.par_h2 * (((temp_scaled * (int32_t)BME680.calibration_data.par_h4) / ((int32_t)100)) + (((temp_scaled * ((temp_scaled * (int32_t)BME680.calibration_data.par_h5) / ((int32_t)100))) >> 6) / ((int32_t)100)) + ((int32_t)(1 << 14)))) >> 10; 
+    int32_t var3 = var1 * var2; 
+    int32_t var4 = (((int32_t)BME680.calibration_data.par_h6 << 7) + ((temp_scaled * (int32_t)BME680.calibration_data.par_h7) / ((int32_t)100))) >> 4; 
+    int32_t var5 = ((var3 >> 14) * (var3 >> 14)) >> 10; 
+    int32_t var6 = (var4 * var5) >> 1; 
+    BME680.humidity = (((var3 + var6) >> 10) * ((int32_t) 1000)) >> 12;
+    
+    BME680.hum_recived = false; //reset for new measurement 
     BME680.Ctrl_meas.mode = sleep_mode;
 }

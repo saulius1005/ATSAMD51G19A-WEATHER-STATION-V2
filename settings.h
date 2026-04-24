@@ -153,11 +153,15 @@ void BME680_Config(BME680_filter_t filter, bool spi_3w_en); //modify Config regi
 
 void BME680_Ctrl_meas(BME680_meas_os_t os_t, BME680_meas_os_t os_p, BME680_mode_t mode); //modify Ctrl_meas register
 
+void BME680_Ctrl_hum(BME680_meas_os_t os_h, bool spi_3w_int_en);
+
 void BME680_read_temp_calib();
 
 void BME680_calculate_temperature();
 
 void BME680_calculate_pressure();
+
+void BME680_calculate_humidity();
 
 
 
