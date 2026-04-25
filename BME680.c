@@ -296,20 +296,11 @@ void BME680_read_hum_calib(){
         BME680_change_page(BME680_page_0);
     }   
     uint32_t cmd = par_h2_ADD;
-    uint32_t answer = BME680_exchange_data_simple(cmd, 4) >> 8; //remove ff
+    uint32_t answer = BME680_exchange_data_simple(cmd, 4) >> 8; //remove ff 
     
-    //BME680.calibration_data.par_h1 = answer & 0xfff; 
-    //BME680.calibration_data.par_h2 = answer >> 12;
-    
-    //BME680.calibration_data.par_h1 = ((answer & 0xff) << 4) | ((answer >> 12) & 0xf);
-    //BME680.calibration_data.par_h2 = ((answer >> 16) << 4) | ((answer >> 8) & 0xf);
-    
-    
-    BME680.calibration_data.par_h1 = (answer & 0xff) | ((answer >> 12) & 0xf);
-    BME680.calibration_data.par_h2 = (answer >> 16) | ((answer >> 8) & 0xf);
-    
-    //BME680.calibration_data.par_h1 = ((answer & 0x0000FF) << 4) | ((answer >> 8) & 0x0F);
-    //BME680.calibration_data.par_h2 = ((answer >> 16) << 4) | ((answer >> 12) & 0x0F);
+    BME680.calibration_data.par_h2 = ((answer & 0xff) << 4) | ((answer >> 12) & 0xf);
+    BME680.calibration_data.par_h1 = ((answer >> 16) << 4) | ((answer >> 8) & 0xf);
+   
     
     cmd = par_h3_ADD;
     answer = BME680_exchange_data_simple(cmd, 4) >> 8; //received 142d00ff >> 8 = 142d00

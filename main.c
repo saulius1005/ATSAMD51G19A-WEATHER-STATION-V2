@@ -60,13 +60,18 @@ int main(void) {
                 draw_formatted_line(10, &y, WHITE, RED,  "RTC date and time: %02d%02d%02d %02d%02d%02d", RTC_Date_and_Time.RTC_year, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second); 
                 draw_formatted_line(10, &y, WHITE, RED,  "sys time: %lu", time_test);       
                 draw_formatted_line(10, &y, WHITE, RED,  "time sync value: %d", RTC_Date_and_Time.time_sync);
+                
+                BME680_Ctrl_hum(oversampling_x16, false); //humidity oversample and interrupt off 
+                BME680_Ctrl_meas(oversampling_x2, oversampling_x16, forced_mode);
+                       
+                
+                BME680_calculate_humidity();                
                 BME680_calculate_temperature();
                 BME680_calculate_pressure();
-                BME680_calculate_humidity();
-                BME680_Ctrl_meas(oversampling_x16, oversampling_x16, forced_mode);
-                BME680_Ctrl_hum(oversampling_x16, false); //humidity oversample and interrupt off
-                BME680_Config(Filter_coef_3, false); //if page 0 swap it to 1, then change filter value to 15 and keep spi 3wire mode disabled            
-                draw_formatted_line(10, &y, WHITE, RED, "BME T:%3d.%02d P:%4d.%02dhPa Rh: %d.%02d%%", BME680.temperature/100, BME680.temperature%100, BME680.pressure / 100, BME680.pressure % 100, BME680.humidity/100, BME680.humidity%100);
+
+
+                //BME680_Config(Filter_coef_0, false); //if page 0 swap it to 1, then change filter value to 15 and keep spi 3wire mode disabled            
+                draw_formatted_line(10, &y, WHITE, RED, "BME T:%3d.%02d P:%4d.%02dhPa Rh: %d.%02d%%", BME680.temperature/100, BME680.temperature%100, BME680.pressure / 100, BME680.pressure % 100, BME680.humidity/1000, (BME680.humidity%1000)/100);
                 draw_formatted_line(10, &y, WHITE, RED, "cal: %d, %d, %d, %d, %d, %d, %d, raw: %X", 
                         BME680.calibration_data.par_h1,
                         BME680.calibration_data.par_h2,
