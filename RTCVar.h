@@ -26,6 +26,12 @@ RTC_calendar_t RTC_Date_and_Time = {
     .RTC_sys_time = 0,
     
     .time_sync = NONE, //time is not syncronized
+    .last_known_year = 26,
+    .last_known_month = 4,
+    .last_known_day = 28,
+    .last_known_hour = 0,
+    .last_known_minute = 7,
+    .last_known_second = 30,
 };
 
 

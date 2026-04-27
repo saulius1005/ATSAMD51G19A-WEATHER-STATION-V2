@@ -62,7 +62,7 @@ int main(void) {
                 draw_formatted_line(10, &y, WHITE, RED,  "time sync value: %d", RTC_Date_and_Time.time_sync);
                 
                 BME680_Ctrl_hum(oversampling_x16, false); //humidity oversample and interrupt off 
-                BME680_Ctrl_meas(oversampling_x2, oversampling_x16, forced_mode);
+                BME680_Ctrl_meas(oversampling_x16, oversampling_x16, forced_mode);
                        
                 
                 BME680_calculate_humidity();                
@@ -70,8 +70,8 @@ int main(void) {
                 BME680_calculate_pressure();
 
 
-                //BME680_Config(Filter_coef_0, false); //if page 0 swap it to 1, then change filter value to 15 and keep spi 3wire mode disabled            
-                draw_formatted_line(10, &y, WHITE, RED, "BME T:%3d.%02d P:%4d.%02dhPa Rh: %d.%02d%%", BME680.temperature/100, BME680.temperature%100, BME680.pressure / 100, BME680.pressure % 100, BME680.humidity/1000, (BME680.humidity%1000)/100);
+                BME680_Config(Filter_coef_127, false); //if page 0 swap it to 1, then change filter value to 15 and keep spi 3wire mode disabled            
+                draw_formatted_line(10, &y, WHITE, RED, "BME T:%3d.%02d P:%4d.%02dhPa Rh: %d.%03d ", BME680.temperature/100, BME680.temperature%100, BME680.pressure / 100, BME680.pressure % 100, BME680.humidity/1000, BME680.humidity%1000);
                 draw_formatted_line(10, &y, WHITE, RED, "cal: %d, %d, %d, %d, %d, %d, %d, raw: %X", 
                         BME680.calibration_data.par_h1,
                         BME680.calibration_data.par_h2,

@@ -92,6 +92,7 @@ typedef struct {
     volatile uint8_t GNSS_second;
     
     volatile uint32_t GNSS_sys_time; //for rtc update
+    bool GNSS_time_corect;
     
     volatile uint8_t GSM_year;
     volatile uint8_t GSM_month;
@@ -101,6 +102,7 @@ typedef struct {
     volatile uint8_t GSM_second;
     
     volatile uint32_t GSM_sys_time; //for rtc update
+    bool GSM_time_corect;
     
 } A7672E_gnss_gsm_calendar_t;
 

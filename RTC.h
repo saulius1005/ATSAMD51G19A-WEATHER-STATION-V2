@@ -39,6 +39,13 @@ typedef struct {
     
     RTC_time_update_status_t time_sync;
     
+    uint8_t last_known_year; //last known date and time also need to be saved before turn off
+    uint8_t last_known_month;
+    uint8_t last_known_day;
+    uint8_t last_known_hour;
+    uint8_t last_known_minute;
+    uint8_t last_known_second;
+    
 } RTC_calendar_t;
 
 
