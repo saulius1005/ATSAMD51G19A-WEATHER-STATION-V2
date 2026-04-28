@@ -431,3 +431,13 @@ void BME680_calculate_humidity(){
     BME680.hum_recived = false; //reset for new measurement 
     BME680.Ctrl_meas.mode = sleep_mode;
 }
+
+void BME680_read_t_p_rh(){
+    BME680_Ctrl_hum(oversampling_x16, false); //humidity oversample and interrupt off 
+    BME680_Ctrl_meas(oversampling_x16, oversampling_x16, forced_mode);  //temperature and pressure OS    
+    BME680_Config(Filter_coef_127, false); //IIR filter and keep spi 3wire mode disabled 
+
+    BME680_calculate_humidity();                
+    BME680_calculate_temperature();
+    BME680_calculate_pressure();
+}

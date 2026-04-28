@@ -256,31 +256,13 @@ bool is_time_correct(uint8_t Y, uint8_t M, uint8_t D, uint8_t h, uint8_t m, uint
     if (s > 59) return false;
 
     if (D < 1 || D > days_in_month(M, Y)) return false; //check leap year
-
+    
     if(checkRTC){ //for GSM time only (first time correction)
-        if (Y < RTC_Date_and_Time.RTC_year) return false; //check date and time with stored rtc date and time values (protects from past date and time)
-
-        if (Y == RTC_Date_and_Time.RTC_year){
-            if (M < RTC_Date_and_Time.RTC_month) return false;
-
-            if (M == RTC_Date_and_Time.RTC_month){
-                if (D < RTC_Date_and_Time.RTC_day) return false;
-
-                if (D == RTC_Date_and_Time.RTC_day){
-                    if (h < RTC_Date_and_Time.RTC_hour) return false;
-
-                    if (h == RTC_Date_and_Time.RTC_hour){
-                        if (m < RTC_Date_and_Time.RTC_minute) return false;
-
-                        if (m == RTC_Date_and_Time.RTC_minute){
-                            if (s < RTC_Date_and_Time.RTC_second) return false;
-                        }
-                    }
-                }
-            }
-        }        
+        uint32_t RTC_compare_date = (((uint32_t) RTC_Date_and_Time.RTC_year) * 100000000) + (((uint32_t) RTC_Date_and_Time.RTC_month) * 1000000) + (((uint32_t) RTC_Date_and_Time.RTC_day) * 10000) + (((uint16_t) RTC_Date_and_Time.RTC_hour) * 100) + RTC_Date_and_Time.RTC_minute;        
+        uint32_t GSM_compare_date = (((uint32_t) Y) * 100000000) + (((uint32_t) M) * 1000000) + (((uint32_t) D) * 10000) + (((uint16_t) h) * 100) + m; 
+        if(RTC_compare_date > GSM_compare_date)//if storet RTC time is higher do not update rtc with past date and time
+            return false;
     }
-
 
     return true;
 }
@@ -334,7 +316,7 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
     uint8_t mm = (out->UTC_time / 100) % 100;
     uint8_t ss = out->UTC_time % 100;
     
-    if(is_time_correct(yy, MM, dd, hh, mm, ss, 0)){ //check only basic date and time, skip rtc time checking
+    if(is_time_correct(yy, MM, dd, hh, mm, ss, false)){ //check only basic date and time, skip rtc time checking
         A7672EGSM.GNSS_year  = yy;
         A7672EGSM.GNSS_month = MM;
         A7672EGSM.GNSS_day   = dd;
@@ -343,7 +325,7 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
         A7672EGSM.GNSS_minute = mm;
         A7672EGSM.GNSS_second = ss;
 
-        if(out->mode != 0){ //if time locked
+        if(out->mode != 0){ //if time locked 2D or 3D
             apply_timezone(&A7672EGSM.GNSS_year, &A7672EGSM.GNSS_month, &A7672EGSM.GNSS_day, &A7672EGSM.GNSS_hour);  
             A7672EGSM.GNSS_sys_time = datetime_to_rtc_format(A7672EGSM.GNSS_year, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);        
         }
@@ -363,7 +345,7 @@ void parse_gsm_datetime_to_struct(char *buf) {//example: receiving "26/04/10,18:
     uint32_t ss = (buf[15]-'0')*10 + (buf[16]-'0');
     
     
-    if(is_time_correct(yy, MM, dd, hh, mm, ss, 1)){ //Check if time correct and also compare it with rtc time
+    if(is_time_correct(yy, MM, dd, hh, mm, ss, true)){ //Check if time correct and also compare it with rtc time
         A7672EGSM.GSM_year = yy;
         A7672EGSM.GSM_month = MM;
         A7672EGSM.GSM_day = dd;    
@@ -425,38 +407,45 @@ void dma_receive_time_SM(char * cmd , char * echo, uint32_t wait_ms) {
                 normalize_at_response(buf); //remove \r, \n
                 extract_gsm_time(buf); //get only data 
                 parse_gsm_datetime_to_struct(buf); // split data from time
+                if(A7672EGSM.GSM_time_corect)
+                    A7672E_work.cycle = true;
+                //else
+                //    A7672E_work.cycle = NONE;
             }
             else if(A7672E_work.source == GNSS){ //if it was GNSS time
                 extract_gnss_data(buf); //keep only GNSS data
                 parse_gnss_data(buf, &A7672EGNSS); //keep time and date only
+                if(A7672EGSM.GNSS_time_corect)
+                    A7672E_work.cycle = true;
             }
             A7672E_work.state = SET;
-            A7672E_work.cycle = true;
+            
+            
         break;
     }
 }
 
-void A7672ReadNEMAGNSS(){   
+void A7672ReadNEMAGNSS(){   // READS GSM and GNSS date and time if success update RTC timer
     if(A7672E_init.status != WORK)//if not WORK mode 
         return; //skip further code
     
     if(RTC_Date_and_Time.time_sync == GNSS_sync)//if time is synced with gnss
         return; //skip further code
 
-    uint16_t read_interval = 100; //read every 100 ms
+    uint16_t read_interval = 250; //read every 100 ms
     if(RTC_Date_and_Time.time_sync == GSM) //if synced by GSM read every 500ms of GNSS
         read_interval = 500;
     
     switch(A7672E_work.source){
         case GNSS: //Read GNSS time
             dma_receive_time_SM("AT+CGNSSINFO\r", "AT+CGNSSINFO\r\r\n+CGNSSINFO:", read_interval); //cmd and echo, wait 0.3 second
-            if(A7672E_work.cycle && A7672EGSM.GNSS_time_corect) A7672E_work.source = GSM; //if gnss readed and time is correct
+            if(A7672E_work.cycle) A7672E_work.source = GSM; //if gnss locked, next time after RTC_Date_and_Time.time_sync resting (NONE) it starts with GSM time update. if RTC_Date_and_Time.time_sync reseting with (GSM) it starts GNSS time update
         break;
         
         case GSM: //Read GSM time
             if(RTC_Date_and_Time.time_sync == NONE){ //if time not synced
                 dma_receive_time_SM("AT+CCLK?\r", "AT+CCLK?\r", read_interval); //cmd and echo, wait 0.1 second
-                if(A7672E_work.cycle && A7672EGSM.GSM_time_corect) A7672E_work.source = GNSS; //switch to gnss time correction after GSM time is completed and corect
+                if(A7672E_work.cycle) A7672E_work.source = GNSS; //switch to gnss time correction after GSM time is completed and corect
             }
             else{ //time is synced with gsm
                 A7672E_work.source = GNSS;
@@ -546,9 +535,9 @@ void A7672EInit() {
         case GNSSSETUP: //Set up GNSS 
             //A7672EGNSSSetUp(&y, buf);
             A7672ESetUp(&y, buf, &gps_cfg);
-            if(A7672E_init.cycle) A7672E_init.status = LOCKGPS;
+            if(A7672E_init.cycle) A7672E_init.status = SHOW_FIRST_WINDOW;
         break;
-        case LOCKGPS: //Wait GNSS lock
+        case SHOW_FIRST_WINDOW: //Drawing  first window
             ILI9341_fill_color_DMA(RED); //fill screen
             ili9341_draw_rect(20, 35, 80, 40, BLUE, 1);
             ili9341_draw_rect(20, 35, 80, 40, GREEN, 0); 

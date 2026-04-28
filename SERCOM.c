@@ -17,7 +17,7 @@ void GCLK1_SERCOM_SPIM_core_init(){
         while (GCLK_REGS->GCLK_SYNCBUSY & GCLK_SYNCBUSY_GENCTRL_GCLK1);
 }
 
-void GCLK2_SERCOM_I2CM_core_init(){
+void GCLK2_SERCOM_I2CM_USARTM_core_init(){
     GCLK_REGS->GCLK_GENCTRL[2] = GCLK_GENCTRL_SRC_XOSC1 | GCLK_GENCTRL_DIV(1) | GCLK_GENCTRL_GENEN_Msk; //GCLK2 speed is 24Mhz
     while (GCLK_REGS->GCLK_SYNCBUSY & GCLK_SYNCBUSY_GENCTRL_GCLK2);
 }
@@ -101,10 +101,7 @@ void SERCOM_init(sercom_init_t interface){
 
         break;        
 
-        case USART: // USART as default (initialization not implemented) //26,27,28
-            
-            //SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_SWRST_Msk;
-            //while(SERCOM3_REGS->USART_INT.SERCOM_CTRLA & SERCOM_USART_INT_CTRLA_SWRST_Msk);
+        case USART:
             
             GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);

@@ -94,7 +94,7 @@ A7672E_Config_t gps_cfg = {
 A7672E_work_list_t A7672E_work = {
     .cycle = false,
     .state = SET,
-    .source = GNSS,
+    .source = GSM,
  
 };
 

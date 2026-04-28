@@ -36,7 +36,6 @@ extern "C" {
 #include "SERCOM.h"
 #include "XPT2046.h"
 #include "keyboard.h"
-#include "BMP180.h"
 #include "TC.h"
 #include "DMA.h"
 #include "image.h"
@@ -65,7 +64,7 @@ void delay_ms(uint32_t ms);
 // Initialize SERCOM core clock
 void GCLK1_SERCOM_SPIM_core_init();
 
-void GCLK2_SERCOM_I2CM_core_init();
+void GCLK2_SERCOM_I2CM_USARTM_core_init();
 
 // Initialize selected SERCOM interface (SPI/I2C/USART depending on enum)
 void SERCOM_init(sercom_init_t interface);
@@ -139,29 +138,7 @@ void SPI0_Transfer_32b_HW_cycle(uint32_t data);
 
 uint16_t XPT2046_Read(uint32_t cmd);
 
-uint32_t BME680_exchange_data(uint32_t cmd, uint8_t tx_length);
-
-void BME680_write(uint32_t cmd, uint8_t length);
-
-void BME680_change_page(BME680_page_no_t page);
-
-void BME680_read_ID(); //read ID
-
-void BME680_reset(); //reset sensor (same as power up reset)
-
-void BME680_Config(BME680_filter_t filter, bool spi_3w_en); //modify Config register
-
-void BME680_Ctrl_meas(BME680_meas_os_t os_t, BME680_meas_os_t os_p, BME680_mode_t mode); //modify Ctrl_meas register
-
-void BME680_Ctrl_hum(BME680_meas_os_t os_h, bool spi_3w_int_en);
-
-void BME680_read_temp_calib();
-
-void BME680_calculate_temperature();
-
-void BME680_calculate_pressure();
-
-void BME680_calculate_humidity();
+void BME680_read_t_p_rh();
 
 
 
@@ -170,16 +147,6 @@ uint32_t I2C_read(uint8_t addr, uint8_t readlen);
 void I2C_write(uint8_t addr, uint32_t data, uint8_t length, i2c_cmd_t endaction);
 
 uint32_t I2C_write_and_read(uint8_t addr, uint32_t reg, uint8_t writelen, uint8_t readlen);
-
-void BMP180_ReadCalibration(bmp180_t *bmp);
-
-void BMP180_ReadUTUP(bmp180_t *bmp, bmp180_parameters_t parameter); //polled
-
-void BMP180_ReadUTUP_Task(bmp180_t *bmp, bmp180_parameters_t parameter); //state machine + interrupt
-
-void BMP180_Task();
-
-void BMP180_CalcTrueTP();
 
 void GCLK3_SERCOM_TC_core_init();
 

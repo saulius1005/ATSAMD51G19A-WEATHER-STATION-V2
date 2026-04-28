@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c BMP180.c TC.c A7672E.c RTC.c BME680.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/BMP180.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/CLK.o.d ${OBJECTDIR}/ILI9341.o.d ${OBJECTDIR}/SERCOM.o.d ${OBJECTDIR}/DMA.o.d ${OBJECTDIR}/GPIO.o.d ${OBJECTDIR}/XPT2046.o.d ${OBJECTDIR}/keyboard.o.d ${OBJECTDIR}/BMP180.o.d ${OBJECTDIR}/TC.o.d ${OBJECTDIR}/A7672E.o.d ${OBJECTDIR}/RTC.o.d ${OBJECTDIR}/BME680.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/CLK.o.d ${OBJECTDIR}/ILI9341.o.d ${OBJECTDIR}/SERCOM.o.d ${OBJECTDIR}/DMA.o.d ${OBJECTDIR}/GPIO.o.d ${OBJECTDIR}/XPT2046.o.d ${OBJECTDIR}/keyboard.o.d ${OBJECTDIR}/TC.o.d ${OBJECTDIR}/A7672E.o.d ${OBJECTDIR}/RTC.o.d ${OBJECTDIR}/BME680.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/BMP180.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o
 
 # Source Files
-SOURCEFILES=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c BMP180.c TC.c A7672E.c RTC.c BME680.c
+SOURCEFILES=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c
 
 # Pack Options 
 PACK_COMMON_OPTIONS=-I "${CMSIS_DIR}/CMSIS/Core/Include"
@@ -152,12 +152,6 @@ ${OBJECTDIR}/keyboard.o: keyboard.c  .generated_files/flags/default/2af91113f3ec
 	@${RM} ${OBJECTDIR}/keyboard.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/keyboard.o.d" -o ${OBJECTDIR}/keyboard.o keyboard.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
 	
-${OBJECTDIR}/BMP180.o: BMP180.c  .generated_files/flags/default/9220ceb25a37de7af31093956217a5d20030d288 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/BMP180.o.d 
-	@${RM} ${OBJECTDIR}/BMP180.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/BMP180.o.d" -o ${OBJECTDIR}/BMP180.o BMP180.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
-	
 ${OBJECTDIR}/TC.o: TC.c  .generated_files/flags/default/abc55f9c84527fd31f0e2611ffef5e837035052 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/TC.o.d 
@@ -230,12 +224,6 @@ ${OBJECTDIR}/keyboard.o: keyboard.c  .generated_files/flags/default/8dd8de667872
 	@${RM} ${OBJECTDIR}/keyboard.o.d 
 	@${RM} ${OBJECTDIR}/keyboard.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/keyboard.o.d" -o ${OBJECTDIR}/keyboard.o keyboard.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
-	
-${OBJECTDIR}/BMP180.o: BMP180.c  .generated_files/flags/default/1a8118b63d2a4f6055bfdb8e51793c4df15178b4 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/BMP180.o.d 
-	@${RM} ${OBJECTDIR}/BMP180.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/BMP180.o.d" -o ${OBJECTDIR}/BMP180.o BMP180.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
 	
 ${OBJECTDIR}/TC.o: TC.c  .generated_files/flags/default/75e974d7141b4a733949bda8c3637860f92a3af7 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 

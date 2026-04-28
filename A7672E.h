@@ -30,7 +30,7 @@ typedef enum {
     INIT = 0,
     HTTPSETUP,
     GNSSSETUP,
-    LOCKGPS,
+    SHOW_FIRST_WINDOW,
     WORK
 }A7672Estatus_t;
 

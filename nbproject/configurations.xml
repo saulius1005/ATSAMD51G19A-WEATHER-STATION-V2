@@ -35,9 +35,6 @@
       <itemPath>keyboard.c</itemPath>
       <itemPath>keyboard.h</itemPath>
       <itemPath>keyboardVar.h</itemPath>
-      <itemPath>BMP180.c</itemPath>
-      <itemPath>BMP180.h</itemPath>
-      <itemPath>BMP180Var.h</itemPath>
       <itemPath>I2C.h</itemPath>
       <itemPath>TC.c</itemPath>
       <itemPath>TC.h</itemPath>
