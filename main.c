@@ -51,7 +51,7 @@ int main(void) {
                     
             if(time_test != RTC_Date_and_Time.RTC_sys_time){
                 y = 0;
-                draw_formatted_line(60, &y, WHITE, RED,  "%4d-%02d-%02d %02d:%02d:%02d", 
+                draw_formatted_line(60, &y, WHITE, DARK_GRAY,  "%4d-%02d-%02d %02d:%02d:%02d", 
                         RTC_Date_and_Time.RTC_year + 2000, 
                         RTC_Date_and_Time.RTC_month, 
                         RTC_Date_and_Time.RTC_day, 
@@ -60,22 +60,16 @@ int main(void) {
                         RTC_Date_and_Time.RTC_second);      
                 y = 0;
                 if(RTC_Date_and_Time.time_sync == NONE)
-                    draw_formatted_line(180, &y, YELLOW, RED,  "No fix  ");
+                    draw_formatted_line(190, &y, RED, DARK_GRAY,  "No fix  ");
                 if(RTC_Date_and_Time.time_sync == GSM_sync)
-                    draw_formatted_line(180, &y, GREEN, RED,  "GSM fix ");
+                    draw_formatted_line(190, &y, YELLOW, DARK_GRAY,  "GSM fix ");
                 if(RTC_Date_and_Time.time_sync == GNSS_sync)
-                    draw_formatted_line(180, &y, DARK_GREEN, RED,  "GNSS fix");
-                y = 85; 
-                draw_formatted_line(10, &y, WHITE, RED, "GPS lock at: %02d%02d%02d %02d%02d%02d", A7672EGSM.GNSS_year, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);
-                draw_formatted_line(10, &y, WHITE, RED, "GSM lock at: %02d%02d%02d %02d%02d%02d", A7672EGSM.GSM_year, A7672EGSM.GSM_month, A7672EGSM.GSM_day, A7672EGSM.GSM_hour, A7672EGSM.GSM_minute, A7672EGSM.GSM_second);     
-                RTC_read_date_and_time();
-
-                draw_formatted_line(10, &y, WHITE, RED,  "sys time: %lu", time_test);       
-                draw_formatted_line(10, &y, WHITE, RED,  "time sync value: %d", RTC_Date_and_Time.time_sync);
-                
+                    draw_formatted_line(190, &y, GREEN, DARK_GRAY,  "GNSS fix");
+                y = 85;    
+                RTC_read_date_and_time();               
                 BME680_read_t_p_rh();
                    
-                draw_formatted_line(10, &y, WHITE, RED, "BME T:%3d.%02d P:%4d.%02dhPa Rh: %d.%03d ", BME680.temperature/100, BME680.temperature%100, BME680.pressure / 100, BME680.pressure % 100, BME680.humidity/1000, BME680.humidity%1000);
+                draw_formatted_line(10, &y, WHITE, DARK_GRAY, "T:%3dC° P: %4dhPa Rh: %3d%", (BME680.temperature + 50) / 100, (BME680.pressure + 50) / 100, (BME680.humidity +500) /1000);
             }
             time_test = RTC_Date_and_Time.RTC_sys_time;
             RTC_date_and_time_update(); //update rtc time with gsm or gnss          

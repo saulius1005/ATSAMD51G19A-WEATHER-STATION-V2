@@ -538,7 +538,7 @@ void A7672EInit() {
             if(A7672E_init.cycle) A7672E_init.status = SHOW_FIRST_WINDOW;
         break;
         case SHOW_FIRST_WINDOW: //Drawing  first window
-            ILI9341_fill_color_DMA(RED); //fill screen
+            ILI9341_fill_color_DMA(DARK_GRAY); //fill screen
             ili9341_draw_rect(20, 35, 80, 40, BLUE, 1);
             ili9341_draw_rect(20, 35, 80, 40, GREEN, 0); 
             //if(A7672E_init.cycle) A7672E_init.status = WORK;
