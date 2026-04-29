@@ -52,6 +52,17 @@ typedef struct {
 
 extern RTC_calendar_t RTC_Date_and_Time;
 
+
+void RTC_init_calendar(); //initialization of RTC as calendar
+
+uint32_t RTC_read_sys_time(); //reading calendar data as one 32bit value (formated)
+
+void RTC_read_date_and_time(); //converts formated calendar data to readable date and time
+
+uint32_t datetime_to_RTC_format(uint8_t y, uint8_t m, uint8_t d, uint8_t h, uint8_t min, uint8_t s); //converts readable date and time into formated 32 bit value
+
+void RTC_date_and_time_update(); //update rtc time with GSM or GNSS data
+
 #ifdef	__cplusplus
 }
 #endif

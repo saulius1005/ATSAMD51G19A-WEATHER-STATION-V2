@@ -66,7 +66,7 @@ bool extract_at_response(char *buf, const char *cmd, uint8_t packs){
 void terminal_header(uint16_t *y, const char *title) {
     ILI9341_fill_color_DMA(BLACK);
     *y = 0;
-    draw_formatted_line(65, y, RED, BLACK, "%s", title);
+    ILI9341_draw_formatted_line(65, y, RED, BLACK, "%s", title);
 }
 
 void process_and_print(uint16_t *y, CommandList_t *cmd, char *buf) {
@@ -82,7 +82,7 @@ void process_and_print(uint16_t *y, CommandList_t *cmd, char *buf) {
     segments[0] = (color_segment_t){ cmd->ATTX, YELLOW, BLACK };
     segments[1] = (color_segment_t){ buf, GREEN, BLACK };
 
-    draw_colored_line(1, y, segments, 2);
+    ILI9341_draw_colored_line(1, y, segments, 2);
 }
 
 void extract_gnss_data(char *buf) {
@@ -327,7 +327,7 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
 
         if(out->mode != 0){ //if time locked 2D or 3D
             apply_timezone(&A7672EGSM.GNSS_year, &A7672EGSM.GNSS_month, &A7672EGSM.GNSS_day, &A7672EGSM.GNSS_hour);  
-            A7672EGSM.GNSS_sys_time = datetime_to_rtc_format(A7672EGSM.GNSS_year, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);        
+            A7672EGSM.GNSS_sys_time = datetime_to_RTC_format(A7672EGSM.GNSS_year, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);        
         }
         A7672EGSM.GNSS_time_corect = true;
     }
@@ -355,7 +355,7 @@ void parse_gsm_datetime_to_struct(char *buf) {//example: receiving "26/04/10,18:
         A7672EGSM.GSM_minute = mm;
         A7672EGSM.GSM_second = ss;
 
-        A7672EGSM.GSM_sys_time = datetime_to_rtc_format(yy, MM, dd, hh, mm, ss); 
+        A7672EGSM.GSM_sys_time = datetime_to_RTC_format(yy, MM, dd, hh, mm, ss); 
         A7672EGSM.GSM_time_corect = true;
     }
     
@@ -467,7 +467,7 @@ void A7672EPowerUpRead(uint16_t * y, char * buf){ //reads all data right away af
 
         case WAIT:{
             uint16_t temp_y = 12;
-            draw_formatted_line(1, &temp_y, GREEN, BLACK, "%s", buf); //till waiting draw all data
+            ILI9341_draw_formatted_line(1, &temp_y, GREEN, BLACK, "%s", buf); //till waiting draw all data
             if(TC0_timeout){
                 USART_DMA_Circular_BYTE_ENABLE(false); //stop reading
                 TC0_timeout = false; //reset timer flag
@@ -528,20 +528,15 @@ void A7672EInit() {
             if(A7672E_init.cycle) A7672E_init.status = HTTPSETUP;
         break;
         case HTTPSETUP: //Set up HTTP connection
-            //A7672EHTTPSetUp(&y, buf);
             A7672ESetUp(&y, buf, &http_cfg);
             if(A7672E_init.cycle) A7672E_init.status = GNSSSETUP;
         break;
         case GNSSSETUP: //Set up GNSS 
-            //A7672EGNSSSetUp(&y, buf);
             A7672ESetUp(&y, buf, &gps_cfg);
             if(A7672E_init.cycle) A7672E_init.status = SHOW_FIRST_WINDOW;
         break;
         case SHOW_FIRST_WINDOW: //Drawing  first window
-            ILI9341_fill_color_DMA(DARK_GRAY); //fill screen
-            ili9341_draw_rect(20, 35, 80, 40, BLUE, 1);
-            ili9341_draw_rect(20, 35, 80, 40, GREEN, 0); 
-            //if(A7672E_init.cycle) A7672E_init.status = WORK;
+            Windows.Window = MAIN_WINDOW;
             A7672E_init.status = WORK;
         break;
     }

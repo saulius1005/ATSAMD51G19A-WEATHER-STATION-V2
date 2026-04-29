@@ -39,42 +39,14 @@ int main(void) {
     {544, 1660, 3232, 3744, 100, 0, BTN_0} //x0, x1, y0, y1, z1(z0),keypad closed, id
     };
 
-    uint32_t time_test = 0;
         
     while(1){
         A7672EInit(); //SIMCOM A7672E initialization active until reach WORK mode
         A7672ReadNEMAGNSS(); //read SIMCOM A7672E GNNS and GSM time (interrupt+ machine state) active when A7672E_init.status == WORK              
         source(&touch_areas[0]);//read touch screen. Keyboard image control by pressing blue square  
-        
-        RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time();        
-        if(A7672E_init.status == WORK){           
-                    
-            if(time_test != RTC_Date_and_Time.RTC_sys_time){
-                y = 0;
-                draw_formatted_line(60, &y, WHITE, DARK_GRAY,  "%4d-%02d-%02d %02d:%02d:%02d", 
-                        RTC_Date_and_Time.RTC_year + 2000, 
-                        RTC_Date_and_Time.RTC_month, 
-                        RTC_Date_and_Time.RTC_day, 
-                        RTC_Date_and_Time.RTC_hour, 
-                        RTC_Date_and_Time.RTC_minute, 
-                        RTC_Date_and_Time.RTC_second);      
-                y = 0;
-                if(RTC_Date_and_Time.time_sync == NONE)
-                    draw_formatted_line(190, &y, RED, DARK_GRAY,  "No fix  ");
-                if(RTC_Date_and_Time.time_sync == GSM_sync)
-                    draw_formatted_line(190, &y, YELLOW, DARK_GRAY,  "GSM fix ");
-                if(RTC_Date_and_Time.time_sync == GNSS_sync)
-                    draw_formatted_line(190, &y, GREEN, DARK_GRAY,  "GNSS fix");
-                y = 85;    
-                RTC_read_date_and_time();               
-                BME680_read_t_p_rh();
-                   
-                draw_formatted_line(10, &y, WHITE, DARK_GRAY, "T:%3dC° P: %4dhPa Rh: %3d%", (BME680.temperature + 50) / 100, (BME680.pressure + 50) / 100, (BME680.humidity +500) /1000);
-            }
-            time_test = RTC_Date_and_Time.RTC_sys_time;
-            RTC_date_and_time_update(); //update rtc time with gsm or gnss          
-        }
-        
+        UserInterface(Windows.Window); //after initialization show main window
+        RTC_date_and_time_update(); //update rtc time with gsm or gnss 
+        RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                
         TC0_CHECKER(); //check tc0 timeout
         TC2_CHECKER(); //check tc2 timeout
 

@@ -51,7 +51,10 @@
       <itemPath>BME680Var.h</itemPath>
       <itemPath>BME680.c</itemPath>
       <itemPath>BME680.h</itemPath>
+      <itemPath>windows.c</itemPath>
+      <itemPath>windows.h</itemPath>
     </logicalFolder>
+    <itemPath>windowsVar.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

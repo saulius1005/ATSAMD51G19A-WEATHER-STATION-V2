@@ -31,7 +31,7 @@ void RTC_read_date_and_time(){
     RTC_Date_and_Time.RTC_second = (clock & RTC_MODE2_CLOCK_SECOND_Msk) >> RTC_MODE2_CLOCK_SECOND_Pos;
 }
 
-uint32_t datetime_to_rtc_format(uint8_t y, uint8_t m, uint8_t d, uint8_t h, uint8_t min, uint8_t s){
+uint32_t datetime_to_RTC_format(uint8_t y, uint8_t m, uint8_t d, uint8_t h, uint8_t min, uint8_t s){
     if(y < 26) //if year is less than 2026 it means gsm time is default or 0, same with gnss
         return 0;
     return (((uint32_t)(y - STARTING_LEAP_YEAR) & 0x3F) << 26) | ((uint32_t)(m   & 0x0F) << 22) | ((uint32_t)(d   & 0x1F) << 17) | ((uint32_t)(h   & 0x1F) << 12) | ((uint32_t)(min & 0x3F) << 6)  | ((uint32_t)(s   & 0x3F));

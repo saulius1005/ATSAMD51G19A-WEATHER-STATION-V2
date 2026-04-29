@@ -214,7 +214,7 @@ void normalize_newlines(char *str) {
     *dst = '\0';
 }
 
-void draw_formatted_line(uint16_t x, uint16_t *y, uint16_t fg, uint16_t bg, const char *fmt, ...) {
+void ILI9341_draw_formatted_line(uint16_t x, uint16_t *y, uint16_t fg, uint16_t bg, const char *fmt, ...) {
     char line[256];
     va_list args;
     
@@ -248,7 +248,7 @@ void draw_formatted_line(uint16_t x, uint16_t *y, uint16_t fg, uint16_t bg, cons
     *y += lines * 12;
 }
 
-void draw_colored_line(uint16_t x, uint16_t *y, color_segment_t *segments, size_t count) {
+void ILI9341_draw_colored_line(uint16_t x, uint16_t *y, color_segment_t *segments, size_t count) {
     uint16_t chars_per_line = LCD_WIDTH / 6;
     uint16_t lines = 1;
     uint16_t cursor_x = x;

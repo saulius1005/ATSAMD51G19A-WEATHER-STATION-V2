@@ -121,6 +121,12 @@ extern A7672E_init_list_t A7672E_init;
 extern A7672E_work_list_t A7672E_work;
 
 
+void A7672EInit(); //initialization of module HTTP, GPS
+
+void A7672ReadNEMAGNSS(); //Reading of time and date data from GSM and from GNSS
+
+void A7672EsendCommandsInit(); //sending at commands from list at a7672var.h
+
 #ifdef	__cplusplus
 }
 #endif

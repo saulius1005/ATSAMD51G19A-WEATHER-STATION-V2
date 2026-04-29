@@ -28,12 +28,9 @@ typedef struct {
             
 } TuchScreen;
 
-/** 
- * @brief Extern reference to the Calendar structure.
- * 
- * The `Date_Clock` variable holds the current date, time, and related information.
- */
 extern TuchScreen Read_XPT2046;
+
+uint16_t XPT2046_Read(uint32_t cmd); //read touch screen data X,Y,Z coordinates
 
 
 #ifdef	__cplusplus

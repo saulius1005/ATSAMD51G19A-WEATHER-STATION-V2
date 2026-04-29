@@ -45,7 +45,7 @@ void source(Source_data *btn){
         for(uint8_t i = 0; i<16; i++){
             bool is_selected = (Read_XPT2046.X >= keysMap.keyboard_buttons[i].X0) && (Read_XPT2046.X <= keysMap.keyboard_buttons[i].X1) && (Read_XPT2046.Y >= keysMap.keyboard_buttons[i].Y0) && (Read_XPT2046.Y <= keysMap.keyboard_buttons[i].Y1) && (Read_XPT2046.Z1 >  keysMap.keyboard_buttons[i].Z0);
             if(is_selected){
-                draw_formatted_line(130, &y, WHITE, RED, "key: %c", keysMap.keyboard_buttons[i].value);
+                ILI9341_draw_formatted_line(130, &y, WHITE, RED, "key: %c", keysMap.keyboard_buttons[i].value);
             }           
         }
 

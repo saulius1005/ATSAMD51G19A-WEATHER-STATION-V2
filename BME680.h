@@ -231,6 +231,8 @@ typedef struct {
 
 extern BME680_t BME680;
 
+void BME680_read_t_p_rh();//Reads tremperature, pressure and humidity
+
 
 #ifdef	__cplusplus
 }

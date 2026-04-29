@@ -77,6 +77,42 @@ typedef struct {  //for draw_colored_line text coloring function
     uint16_t bg; //background color
 } color_segment_t;
 
+void ILI9341_init_simple_32b();// Basic LCD initialization using SPI transfers
+
+void ILI9341_fill_color_CPU(uint16_t color);// Fill entire display with color using CPU-driven SPI transfers
+
+void ILI9341_draw_image_CPU(const uint16_t *fb);// Draw framebuffer using CPU-only SPI transfers
+
+void ILI9341_fill_color_32b_DMA(uint16_t color);// Fill entire display with color using DMA-assisted SPI transfers
+
+void ILI9341_draw_framebuffer_DMA(const uint16_t *fb);// Draw framebuffer using DMA-assisted SPI transfers
+
+void ili9341_fill_screen(uint16_t color); //Fill screen with color
+
+void ili9341_draw_pixel(uint16_t x, uint16_t y, uint16_t color);
+
+void ili9341_draw_char(int x, int y, char c, uint16_t fg, uint16_t bg);
+
+void ili9341_draw_text(int x, int y, const char *str, uint16_t fg, uint16_t bg);
+
+void ili9341_draw_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color, uint8_t filled);
+
+void ILI9341_draw_keyboard(uint16_t *fb, uint16_t x0, uint16_t y0, uint8_t state, uint16_t color);
+
+void ili9341_set_address_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
+
+void ili9341_CMD(uint32_t cmd, uint8_t length);
+
+void ili9341_DATA(uint32_t data, uint8_t length);
+
+void ILI9341_draw_image_DMA(const uint16_t *fb);
+
+void ILI9341_fill_color_DMA(uint16_t color);
+
+void ILI9341_draw_formatted_line(uint16_t x, uint16_t *y, uint16_t fg, uint16_t bg, const char *fmt, ...);
+
+void ILI9341_draw_colored_line(uint16_t x, uint16_t *y, color_segment_t *segments, size_t count);
+
 
 #ifdef	__cplusplus
 }
