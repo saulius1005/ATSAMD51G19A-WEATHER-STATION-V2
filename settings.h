@@ -34,12 +34,12 @@ extern "C" {
 
 #include "ILI9341.h"
 #include "SERCOM.h"
+#include "A7672E.h"    
 #include "XPT2046.h"
 #include "keyboard.h"
 #include "TC.h"
 #include "DMA.h"
 #include "image.h"
-#include "A7672E.h"
 #include "RTC.h"
 #include "BME680.h"
 #include "windows.h"

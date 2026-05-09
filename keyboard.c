@@ -24,12 +24,14 @@ void button_toggle(Source_data *btn)
     draw_keyboard(btn->action);
 }
 
+
+
 void source(Source_data *btn){
     
-    Read_XPT2046.X = XPT2046_Read(XPT_CMD_X);
-    Read_XPT2046.Y = XPT2046_Read(XPT_CMD_Y); 
-    Read_XPT2046.Z1 = XPT2046_Read(XPT_CMD_Z1);
-    Read_XPT2046.Z2 = XPT2046_Read(XPT_CMD_Z2);
+    if(A7672E_init.status != WORK) // if GSM module still not initialized skip further code
+        return;
+    
+    XPT2046_Read_All();
     
     bool is_touched = (Read_XPT2046.X >= btn->X0) && (Read_XPT2046.X <= btn->X1) && (Read_XPT2046.Y >= btn->Y0) && (Read_XPT2046.Y <= btn->Y1) && (Read_XPT2046.Z1 >  btn->Z0);
 

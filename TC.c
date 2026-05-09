@@ -6,7 +6,7 @@ void GCLK3_SERCOM_TC_core_init(){ //used for 1us and for 1ms
     while (GCLK_REGS->GCLK_SYNCBUSY & GCLK_SYNCBUSY_GENCTRL_GCLK3);
 }
 
-void TC0_init(){ //TC0 as us counter used for I2C to generate W/R gaps
+void TC0_init(){ //TC0 as us counter used for A7672E initialization and after it used in xpt2046 touch screen data reading delay
     
     GCLK_REGS->GCLK_PCHCTRL[TC0_GCLK_ID] = GCLK_PCHCTRL_CHEN(0);//turn off before all changes
     while (GCLK_REGS->GCLK_PCHCTRL[TC0_GCLK_ID] & GCLK_PCHCTRL_CHEN_Msk);
@@ -53,7 +53,7 @@ void TC0_CHECKER(){
     }
 }
 
-void TC2_init(){ //why TC2 instead of TC1 all counter in pairs (same peripheral - meaning same clock if same clock not enough 16bit to count till 4seconds- need 32bit and then both 2 16bits become one 32)
+void TC2_init(){ //used for a7672e gnss and gsm time messages
     
     GCLK_REGS->GCLK_PCHCTRL[TC2_GCLK_ID] = GCLK_PCHCTRL_CHEN(0);//turn off before all changes
     while (GCLK_REGS->GCLK_PCHCTRL[TC2_GCLK_ID] & GCLK_PCHCTRL_CHEN_Msk);

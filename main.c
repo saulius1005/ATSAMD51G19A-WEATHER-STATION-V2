@@ -36,7 +36,7 @@ int main(void) {
     //delay_ms(500);  
 
      Source_data touch_areas[] = { //for blue square button- touch map
-    {544, 1660, 3232, 3744, 100, 0, BTN_0} //x0, x1, y0, y1, z1(z0),keypad closed, id
+    {448, 1660, 3168, 3552, 100, 0, BTN_0} //x0, x1, y0, y1, z1(z0),keypad closed, id
     };
 
         

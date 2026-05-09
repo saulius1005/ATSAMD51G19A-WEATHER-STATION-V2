@@ -19,18 +19,22 @@ extern "C" {
     
 #define XPT2046_CS_LOW()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA10) // CS LOW
 #define XPT2046_CS_HIGH()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA10) // CS HIGH
-    
+        
 typedef struct {
     uint16_t X;
     uint16_t Y;
     uint16_t Z1;
     uint16_t Z2;
+    uint8_t step;
+    A7672states_t state;
             
 } TuchScreen;
 
 extern TuchScreen Read_XPT2046;
 
 uint16_t XPT2046_Read(uint32_t cmd); //read touch screen data X,Y,Z coordinates
+
+void XPT2046_Read_All();
 
 
 #ifdef	__cplusplus
