@@ -53,8 +53,11 @@
       <itemPath>BME680.h</itemPath>
       <itemPath>windows.c</itemPath>
       <itemPath>windows.h</itemPath>
+      <itemPath>windowsVar.h</itemPath>
+      <itemPath>Cosmos.h</itemPath>
+      <itemPath>Cosmos.c</itemPath>
+      <itemPath>CosmosVar.h</itemPath>
     </logicalFolder>
-    <itemPath>windowsVar.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

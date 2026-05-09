@@ -34,12 +34,15 @@ void UserInterface(Windows_names_t window){
                 
                 RTC_read_date_and_time();               
                 BME680_read_t_p_rh();
+                calculate_solar_position();
                    
                 ILI9341_draw_formatted_line(10, &y, WHITE, DARK_GRAY, "T:%3dC° P: %4dhPa Rh: %3d%", 
                         (BME680.temperature + 50) / 100, 
                         (BME680.pressure + 50) / 100, 
                         (BME680.humidity +500) /1000);
                 ILI9341_draw_formatted_line(10, &y, WHITE, DARK_GRAY, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
+                
+                ILI9341_draw_formatted_line(10, &y, WHITE, DARK_GRAY, "Az: %3.4f El: %3.4f", solar_params.azimuth,  solar_params.elevation);
     
             }
             Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;         

@@ -43,6 +43,7 @@ extern "C" {
 #include "RTC.h"
 #include "BME680.h"
 #include "windows.h"
+#include "Cosmos.h"
 
 /* --- GPIO --- */
 // Initialize all required GPIO pins (LCD, SPI, control lines)

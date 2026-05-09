@@ -13,6 +13,7 @@
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/ILI9341.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/XPT2046.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/A7672EVar.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/XPT2046.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/RTCVar.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/A7672E.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/BME680Var.h</file>
@@ -21,12 +22,14 @@
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/settings.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/keyboard.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/DMA.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/CLK.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/BME680.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/RTC.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/keyboard.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/main.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/BME680.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/TC.c</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/XPT2046Var.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/RTC.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/TC.h</file>
         </group>
