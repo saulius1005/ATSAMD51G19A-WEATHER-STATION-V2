@@ -44,6 +44,7 @@ extern "C" {
 #include "BME680.h"
 #include "windows.h"
 #include "Cosmos.h"
+#include "refraction.h"
 
 /* --- GPIO --- */
 // Initialize all required GPIO pins (LCD, SPI, control lines)

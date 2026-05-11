@@ -148,14 +148,6 @@ uint8_t days_in_month(volatile uint8_t month, volatile uint8_t year){
     return d[month - 1];
 }
 
-/*uint8_t day_of_week(volatile uint8_t y, volatile uint8_t m, volatile uint8_t d){
-    static uint8_t t[] = {0, 3, 2, 5, 0, 3,
-                          5, 1, 4, 6, 2, 4};
-
-    y -= (m < 3);
-    return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
-}*/
-
 uint8_t day_of_week(uint8_t y, uint8_t m, uint8_t d){
     static uint8_t t[] = {0, 3, 2, 5, 0, 3,
                           5, 1, 4, 6, 2, 4};
@@ -334,7 +326,7 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
     
 }
 
-void parse_gsm_datetime_to_struct(char *buf) {//example: receiving "26/04/10,18:45:08+12"
+void parse_gsm_datetime(char *buf) {//example: receiving "26/04/10,18:45:08+12"
     
     uint32_t yy = (buf[0]-'0')*10 + (buf[1]-'0');
     uint32_t MM = (buf[3]-'0')*10 + (buf[4]-'0');
@@ -406,7 +398,7 @@ void dma_receive_time_SM(char * cmd , char * echo, uint32_t wait_ms) {
             if(A7672E_work.source == GSM){ //for GSM
                 normalize_at_response(buf); //remove \r, \n
                 extract_gsm_time(buf); //get only data 
-                parse_gsm_datetime_to_struct(buf); // split data from time
+                parse_gsm_datetime(buf); // split data from time
                 if(A7672EGSM.GSM_time_corect)
                     A7672E_work.cycle = true;
                 //else

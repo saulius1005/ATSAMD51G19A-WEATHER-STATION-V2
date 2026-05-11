@@ -27,7 +27,10 @@
 typedef struct {
     double latitude;       /**< Latitude of the location (in degrees) */
     double longitude;      /**< Longitude of the location (in degrees) */
-    float elevation;      /**< Solar elevation angle (in degrees) */
+    double elevation;      /**< Solar elevation angle (in degrees) */
+    double altitude;
+    double refracted_elevation;
+    double elevated_refracted_elevation;
     float azimuth;        /**< Solar azimuth angle (in degrees) */
 } SolarPositionParameters;
 

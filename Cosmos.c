@@ -179,40 +179,13 @@ void calculate_solar_position(){
      * Elevation
      */
     double sin_elevation = sin(latitude_rad) * sin(declination_rad) + cos(latitude_rad) * cos(declination_rad) * cos(hour_angle_rad);
-    double elevation = asin(sin_elevation) * RAD_TO_DEG;
-    /*
-     * Atmosferinë refrakcija
-     */
+    solar_params.elevation = asin(sin_elevation) * RAD_TO_DEG;
 
-    /*double refraction = 0.0;
-
-    if(elevation > -0.575){
-
-        refraction =
-            (
-                1.02 /
-                tan(
-                    (
-                        elevation +
-                        10.3 /
-                        (elevation + 5.11)
-                    ) * DEG_TO_RAD
-                )
-            ) / 60.0;
-
-        elevation += refraction;
-    }*/
-
-    /*
-     * Azimuth
-     */
     double azimuth = atan2( sin(hour_angle_rad), cos(hour_angle_rad) * sin(latitude_rad) - tan(declination_rad) * cos(latitude_rad) ) * RAD_TO_DEG;
     azimuth += 180.0;
 
     if(azimuth < 0) azimuth += 360.0;
     if(azimuth >= 360.0) azimuth -= 360.0;
 
-    solar_params.elevation = (float)elevation;
-
-    solar_params.azimuth = (float)azimuth;
+    solar_params.azimuth = azimuth;
 }
