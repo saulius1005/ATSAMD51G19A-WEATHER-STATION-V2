@@ -31,7 +31,7 @@ void source(Source_data *btn){
     if(A7672E_init.status != WORK) // if GSM module still not initialized skip further code
         return;
     
-    XPT2046_Read_All();
+    //XPT2046_Read_All();
     
     bool is_touched = (Read_XPT2046.X >= btn->X0) && (Read_XPT2046.X <= btn->X1) && (Read_XPT2046.Y >= btn->Y0) && (Read_XPT2046.Y <= btn->Y1) && (Read_XPT2046.Z1 >  btn->Z0);
 

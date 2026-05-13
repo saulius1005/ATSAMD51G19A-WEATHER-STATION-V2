@@ -28,14 +28,14 @@ typedef enum {
 } RTC_time_update_status_t;    
     
 typedef struct {
-    volatile uint8_t RTC_year;
-    volatile uint8_t RTC_month;
-    volatile uint8_t RTC_day;
-    volatile uint8_t RTC_hour;
-    volatile uint8_t RTC_minute;
-    volatile uint8_t RTC_second;
+    uint8_t RTC_year;
+    uint8_t RTC_month;
+    uint8_t RTC_day;
+    uint8_t RTC_hour;
+    uint8_t RTC_minute;
+    uint8_t RTC_second;
     
-    volatile uint32_t RTC_sys_time;
+    uint32_t RTC_sys_time;
     
     RTC_time_update_status_t time_sync;
     

@@ -84,24 +84,24 @@ typedef struct {
 
 
 typedef struct {
-    volatile uint8_t GNSS_year;
-    volatile uint8_t GNSS_month;
-    volatile uint8_t GNSS_day;
-    volatile uint8_t GNSS_hour;
-    volatile uint8_t GNSS_minute;
-    volatile uint8_t GNSS_second;
+    uint8_t GNSS_year;
+    uint8_t GNSS_month;
+    uint8_t GNSS_day;
+    uint8_t GNSS_hour;
+    uint8_t GNSS_minute;
+    uint8_t GNSS_second;
     
-    volatile uint32_t GNSS_sys_time; //for rtc update
+    uint32_t GNSS_sys_time; //for rtc update
     bool GNSS_time_corect;
     
-    volatile uint8_t GSM_year;
-    volatile uint8_t GSM_month;
-    volatile uint8_t GSM_day;
-    volatile uint8_t GSM_hour;
-    volatile uint8_t GSM_minute;
-    volatile uint8_t GSM_second;
+    uint8_t GSM_year;
+    uint8_t GSM_month;
+    uint8_t GSM_day;
+    uint8_t GSM_hour;
+    uint8_t GSM_minute;
+    uint8_t GSM_second;
     
-    volatile uint32_t GSM_sys_time; //for rtc update
+    uint32_t GSM_sys_time; //for rtc update
     bool GSM_time_corect;
     
 } A7672E_gnss_gsm_calendar_t;

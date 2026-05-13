@@ -18,6 +18,9 @@ uint16_t XPT2046_Read(uint32_t cmd){
 }
 
 void XPT2046_Read_All(){
+    if(A7672E_init.status != WORK) // if GSM module still not initialized skip further code
+        return;
+    
     SPI0_Baud_Switch(2000000);//switch baudrate to 0.1Mhz
     XPT2046_CS_LOW();
     
@@ -55,3 +58,9 @@ void XPT2046_Read_All(){
     SPI0_Baud_Switch(30000000);//switch baudrate back to 30Mhz
     SERCOM0_REGS->SPIM.SERCOM_LENGTH &= ~SERCOM_SPIM_LENGTH_LENEN_Msk;
 }
+
+bool XPT2046_button(uint16_t X0, uint16_t X1, uint16_t Y0, uint16_t Y1){
+    return (Read_XPT2046.X >= X0 && Read_XPT2046.X <= X1 && Read_XPT2046.Y >= Y0 && Read_XPT2046.Y <= Y1 && Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL);
+}
+
+

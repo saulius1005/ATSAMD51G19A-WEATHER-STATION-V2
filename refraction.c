@@ -39,81 +39,28 @@ void apply_altitude_dip(){ //it depends  :D
 void apply_all_elevation_modifies(){
     correct_solar_angles();
     apply_altitude_dip();
-}
-
-/* //Tester code
-#include <stdio.h>
-#include <stdint.h>
-#include <math.h>
-
-#define DEG_TO_RAD 0.017453292519943295
-#define RAD_TO_DEG 57.29577951308232
-
-struct {
-    float elevation;
-} solar_params;
-
-struct {
-    int32_t pressure;   // Pa (Paskaliai, kaip ið BME680)
-    int32_t temperature;// °C * 100
-    int32_t humidity;   // % * 1000
-} BME680;
-
-float calculate_refraction(){
     
-    float h = solar_params.elevation;                          // solar elevation (degrees)
-    float T_C = BME680.temperature / 100.0f;                   // temperature in °C
-    float P_hPa = BME680.pressure / 100.0f;                    // pressure in hPa
-    float RH = BME680.humidity / 1000.0f;                     // relative humidity (0–100%)
-
-    float es = 6.1121f * expf((18.678f - T_C / 234.5f) * (T_C / (257.14f + T_C)));       // saturation vapor pressure (hPa)
-    float mw = (BME680.humidity / 100000.0f) * es;                             // water vapor pressure (hPa)
-    float T_K = T_C + 273.15f;                                 // temperature in Kelvin
-    float rho_corr = (P_hPa / 1013.25f) * (273.15f / T_K);     // air density correction factor
-    float humidity_dip = (mw / 1013.25f) * (11.27f / T_K);     // humidity correction term
-    float total_corr = rho_corr - humidity_dip;                // combined atmospheric correction
-
-    float angle = (h + (7.31f / (h + 4.4f))) * DEG_TO_RAD;     // refraction angle (Bennett model)
-    float t = tanf(angle);                                      // tangent of angle
-
-    if (fabsf(t) < 1e-6f) t = 1e-6f;                           // avoid singularity
-    float cot_h = 1.0f / t;                                     // cotangent term
-
-    float refraction_min = cot_h * total_corr * 1.02f;         // refraction in arcminutes
-    return refraction_min / 60.0f;                             // convert to degrees
-}
-
-int main()
-{
-    // Testo duomenys
-    solar_params.elevation = -16.00f; 
-    BME680.pressure = 99400;      // 1 atm (Pa)
-    BME680.temperature = 2800;     // 15°C
-    BME680.humidity = 56000;       // Testui padidinkime iki 85%, kad matytøsi didesnis skirtumas
-
-    //refrakcijà su nustatyta drëgme
-    float refr_with_humidity = calculate_refraction();
-
-    //refrakcijà "sausam" orui (RH = 0)
-    int32_t original_rh = BME680.humidity;
-    BME680.humidity = 0;
-    float refr_dry_air = calculate_refraction();
-    BME680.humidity = original_rh; // Gràþiname atgal
-
-    printf("--- Aplinkos sàlygos ---\n");
-    printf("Aukðtis virð horizonto: %.2f°\n", solar_params.elevation);
-    printf("Temperatûra: %.2f°C, Slëgis: %.2f hPa, RH: %.1f%%\n\n", 
-            BME680.temperature/100.0f, BME680.pressure/100.0f, BME680.humidity/1000.0f);
-
-    printf("--- Rezultatai ---\n");
-    printf("Refrakcija (su RH):      %.6f°\n", refr_with_humidity);
-    printf("Refrakcija (sausas oras): %.6f°\n", refr_dry_air);
-
-    float diff_deg = refr_dry_air - refr_with_humidity;
-    printf("RH átaka (skirtumas):    %.6f° (%.2f lanko sek.)\n", 
-            diff_deg, diff_deg * 3600.0f);
+    //start Sun tracking when elevation is -8 -4 degree below horizon
+    //2026-05-12 power generation starts 4:40 (some clouds- average day) sun at the moment was -5.14 (elevation)
+    //2026-05-11 power generation starts 4:20 (clear day- zero clouds) sun at the moment was -7.49
+    //2026-05-10 power generation starts 4:50 (heavy clouds 24h no sun at all) sun at the moment was -4.47
+    // I think i need calculate aproximitly if are clouds and how much and thes set start angle in range of -8 -4 degree maybe with this?.....:
     
-    printf("\nMatomas aukðtis:         %.4f°\n", solar_params.elevation + refr_with_humidity);
+    /*float start_angle = -5.5f;
 
-    return 0;
-}*/
+    // humidity
+    start_angle -= (70.0f - RH) * 0.025f;
+
+    // pressure
+    start_angle -= (pressure - 1010.0f) * 0.01f;
+
+    // temperature
+    start_angle -= (-5.0f - temperature) * 0.015f;
+
+    // limits
+    if (start_angle < -8.0f)
+        start_angle = -8.0f;
+
+    if (start_angle > -4.0f)
+        start_angle = -4.0f;*/
+}

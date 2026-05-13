@@ -35,15 +35,16 @@ int main(void) {
     //ILI9341_draw_image_DMA(windmill); //draw windmill
     //delay_ms(500);  
 
-     Source_data touch_areas[] = { //for blue square button- touch map
-    {448, 1660, 3168, 3552, 100, 0, BTN_0} //x0, x1, y0, y1, z1(z0),keypad closed, id
-    };
+    //Source_data touch_areas[] = { //for blue square button- touch map
+    //{448, 1660, 3168, 3552, 100, 0, BTN_0} //x0, x1, y0, y1, z1(z0),keypad closed, id
+    //};
 
         
     while(1){
         A7672EInit(); //SIMCOM A7672E initialization active until reach WORK mode
-        A7672ReadNEMAGNSS(); //read SIMCOM A7672E GNNS and GSM time (interrupt+ machine state) active when A7672E_init.status == WORK              
-        source(&touch_areas[0]);//read touch screen. Keyboard image control by pressing blue square  
+        A7672ReadNEMAGNSS(); //read SIMCOM A7672E GNNS and GSM time (interrupt+ machine state) active when A7672E_init.status == WORK           
+        XPT2046_Read_All(); //checking touch screen
+        //source(&touch_areas[0]);//read touch screen. Keyboard image control by pressing blue square  
         UserInterface(Windows.Window); //after initialization show main window
         RTC_date_and_time_update(); //update rtc time with gsm or gnss 
         RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                

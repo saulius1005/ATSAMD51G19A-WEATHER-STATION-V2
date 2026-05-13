@@ -13,10 +13,10 @@
 
 // Declare and initialize the solar position parameters for the specified location and time
 SolarPositionParameters solar_params = {
-	.latitude = 48.82443,        /**< Latitude of the location (in degrees) */ //4 digits after . means: +-110m
-	.longitude = 19.65083,       /**< Longitude of the location (in degrees) */
+	.latitude = 51.92018,        /**< Latitude of the location (in degrees) */ //4 digits after . means: +-110m
+	.longitude = 20.28824,       /**< Longitude of the location (in degrees) */
     
-    .altitude = 87.00,
+    .altitude = 113.00,
 	
 	// Pre-calculated solar elevation and azimuth for the given location and time
 	.elevation = 37.3,            /**< Average annual elevation for the selected coordinates (in degrees) */
