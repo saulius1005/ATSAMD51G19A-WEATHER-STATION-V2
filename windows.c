@@ -15,7 +15,7 @@ void UserInterface(Windows_names_t window){
             }
             else { //if background was drawed show other data         
                 
-            if(XPT2046_button(1000, 3850, 3800, 4000)){//check data and time changing button status
+            if(XPT2046_switch(1000, 3850, 3800, 4000)){//check data and time changing button status
                 Windows.background_updater = false; //prepare to update screen
                 Windows.Window = TIME_WINDOW;
             }
@@ -59,22 +59,37 @@ void UserInterface(Windows_names_t window){
             if(!Windows.background_updater){
                 ILI9341_fill_color_DMA(NAVY); //fill screen
                 ili9341_draw_rect(0, 0, 50, 20, BLACK, 1); //date and time button
+                uint16_t y = 6;
+                ILI9341_draw_formatted_line(22, &y, WHITE, BLACK,  "<");
+                
+                ili9341_draw_rect(53, 0, 60, 20, YELLOW, 1); //date and time button
+                y = 6;
+                ILI9341_draw_formatted_line(60, &y, BLACK, YELLOW,  "MAN");
+                
+                ili9341_draw_rect(117, 0, 60, 20, GREEN, 1); //date and time button
+                y = 6;
+                ILI9341_draw_formatted_line(120, &y, RED, GREEN,  "GSM");
+                
+                ili9341_draw_rect(180, 0, 60, 20, ORANGE, 1); //date and time button
+                y = 6;
+                ILI9341_draw_formatted_line(190, &y, CYAN, ORANGE,  "GNSS");
+                
                 Windows.background_updater = true;
             }
             else{                
-                if(XPT2046_button(100, 900, 3700, 4000)){//check back button status
+                if(XPT2046_switch(100, 900, 3700, 4000)){//check back button status
                     Windows.background_updater = false; //prepare to update screen
                     Windows.Window = MAIN_WINDOW;
                 }
                 if(Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time){ //update every second
                     RTC_read_date_and_time();
-                    uint16_t y = 6;
-                    ILI9341_draw_formatted_line(22, &y, WHITE, BLACK,  "<");
-                    
-                    y = 30;
-                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "RTC TIME: %4d-%02d-%02d %02d:%02d:%02d", RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day,RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second ); 
+                                       
+                    uint16_t y = 30;
+                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "RTC TIME: %4d-%02d-%02d %02d:%02d:%02d", RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day,RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second );
+                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "TIME ZONE: %d", RTC_Date_and_Time.RTC_time_zone);
+                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "DAYLIGHT SAVING TIME: %s", is_daylight_saving_time(RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day,RTC_Date_and_Time.RTC_hour)? "YES":"NO");
 
-                    y = 60;
+                    y = 80;
                     ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "GSM TIME lock at: %4d-%02d-%02d %02d:%02d:%02d", A7672EGSM.GSM_year + 2000, A7672EGSM.GSM_month, A7672EGSM.GSM_day, A7672EGSM.GSM_hour, A7672EGSM.GSM_minute, A7672EGSM.GSM_second); 
                     ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "GNSS lock at: %4d-%02d-%02d %02d:%02d:%02d", A7672EGSM.GNSS_year + 2000, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second); 
                     ILI9341_draw_formatted_line(0, &y, WHITE, DARK_GRAY, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2); 

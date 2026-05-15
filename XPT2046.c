@@ -59,7 +59,7 @@ void XPT2046_Read_All(){
     SERCOM0_REGS->SPIM.SERCOM_LENGTH &= ~SERCOM_SPIM_LENGTH_LENEN_Msk;
 }
 
-bool XPT2046_button(uint16_t X0, uint16_t X1, uint16_t Y0, uint16_t Y1){
+bool XPT2046_switch(uint16_t X0, uint16_t X1, uint16_t Y0, uint16_t Y1){
     return (Read_XPT2046.X >= X0 && Read_XPT2046.X <= X1 && Read_XPT2046.Y >= Y0 && Read_XPT2046.Y <= Y1 && Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL);
 }
 

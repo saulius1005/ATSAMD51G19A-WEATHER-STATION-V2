@@ -16,6 +16,7 @@ extern "C" {
 #endif
 
 RTC_calendar_t RTC_Date_and_Time = {
+    .RTC_time_zone = TIME_ZONE,
     .RTC_year = 26,
     .RTC_month = 4,
     .RTC_day = 16,

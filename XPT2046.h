@@ -34,7 +34,7 @@ typedef struct {
 extern TuchScreen Read_XPT2046;
 
 uint16_t XPT2046_Read(uint32_t cmd); //read touch screen data X,Y,Z coordinates
-bool XPT2046_button(uint16_t X0, uint16_t X1, uint16_t Y0, uint16_t Y1); //return true if pressed in this area
+bool XPT2046_switch(uint16_t X0, uint16_t X1, uint16_t Y0, uint16_t Y1); //return true if pressed in this area
 
 void XPT2046_Read_All();
 

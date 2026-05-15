@@ -37,6 +37,7 @@ typedef struct {
 // Declare the global solar position parameters object, which will hold the current solar position data
 extern SolarPositionParameters solar_params;
 
+bool is_daylight_saving_time(uint16_t year, uint8_t month, uint8_t day, uint8_t hour);
 void calculate_solar_position();
 
 #endif /* COSMOS_H_ */
