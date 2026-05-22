@@ -86,6 +86,7 @@ extern keys_data keysMap;
 
 
 void source(Source_data *btn); //keyboard drawing and touch screen actions
+void draw_keyboard(keyboard_t action);
 
 
 #ifdef	__cplusplus

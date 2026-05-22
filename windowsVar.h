@@ -9,6 +9,7 @@
 #define	WINDOWSVAR_H
 
 #include "windows.h"
+#include "keyboard.h"
 
 
 #ifdef	__cplusplus
@@ -19,6 +20,7 @@ extern "C" {
         .Window = INIT_WINDOW,
         .background_updater = false,
         .once_per_second_update = 0,
+        .keyboardAction = CLOSE, //set keyboard closed
     };
 
 

@@ -25,6 +25,7 @@ typedef struct {
     bool background_updater;
     uint32_t once_per_second_update;
     Windows_names_t Window;
+    keyboard_t keyboardAction;
     
 } Windows_t;
 

@@ -28,6 +28,7 @@ typedef struct {
     uint16_t Z2;
     uint8_t step;
     A7672states_t state;
+    bool pressed;
             
 } TuchScreen;
 
