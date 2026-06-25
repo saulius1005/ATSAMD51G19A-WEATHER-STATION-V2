@@ -44,10 +44,10 @@ extern "C" {
  * Used during SERCOM initialization to select interface type.
  */
 typedef enum {
-    USART,   // Universal Synchronous/Asynchronous Receiver/Transmitter
+    USART_GSM,   // Universal Synchronous/Asynchronous Receiver/Transmitter
     SPI_SCREEN, //SPI for LCD and Touch screen
     SPI_SENSOR, //SPI for sensors
-    I2C      // Inter-Integrated Circuit
+    USART_RS485      // Inter-Integrated Circuit
 } sercom_init_t;
 
 typedef enum {

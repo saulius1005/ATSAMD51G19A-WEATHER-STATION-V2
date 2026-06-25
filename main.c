@@ -16,8 +16,8 @@ int main(void) {
     GCLK3_SERCOM_TC_core_init(); //clock core 1Mhz for TC0-us (16bit) and TC2-ms(32bit)
     SERCOM_init(SPI_SCREEN);                    // Initialize SERCOM0 peripheral in SPI master mode
     SERCOM_init(SPI_SENSOR);
-    //SERCOM_init(I2C);
-    SERCOM_init(USART);
+    SERCOM_init(USART_RS485);
+    SERCOM_init(USART_GSM);
     TC0_init();    
     TC2_init(); 
     RTC_init_calendar();

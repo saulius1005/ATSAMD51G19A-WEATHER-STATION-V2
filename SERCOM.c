@@ -26,30 +26,26 @@ void GCLK2_SERCOM_I2CM_USARTM_core_init(){
 void SERCOM_init(sercom_init_t interface){
       
     switch(interface){
-        case I2C:// SERCOM1 I2C
-            /* --- Route GCLK1 to SERCOM2 core --- */
+        case USART_RS485:// SERCOM2 RS485 Master
+            
             GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
 
             GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK2 | GCLK_PCHCTRL_CHEN(1);
-                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk));
-                
-            /* --- Enable SERCOM1 peripheral clock --- */
-            MCLK_REGS->MCLK_APBBMASK |= MCLK_APBBMASK_SERCOM2_Msk;
+                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the same core clock as i2c - 24Mhz
             
-            SERCOM2_REGS->I2CM.SERCOM_CTRLA = SERCOM_I2CM_CTRLA_ENABLE(0); // Disable before configuration
-                while (SERCOM2_REGS->I2CM.SERCOM_SYNCBUSY & SERCOM_I2CM_SYNCBUSY_ENABLE_Msk);
-                
-            SERCOM2_REGS->I2CM.SERCOM_BAUD = SERCOM_I2C_BAUD(100000, 10);
-            SERCOM2_REGS->I2CM.SERCOM_CTRLB = SERCOM_I2CM_CTRLB_SMEN_Msk;//Smart mode (auto ack and nack)
-            SERCOM2_REGS->I2CM.SERCOM_CTRLC = SERCOM_I2CM_CTRLC_DATA32B_DATA_TRANS_32BIT; //use 32b data transmit
-            SERCOM2_REGS->I2CM.SERCOM_CTRLA = SERCOM_I2CM_CTRLA_MODE_I2C_MASTER  | SERCOM_I2CM_CTRLA_SPEED_STANDARD_AND_FAST_MODE | SERCOM_I2CM_CTRLA_SCLSM(0) /*| SERCOM_I2CM_CTRLA_INACTOUT(2)*/ | SERCOM_I2CM_CTRLA_ENABLE(1); //100-400kHz, Host SCL Clock Stretch Mode for speed below HS,105us of inactive scl Enable
-                while (SERCOM2_REGS->I2CM.SERCOM_SYNCBUSY & SERCOM_I2CM_SYNCBUSY_ENABLE_Msk);
-            SERCOM2_REGS->I2CM.SERCOM_STATUS = SERCOM_I2CM_STATUS_BUSSTATE_IDLE;//set bus state to idle
-                while (SERCOM2_REGS->I2CM.SERCOM_SYNCBUSY & SERCOM_I2CM_SYNCBUSY_SYSOP_Msk);
+            MCLK_REGS->MCLK_APBBMASK |= MCLK_APBBMASK_SERCOM3_Msk; //enable module functions
+            SERCOM2_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_ENABLE(0); //disable
+                while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
+            
+            SERCOM2_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
+            SERCOM2_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_32BIT;            
+            SERCOM2_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
+            SERCOM2_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD2 | SERCOM_USART_INT_CTRLA_TXPO_PAD0 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
+                while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
         break;
 
-        case SPI_SCREEN: // SERCOM0 SPI
+        case SPI_SCREEN: // SERCOM0 SPI- LCD and Touch
 
             GCLK_REGS->GCLK_PCHCTRL[SERCOM0_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM0_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
@@ -74,7 +70,7 @@ void SERCOM_init(sercom_init_t interface){
 
         break;
         
-        case SPI_SENSOR: // SERCOM4 SPI
+        case SPI_SENSOR: // SERCOM4 SPI BME680
 
             GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
@@ -101,7 +97,7 @@ void SERCOM_init(sercom_init_t interface){
 
         break;        
 
-        case USART:
+        case USART_GSM: //A7672E GSM module 
             
             GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);

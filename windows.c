@@ -11,6 +11,7 @@ void UserInterface(Windows_names_t window){
                 //ili9341_draw_rect(20, 35, 80, 40, BLUE, 1);
                 //ili9341_draw_rect(20, 35, 80, 40, GREEN, 0);     
                 ili9341_draw_rect(55, 0, 185, 10, BLACK, 1); //date and time button
+                
                 Windows.background_updater = true;
             }
             else { //if background was drawed show other data         
@@ -58,10 +59,27 @@ void UserInterface(Windows_names_t window){
         }
 
         }break;
-        case TIME_WINDOW:
+        case TIME_WINDOW:{
+            static uint8_t DT[14] = {0};
+            static uint16_t MANdateY = 0;
+            static uint8_t MANdateM = 0;
+            static uint8_t MANdateD = 0;
+            static uint8_t MANtimeH = 0;
+            static uint8_t MANtimem = 0;
+            static uint8_t MANtimeS = 0;
+            static uint8_t pressCount = 0;
+            static uint8_t countProtection = 55;
+            
             if(!Windows.background_updater){
                 ILI9341_fill_color_DMA(NAVY); //fill screen
                 keyboard.background_color = NAVY; //use same color for keyboard if not used
+                
+                /*uint16_t MANdateY = RTC_Date_and_Time.RTC_year + 2000;
+                uint8_t MANdateM = RTC_Date_and_Time.RTC_month;
+                uint8_t MANdateD = RTC_Date_and_Time.RTC_day;
+                uint8_t MANtimeH = RTC_Date_and_Time.RTC_hour;
+                uint8_t MANtimem = RTC_Date_and_Time.RTC_minute;
+                uint8_t MANtimeS = RTC_Date_and_Time.RTC_second;*/
                 //draw buttons
                 ili9341_draw_rect(0, 0, 60, 20, BLACK, 1); //date and time button
                 uint16_t y = 6;
@@ -100,14 +118,70 @@ void UserInterface(Windows_names_t window){
                 draw_keyboard(Windows.keyboardAction); //draw keyboard if opened  
                 
                 if(Windows.keyboardAction == OPEN){ //if keyboard is open use fast data update
-                    uint16_t y = 120;
-                    for(uint8_t i = 0; i<16; i++){
-                        bool is_selected = (Read_XPT2046.X >= keysMap.keyboard_buttons[i].X0) && (Read_XPT2046.X <= keysMap.keyboard_buttons[i].X1) && (Read_XPT2046.Y >= keysMap.keyboard_buttons[i].Y0) && (Read_XPT2046.Y <= keysMap.keyboard_buttons[i].Y1) && (Read_XPT2046.Z1 >  keysMap.keyboard_buttons[i].Z0);
-                        if(is_selected){
-                            Windows.once_per_second_update += 1; //reset update to show data instantly
-                            ILI9341_draw_formatted_line(130, &y, WHITE, NAVY, "key: %c", keysMap.keyboard_buttons[i].value);
-                        }           
+                    uint16_t y = 130;
+                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "MAN TIME: ");
+
+                uint16_t x = 60; //start roughly after "man time: " text
+
+                for(uint16_t clr = 0; clr < 14; clr++){
+                    y -= 12; // keep the same line
+
+                    uint16_t foreground = GREEN;
+                    uint16_t background = (pressCount == clr) ? RED : NAVY;
+
+                    ILI9341_draw_formatted_line(x, &y, foreground, background, "%01d", DT[clr]);
+                    x += 6;
+                    if(clr == 3 || clr == 5){
+                        y -= 12; // keep the same line
+                        ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, "-"); //after year and month
+                        x += 6;
                     }
+                    else if(clr == 7){
+                        y -= 12; // keep the same line
+                        ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, " "); //after day
+                        x += 6;
+                    }
+                    else if(clr == 9 || clr == 11){
+                        y -= 12; // keep the same line
+                        ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, ":"); //after hour and minutes
+                        x += 6;
+                    }
+                }
+                    if(Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL)// protection from holding touch keyboard button
+                        countProtection = 55;
+                
+                    for(uint8_t i = 0; i<16; i++){ //searching where is pressed on the touchscreen (find one place of 16 button maps)
+                        if((Read_XPT2046.X >= keysMap.keyboard_buttons[i].X0) && (Read_XPT2046.X <= keysMap.keyboard_buttons[i].X1) && (Read_XPT2046.Y >= keysMap.keyboard_buttons[i].Y0) && (Read_XPT2046.Y <= keysMap.keyboard_buttons[i].Y1) && (Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL)){
+                            if(countProtection != pressCount)
+                            {
+                                Windows.once_per_second_update += 1; //reset update to show data instantly
+                                if(keysMap.keyboard_buttons[i].digit <= 9){ //check if it is digit
+                                    DT[pressCount] = keysMap.keyboard_buttons[i].digit;  
+                                    pressCount++;
+
+                                }
+
+                                if(pressCount == 14 && keysMap.keyboard_buttons[i].value == '>' ){
+                                    ILI9341_draw_formatted_line(150, &y, GREEN, NAVY,  " typo save ");
+                                }           
+                                else if((pressCount > 0) && (keysMap.keyboard_buttons[i].value == '<')){
+                                    pressCount--;
+                                    ILI9341_draw_formatted_line(150, &y, GREEN, NAVY,  "typo back");
+                                }
+                                else if((pressCount > 0) && (keysMap.keyboard_buttons[i].value == 'x')){
+                                    for(uint8_t x = 0; x < 14; x++){
+                                        DT[pressCount] = 0; 
+                                    }                                           
+                                    pressCount = 0;
+                                    ILI9341_draw_formatted_line(150, &y, GREEN, NAVY,  "typo delete");
+                                }
+                                countProtection = pressCount;
+                            }
+                        }                        
+                    }
+                    
+
+                    
                 }            
                 //set touch maps for buttons
                 if(XPT2046_switch(100, 916, 3700, 4000)){//check back button status
@@ -123,7 +197,7 @@ void UserInterface(Windows_names_t window){
                 
                 
             }
-        break;
+        }break;
         case SENSOR_WINDOW:
         break;
         case TOWER_WINDOW:

@@ -7,8 +7,8 @@
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/ILI9341.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/SERCOM.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/A7672E.h</file>
-            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/font.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/windows.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/font.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/SERCOM.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/Cosmos.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/ILI9341.h</file>
@@ -17,6 +17,7 @@
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/A7672EVar.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/XPT2046.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/RTCVar.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/DMA.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/A7672E.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/BME680Var.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/windowsVar.h</file>
@@ -35,6 +36,7 @@
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/TC.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/CosmosVar.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/refractionVar.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/keyboardVar.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/XPT2046Var.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/RTC.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/TC.h</file>

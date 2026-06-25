@@ -72,6 +72,7 @@ typedef struct {
     uint16_t Z0;
     KeyID id;     
     uint8_t pressed;
+    uint8_t digit;
     char value;
 } key_data;
 
