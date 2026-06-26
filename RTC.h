@@ -22,9 +22,10 @@ extern "C" {
 #define RTC_GET_SEC(x)    ((x) & 0x3F)
 
 typedef enum {
-    NONE = 0,
-    GSM_sync,
-    GNSS_sync
+    NONE_sync = 0, //after boot
+    GSM_sync, //after time is synced with gsm time
+    GNSS_sync, //after gnss sync
+    MAN_sync //manual time "sync"
 } RTC_time_update_status_t;    
     
 typedef struct {
@@ -63,6 +64,8 @@ void RTC_read_date_and_time(); //converts formated calendar data to readable dat
 uint32_t datetime_to_RTC_format(uint8_t y, uint8_t m, uint8_t d, uint8_t h, uint8_t min, uint8_t s); //converts readable date and time into formated 32 bit value
 
 void RTC_date_and_time_update(); //update rtc time with GSM or GNSS data
+
+void RTC_date_and_time_sync(uint32_t source, RTC_time_update_status_t sync_source); //do actual rtc synchronization- off rtc, wait, set, turn on, write sync source
 
 #ifdef	__cplusplus
 }

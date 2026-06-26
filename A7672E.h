@@ -127,6 +127,8 @@ void A7672ReadNEMAGNSS(); //Reading of time and date data from GSM and from GNSS
 
 void A7672EsendCommandsInit(); //sending at commands from list at a7672var.h
 
+bool is_time_correct(uint8_t Y, uint8_t M, uint8_t D, uint8_t h, uint8_t m, uint8_t s, bool checkRTC);
+
 #ifdef	__cplusplus
 }
 #endif

@@ -57,9 +57,9 @@ A7672E_init_list_t A7672E_init = {
 };
 
 A7672E_gnss_gsm_calendar_t A7672EGSM = {
-    .GSM_year = 26,
-    .GSM_month = 4,
-    .GSM_day = 28,
+    .GSM_year = 0,
+    .GSM_month = 0,
+    .GSM_day = 0,
     .GSM_hour = 0,
     .GSM_minute = 0,
     .GSM_second = 0,
@@ -75,7 +75,7 @@ A7672E_gnss_gsm_calendar_t A7672EGSM = {
     .GNSS_second = 0,    
     
     .GNSS_sys_time = 0,
-    .GNSS_time_corect = 0,
+    .GNSS_time_corect = false,
     
 };
 

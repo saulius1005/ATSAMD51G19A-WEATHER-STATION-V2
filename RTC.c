@@ -37,31 +37,27 @@ uint32_t datetime_to_RTC_format(uint8_t y, uint8_t m, uint8_t d, uint8_t h, uint
     return (((uint32_t)(y - STARTING_LEAP_YEAR) & 0x3F) << 26) | ((uint32_t)(m   & 0x0F) << 22) | ((uint32_t)(d   & 0x1F) << 17) | ((uint32_t)(h   & 0x1F) << 12) | ((uint32_t)(min & 0x3F) << 6)  | ((uint32_t)(s   & 0x3F));
 }
 
+void RTC_date_and_time_sync(uint32_t source, RTC_time_update_status_t sync_source){
+    RTC_REGS->MODE2.RTC_CTRLA &= ~RTC_MODE2_CTRLA_ENABLE_Msk; //turn off rtc
+    while (RTC_REGS->MODE2.RTC_SYNCBUSY & RTC_MODE2_SYNCBUSY_ENABLE_Msk); //wait sync
+        RTC_REGS->MODE2.RTC_CLOCK = source;      
+    while (RTC_REGS->MODE2.RTC_SYNCBUSY & RTC_MODE2_SYNCBUSY_CLOCKSYNC_Msk);// wait sync
+        RTC_REGS->MODE2.RTC_CTRLA |= RTC_MODE2_CTRLA_ENABLE_Msk;
+    while (RTC_REGS->MODE2.RTC_SYNCBUSY & RTC_MODE2_SYNCBUSY_ENABLE_Msk); //enable calendar  
+    RTC_Date_and_Time.time_sync = sync_source; //set synchronization source (NONE, GSM, GNSS or MAN)
+}
+
 void RTC_date_and_time_update(){
 
     if(RTC_Date_and_Time.time_sync == GNSS_sync) //if rtc is synced with gnss skip further code
         return;
     
     if((A7672EGSM.GNSS_sys_time != RTC_Date_and_Time.RTC_sys_time) && (A7672EGNSS.mode != 0)){ //use gsm time sync only if gnss is not available
-            RTC_REGS->MODE2.RTC_CTRLA &= ~RTC_MODE2_CTRLA_ENABLE_Msk; //turn off rtc
-        while (RTC_REGS->MODE2.RTC_SYNCBUSY & RTC_MODE2_SYNCBUSY_ENABLE_Msk); //wait sync
-            RTC_REGS->MODE2.RTC_CLOCK = A7672EGSM.GNSS_sys_time; //write whole value (already fitted using datetime_to_rtc_format() function)
-            //RTC_REGS->MODE2.RTC_CLOCK = RTC_MODE2_CLOCK_YEAR(A7672EGSM.GSM_year - STARTING_LEAP_YEAR) | RTC_MODE2_CLOCK_MONTH(A7672EGSM.GSM_month) | RTC_MODE2_CLOCK_DAY(A7672EGSM.GSM_day) | RTC_MODE2_CLOCK_HOUR(A7672EGSM.GSM_hour) | RTC_MODE2_CLOCK_MINUTE(A7672EGSM.GSM_minute) | RTC_MODE2_CLOCK_SECOND(A7672EGSM.GSM_second);
-        while (RTC_REGS->MODE2.RTC_SYNCBUSY & RTC_MODE2_SYNCBUSY_CLOCKSYNC_Msk);// wait sync
-            RTC_REGS->MODE2.RTC_CTRLA |= RTC_MODE2_CTRLA_ENABLE_Msk;
-        while (RTC_REGS->MODE2.RTC_SYNCBUSY & RTC_MODE2_SYNCBUSY_ENABLE_Msk); //enable calendar
-        RTC_Date_and_Time.time_sync = GNSS_sync; //change sync status
+        RTC_date_and_time_sync(A7672EGSM.GNSS_sys_time, GNSS_sync);
         return; //skip gsm time sync
     }
         
-    if((A7672EGSM.GSM_sys_time > RTC_Date_and_Time.RTC_sys_time) && (RTC_Date_and_Time.time_sync == NONE)){ //use gsm time sync only if gnss is not available
-            RTC_REGS->MODE2.RTC_CTRLA &= ~RTC_MODE2_CTRLA_ENABLE_Msk; //turn off rtc
-        while (RTC_REGS->MODE2.RTC_SYNCBUSY & RTC_MODE2_SYNCBUSY_ENABLE_Msk); //wait sync
-            RTC_REGS->MODE2.RTC_CLOCK = A7672EGSM.GSM_sys_time; //write whole value (already fitted using datetime_to_rtc_format() function)
-            //RTC_REGS->MODE2.RTC_CLOCK = RTC_MODE2_CLOCK_YEAR(A7672EGSM.GSM_year - STARTING_LEAP_YEAR) | RTC_MODE2_CLOCK_MONTH(A7672EGSM.GSM_month) | RTC_MODE2_CLOCK_DAY(A7672EGSM.GSM_day) | RTC_MODE2_CLOCK_HOUR(A7672EGSM.GSM_hour) | RTC_MODE2_CLOCK_MINUTE(A7672EGSM.GSM_minute) | RTC_MODE2_CLOCK_SECOND(A7672EGSM.GSM_second);
-        while (RTC_REGS->MODE2.RTC_SYNCBUSY & RTC_MODE2_SYNCBUSY_CLOCKSYNC_Msk);// wait sync
-            RTC_REGS->MODE2.RTC_CTRLA |= RTC_MODE2_CTRLA_ENABLE_Msk;
-        while (RTC_REGS->MODE2.RTC_SYNCBUSY & RTC_MODE2_SYNCBUSY_ENABLE_Msk); //enable calendar
-        RTC_Date_and_Time.time_sync = GSM_sync; //change sync status
+    if((A7672EGSM.GSM_sys_time > RTC_Date_and_Time.RTC_sys_time) && (RTC_Date_and_Time.time_sync == NONE_sync)){ //use gsm time sync only if gnss is not available
+        RTC_date_and_time_sync(A7672EGSM.GSM_sys_time, GSM_sync);
     }
 }

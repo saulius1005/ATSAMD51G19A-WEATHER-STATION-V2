@@ -435,7 +435,7 @@ void A7672ReadNEMAGNSS(){   // READS GSM and GNSS date and time if success updat
         break;
         
         case GSM: //Read GSM time
-            if(RTC_Date_and_Time.time_sync == NONE){ //if time not synced
+            if(RTC_Date_and_Time.time_sync == NONE_sync){ //if time not synced
                 dma_receive_time_SM("AT+CCLK?\r", "AT+CCLK?\r", read_interval); //cmd and echo, wait 0.1 second
                 if(A7672E_work.cycle) A7672E_work.source = GNSS; //switch to gnss time correction after GSM time is completed and corect
             }
