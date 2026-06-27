@@ -96,7 +96,7 @@ void UserInterface(Windows_names_t window){
 
                 uint16_t y = 30;
                 ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "RTC time: %4d-%02d-%02d %02d:%02d:%02d", RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day,RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second );
-                ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "T.Z.: %02d", RTC_Date_and_Time.RTC_time_zone);
+                ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "T.Z.: %2d ", RTC_Date_and_Time.RTC_time_zone);
                 ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "D.S.T: %s", is_daylight_saving_time(RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day,RTC_Date_and_Time.RTC_hour)? "YES":"NO");
 
                 const char *timesourceintext =

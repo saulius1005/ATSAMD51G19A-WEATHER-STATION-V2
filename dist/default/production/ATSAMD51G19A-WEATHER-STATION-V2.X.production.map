@@ -1,7 +1,7 @@
 Archive member included to satisfy reference by file (symbol)
 
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
-                              C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o (__pic32c_data_initialization)
+                              C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o (__pic32c_data_initialization)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
                               build/default/production/A7672E.o (memmove)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
@@ -15,7 +15,7 @@ C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchrnul.o)
                               C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchr.o) (__strchrnul)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o)
-                              C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o (__libc_init_array)
+                              C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o (__libc_init_array)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(libc.o)
                               C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o) (__progname_full)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vsnprintf.o)
@@ -327,7 +327,7 @@ Microchip PIC32 Memory-Usage Report By Module
         1184           0           0        1184         4a0    __fmt_a.o                       libc-musl.a
         1148           0           0        1148         47c    refraction.o                    build/default/production/refraction.o
         1101           0           0        1101         44d    __printf_core.o                 libc-musl.a
-         798           0           0         798         31e    cc2JfDAJ.o                      C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+         798           0           0         798         31e    cciUHtD3.o                      C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
          736           0           0         736         2e0    data_init                       data_init
          692           0           2         694         2b6    TC.o                            build/default/production/TC.o
          680           0           0         680         2a8    _udivmoddi4.o                   libgcc.a
@@ -760,7 +760,7 @@ LOAD build/default/production/windows.o
 LOAD build/default/production/Cosmos.o
 LOAD build/default/production/refraction.o
                 0x00000001                        __MPLAB_BUILD = 0x1
-LOAD C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+LOAD C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
 START GROUP
 LOAD C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a
 LOAD C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a
@@ -789,7 +789,7 @@ LOAD C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/t
                 0x00000000                        _sfixed = .
  *(.vectors .vectors.* .vectors_default .vectors_default.*)
  .vectors.default
-                0x00000000      0x260 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+                0x00000000      0x260 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
                 0x00000000                exception_table
  *(.isr_vector)
  *(.reset*)
@@ -889,7 +889,7 @@ LOAD data_init
  .note          0x00000150       0x18 build/default/production/windows.o
  .note          0x00000168       0x18 build/default/production/Cosmos.o
  .note          0x00000180       0x18 build/default/production/refraction.o
- .note          0x00000198       0x18 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+ .note          0x00000198       0x18 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
  .note          0x000001b0       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
  .note          0x000001c8       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
  .note          0x000001e0       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
@@ -967,7 +967,7 @@ LOAD data_init
  .ARM.attributes
                 0x0000032e       0x34 build/default/production/refraction.o
  .ARM.attributes
-                0x00000362       0x34 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+                0x00000362       0x34 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
  .ARM.attributes
                 0x00000396       0x34 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
  .ARM.attributes
@@ -1141,7 +1141,7 @@ LOAD data_init
  .comment       0x00000035       0x36 build/default/production/windows.o
  .comment       0x00000035       0x36 build/default/production/Cosmos.o
  .comment       0x00000035       0x36 build/default/production/refraction.o
- .comment       0x00000035       0x36 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+ .comment       0x00000035       0x36 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
  .comment       0x00000035       0x36 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
  .comment       0x00000035       0x36 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
  .comment       0x00000035       0x36 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
@@ -1908,7 +1908,7 @@ LOAD data_init
  .bss           0x00000000        0x0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
 
 .bss%z41        0x00000000        0x0
- .bss           0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+ .bss           0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
 
 .bss%z42        0x00000000        0x0
  .bss           0x00000000        0x0 build/default/production/refraction.o
@@ -2087,7 +2087,7 @@ LOAD data_init
  .data          0x00000000        0x0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
 
 .data%z90       0x00000000        0x0
- .data          0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+ .data          0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
 
 .data%z91       0x00000000        0x0
  .data          0x00000000        0x0 build/default/production/refraction.o
@@ -2437,7 +2437,7 @@ LOAD data_init
 .text.Reset_Handler%67
                 0x0003e2b8       0x94
  .text.Reset_Handler
-                0x0003e2b8       0x94 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+                0x0003e2b8       0x94 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
                 0x0003e2b8                Reset_Handler
 
 .text.__SEGGER_RTL_float64_PolyEvalQ%68
@@ -2631,7 +2631,7 @@ LOAD data_init
 .text.CMCC_Configure%101
                 0x0003ed48       0x28
  .text.CMCC_Configure
-                0x0003ed48       0x28 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+                0x0003ed48       0x28 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
 
 .text.__string_out%102
                 0x0003ed70       0x28
@@ -2791,7 +2791,7 @@ LOAD data_init
 .text.Dummy_Handler%131
                 0x0003c24a        0x2
  .text.Dummy_Handler
-                0x0003c24a        0x2 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+                0x0003c24a        0x2 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
                 0x0003c24a                EIC_EXTINT_9_Handler
                 0x0003c24a                TCC0_MC5_Handler
                 0x0003c24a                SVCall_Handler
@@ -3060,7 +3060,7 @@ LOAD data_init
  .text          0x00000000        0x0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
 
 .text%z139      0x00000000        0x0
- .text          0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\cc2JfDAJ.o
+ .text          0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\cciUHtD3.o
 
 .text%z140      0x00000000        0x0
  .text          0x00000000        0x0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard/crti.o
