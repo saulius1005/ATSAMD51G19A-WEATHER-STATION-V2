@@ -127,7 +127,9 @@ void A7672ReadNEMAGNSS(); //Reading of time and date data from GSM and from GNSS
 
 void A7672EsendCommandsInit(); //sending at commands from list at a7672var.h
 
-bool is_time_correct(uint8_t Y, uint8_t M, uint8_t D, uint8_t h, uint8_t m, uint8_t s, bool checkRTC);
+bool is_time_correct(uint8_t Y, uint8_t M, uint8_t D, uint8_t h, uint8_t m, uint8_t s, bool checkRTC); //check if date and time is correct
+
+void apply_timezone(volatile uint8_t *year, volatile uint8_t *month, volatile uint8_t *day, volatile uint8_t *hour, int8_t TZ); // aplying time zone
 
 #ifdef	__cplusplus
 }

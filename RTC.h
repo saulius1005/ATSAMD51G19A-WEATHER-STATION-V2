@@ -29,7 +29,7 @@ typedef enum {
 } RTC_time_update_status_t;    
     
 typedef struct {
-    uint8_t RTC_time_zone;
+    int8_t RTC_time_zone; //have effect only on gnss time
     uint8_t RTC_year;
     uint8_t RTC_month;
     uint8_t RTC_day;

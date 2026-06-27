@@ -63,6 +63,8 @@ void UserInterface(Windows_names_t window){
         }break;
         case TIME_WINDOW:{
         static uint8_t DT[14] = {2, 0};//set year 20...
+        static uint8_t TZ[2] = {0, 2}; //set time zone to default value of +02 (range -12 +14)
+        static char TZside = '+'; //time zone direction symbol
         static uint8_t pressCount = 2; 
         static uint8_t countProtection = 55;
 
@@ -94,7 +96,7 @@ void UserInterface(Windows_names_t window){
 
                 uint16_t y = 30;
                 ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "RTC time: %4d-%02d-%02d %02d:%02d:%02d", RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day,RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second );
-                ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "T.Z.: %d", RTC_Date_and_Time.RTC_time_zone);
+                ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "T.Z.: %02d", RTC_Date_and_Time.RTC_time_zone);
                 ILI9341_draw_formatted_line(0, &y, GREEN, NAVY,  "D.S.T: %s", is_daylight_saving_time(RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day,RTC_Date_and_Time.RTC_hour)? "YES":"NO");
 
                 const char *timesourceintext =
@@ -120,19 +122,25 @@ void UserInterface(Windows_names_t window){
                 ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "MAN TIME: ");
 
                 uint16_t x = 60;
-                for(uint16_t clr = 0; clr < 14; clr++){ 
+                for(uint16_t clr = 0; clr < 17; clr++){ 
                     y = 130;
                     uint16_t background = (pressCount == clr) ? RED : NAVY;
 
-                    ILI9341_draw_formatted_line(x, &y, GREEN, background, "%01d", DT[clr]);
+                    if((clr < 14))
+                        ILI9341_draw_formatted_line(x, &y, GREEN, background, "%01d", DT[clr]); //draw digits of the date and time
+                    else if(clr == 14)
+                        ILI9341_draw_formatted_line(x, &y, GREEN, background, "%c", TZside); //draw time zone direction
+                    else if(clr > 14 && clr < 17)
+                        ILI9341_draw_formatted_line(x, &y, GREEN, background, "%01d", TZ[clr-15]); //draw digits of the time zone
                     x += 6;
-
-                    if(clr == 3 || clr == 5) {
+                    if(clr == 3 || clr == 5) {//Year-Month-Day
                         y = 130; ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, "-"); x += 6;
-                    } else if(clr == 7) {
+                    } else if(clr == 7) {//Year-Month-Day //space
                         y = 130; ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, " "); x += 6;
-                    } else if(clr == 9 || clr == 11) {
+                    } else if(clr == 9 || clr == 11) {//Year-Month-Day Hour:Minutes:Seconds
                         y = 130; ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, ":"); x += 6;
+                    } else if(clr == 13) {//Year-Month-Day Hour:Minutes:Seconds //space
+                        y = 130; ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, " "); x += 6;
                     }
                 }
 
@@ -145,11 +153,21 @@ void UserInterface(Windows_names_t window){
                             if(countProtection != pressCount) { //accept only once and one symbol per pressing
                                 Windows.once_per_second_update += 1;
                                 if(keysMap.keyboard_buttons[i].digit <= 9){ 
-                                    DT[pressCount] = keysMap.keyboard_buttons[i].digit;  
-                                    pressCount++;
+                                    if(pressCount < 14){ //changing Date and Time digits
+                                        DT[pressCount] = keysMap.keyboard_buttons[i].digit;  
+                                        pressCount++;
+                                    }
+                                    else if( pressCount <= 16 ){
+                                        TZ[pressCount - 15] = keysMap.keyboard_buttons[i].digit; //change time zone digits  
+                                        pressCount++;
+                                    }  
+                                }
+                                else if(pressCount == 14 && ((keysMap.keyboard_buttons[i].value == '-')||(keysMap.keyboard_buttons[i].value == '+'))){ //only if changing time zone and using + or - symbols
+                                    pressCount ++;
+                                    TZside = keysMap.keyboard_buttons[i].value;
                                 }
 
-                                if(pressCount == 14 && keysMap.keyboard_buttons[i].value == '>' ){
+                                if(pressCount == 17 && keysMap.keyboard_buttons[i].value == '>' ){
                                     uint8_t yy = (DT[2] * 10) + DT[3];  
                                     uint8_t MM = (DT[4] * 10) + DT[5]; 
                                     uint8_t dd = (DT[6] * 10) + DT[7]; 
@@ -158,17 +176,24 @@ void UserInterface(Windows_names_t window){
                                     uint8_t ss = (DT[12] * 10) + DT[13]; 
 
                                     y = 130;
-                                    if(is_time_correct(yy, MM, dd, hh, mm, ss, false)){
-                                        ILI9341_draw_formatted_line(192, &y, GREEN, NAVY,"SAVED");
+                                    int8_t tzcheck = (TZ[0] * 10) + TZ[1];
+                                    if(TZside == '-')// if time zone is negative
+                                        tzcheck = 0 - tzcheck; //update time zone
+                                    
+                                    if(is_time_correct(yy, MM, dd, hh, mm, ss, false) && ( (tzcheck >= -12) && (tzcheck <= 14)) ){
+                                        ILI9341_draw_formatted_line(204, &y, GREEN, NAVY,"SAVED");                                       
+                                        RTC_Date_and_Time.RTC_time_zone =  tzcheck; //update time zone
+                                        
+                                        apply_timezone(&yy, &MM, &dd, &hh, RTC_Date_and_Time.RTC_time_zone); 
                                         RTC_date_and_time_sync(datetime_to_RTC_format(yy, MM, dd, hh, mm, ss), MAN_sync);
                                     } else { 
-                                        ILI9341_draw_formatted_line(192, &y, RED, NAVY,  "ERROR");
+                                        ILI9341_draw_formatted_line(204, &y, RED, NAVY,  "ERROR");
                                     }
                                 }            
                                 else if((pressCount > 2) && (keysMap.keyboard_buttons[i].value == '<')){
                                     pressCount--; 
                                 }
-                                else if(keysMap.keyboard_buttons[i].value == 'x'){ 
+                                else if(keysMap.keyboard_buttons[i].value == 'x'){ //clear whole line and close keyboard
                                     for(uint8_t x = 2; x < 14; x++) DT[x] = 0;                                            
                                     pressCount = 2;
                                     uint16_t y = 130;

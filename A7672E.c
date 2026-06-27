@@ -191,15 +191,15 @@ uint8_t is_dst(volatile uint8_t year, volatile uint8_t month, volatile uint8_t d
     return 0;
 }
 
-uint8_t apply_timezone_with_dst(volatile uint8_t year, volatile uint8_t month, volatile uint8_t day, volatile uint8_t hour){
+int8_t apply_timezone_with_dst(volatile uint8_t year, volatile uint8_t month, volatile uint8_t day, volatile uint8_t hour, int8_t TZ){
     if (is_dst(year, month, day, hour))
-        return TIME_ZONE + 1;
+        return TZ + 1;
     
-    return TIME_ZONE;
+    return TZ;
 }
 
-void apply_timezone(volatile uint8_t *year, volatile uint8_t *month, volatile uint8_t *day, volatile uint8_t *hour){
-    int16_t h = *hour + apply_timezone_with_dst(*year, *month, *day, *hour);
+void apply_timezone(volatile uint8_t *year, volatile uint8_t *month, volatile uint8_t *day, volatile uint8_t *hour, int8_t TZ){
+    int16_t h = *hour + apply_timezone_with_dst(*year, *month, *day, *hour, TZ);
 
     if (h >= 24)
     {
@@ -318,7 +318,7 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
         A7672EGSM.GNSS_second = ss;
 
         if(out->mode != 0){ //if time locked 2D or 3D
-            apply_timezone(&A7672EGSM.GNSS_year, &A7672EGSM.GNSS_month, &A7672EGSM.GNSS_day, &A7672EGSM.GNSS_hour);  
+            apply_timezone(&A7672EGSM.GNSS_year, &A7672EGSM.GNSS_month, &A7672EGSM.GNSS_day, &A7672EGSM.GNSS_hour, RTC_Date_and_Time.RTC_time_zone);  
             A7672EGSM.GNSS_sys_time = datetime_to_RTC_format(A7672EGSM.GNSS_year, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);        
         }
         A7672EGSM.GNSS_time_corect = true;
