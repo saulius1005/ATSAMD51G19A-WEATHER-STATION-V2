@@ -25,7 +25,7 @@ void correct_solar_angles() { //Refraction max ~ 0.5-0.6 degree
 void apply_altitude_dip(){ //it depends  :D
     double R_eff = R_EARTH / (1.0 - 0.16); //0.16 is k and it can be more precize but i need 2 more temperature sensors for so little accurate result (maybe in future)
 
-    if (solar_params.altitude >= 0.0) {
+    if (solar_params.altitude >= 0) {
         double dip_rad = acos(R_eff / (R_eff + solar_params.altitude));
         solar_params.elevated_refracted_elevation = solar_params.refracted_elevation + (float)(dip_rad * RAD_TO_DEG);
     } else {

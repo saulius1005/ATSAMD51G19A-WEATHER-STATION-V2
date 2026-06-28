@@ -7,9 +7,7 @@ void UserInterface(Windows_names_t window){
         //ignore init window and do nthing till it will be changed to one window from below list
         case MAIN_WINDOW:{
             if(!Windows.background_updater){
-                ILI9341_fill_color_DMA(DARK_GRAY); //fill screen
-                //ili9341_draw_rect(20, 35, 80, 40, BLUE, 1);
-                //ili9341_draw_rect(20, 35, 80, 40, GREEN, 0);     
+                ILI9341_fill_color_DMA(DARK_GRAY); //fill screen 
                 ili9341_draw_rect(55, 0, 185, 10, BLACK, 1); //date and time button
                 
                 Windows.background_updater = true;
@@ -36,19 +34,81 @@ void UserInterface(Windows_names_t window){
                     ILI9341_draw_formatted_line(190, &y, GREEN, BLACK,  "GNSS fix");
                 else
                     ILI9341_draw_formatted_line(190, &y, GREEN, BLACK,  "Manual  ");
-                y = 85;    
                 
                 RTC_read_date_and_time();               
                 BME680_read_t_p_rh();
                 calculate_solar_position();
                 apply_all_elevation_modifies();
+                
+                y = 24;
                    
-                ILI9341_draw_formatted_line(10, &y, WHITE, DARK_GRAY, "T:%3dC° P: %4dhPa Rh: %3d%", 
-                        (BME680.temperature + 50) / 100, 
-                        (BME680.pressure + 50) / 100, 
-                        (BME680.humidity +500) /1000);
-                ILI9341_draw_formatted_line(10, &y, WHITE, DARK_GRAY, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);                
-                ILI9341_draw_formatted_line(10, &y, WHITE, DARK_GRAY, "Az: %3.02f El: %3.02f ElR:  %3.02f ElRA: %3.02f", solar_params.azimuth,  solar_params.elevation, solar_params.refracted_elevation, solar_params.elevated_refracted_elevation);
+                ILI9341_draw_formatted_line(10, &y, CYAN, DARK_GRAY, "Weather Data:");
+                y -=12;                 
+                ILI9341_draw_formatted_line(140, &y, YELLOW, DARK_GRAY, "Sun Data:\n");      
+                
+                ILI9341_draw_formatted_line(0, &y, CYAN, DARK_GRAY, "Temperature:%3dC° ", (BME680.temperature + 50) / 100);
+                y -=12;
+                ILI9341_draw_formatted_line(120, &y, YELLOW, DARK_GRAY, "Azimuth: %3.02f ", solar_params.azimuth);               
+                
+                ILI9341_draw_formatted_line(0, &y, CYAN, DARK_GRAY, "Pressure: %4dhPa ", (BME680.pressure + 50) / 100);                
+                y -=12;
+                ILI9341_draw_formatted_line(120, &y, YELLOW, DARK_GRAY, "Elevation: %3.02f ", solar_params.elevated_refracted_elevation);     
+                
+                ILI9341_draw_formatted_line(0, &y, CYAN, DARK_GRAY, "Humidity: %3d% ", (BME680.humidity + 500) / 1000);    
+                ILI9341_draw_formatted_line(0, &y, CYAN, DARK_GRAY, "Wind speed: ... NE \n"); //example for layout
+                
+                                           
+                ILI9341_draw_formatted_line(10, &y, GREEN, DARK_GRAY, "Location Data:");
+                y -=12;                 
+                ILI9341_draw_formatted_line(140, &y, TEAL, DARK_GRAY, "GSM/GNSS Data:\n"); 
+                
+                ILI9341_draw_formatted_line(0, &y, GREEN, DARK_GRAY, "Lat.: %3d.%04d°", solar_params.latitude / 10000, solar_params.latitude % 10000);
+                y -=12;                 
+                ILI9341_draw_formatted_line(120, &y, TEAL, DARK_GRAY, "GSM signal: -57dBm"); 
+                
+                ILI9341_draw_formatted_line(0, &y, GREEN, DARK_GRAY, "Long.: %3d.%04d°", solar_params.longitude / 10000, solar_params.longitude % 10000);
+                y -=12;                 
+                ILI9341_draw_formatted_line(120, &y, TEAL, DARK_GRAY, "GSM: registered");
+                
+                ILI9341_draw_formatted_line(0, &y, GREEN, DARK_GRAY, "Altitude: %4dm", solar_params.altitude);
+                y -=12;                 
+                ILI9341_draw_formatted_line(120, &y, TEAL, DARK_GRAY, "GNSS locked: 2D\n");
+                
+                
+                
+                ILI9341_draw_formatted_line(80, &y, MISTYROSE, DARK_GRAY, "Towers Data:\n");
+                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Tower ID:");
+                y -=12;
+                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "1");
+                y -=12;
+                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "2");
+                
+                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Tracker Frame:");
+                y -=12;
+                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "179°A 57°E");
+                y -=12;
+                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "177°A 56°E");
+                
+                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Solar cells:");
+                y -=12;
+                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "210V 9.4A");
+                y -=12;
+                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "211V 9.5A");
+                
+                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Azimuth Motor:");
+                y -=12;
+                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "62V 1A");
+                y -=12;
+                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "62V 1A");
+                
+                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Elevation Motor:");
+                y -=12;
+                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "25V 3A");
+                y -=12;
+                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "24V 2A");
+                
+                
+                ILI9341_draw_formatted_line(0, &y, MAGENTA, DARK_GRAY, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);   
     
             }
             Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;       
@@ -68,7 +128,7 @@ void UserInterface(Windows_names_t window){
         static uint8_t pressCount = 2; 
         static uint8_t countProtection = 55;
 
-        if(!Windows.background_updater){ //drawing not chaangig elements
+        if(!Windows.background_updater){ //drawing not changing elements
             ILI9341_fill_color_DMA(NAVY); //background
             keyboard.background_color = NAVY; 
 
