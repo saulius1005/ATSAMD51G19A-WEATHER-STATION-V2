@@ -1,7 +1,7 @@
 Archive member included to satisfy reference by file (symbol)
 
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
-                              C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o (__pic32c_data_initialization)
+                              C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o (__pic32c_data_initialization)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
                               build/default/production/A7672E.o (memmove)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
@@ -15,7 +15,7 @@ C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchrnul.o)
                               C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchr.o) (__strchrnul)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o)
-                              C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o (__libc_init_array)
+                              C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o (__libc_init_array)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(libc.o)
                               C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o) (__progname_full)
 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vsnprintf.o)
@@ -161,118 +161,118 @@ section                    address  length [bytes]      (dec)  Description
 .ARM.exidx                   0x280            0x8           8   
 .rodata                      0x288        0x34bc8      216008  Read-only const 
 .text                      0x34e50         0x1134        4404  App's exec code 
-.text                      0x35f84         0x10e8        4328  App's exec code 
-.text                      0x3706c         0x1094        4244  App's exec code 
-.text                      0x38100          0xef4        3828  App's exec code 
-.text                      0x38ff4          0x830        2096  App's exec code 
-.text                      0x39824          0x7fc        2044  App's exec code 
-.text.__fmt_fp             0x3a020          0x4cc        1228   
-.text.__dummy_decompres    0x3a4ec            0x4           4   
-.text.__fmt_a              0x3a4f0          0x4a0        1184   
-.rodata                    0x3a990          0x474        1140  Read-only const 
-.text.__dummy_fmt3         0x3ae04            0x4           4   
-.text                      0x3ae08          0x3b4         948  App's exec code 
-.text.__printf_core        0x3b1bc          0x330         816   
-.rodata                    0x3b4ec          0x325         805  Read-only const 
-.dinit                     0x3b814          0x2d0         720   
-.text                      0x3bae4          0x2b4         692  App's exec code 
-.text                      0x3bd98          0x2a0         672  App's exec code 
-.text.atan                 0x3c038          0x254         596   
-.text                      0x3c28c          0x248         584  App's exec code 
-.text.__aeabi_dadd         0x3c4d4          0x23e         574   
-.text.Dummy_Handler        0x3c712            0x2           2   
-.text                      0x3c714          0x218         536  App's exec code 
-.text.__aeabi_ddiv         0x3c92c          0x216         534   
-.text.__dummy_init_tls     0x3cb42            0x2           2   
-.text                      0x3cb44          0x214         532  App's exec code 
-.rodata                    0x3cd58          0x214         532  Read-only const 
-.text.__dummy_fmt4         0x3cf6c            0x4           4   
-.text.atan2                0x3cf70          0x20c         524   
-.text                      0x3d17c          0x1f4         500  App's exec code 
-.text.tan                  0x3d370          0x1a4         420   
-.text.__dummy_fmts         0x3d514            0x4           4   
-.text.acos                 0x3d518          0x174         372   
-.text.__tolower_l          0x3d68c            0x4           4   
-.text.asin                 0x3d690          0x160         352   
-.text.fmod                 0x3d7f0          0x14c         332   
-.text.__toupper_l          0x3d93c            0x4           4   
-.text.cos                  0x3d940          0x138         312   
-.text.sqrt                 0x3da78          0x134         308   
-.text.__aeabi_dmul         0x3dbac          0x130         304   
-.text.__fmt_x              0x3dcdc          0x122         290   
-.text.__dummy              0x3ddfe            0x2           2   
-.text.sin                  0x3de00          0x120         288   
-.text                      0x3df20          0x114         276  App's exec code 
-.text.expf                 0x3e034          0x10c         268   
-.rodata.__SEGGER_RTL_ka    0x3e140          0x100         256   
-.text.tanf                 0x3e240           0xec         236   
-.text                      0x3e32c           0xc4         196  App's exec code 
-.text.__pop_int            0x3e3f0           0xc4         196   
-.text                      0x3e4b4            0x4           4  App's exec code 
-.text.floor                0x3e4b8           0xc4         196   
-.text.__SEGGER_RTL_floa    0x3e57c           0xc4         196   
-.text.__fmt_d              0x3e640           0xa4         164   
-.text                      0x3e6e4           0x9c         156  App's exec code 
-.text.Reset_Handler        0x3e780           0x94         148   
-.text.__SEGGER_RTL_floa    0x3e814           0x88         136   
-.text.__pad                0x3e89c           0x7c         124   
-.text.__cvt_u              0x3e918           0x78         120   
-.text.__fmt_o              0x3e990           0x72         114   
-.text.__pop_ptr            0x3ea02           0x70         112   
-.rodata.__SEGGER_RTL_fl    0x3ea78           0x70         112   
-.text.__strchrnul          0x3eae8           0x60          96   
-.text.vsnprintf            0x3eb48           0x60          96   
-.rodata.__SEGGER_RTL_fl    0x3eba8           0x60          96   
-.text.__libc_start_init    0x3ec08           0x5c          92   
-.text.__fmt_s              0x3ec64           0x58          88   
-.text.__fmt_u              0x3ecbc           0x56          86   
-.text.ldexp                0x3ed14           0x54          84   
-.text.__aeabi_d2f          0x3ed68           0x4c          76   
-.text.__aeabi_d2iz         0x3edb4           0x4a          74   
-.text.atoi                 0x3ee00           0x48          72   
-.text                      0x3ee48           0x40          64  App's exec code 
-.text.memmove              0x3ee88           0x40          64   
-.rodata.__SEGGER_RTL_fl    0x3eec8           0x40          64   
-.text.__SEGGER_RTL_floa    0x3ef08           0x40          64   
-.text.__aeabi_dcmple       0x3ef48           0x3c          60   
-.text.__aeabi_dcmpge       0x3ef84           0x3c          60   
-.text.ldexpf               0x3efc0           0x3c          60   
-.text.strstr               0x3effc           0x38          56   
-.text.__fmt_state          0x3f034           0x38          56   
-.rodata.__SEGGER_RTL_fl    0x3f070           0x38          56   
-.text.__aeabi_dcmpgt       0x3f0a8           0x38          56   
-.text.__aeabi_dcmplt       0x3f0e0           0x38          56   
-.text.__pic32c_data_ini    0x3f118           0x34          52   
-.text.__aeabi_f2d          0x3f14c           0x34          52   
-.text.__aeabi_dcmpeq       0x3f180           0x32          50   
-.text                      0x3f1b4           0x30          48  App's exec code 
-.text.__pop_float          0x3f1e4           0x2a          42   
-.text.CMCC_Configure       0x3f210           0x28          40   
-.text.__string_out         0x3f238           0x28          40   
-.rodata                    0x3f260           0x24          36  Read-only const 
-.rodata                    0x3f284           0x24          36  Read-only const 
-.text.__aeabi_i2d          0x3f2a8           0x22          34   
-.text.fma                  0x3f2cc           0x20          32   
-.rodata.str1.1             0x3f2ec           0x1f          31   
-.text.__dinit_copy         0x3f30c           0x1e          30   
-.text.vfprintf             0x3f32a           0x1c          28   
-.rodata.__SEGGER_RTL_fl    0x3f348           0x1c          28   
-.text.__aeabi_ui2d         0x3f364           0x1c          28   
-.text.strlen               0x3f380           0x18          24   
-.text.memcpy               0x3f398           0x18          24   
-.rodata                    0x3f3b0           0x16          22  Read-only const 
-.rodata                    0x3f3c8           0x14          20  Read-only const 
-.text.memset               0x3f3dc           0x14          20   
-.text.strchr               0x3f3f0           0x14          20   
-.text.stpcpy               0x3f404           0x14          20   
-.text.__dinit_clear        0x3f418           0x12          18   
-.text.tolower              0x3f42a            0xe          14   
-.text.toupper              0x3f438            0xe          14   
-.text.strcpy               0x3f446            0xc          12   
-.text.__aeabi_dsub         0x3f452            0x8           8   
-      Total ROM used  :     0x3f43e      259134  49.4% of 0x80000
+.text                      0x35f84         0x111c        4380  App's exec code 
+.text                      0x370a0         0x1094        4244  App's exec code 
+.text.__dummy_decompres    0x38134            0x4           4   
+.text                      0x38138          0xef4        3828  App's exec code 
+.text                      0x3902c          0x830        2096  App's exec code 
+.text                      0x3985c          0x7fc        2044  App's exec code 
+.text.__fmt_fp             0x3a058          0x4cc        1228   
+.text.__dummy_fmt3         0x3a524            0x4           4   
+.text.__fmt_a              0x3a528          0x4a0        1184   
+.rodata                    0x3a9c8          0x470        1136  Read-only const 
+.text                      0x3ae38          0x3b4         948  App's exec code 
+.text.__printf_core        0x3b1ec          0x330         816   
+.rodata                    0x3b51c          0x325         805  Read-only const 
+.dinit                     0x3b844          0x2d0         720   
+.text                      0x3bb14          0x2b4         692  App's exec code 
+.text                      0x3bdc8          0x2a0         672  App's exec code 
+.text.atan                 0x3c068          0x254         596   
+.text                      0x3c2bc          0x248         584  App's exec code 
+.text.__aeabi_dadd         0x3c504          0x23e         574   
+.text.Dummy_Handler        0x3c742            0x2           2   
+.text                      0x3c744          0x218         536  App's exec code 
+.text.__aeabi_ddiv         0x3c95c          0x216         534   
+.text.__dummy_init_tls     0x3cb72            0x2           2   
+.text                      0x3cb74          0x214         532  App's exec code 
+.rodata                    0x3cd88          0x214         532  Read-only const 
+.text.__dummy_fmt4         0x3cf9c            0x4           4   
+.text.atan2                0x3cfa0          0x20c         524   
+.text                      0x3d1ac          0x1f4         500  App's exec code 
+.text.tan                  0x3d3a0          0x1a4         420   
+.text.__dummy_fmts         0x3d544            0x4           4   
+.text.acos                 0x3d548          0x174         372   
+.text.__tolower_l          0x3d6bc            0x4           4   
+.text.asin                 0x3d6c0          0x160         352   
+.text.fmod                 0x3d820          0x14c         332   
+.text.__toupper_l          0x3d96c            0x4           4   
+.text.cos                  0x3d970          0x138         312   
+.text.sqrt                 0x3daa8          0x134         308   
+.text.__aeabi_dmul         0x3dbdc          0x130         304   
+.text.__fmt_x              0x3dd0c          0x122         290   
+.text.__dummy              0x3de2e            0x2           2   
+.text.sin                  0x3de30          0x120         288   
+.text                      0x3df50          0x114         276  App's exec code 
+.text.expf                 0x3e064          0x10c         268   
+.rodata.__SEGGER_RTL_ka    0x3e170          0x100         256   
+.text.tanf                 0x3e270           0xec         236   
+.text                      0x3e35c           0xc4         196  App's exec code 
+.text.__pop_int            0x3e420           0xc4         196   
+.text                      0x3e4e4            0x4           4  App's exec code 
+.text.floor                0x3e4e8           0xc4         196   
+.text.__SEGGER_RTL_floa    0x3e5ac           0xc4         196   
+.text.__fmt_d              0x3e670           0xa4         164   
+.text                      0x3e714           0x9c         156  App's exec code 
+.text.Reset_Handler        0x3e7b0           0x94         148   
+.text.__SEGGER_RTL_floa    0x3e844           0x88         136   
+.text.__pad                0x3e8cc           0x7c         124   
+.text.__cvt_u              0x3e948           0x78         120   
+.text.__fmt_o              0x3e9c0           0x72         114   
+.text.__pop_ptr            0x3ea32           0x70         112   
+.rodata.__SEGGER_RTL_fl    0x3eaa8           0x70         112   
+.text.__strchrnul          0x3eb18           0x60          96   
+.text.vsnprintf            0x3eb78           0x60          96   
+.rodata.__SEGGER_RTL_fl    0x3ebd8           0x60          96   
+.text.__libc_start_init    0x3ec38           0x5c          92   
+.text.__fmt_s              0x3ec94           0x58          88   
+.text.__fmt_u              0x3ecec           0x56          86   
+.text.ldexp                0x3ed44           0x54          84   
+.text.__aeabi_d2f          0x3ed98           0x4c          76   
+.text.__aeabi_d2iz         0x3ede4           0x4a          74   
+.text.atoi                 0x3ee30           0x48          72   
+.text                      0x3ee78           0x40          64  App's exec code 
+.text.memmove              0x3eeb8           0x40          64   
+.rodata.__SEGGER_RTL_fl    0x3eef8           0x40          64   
+.text.__SEGGER_RTL_floa    0x3ef38           0x40          64   
+.text.__aeabi_dcmple       0x3ef78           0x3c          60   
+.text.__aeabi_dcmpge       0x3efb4           0x3c          60   
+.text.ldexpf               0x3eff0           0x3c          60   
+.text.strstr               0x3f02c           0x38          56   
+.text.__fmt_state          0x3f064           0x38          56   
+.rodata.__SEGGER_RTL_fl    0x3f0a0           0x38          56   
+.text.__aeabi_dcmpgt       0x3f0d8           0x38          56   
+.text.__aeabi_dcmplt       0x3f110           0x38          56   
+.text.__pic32c_data_ini    0x3f148           0x34          52   
+.text.__aeabi_f2d          0x3f17c           0x34          52   
+.text.__aeabi_dcmpeq       0x3f1b0           0x32          50   
+.text                      0x3f1e4           0x30          48  App's exec code 
+.text.__pop_float          0x3f214           0x2a          42   
+.text.CMCC_Configure       0x3f240           0x28          40   
+.text.__string_out         0x3f268           0x28          40   
+.rodata                    0x3f290           0x24          36  Read-only const 
+.rodata                    0x3f2b4           0x24          36  Read-only const 
+.text.__aeabi_i2d          0x3f2d8           0x22          34   
+.text.fma                  0x3f2fc           0x20          32   
+.rodata.str1.1             0x3f31c           0x1f          31   
+.text.__dinit_copy         0x3f33c           0x1e          30   
+.text.vfprintf             0x3f35a           0x1c          28   
+.rodata.__SEGGER_RTL_fl    0x3f378           0x1c          28   
+.text.__aeabi_ui2d         0x3f394           0x1c          28   
+.text.strlen               0x3f3b0           0x18          24   
+.text.memcpy               0x3f3c8           0x18          24   
+.rodata                    0x3f3e0           0x16          22  Read-only const 
+.rodata                    0x3f3f8           0x14          20  Read-only const 
+.text.memset               0x3f40c           0x14          20   
+.text.strchr               0x3f420           0x14          20   
+.text.stpcpy               0x3f434           0x14          20   
+.text.__dinit_clear        0x3f448           0x12          18   
+.text.tolower              0x3f45a            0xe          14   
+.text.toupper              0x3f468            0xe          14   
+.text.strcpy               0x3f476            0xc          12   
+.text.__aeabi_dsub         0x3f482            0x8           8   
+      Total ROM used  :     0x3f46e      259182  49.4% of 0x80000
         --------------------------------------------------------------------------
-         Total Program Memory used  :     0x3f43e      259134  49.4% of 0x80000
+         Total Program Memory used  :     0x3f46e      259182  49.4% of 0x80000
         --------------------------------------------------------------------------
 
 
@@ -317,7 +317,7 @@ Microchip PIC32 Memory-Usage Report By Module
         text        data         bss         dec         hex    basename                            filename
 --------------------------------------------------------------------------------
       216508         228           0      216736       34ea0    keyboard.o                      build/default/production/keyboard.o
-        5468          23          12        5503        157f    windows.o                       build/default/production/windows.o
+        5516          23          12        5551        15af    windows.o                       build/default/production/windows.o
         4936         168         352        5456        1550    A7672E.o                        build/default/production/A7672E.o
         4244           0         144        4388        1124    BME680.o                        build/default/production/BME680.o
         3828          48           0        3876         f24    Cosmos.o                        build/default/production/Cosmos.o
@@ -327,7 +327,7 @@ Microchip PIC32 Memory-Usage Report By Module
         1184           0           0        1184         4a0    __fmt_a.o                       libc-musl.a
         1101           0           0        1101         44d    __printf_core.o                 libc-musl.a
          948           0           0         948         3b4    refraction.o                    build/default/production/refraction.o
-         798           0           0         798         31e    cc88KWFz.o                      C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+         798           0           0         798         31e    ccmjPnbP.o                      C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
          720           0           0         720         2d0    data_init                       data_init
          692           0           2         694         2b6    TC.o                            build/default/production/TC.o
          680           0           0         680         2a8    _udivmoddi4.o                   libgcc.a
@@ -412,7 +412,7 @@ Microchip PIC32 Memory-Usage Report By Module
            0           0           4           4           4    __errno_location.o              libc-musl.a
            0           0           4           4           4    __environ.o                     libc-musl.a
 --------------------------------------------------------------------------------
-      259126         503         878      260507       3f99b    dist/default/production/ATSAMD51G19A-WEATHER-STATION-V2.X.production.elf
+      259174         503         878      260555       3f9cb    dist/default/production/ATSAMD51G19A-WEATHER-STATION-V2.X.production.elf
 
 
 Discarded input sections
@@ -760,7 +760,7 @@ LOAD build/default/production/windows.o
 LOAD build/default/production/Cosmos.o
 LOAD build/default/production/refraction.o
                 0x00000001                        __MPLAB_BUILD = 0x1
-LOAD C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+LOAD C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
 START GROUP
 LOAD C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a
 LOAD C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a
@@ -789,7 +789,7 @@ LOAD C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/t
                 0x00000000                        _sfixed = .
  *(.vectors .vectors.* .vectors_default .vectors_default.*)
  .vectors.default
-                0x00000000      0x260 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+                0x00000000      0x260 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
                 0x00000000                exception_table
  *(.isr_vector)
  *(.reset*)
@@ -889,7 +889,7 @@ LOAD data_init
  .note          0x00000150       0x18 build/default/production/windows.o
  .note          0x00000168       0x18 build/default/production/Cosmos.o
  .note          0x00000180       0x18 build/default/production/refraction.o
- .note          0x00000198       0x18 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+ .note          0x00000198       0x18 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
  .note          0x000001b0       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
  .note          0x000001c8       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
  .note          0x000001e0       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
@@ -967,7 +967,7 @@ LOAD data_init
  .ARM.attributes
                 0x0000032e       0x34 build/default/production/refraction.o
  .ARM.attributes
-                0x00000362       0x34 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+                0x00000362       0x34 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
  .ARM.attributes
                 0x00000396       0x34 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
  .ARM.attributes
@@ -1141,7 +1141,7 @@ LOAD data_init
  .comment       0x00000035       0x36 build/default/production/windows.o
  .comment       0x00000035       0x36 build/default/production/Cosmos.o
  .comment       0x00000035       0x36 build/default/production/refraction.o
- .comment       0x00000035       0x36 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+ .comment       0x00000035       0x36 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
  .comment       0x00000035       0x36 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
  .comment       0x00000035       0x36 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
  .comment       0x00000035       0x36 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
@@ -1466,7 +1466,7 @@ LOAD data_init
  .debug_aranges
                 0x000006a8       0x20 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_copy.o)
 
-.debug_line     0x00000000     0x911b
+.debug_line     0x00000000     0x9169
  .debug_line    0x00000000      0x195 build/default/production/main.o
  .debug_line    0x00000195      0x21c build/default/production/CLK.o
  .debug_line    0x000003b1      0x4bc build/default/production/ILI9341.o
@@ -1479,46 +1479,46 @@ LOAD data_init
  .debug_line    0x00001e8b      0xa5c build/default/production/A7672E.o
  .debug_line    0x000028e7      0x2f9 build/default/production/RTC.o
  .debug_line    0x00002be0      0xc0e build/default/production/BME680.o
- .debug_line    0x000037ee      0x739 build/default/production/windows.o
- .debug_line    0x00003f27      0x52e build/default/production/Cosmos.o
- .debug_line    0x00004455      0x19e build/default/production/refraction.o
- .debug_line    0x000045f3      0x163 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
- .debug_line    0x00004756      0x19b C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
- .debug_line    0x000048f1      0x162 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
- .debug_line    0x00004a53      0x161 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strlen.o)
- .debug_line    0x00004bb4      0x1d3 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strstr.o)
- .debug_line    0x00004d87       0xb2 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchr.o)
- .debug_line    0x00004e39      0x1d6 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchrnul.o)
- .debug_line    0x0000500f      0x1da C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o)
- .debug_line    0x000051e9       0xb5 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(libc.o)
- .debug_line    0x0000529e      0x29d C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vsnprintf.o)
- .debug_line    0x0000553b       0xfb C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__environ.o)
- .debug_line    0x00005636       0x9a C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__errno_location.o)
- .debug_line    0x000056d0      0x1d5 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vfprintf.o)
- .debug_line    0x000058a5       0x99 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__io_fmt_needed.o)
- .debug_line    0x0000593e      0x16c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_float.o)
- .debug_line    0x00005aaa      0x23f C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_int.o)
- .debug_line    0x00005ce9      0x1c4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_ptr.o)
- .debug_line    0x00005ead      0x76a C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
- .debug_line    0x00006617      0x17d C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(atoi.o)
- .debug_line    0x00006794      0x15d C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(tolower.o)
- .debug_line    0x000068f1      0x765 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_a.o)
- .debug_line    0x00007056      0x217 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_d.o)
- .debug_line    0x0000726d      0x76b C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_fp.o)
- .debug_line    0x000079d8      0x1b2 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_o.o)
- .debug_line    0x00007b8a      0x1f5 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_s.o)
- .debug_line    0x00007d7f      0x191 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_u.o)
- .debug_line    0x00007f10      0x304 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_x.o)
- .debug_line    0x00008214      0x15d C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(toupper.o)
- .debug_line    0x00008371      0x1de C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__cvt_u.o)
- .debug_line    0x0000854f      0x165 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memcpy.o)
- .debug_line    0x000086b4       0xab C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strcpy.o)
- .debug_line    0x0000875f      0x14e C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(stpcpy.o)
- .debug_line    0x000088ad       0x85 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_aeabi_uldivmod.o)
- .debug_line    0x00008932      0x522 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_udivmoddi4.o)
- .debug_line    0x00008e54       0x85 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_dvmd_tls.o)
- .debug_line    0x00008ed9      0x11c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_clear.o)
- .debug_line    0x00008ff5      0x126 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_copy.o)
+ .debug_line    0x000037ee      0x787 build/default/production/windows.o
+ .debug_line    0x00003f75      0x52e build/default/production/Cosmos.o
+ .debug_line    0x000044a3      0x19e build/default/production/refraction.o
+ .debug_line    0x00004641      0x163 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
+ .debug_line    0x000047a4      0x19b C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
+ .debug_line    0x0000493f      0x162 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
+ .debug_line    0x00004aa1      0x161 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strlen.o)
+ .debug_line    0x00004c02      0x1d3 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strstr.o)
+ .debug_line    0x00004dd5       0xb2 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchr.o)
+ .debug_line    0x00004e87      0x1d6 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchrnul.o)
+ .debug_line    0x0000505d      0x1da C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o)
+ .debug_line    0x00005237       0xb5 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(libc.o)
+ .debug_line    0x000052ec      0x29d C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vsnprintf.o)
+ .debug_line    0x00005589       0xfb C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__environ.o)
+ .debug_line    0x00005684       0x9a C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__errno_location.o)
+ .debug_line    0x0000571e      0x1d5 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vfprintf.o)
+ .debug_line    0x000058f3       0x99 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__io_fmt_needed.o)
+ .debug_line    0x0000598c      0x16c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_float.o)
+ .debug_line    0x00005af8      0x23f C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_int.o)
+ .debug_line    0x00005d37      0x1c4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_ptr.o)
+ .debug_line    0x00005efb      0x76a C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+ .debug_line    0x00006665      0x17d C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(atoi.o)
+ .debug_line    0x000067e2      0x15d C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(tolower.o)
+ .debug_line    0x0000693f      0x765 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_a.o)
+ .debug_line    0x000070a4      0x217 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_d.o)
+ .debug_line    0x000072bb      0x76b C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_fp.o)
+ .debug_line    0x00007a26      0x1b2 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_o.o)
+ .debug_line    0x00007bd8      0x1f5 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_s.o)
+ .debug_line    0x00007dcd      0x191 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_u.o)
+ .debug_line    0x00007f5e      0x304 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_x.o)
+ .debug_line    0x00008262      0x15d C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(toupper.o)
+ .debug_line    0x000083bf      0x1de C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__cvt_u.o)
+ .debug_line    0x0000859d      0x165 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memcpy.o)
+ .debug_line    0x00008702       0xab C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strcpy.o)
+ .debug_line    0x000087ad      0x14e C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(stpcpy.o)
+ .debug_line    0x000088fb       0x85 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_aeabi_uldivmod.o)
+ .debug_line    0x00008980      0x522 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_udivmoddi4.o)
+ .debug_line    0x00008ea2       0x85 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_dvmd_tls.o)
+ .debug_line    0x00008f27      0x11c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_clear.o)
+ .debug_line    0x00009043      0x126 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_copy.o)
 
 .debug_str      0x00000000     0x462f
  .debug_str     0x00000000     0x462f build/default/production/main.o
@@ -1908,7 +1908,7 @@ LOAD data_init
  .bss           0x00000000        0x0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
 
 .bss%z41        0x00000000        0x0
- .bss           0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+ .bss           0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
 
 .bss%z42        0x00000000        0x0
  .bss           0x00000000        0x0 build/default/production/refraction.o
@@ -2087,7 +2087,7 @@ LOAD data_init
  .data          0x00000000        0x0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
 
 .data%z90       0x00000000        0x0
- .data          0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+ .data          0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
 
 .data%z91       0x00000000        0x0
  .data          0x00000000        0x0 build/default/production/refraction.o
@@ -2157,799 +2157,799 @@ LOAD data_init
                 0x00035ddc                A7672ESetUp
                 0x00035ed4                A7672EInit
 
-.text%25        0x00035f84     0x10e8
- .text          0x00035f84     0x10e8 build/default/production/windows.o
+.text%25        0x00035f84     0x111c
+ .text          0x00035f84     0x111c build/default/production/windows.o
                 0x00035f84                UserInterface
 
-.text%26        0x0003706c     0x1094
- .text          0x0003706c     0x1094 build/default/production/BME680.o
-                0x0003706c                BME680_write
-                0x000370f0                BME680_exchange_data
-                0x0003718c                BME680_exchange_data_simple
-                0x00037236                BME680_change_page
-                0x000372a0                BME680_read_ID
-                0x000372dc                BME680_reset
-                0x00037314                BME680_Config
-                0x000373b0                BME680_Ctrl_meas
-                0x00037468                BME680_Ctrl_hum
-                0x00037504                BME680_Ctrl_gas
-                0x000375e8                BME680_gas_wait_90
-                0x000376b4                BME680_res_heat_90
-                0x00037780                BME680_idac_heat_90
-                0x00037850                BME680_read_gas
-                0x000378f8                BME680_read_hum
-                0x0003795c                BME680_read_temp
-                0x000379c4                BME680_read_pres
-                0x00037a2c                BME680_eas_status0
-                0x00037adc                BME680_read_gas_calib
-                0x00037aea                BME680_read_hum_calib
-                0x00037bd0                BME680_read_temp_calib
-                0x00037c44                BME680_read_pres_calib
-                0x00037d64                BME680_calculate_temperature
-                0x00037df0                BME680_calculate_pressure
-                0x00037fa8                BME680_calculate_humidity
-                0x000380d0                BME680_read_t_p_rh
+.text%26        0x000370a0     0x1094
+ .text          0x000370a0     0x1094 build/default/production/BME680.o
+                0x000370a0                BME680_write
+                0x00037124                BME680_exchange_data
+                0x000371c0                BME680_exchange_data_simple
+                0x0003726a                BME680_change_page
+                0x000372d4                BME680_read_ID
+                0x00037310                BME680_reset
+                0x00037348                BME680_Config
+                0x000373e4                BME680_Ctrl_meas
+                0x0003749c                BME680_Ctrl_hum
+                0x00037538                BME680_Ctrl_gas
+                0x0003761c                BME680_gas_wait_90
+                0x000376e8                BME680_res_heat_90
+                0x000377b4                BME680_idac_heat_90
+                0x00037884                BME680_read_gas
+                0x0003792c                BME680_read_hum
+                0x00037990                BME680_read_temp
+                0x000379f8                BME680_read_pres
+                0x00037a60                BME680_eas_status0
+                0x00037b10                BME680_read_gas_calib
+                0x00037b1e                BME680_read_hum_calib
+                0x00037c04                BME680_read_temp_calib
+                0x00037c78                BME680_read_pres_calib
+                0x00037d98                BME680_calculate_temperature
+                0x00037e24                BME680_calculate_pressure
+                0x00037fdc                BME680_calculate_humidity
+                0x00038104                BME680_read_t_p_rh
 
-.text%27        0x00038100      0xef4
- .text          0x00038100      0xef4 build/default/production/Cosmos.o
-                0x00038100                is_daylight_saving_time
-                0x000381f0                calculate_julian_day
-                0x00038394                calculate_solar_mean_anomaly
-                0x00038430                calculate_equation_of_center
-                0x000385a4                calculate_apparent_longitude
-                0x00038668                calculate_obliquity
-                0x00038740                calculate_declination
-                0x000387e8                calculate_equation_of_time
-                0x00038a7c                calculate_solar_position
+.text%27        0x00038138      0xef4
+ .text          0x00038138      0xef4 build/default/production/Cosmos.o
+                0x00038138                is_daylight_saving_time
+                0x00038228                calculate_julian_day
+                0x000383cc                calculate_solar_mean_anomaly
+                0x00038468                calculate_equation_of_center
+                0x000385dc                calculate_apparent_longitude
+                0x000386a0                calculate_obliquity
+                0x00038778                calculate_declination
+                0x00038820                calculate_equation_of_time
+                0x00038ab4                calculate_solar_position
 
-.text%28        0x00038ff4      0x830
- .text          0x00038ff4      0x830 build/default/production/ILI9341.o
-                0x00038ff4                ili9341_CMD
-                0x0003902c                ili9341_DATA
-                0x00039064                ILI9341_init_simple_32b
-                0x000390d8                ILI9341_fill_color_CPU
-                0x0003915c                ILI9341_draw_image_CPU
-                0x000391d8                ILI9341_draw_image_DMA
-                0x0003920a                ILI9341_fill_color_DMA
-                0x00039242                ili9341_set_address_window
-                0x000392a0                ili9341_draw_pixel
-                0x000392e0                ili9341_draw_char
-                0x000393ac                ili9341_draw_text
-                0x000393ec                ili9341_draw_text_wrap
-                0x00039470                normalize_newlines
-                0x000394e6                ILI9341_draw_formatted_line
-                0x00039644                ILI9341_draw_colored_line
-                0x00039722                ili9341_draw_rect
+.text%28        0x0003902c      0x830
+ .text          0x0003902c      0x830 build/default/production/ILI9341.o
+                0x0003902c                ili9341_CMD
+                0x00039064                ili9341_DATA
+                0x0003909c                ILI9341_init_simple_32b
+                0x00039110                ILI9341_fill_color_CPU
+                0x00039194                ILI9341_draw_image_CPU
+                0x00039210                ILI9341_draw_image_DMA
+                0x00039242                ILI9341_fill_color_DMA
+                0x0003927a                ili9341_set_address_window
+                0x000392d8                ili9341_draw_pixel
+                0x00039318                ili9341_draw_char
+                0x000393e4                ili9341_draw_text
+                0x00039424                ili9341_draw_text_wrap
+                0x000394a8                normalize_newlines
+                0x0003951e                ILI9341_draw_formatted_line
+                0x0003967c                ILI9341_draw_colored_line
+                0x0003975a                ili9341_draw_rect
 
-.text%29        0x00039824      0x7fc
- .text          0x00039824      0x7fc build/default/production/SERCOM.o
-                0x00039824                GCLK1_SERCOM_SPIM_core_init
-                0x00039898                GCLK2_SERCOM_I2CM_USARTM_core_init
-                0x000398c4                SERCOM_init
-                0x00039b44                SPI0_Transfer_32b_HW
-                0x00039bac                SPI0_Transfer_set_length
-                0x00039be8                SPI0_Transfer_32b_HW_cycle
-                0x00039c28                SPI0_Baud_Switch
-                0x00039c90                I2C_have_error
-                0x00039d00                swap_and_align
-                0x00039d30                I2C_write
-                0x00039e20                I2C_read
-                0x00039ecc                I2C_write_and_read
-                0x00039f06                USART_set_read_length
-                0x00039f40                USART_write_str
-                0x00039fe8                USART_printf
+.text%29        0x0003985c      0x7fc
+ .text          0x0003985c      0x7fc build/default/production/SERCOM.o
+                0x0003985c                GCLK1_SERCOM_SPIM_core_init
+                0x000398d0                GCLK2_SERCOM_I2CM_USARTM_core_init
+                0x000398fc                SERCOM_init
+                0x00039b7c                SPI0_Transfer_32b_HW
+                0x00039be4                SPI0_Transfer_set_length
+                0x00039c20                SPI0_Transfer_32b_HW_cycle
+                0x00039c60                SPI0_Baud_Switch
+                0x00039cc8                I2C_have_error
+                0x00039d38                swap_and_align
+                0x00039d68                I2C_write
+                0x00039e58                I2C_read
+                0x00039f04                I2C_write_and_read
+                0x00039f3e                USART_set_read_length
+                0x00039f78                USART_write_str
+                0x0003a020                USART_printf
 
 .text.__fmt_fp%30
-                0x0003a020      0x4cc
+                0x0003a058      0x4cc
  .text.__fmt_fp
-                0x0003a020      0x4cc C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_fp.o)
-                0x0003a020                __fmt_f_needed
-                0x0003a020                __fmt_fp
+                0x0003a058      0x4cc C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_fp.o)
+                0x0003a058                __fmt_f_needed
+                0x0003a058                __fmt_fp
 
 .text.__fmt_a%31
-                0x0003a4f0      0x4a0
- .text.__fmt_a  0x0003a4f0      0x4a0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_a.o)
-                0x0003a4f0                __fmt_a_needed
-                0x0003a4f0                __fmt_a
+                0x0003a528      0x4a0
+ .text.__fmt_a  0x0003a528      0x4a0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_a.o)
+                0x0003a528                __fmt_a_needed
+                0x0003a528                __fmt_a
 
-.rodata%32      0x0003a990      0x474
- .rodata        0x0003a990      0x474 build/default/production/windows.o
+.rodata%32      0x0003a9c8      0x470
+ .rodata        0x0003a9c8      0x470 build/default/production/windows.o
 
-.text%33        0x0003ae08      0x3b4
- .text          0x0003ae08      0x3b4 build/default/production/refraction.o
-                0x0003ae08                correct_solar_angles
-                0x0003b10c                apply_altitude_dip
-                0x0003b1ac                apply_all_elevation_modifies
+.text%33        0x0003ae38      0x3b4
+ .text          0x0003ae38      0x3b4 build/default/production/refraction.o
+                0x0003ae38                correct_solar_angles
+                0x0003b13c                apply_altitude_dip
+                0x0003b1dc                apply_all_elevation_modifies
 
 .text.__printf_core%34
-                0x0003b1bc      0x330
+                0x0003b1ec      0x330
  .text.__printf_core
-                0x0003b1bc      0x330 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
-                0x0003b1bc                __printf_core
+                0x0003b1ec      0x330 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+                0x0003b1ec                __printf_core
 
-.rodata%35      0x0003b4ec      0x325
- .rodata        0x0003b4ec      0x325 build/default/production/ILI9341.o
-                0x0003b4ec                font5x7
+.rodata%35      0x0003b51c      0x325
+ .rodata        0x0003b51c      0x325 build/default/production/ILI9341.o
+                0x0003b51c                font5x7
 
-.dinit%36       0x0003b814      0x2d0
- .dinit         0x0003b814      0x2d0 data_init
+.dinit%36       0x0003b844      0x2d0
+ .dinit         0x0003b844      0x2d0 data_init
 
-.text%37        0x0003bae4      0x2b4
- .text          0x0003bae4      0x2b4 build/default/production/TC.o
-                0x0003bae4                GCLK3_SERCOM_TC_core_init
-                0x0003bb10                TC0_init
-                0x0003bb8c                TC0_OFF
-                0x0003bbbc                TC0_ON
-                0x0003bc24                TC0_CHECKER
-                0x0003bc54                TC2_init
-                0x0003bcd0                TC2_OFF
-                0x0003bd00                TC2_ON
-                0x0003bd68                TC2_CHECKER
+.text%37        0x0003bb14      0x2b4
+ .text          0x0003bb14      0x2b4 build/default/production/TC.o
+                0x0003bb14                GCLK3_SERCOM_TC_core_init
+                0x0003bb40                TC0_init
+                0x0003bbbc                TC0_OFF
+                0x0003bbec                TC0_ON
+                0x0003bc54                TC0_CHECKER
+                0x0003bc84                TC2_init
+                0x0003bd00                TC2_OFF
+                0x0003bd30                TC2_ON
+                0x0003bd98                TC2_CHECKER
 
-.text%38        0x0003bd98      0x2a0
- .text          0x0003bd98      0x2a0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_udivmoddi4.o)
-                0x0003bd98                __udivmoddi4
+.text%38        0x0003bdc8      0x2a0
+ .text          0x0003bdc8      0x2a0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_udivmoddi4.o)
+                0x0003bdc8                __udivmoddi4
 
-.text.atan%39   0x0003c038      0x254
- .text.atan     0x0003c038      0x254 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(atan.o)
-                0x0003c038                atan
+.text.atan%39   0x0003c068      0x254
+ .text.atan     0x0003c068      0x254 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(atan.o)
+                0x0003c068                atan
 
-.text%40        0x0003c28c      0x248
- .text          0x0003c28c      0x248 build/default/production/RTC.o
-                0x0003c28c                RTC_init_calendar
-                0x0003c308                RTC_read_sys_time
-                0x0003c320                RTC_read_date_and_time
-                0x0003c394                datetime_to_RTC_format
-                0x0003c3fc                RTC_date_and_time_sync
-                0x0003c474                RTC_date_and_time_update
+.text%40        0x0003c2bc      0x248
+ .text          0x0003c2bc      0x248 build/default/production/RTC.o
+                0x0003c2bc                RTC_init_calendar
+                0x0003c338                RTC_read_sys_time
+                0x0003c350                RTC_read_date_and_time
+                0x0003c3c4                datetime_to_RTC_format
+                0x0003c42c                RTC_date_and_time_sync
+                0x0003c4a4                RTC_date_and_time_update
 
 .text.__aeabi_dadd%41
-                0x0003c4d4      0x23e
+                0x0003c504      0x23e
  .text.__aeabi_dadd
-                0x0003c4d4      0x23e C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dadd.o)
-                0x0003c4d4                __aeabi_dadd
+                0x0003c504      0x23e C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dadd.o)
+                0x0003c504                __aeabi_dadd
 
-.text%42        0x0003c714      0x218
- .text          0x0003c714      0x218 build/default/production/DMA.o
-                0x0003c714                DMA_init
-                0x0003c754                DMA_SERCOM0_TX_init
-                0x0003c770                SPI_DMA_LCD_send_area
-                0x0003c88c                DMA_SERCOM3_RX_init
-                0x0003c8a8                USART_DMA_Temp_Circular_BYTE_Init
-                0x0003c8f0                USART_DMA_Circular_BYTE_ENABLE
+.text%42        0x0003c744      0x218
+ .text          0x0003c744      0x218 build/default/production/DMA.o
+                0x0003c744                DMA_init
+                0x0003c784                DMA_SERCOM0_TX_init
+                0x0003c7a0                SPI_DMA_LCD_send_area
+                0x0003c8bc                DMA_SERCOM3_RX_init
+                0x0003c8d8                USART_DMA_Temp_Circular_BYTE_Init
+                0x0003c920                USART_DMA_Circular_BYTE_ENABLE
 
 .text.__aeabi_ddiv%43
-                0x0003c92c      0x216
+                0x0003c95c      0x216
  .text.__aeabi_ddiv
-                0x0003c92c      0x216 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_ddiv.o)
-                0x0003c92c                __aeabi_ddiv
+                0x0003c95c      0x216 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_ddiv.o)
+                0x0003c95c                __aeabi_ddiv
 
-.text%44        0x0003cb44      0x214
- .text          0x0003cb44      0x214 build/default/production/XPT2046.o
-                0x0003cb44                XPT2046_Read
-                0x0003cbac                XPT2046_Read_All
-                0x0003ccbc                XPT2046_switch
+.text%44        0x0003cb74      0x214
+ .text          0x0003cb74      0x214 build/default/production/XPT2046.o
+                0x0003cb74                XPT2046_Read
+                0x0003cbdc                XPT2046_Read_All
+                0x0003ccec                XPT2046_switch
 
-.rodata%45      0x0003cd58      0x214
- .rodata        0x0003cd58      0x214 build/default/production/A7672E.o
+.rodata%45      0x0003cd88      0x214
+ .rodata        0x0003cd88      0x214 build/default/production/A7672E.o
 
-.text.atan2%46  0x0003cf70      0x20c
- .text.atan2    0x0003cf70      0x20c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(atan2.o)
-                0x0003cf70                atan2
+.text.atan2%46  0x0003cfa0      0x20c
+ .text.atan2    0x0003cfa0      0x20c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(atan2.o)
+                0x0003cfa0                atan2
 
-.text%47        0x0003d17c      0x1f4
- .text          0x0003d17c      0x1f4 build/default/production/keyboard.o
-                0x0003d17c                draw_keyboard
-                0x0003d1d0                button_toggle
-                0x0003d1f8                source
+.text%47        0x0003d1ac      0x1f4
+ .text          0x0003d1ac      0x1f4 build/default/production/keyboard.o
+                0x0003d1ac                draw_keyboard
+                0x0003d200                button_toggle
+                0x0003d228                source
 
-.text.tan%48    0x0003d370      0x1a4
- .text.tan      0x0003d370      0x1a4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(tan.o)
-                0x0003d370                tan
+.text.tan%48    0x0003d3a0      0x1a4
+ .text.tan      0x0003d3a0      0x1a4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(tan.o)
+                0x0003d3a0                tan
 
-.text.acos%49   0x0003d518      0x174
- .text.acos     0x0003d518      0x174 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(acos.o)
-                0x0003d518                acos
+.text.acos%49   0x0003d548      0x174
+ .text.acos     0x0003d548      0x174 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(acos.o)
+                0x0003d548                acos
 
-.text.asin%50   0x0003d690      0x160
- .text.asin     0x0003d690      0x160 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(asin.o)
-                0x0003d690                asin
+.text.asin%50   0x0003d6c0      0x160
+ .text.asin     0x0003d6c0      0x160 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(asin.o)
+                0x0003d6c0                asin
 
-.text.fmod%51   0x0003d7f0      0x14c
- .text.fmod     0x0003d7f0      0x14c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(fmod.o)
-                0x0003d7f0                fmod
+.text.fmod%51   0x0003d820      0x14c
+ .text.fmod     0x0003d820      0x14c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(fmod.o)
+                0x0003d820                fmod
 
-.text.cos%52    0x0003d940      0x138
- .text.cos      0x0003d940      0x138 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(cos.o)
-                0x0003d940                cos
+.text.cos%52    0x0003d970      0x138
+ .text.cos      0x0003d970      0x138 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(cos.o)
+                0x0003d970                cos
 
-.text.sqrt%53   0x0003da78      0x134
- .text.sqrt     0x0003da78      0x134 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(sqrt.o)
-                0x0003da78                sqrt
+.text.sqrt%53   0x0003daa8      0x134
+ .text.sqrt     0x0003daa8      0x134 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(sqrt.o)
+                0x0003daa8                sqrt
 
 .text.__aeabi_dmul%54
-                0x0003dbac      0x130
+                0x0003dbdc      0x130
  .text.__aeabi_dmul
-                0x0003dbac      0x130 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dmul.o)
-                0x0003dbac                __aeabi_dmul
+                0x0003dbdc      0x130 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dmul.o)
+                0x0003dbdc                __aeabi_dmul
 
 .text.__fmt_x%55
-                0x0003dcdc      0x122
- .text.__fmt_x  0x0003dcdc      0x122 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_x.o)
-                0x0003dcdc                __fmt_x_needed
-                0x0003dcdc                __fmt_x
+                0x0003dd0c      0x122
+ .text.__fmt_x  0x0003dd0c      0x122 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_x.o)
+                0x0003dd0c                __fmt_x_needed
+                0x0003dd0c                __fmt_x
 
-.text.sin%56    0x0003de00      0x120
- .text.sin      0x0003de00      0x120 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(sin.o)
-                0x0003de00                sin
+.text.sin%56    0x0003de30      0x120
+ .text.sin      0x0003de30      0x120 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(sin.o)
+                0x0003de30                sin
 
-.text%57        0x0003df20      0x114
- .text          0x0003df20      0x114 build/default/production/CLK.o
-                0x0003df20                cpu_2MHz_TCXO_init
-                0x0003df74                cpu_120Mhz_DPLL0_XOSC1_init
-                0x0003dffc                delay_ms
+.text%57        0x0003df50      0x114
+ .text          0x0003df50      0x114 build/default/production/CLK.o
+                0x0003df50                cpu_2MHz_TCXO_init
+                0x0003dfa4                cpu_120Mhz_DPLL0_XOSC1_init
+                0x0003e02c                delay_ms
 
-.text.expf%58   0x0003e034      0x10c
- .text.expf     0x0003e034      0x10c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(expf.o)
-                0x0003e034                expf
+.text.expf%58   0x0003e064      0x10c
+ .text.expf     0x0003e064      0x10c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(expf.o)
+                0x0003e064                expf
 
 .rodata.__SEGGER_RTL_kahan_aT2%59
-                0x0003e140      0x100
+                0x0003e170      0x100
  .rodata.__SEGGER_RTL_kahan_aT2
-                0x0003e140      0x100 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_kahan_aT2.o)
-                0x0003e140                __SEGGER_RTL_kahan_aT2
+                0x0003e170      0x100 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_kahan_aT2.o)
+                0x0003e170                __SEGGER_RTL_kahan_aT2
 
-.text.tanf%60   0x0003e240       0xec
- .text.tanf     0x0003e240       0xec C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(tanf.o)
-                0x0003e240                tanf
+.text.tanf%60   0x0003e270       0xec
+ .text.tanf     0x0003e270       0xec C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(tanf.o)
+                0x0003e270                tanf
 
-.text%61        0x0003e32c       0xc4
- .text          0x0003e32c       0xc4 build/default/production/GPIO.o
-                0x0003e32c                GPIO_init
+.text%61        0x0003e35c       0xc4
+ .text          0x0003e35c       0xc4 build/default/production/GPIO.o
+                0x0003e35c                GPIO_init
 
 .text.__pop_int%62
-                0x0003e3f0       0xc4
+                0x0003e420       0xc4
  .text.__pop_int
-                0x0003e3f0       0xc4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_int.o)
-                0x0003e3f0                __pop_int_needed
-                0x0003e3f0                __pop_int
+                0x0003e420       0xc4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_int.o)
+                0x0003e420                __pop_int_needed
+                0x0003e420                __pop_int
 
-.text.floor%63  0x0003e4b8       0xc4
- .text.floor    0x0003e4b8       0xc4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(floor.o)
-                0x0003e4b8                floor
+.text.floor%63  0x0003e4e8       0xc4
+ .text.floor    0x0003e4e8       0xc4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(floor.o)
+                0x0003e4e8                floor
 
 .text.__SEGGER_RTL_float64_PolyEvalP%64
-                0x0003e57c       0xc4
+                0x0003e5ac       0xc4
  .text.__SEGGER_RTL_float64_PolyEvalP
-                0x0003e57c       0xc4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_PolyEvalP.o)
-                0x0003e57c                __SEGGER_RTL_float64_PolyEvalP
+                0x0003e5ac       0xc4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_PolyEvalP.o)
+                0x0003e5ac                __SEGGER_RTL_float64_PolyEvalP
 
 .text.__fmt_d%65
-                0x0003e640       0xa4
- .text.__fmt_d  0x0003e640       0xa4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_d.o)
-                0x0003e640                __fmt_d
-                0x0003e640                __fmt_d_needed
+                0x0003e670       0xa4
+ .text.__fmt_d  0x0003e670       0xa4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_d.o)
+                0x0003e670                __fmt_d
+                0x0003e670                __fmt_d_needed
 
-.text%66        0x0003e6e4       0x9c
- .text          0x0003e6e4       0x9c build/default/production/main.o
-                0x0003e6e4                main
+.text%66        0x0003e714       0x9c
+ .text          0x0003e714       0x9c build/default/production/main.o
+                0x0003e714                main
 
 .text.Reset_Handler%67
-                0x0003e780       0x94
+                0x0003e7b0       0x94
  .text.Reset_Handler
-                0x0003e780       0x94 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
-                0x0003e780                Reset_Handler
+                0x0003e7b0       0x94 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
+                0x0003e7b0                Reset_Handler
 
 .text.__SEGGER_RTL_float64_PolyEvalQ%68
-                0x0003e814       0x88
+                0x0003e844       0x88
  .text.__SEGGER_RTL_float64_PolyEvalQ
-                0x0003e814       0x88 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_PolyEvalQ.o)
-                0x0003e814                __SEGGER_RTL_float64_PolyEvalQ
+                0x0003e844       0x88 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_PolyEvalQ.o)
+                0x0003e844                __SEGGER_RTL_float64_PolyEvalQ
 
-.text.__pad%69  0x0003e89c       0x7c
- .text.__pad    0x0003e89c       0x7c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
-                0x0003e89c                __pad
+.text.__pad%69  0x0003e8cc       0x7c
+ .text.__pad    0x0003e8cc       0x7c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+                0x0003e8cc                __pad
 
 .text.__cvt_u%70
-                0x0003e918       0x78
- .text.__cvt_u  0x0003e918       0x78 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__cvt_u.o)
-                0x0003e918                __cvt_u
+                0x0003e948       0x78
+ .text.__cvt_u  0x0003e948       0x78 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__cvt_u.o)
+                0x0003e948                __cvt_u
 
 .text.__fmt_o%71
-                0x0003e990       0x72
- .text.__fmt_o  0x0003e990       0x72 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_o.o)
-                0x0003e990                __fmt_o
-                0x0003e990                __fmt_o_needed
+                0x0003e9c0       0x72
+ .text.__fmt_o  0x0003e9c0       0x72 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_o.o)
+                0x0003e9c0                __fmt_o
+                0x0003e9c0                __fmt_o_needed
 
 .text.__pop_ptr%72
-                0x0003ea02       0x70
+                0x0003ea32       0x70
  .text.__pop_ptr
-                0x0003ea02       0x70 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_ptr.o)
-                0x0003ea02                __pop_ptr
-                0x0003ea02                __pop_ptr_needed
+                0x0003ea32       0x70 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_ptr.o)
+                0x0003ea32                __pop_ptr
+                0x0003ea32                __pop_ptr_needed
 
 .rodata.__SEGGER_RTL_float64_ASinACos%73
-                0x0003ea78       0x70
+                0x0003eaa8       0x70
  .rodata.__SEGGER_RTL_float64_ASinACos
-                0x0003ea78       0x70 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_ASinACos.o)
-                0x0003ea78                __SEGGER_RTL_float64_ASinACos
+                0x0003eaa8       0x70 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_ASinACos.o)
+                0x0003eaa8                __SEGGER_RTL_float64_ASinACos
 
 .text.__strchrnul%74
-                0x0003eae8       0x60
+                0x0003eb18       0x60
  .text.__strchrnul
-                0x0003eae8       0x60 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchrnul.o)
-                0x0003eae8                strchrnul
-                0x0003eae8                __strchrnul
+                0x0003eb18       0x60 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchrnul.o)
+                0x0003eb18                strchrnul
+                0x0003eb18                __strchrnul
 
 .text.vsnprintf%75
-                0x0003eb48       0x60
+                0x0003eb78       0x60
  .text.vsnprintf
-                0x0003eb48       0x60 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vsnprintf.o)
-                0x0003eb48                vsnprintf
+                0x0003eb78       0x60 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vsnprintf.o)
+                0x0003eb78                vsnprintf
 
 .rodata.__SEGGER_RTL_float64_ATan%76
-                0x0003eba8       0x60
+                0x0003ebd8       0x60
  .rodata.__SEGGER_RTL_float64_ATan
-                0x0003eba8       0x60 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_ATan.o)
-                0x0003eba8                __SEGGER_RTL_float64_ATan
+                0x0003ebd8       0x60 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_ATan.o)
+                0x0003ebd8                __SEGGER_RTL_float64_ATan
 
 .text.__libc_start_init%77
-                0x0003ec08       0x5c
+                0x0003ec38       0x5c
  .text.__libc_start_init
-                0x0003ec08       0x5c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o)
-                0x0003ec08                __libc_init_array
+                0x0003ec38       0x5c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o)
+                0x0003ec38                __libc_init_array
 
 .text.__fmt_s%78
-                0x0003ec64       0x58
- .text.__fmt_s  0x0003ec64       0x58 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_s.o)
-                0x0003ec64                __fmt_s
-                0x0003ec64                __fmt_0_needed
-                0x0003ec64                __fmt_s_needed
+                0x0003ec94       0x58
+ .text.__fmt_s  0x0003ec94       0x58 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_s.o)
+                0x0003ec94                __fmt_s
+                0x0003ec94                __fmt_0_needed
+                0x0003ec94                __fmt_s_needed
 
 .text.__fmt_u%79
-                0x0003ecbc       0x56
- .text.__fmt_u  0x0003ecbc       0x56 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_u.o)
-                0x0003ecbc                __fmt_u_needed
-                0x0003ecbc                __fmt_u
+                0x0003ecec       0x56
+ .text.__fmt_u  0x0003ecec       0x56 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__fmt_u.o)
+                0x0003ecec                __fmt_u_needed
+                0x0003ecec                __fmt_u
 
-.text.ldexp%80  0x0003ed14       0x54
- .text.ldexp    0x0003ed14       0x54 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(ldexp.o)
-                0x0003ed14                ldexp
+.text.ldexp%80  0x0003ed44       0x54
+ .text.ldexp    0x0003ed44       0x54 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(ldexp.o)
+                0x0003ed44                ldexp
 
 .text.__aeabi_d2f%81
-                0x0003ed68       0x4c
+                0x0003ed98       0x4c
  .text.__aeabi_d2f
-                0x0003ed68       0x4c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_d2f.o)
-                0x0003ed68                __aeabi_d2f
+                0x0003ed98       0x4c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_d2f.o)
+                0x0003ed98                __aeabi_d2f
 
 .text.__aeabi_d2iz%82
-                0x0003edb4       0x4a
+                0x0003ede4       0x4a
  .text.__aeabi_d2iz
-                0x0003edb4       0x4a C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_d2iz.o)
-                0x0003edb4                __aeabi_d2iz
+                0x0003ede4       0x4a C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_d2iz.o)
+                0x0003ede4                __aeabi_d2iz
 
-.text.atoi%83   0x0003ee00       0x48
- .text.atoi     0x0003ee00       0x48 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(atoi.o)
-                0x0003ee00                atoi
+.text.atoi%83   0x0003ee30       0x48
+ .text.atoi     0x0003ee30       0x48 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(atoi.o)
+                0x0003ee30                atoi
 
-.text%84        0x0003ee48       0x40
- .text          0x0003ee48       0x40 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+.text%84        0x0003ee78       0x40
+ .text          0x0003ee78       0x40 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard/crtbegin.o
 
 .text.memmove%85
-                0x0003ee88       0x40
- .text.memmove  0x0003ee88       0x40 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
-                0x0003ee88                memmove
+                0x0003eeb8       0x40
+ .text.memmove  0x0003eeb8       0x40 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memmove.o)
+                0x0003eeb8                memmove
 
 .rodata.__SEGGER_RTL_float64_SinCos%86
-                0x0003eec8       0x40
+                0x0003eef8       0x40
  .rodata.__SEGGER_RTL_float64_SinCos
-                0x0003eec8       0x40 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_SinCos.o)
-                0x0003eec8                __SEGGER_RTL_float64_SinCos
+                0x0003eef8       0x40 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_SinCos.o)
+                0x0003eef8                __SEGGER_RTL_float64_SinCos
 
 .text.__SEGGER_RTL_float32_PolyEvalP%87
-                0x0003ef08       0x40
+                0x0003ef38       0x40
  .text.__SEGGER_RTL_float32_PolyEvalP
-                0x0003ef08       0x40 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float32_PolyEvalP.o)
-                0x0003ef08                __SEGGER_RTL_float32_PolyEvalP
+                0x0003ef38       0x40 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float32_PolyEvalP.o)
+                0x0003ef38                __SEGGER_RTL_float32_PolyEvalP
 
 .text.__aeabi_dcmple%88
-                0x0003ef48       0x3c
+                0x0003ef78       0x3c
  .text.__aeabi_dcmple
-                0x0003ef48       0x3c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmple.o)
-                0x0003ef48                __aeabi_dcmple
+                0x0003ef78       0x3c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmple.o)
+                0x0003ef78                __aeabi_dcmple
 
 .text.__aeabi_dcmpge%89
-                0x0003ef84       0x3c
+                0x0003efb4       0x3c
  .text.__aeabi_dcmpge
-                0x0003ef84       0x3c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmpge.o)
-                0x0003ef84                __aeabi_dcmpge
+                0x0003efb4       0x3c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmpge.o)
+                0x0003efb4                __aeabi_dcmpge
 
 .text.ldexpf%90
-                0x0003efc0       0x3c
- .text.ldexpf   0x0003efc0       0x3c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(ldexpf.o)
-                0x0003efc0                ldexpf
+                0x0003eff0       0x3c
+ .text.ldexpf   0x0003eff0       0x3c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(ldexpf.o)
+                0x0003eff0                ldexpf
 
 .text.strstr%91
-                0x0003effc       0x38
- .text.strstr   0x0003effc       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strstr.o)
-                0x0003effc                strstr
+                0x0003f02c       0x38
+ .text.strstr   0x0003f02c       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strstr.o)
+                0x0003f02c                strstr
 
 .text.__fmt_state%92
-                0x0003f034       0x38
+                0x0003f064       0x38
  .text.__fmt_state
-                0x0003f034       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
-                0x0003f034                __fmt_state
+                0x0003f064       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+                0x0003f064                __fmt_state
 
 .rodata.__SEGGER_RTL_float64_Tan%93
-                0x0003f070       0x38
+                0x0003f0a0       0x38
  .rodata.__SEGGER_RTL_float64_Tan
-                0x0003f070       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_Tan.o)
-                0x0003f070                __SEGGER_RTL_float64_Tan
+                0x0003f0a0       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float64_Tan.o)
+                0x0003f0a0                __SEGGER_RTL_float64_Tan
 
 .text.__aeabi_dcmpgt%94
-                0x0003f0a8       0x38
+                0x0003f0d8       0x38
  .text.__aeabi_dcmpgt
-                0x0003f0a8       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmpgt.o)
-                0x0003f0a8                __aeabi_dcmpgt
+                0x0003f0d8       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmpgt.o)
+                0x0003f0d8                __aeabi_dcmpgt
 
 .text.__aeabi_dcmplt%95
-                0x0003f0e0       0x38
+                0x0003f110       0x38
  .text.__aeabi_dcmplt
-                0x0003f0e0       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmplt.o)
-                0x0003f0e0                __aeabi_dcmplt
+                0x0003f110       0x38 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmplt.o)
+                0x0003f110                __aeabi_dcmplt
 
 .text.__pic32c_data_initialization%96
-                0x0003f118       0x34
+                0x0003f148       0x34
  .text.__pic32c_data_initialization
-                0x0003f118       0x34 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
-                0x0003f118                __pic32c_data_initialization
-                0x0003f118                __pic32_data_init
+                0x0003f148       0x34 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
+                0x0003f148                __pic32c_data_initialization
+                0x0003f148                __pic32_data_init
 
 .text.__aeabi_f2d%97
-                0x0003f14c       0x34
+                0x0003f17c       0x34
  .text.__aeabi_f2d
-                0x0003f14c       0x34 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_f2d.o)
-                0x0003f14c                __aeabi_f2d
+                0x0003f17c       0x34 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_f2d.o)
+                0x0003f17c                __aeabi_f2d
 
 .text.__aeabi_dcmpeq%98
-                0x0003f180       0x32
+                0x0003f1b0       0x32
  .text.__aeabi_dcmpeq
-                0x0003f180       0x32 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmpeq.o)
-                0x0003f180                __aeabi_dcmpeq
+                0x0003f1b0       0x32 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dcmpeq.o)
+                0x0003f1b0                __aeabi_dcmpeq
 
-.text%99        0x0003f1b4       0x30
- .text          0x0003f1b4       0x30 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_aeabi_uldivmod.o)
-                0x0003f1b4                __aeabi_uldivmod
+.text%99        0x0003f1e4       0x30
+ .text          0x0003f1e4       0x30 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_aeabi_uldivmod.o)
+                0x0003f1e4                __aeabi_uldivmod
 
 .text.__pop_float%100
-                0x0003f1e4       0x2a
+                0x0003f214       0x2a
  .text.__pop_float
-                0x0003f1e4       0x2a C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_float.o)
-                0x0003f1e4                __pop_float_needed
-                0x0003f1e4                __pop_float
+                0x0003f214       0x2a C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__pop_float.o)
+                0x0003f214                __pop_float_needed
+                0x0003f214                __pop_float
 
 .text.CMCC_Configure%101
-                0x0003f210       0x28
+                0x0003f240       0x28
  .text.CMCC_Configure
-                0x0003f210       0x28 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+                0x0003f240       0x28 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
 
 .text.__string_out%102
-                0x0003f238       0x28
+                0x0003f268       0x28
  .text.__string_out
-                0x0003f238       0x28 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
-                0x0003f238                __out
+                0x0003f268       0x28 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+                0x0003f268                __out
 
-.rodata%103     0x0003f260       0x24
- .rodata        0x0003f260       0x24 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+.rodata%103     0x0003f290       0x24
+ .rodata        0x0003f290       0x24 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.rodata%104     0x0003f284       0x24
- .rodata        0x0003f284       0x24 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard/crtend.o
+.rodata%104     0x0003f2b4       0x24
+ .rodata        0x0003f2b4       0x24 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard/crtend.o
 
 .text.__aeabi_i2d%105
-                0x0003f2a8       0x22
+                0x0003f2d8       0x22
  .text.__aeabi_i2d
-                0x0003f2a8       0x22 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_i2d.o)
-                0x0003f2a8                __aeabi_i2d
+                0x0003f2d8       0x22 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_i2d.o)
+                0x0003f2d8                __aeabi_i2d
 
-.text.fma%106   0x0003f2cc       0x20
- .text.fma      0x0003f2cc       0x20 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(fma.o)
-                0x0003f2cc                fma
+.text.fma%106   0x0003f2fc       0x20
+ .text.fma      0x0003f2fc       0x20 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(fma.o)
+                0x0003f2fc                fma
 
 .rodata.str1.1%107
-                0x0003f2ec       0x1f
+                0x0003f31c       0x1f
  .rodata.str1.1
-                0x0003f2ec       0x1f C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+                0x0003f31c       0x1f C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
                                   0x8 (size before relaxing)
 
 .text.__dinit_copy%108
-                0x0003f30c       0x1e
+                0x0003f33c       0x1e
  .text.__dinit_copy
-                0x0003f30c       0x1e C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_copy.o)
-                0x0003f30c                __dinit_copy_needed
-                0x0003f30c                __dinit_copy
+                0x0003f33c       0x1e C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_copy.o)
+                0x0003f33c                __dinit_copy_needed
+                0x0003f33c                __dinit_copy
 
 .text.vfprintf%109
-                0x0003f32a       0x1c
+                0x0003f35a       0x1c
  .text.vfprintf
-                0x0003f32a       0x1c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vfprintf.o)
-                0x0003f32a                vfprintf
+                0x0003f35a       0x1c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(vfprintf.o)
+                0x0003f35a                vfprintf
 
 .rodata.__SEGGER_RTL_float32_Tan%110
-                0x0003f348       0x1c
+                0x0003f378       0x1c
  .rodata.__SEGGER_RTL_float32_Tan
-                0x0003f348       0x1c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float32_Tan.o)
-                0x0003f348                __SEGGER_RTL_float32_Tan
+                0x0003f378       0x1c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__SEGGER_RTL_float32_Tan.o)
+                0x0003f378                __SEGGER_RTL_float32_Tan
 
 .text.__aeabi_ui2d%111
-                0x0003f364       0x1c
+                0x0003f394       0x1c
  .text.__aeabi_ui2d
-                0x0003f364       0x1c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_ui2d.o)
-                0x0003f364                __aeabi_ui2d
+                0x0003f394       0x1c C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_ui2d.o)
+                0x0003f394                __aeabi_ui2d
 
 .text.strlen%112
-                0x0003f380       0x18
- .text.strlen   0x0003f380       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strlen.o)
-                0x0003f380                strlen
+                0x0003f3b0       0x18
+ .text.strlen   0x0003f3b0       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strlen.o)
+                0x0003f3b0                strlen
 
 .text.memcpy%113
-                0x0003f398       0x18
- .text.memcpy   0x0003f398       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memcpy.o)
-                0x0003f398                memcpy
+                0x0003f3c8       0x18
+ .text.memcpy   0x0003f3c8       0x18 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memcpy.o)
+                0x0003f3c8                memcpy
 
-.rodata%114     0x0003f3b0       0x16
- .rodata        0x0003f3b0       0x16 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+.rodata%114     0x0003f3e0       0x16
+ .rodata        0x0003f3e0       0x16 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
 
-.rodata%115     0x0003f3c8       0x14
- .rodata        0x0003f3c8       0x14 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
+.rodata%115     0x0003f3f8       0x14
+ .rodata        0x0003f3f8       0x14 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
 
 .text.memset%116
-                0x0003f3dc       0x14
- .text.memset   0x0003f3dc       0x14 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
-                0x0003f3dc                memset
+                0x0003f40c       0x14
+ .text.memset   0x0003f40c       0x14 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(memset.o)
+                0x0003f40c                memset
 
 .text.strchr%117
-                0x0003f3f0       0x14
- .text.strchr   0x0003f3f0       0x14 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchr.o)
-                0x0003f3f0                strchr
+                0x0003f420       0x14
+ .text.strchr   0x0003f420       0x14 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strchr.o)
+                0x0003f420                strchr
 
 .text.stpcpy%118
-                0x0003f404       0x14
- .text.stpcpy   0x0003f404       0x14 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(stpcpy.o)
-                0x0003f404                __stpcpy
-                0x0003f404                stpcpy
+                0x0003f434       0x14
+ .text.stpcpy   0x0003f434       0x14 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(stpcpy.o)
+                0x0003f434                __stpcpy
+                0x0003f434                stpcpy
 
 .text.__dinit_clear%119
-                0x0003f418       0x12
+                0x0003f448       0x12
  .text.__dinit_clear
-                0x0003f418       0x12 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_clear.o)
-                0x0003f418                __dinit_clear
-                0x0003f418                __dinit_clear_needed
+                0x0003f448       0x12 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_clear.o)
+                0x0003f448                __dinit_clear
+                0x0003f448                __dinit_clear_needed
 
 .text.tolower%120
-                0x0003f42a        0xe
- .text.tolower  0x0003f42a        0xe C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(tolower.o)
-                0x0003f42a                tolower
+                0x0003f45a        0xe
+ .text.tolower  0x0003f45a        0xe C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(tolower.o)
+                0x0003f45a                tolower
 
 .text.toupper%121
-                0x0003f438        0xe
- .text.toupper  0x0003f438        0xe C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(toupper.o)
-                0x0003f438                toupper
+                0x0003f468        0xe
+ .text.toupper  0x0003f468        0xe C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(toupper.o)
+                0x0003f468                toupper
 
 .text.strcpy%122
-                0x0003f446        0xc
- .text.strcpy   0x0003f446        0xc C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strcpy.o)
-                0x0003f446                strcpy
+                0x0003f476        0xc
+ .text.strcpy   0x0003f476        0xc C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-size-musl.a(strcpy.o)
+                0x0003f476                strcpy
 
 .text.__aeabi_dsub%123
-                0x0003f452        0x8
+                0x0003f482        0x8
  .text.__aeabi_dsub
-                0x0003f452        0x8 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dsub.o)
-                0x0003f452                __aeabi_dsub
+                0x0003f482        0x8 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libm-fast-emfloat.a(__aeabi_dsub.o)
+                0x0003f482                __aeabi_dsub
 
 .text.__dummy_decompress%124
-                0x0003a4ec        0x4
+                0x00038134        0x4
  .text.__dummy_decompress
-                0x0003a4ec        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
-                0x0003a4ec                __dinit_decompress
-                0x0003a4ec                __dinit_copy_val_data
-                0x0003a4ec                __dinit_copy_emb
+                0x00038134        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
+                0x00038134                __dinit_decompress
+                0x00038134                __dinit_copy_val_data
+                0x00038134                __dinit_copy_emb
 
 .text.__dummy_fmt3%125
-                0x0003ae04        0x4
+                0x0003a524        0x4
  .text.__dummy_fmt3
-                0x0003ae04        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+                0x0003a524        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
 
 .text.__dummy_fmt4%126
-                0x0003cf6c        0x4
+                0x0003cf9c        0x4
  .text.__dummy_fmt4
-                0x0003cf6c        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+                0x0003cf9c        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
 
 .text.__dummy_fmts%127
-                0x0003d514        0x4
+                0x0003d544        0x4
  .text.__dummy_fmts
-                0x0003d514        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
+                0x0003d544        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__printf_core.o)
 
 .text.__tolower_l%128
-                0x0003d68c        0x4
+                0x0003d6bc        0x4
  .text.__tolower_l
-                0x0003d68c        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(tolower.o)
-                0x0003d68c                tolower_l
-                0x0003d68c                __tolower_l
+                0x0003d6bc        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(tolower.o)
+                0x0003d6bc                tolower_l
+                0x0003d6bc                __tolower_l
 
 .text.__toupper_l%129
-                0x0003d93c        0x4
+                0x0003d96c        0x4
  .text.__toupper_l
-                0x0003d93c        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(toupper.o)
-                0x0003d93c                __toupper_l
-                0x0003d93c                toupper_l
+                0x0003d96c        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(toupper.o)
+                0x0003d96c                __toupper_l
+                0x0003d96c                toupper_l
 
-.text%130       0x0003e4b4        0x4
- .text          0x0003e4b4        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_dvmd_tls.o)
-                0x0003e4b4                __aeabi_idiv0
-                0x0003e4b4                __aeabi_ldiv0
+.text%130       0x0003e4e4        0x4
+ .text          0x0003e4e4        0x4 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard\libgcc.a(_dvmd_tls.o)
+                0x0003e4e4                __aeabi_idiv0
+                0x0003e4e4                __aeabi_ldiv0
 
 .text.Dummy_Handler%131
-                0x0003c712        0x2
+                0x0003c742        0x2
  .text.Dummy_Handler
-                0x0003c712        0x2 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
-                0x0003c712                EIC_EXTINT_9_Handler
-                0x0003c712                TCC0_MC5_Handler
-                0x0003c712                SVCall_Handler
-                0x0003c712                SERCOM0_2_Handler
-                0x0003c712                USB_SOF_HSOF_Handler
-                0x0003c712                Reserved106
-                0x0003c712                TCC2_MC2_Handler
-                0x0003c712                EVSYS_0_Handler
-                0x0003c712                TRNG_Handler
-                0x0003c712                HardFault_Handler
-                0x0003c712                TC2_Handler
-                0x0003c712                USB_TRCPT0_Handler
-                0x0003c712                DAC_OTHER_Handler
-                0x0003c712                AC_Handler
-                0x0003c712                DAC_EMPTY_0_Handler
-                0x0003c712                DMAC_OTHER_Handler
-                0x0003c712                EIC_EXTINT_5_Handler
-                0x0003c712                SERCOM3_1_Handler
-                0x0003c712                SysTick_Handler
-                0x0003c712                SERCOM4_OTHER_Handler
-                0x0003c712                SERCOM3_2_Handler
-                0x0003c712                Reserved72
-                0x0003c712                EIC_EXTINT_6_Handler
-                0x0003c712                PendSV_Handler
-                0x0003c712                Reserved84
-                0x0003c712                EVSYS_3_Handler
-                0x0003c712                Reserved43
-                0x0003c712                QSPI_Handler
-                0x0003c712                NonMaskableInt_Handler
-                0x0003c712                TCC2_MC0_Handler
-                0x0003c712                PDEC_OTHER_Handler
-                0x0003c712                PDEC_MC1_Handler
-                0x0003c712                TCC2_MC1_Handler
-                0x0003c712                OSCCTRL_XOSC1_Handler
-                0x0003c712                PDEC_MC0_Handler
-                0x0003c712                EIC_EXTINT_4_Handler
-                0x0003c712                Reserved103
-                0x0003c712                EIC_EXTINT_7_Handler
-                0x0003c712                SERCOM0_OTHER_Handler
-                0x0003c712                EVSYS_OTHER_Handler
-                0x0003c712                Reserved128
-                0x0003c712                SERCOM0_0_Handler
-                0x0003c712                RTC_Handler
-                0x0003c712                UsageFault_Handler
-                0x0003c712                SERCOM4_0_Handler
-                0x0003c712                Reserved101
-                0x0003c712                TCC1_MC0_Handler
-                0x0003c712                SERCOM1_OTHER_Handler
-                0x0003c712                TCC2_OTHER_Handler
-                0x0003c712                EIC_EXTINT_11_Handler
-                0x0003c712                SUPC_BODDET_Handler
-                0x0003c712                Reserved79
-                0x0003c712                EIC_EXTINT_14_Handler
-                0x0003c712                OSC32KCTRL_Handler
-                0x0003c712                EVSYS_1_Handler
-                0x0003c712                DMAC_0_Handler
-                0x0003c712                SUPC_OTHER_Handler
-                0x0003c712                Reserved74
-                0x0003c712                WDT_Handler
-                0x0003c712                EIC_EXTINT_15_Handler
-                0x0003c712                Reserved111
-                0x0003c712                EIC_EXTINT_1_Handler
-                0x0003c712                SERCOM5_0_Handler
-                0x0003c712                TC1_Handler
-                0x0003c712                TCC1_MC1_Handler
-                0x0003c712                EIC_EXTINT_0_Handler
-                0x0003c712                TCC1_OTHER_Handler
-                0x0003c712                PAC_Handler
-                0x0003c712                SERCOM4_1_Handler
-                0x0003c712                TC3_Handler
-                0x0003c712                Reserved71
-                0x0003c712                Dummy_Handler
-                0x0003c712                DAC_RESRDY_0_Handler
-                0x0003c712                SERCOM5_1_Handler
-                0x0003c712                Reserved113
-                0x0003c712                DMAC_2_Handler
-                0x0003c712                TCC0_MC4_Handler
-                0x0003c712                USB_TRCPT1_Handler
-                0x0003c712                SERCOM0_1_Handler
-                0x0003c712                Reserved73
-                0x0003c712                Reserved42
-                0x0003c712                TCC0_MC3_Handler
-                0x0003c712                EIC_EXTINT_12_Handler
-                0x0003c712                OSCCTRL_DPLL0_Handler
-                0x0003c712                Reserved76
-                0x0003c712                SERCOM5_OTHER_Handler
-                0x0003c712                PM_Handler
-                0x0003c712                OSCCTRL_DFLL_Handler
-                0x0003c712                Reserved114
-                0x0003c712                DAC_RESRDY_1_Handler
-                0x0003c712                DMAC_1_Handler
-                0x0003c712                USB_OTHER_Handler
-                0x0003c712                TCC0_OTHER_Handler
-                0x0003c712                Reserved78
-                0x0003c712                EIC_EXTINT_10_Handler
-                0x0003c712                TCC1_MC3_Handler
-                0x0003c712                OSCCTRL_XOSC0_Handler
-                0x0003c712                TCC0_MC0_Handler
-                0x0003c712                EIC_EXTINT_2_Handler
-                0x0003c712                SDHC0_Handler
-                0x0003c712                SERCOM1_1_Handler
-                0x0003c712                PCC_Handler
-                0x0003c712                EIC_EXTINT_13_Handler
-                0x0003c712                SERCOM1_0_Handler
-                0x0003c712                Reserved102
-                0x0003c712                Reserved70
-                0x0003c712                PUKCC_Handler
-                0x0003c712                SERCOM2_1_Handler
-                0x0003c712                SERCOM1_2_Handler
-                0x0003c712                SERCOM3_0_Handler
-                0x0003c712                SERCOM4_2_Handler
-                0x0003c712                Reserved112
-                0x0003c712                TCC1_MC2_Handler
-                0x0003c712                ADC1_RESRDY_Handler
-                0x0003c712                NVMCTRL_1_Handler
-                0x0003c712                SERCOM5_2_Handler
-                0x0003c712                SERCOM2_2_Handler
-                0x0003c712                DAC_EMPTY_1_Handler
-                0x0003c712                ADC1_OTHER_Handler
-                0x0003c712                Reserved44
-                0x0003c712                OSCCTRL_DPLL1_Handler
-                0x0003c712                EIC_EXTINT_3_Handler
-                0x0003c712                SERCOM3_OTHER_Handler
-                0x0003c712                Reserved77
-                0x0003c712                Reserved104
-                0x0003c712                EIC_EXTINT_8_Handler
-                0x0003c712                NVMCTRL_0_Handler
-                0x0003c712                ADC0_RESRDY_Handler
-                0x0003c712                ADC0_OTHER_Handler
-                0x0003c712                MCLK_Handler
-                0x0003c712                EVSYS_2_Handler
-                0x0003c712                SERCOM2_OTHER_Handler
-                0x0003c712                BusFault_Handler
-                0x0003c712                FREQM_Handler
-                0x0003c712                TC0_Handler
-                0x0003c712                MemoryManagement_Handler
-                0x0003c712                Reserved105
-                0x0003c712                TCC0_MC1_Handler
-                0x0003c712                DMAC_3_Handler
-                0x0003c712                DebugMonitor_Handler
-                0x0003c712                RAMECC_Handler
-                0x0003c712                SERCOM2_0_Handler
-                0x0003c712                AES_Handler
-                0x0003c712                ICM_Handler
-                0x0003c712                TCC0_MC2_Handler
-                0x0003c712                Reserved75
+                0x0003c742        0x2 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
+                0x0003c742                EIC_EXTINT_9_Handler
+                0x0003c742                TCC0_MC5_Handler
+                0x0003c742                SVCall_Handler
+                0x0003c742                SERCOM0_2_Handler
+                0x0003c742                USB_SOF_HSOF_Handler
+                0x0003c742                Reserved106
+                0x0003c742                TCC2_MC2_Handler
+                0x0003c742                EVSYS_0_Handler
+                0x0003c742                TRNG_Handler
+                0x0003c742                HardFault_Handler
+                0x0003c742                TC2_Handler
+                0x0003c742                USB_TRCPT0_Handler
+                0x0003c742                DAC_OTHER_Handler
+                0x0003c742                AC_Handler
+                0x0003c742                DAC_EMPTY_0_Handler
+                0x0003c742                DMAC_OTHER_Handler
+                0x0003c742                EIC_EXTINT_5_Handler
+                0x0003c742                SERCOM3_1_Handler
+                0x0003c742                SysTick_Handler
+                0x0003c742                SERCOM4_OTHER_Handler
+                0x0003c742                SERCOM3_2_Handler
+                0x0003c742                Reserved72
+                0x0003c742                EIC_EXTINT_6_Handler
+                0x0003c742                PendSV_Handler
+                0x0003c742                Reserved84
+                0x0003c742                EVSYS_3_Handler
+                0x0003c742                Reserved43
+                0x0003c742                QSPI_Handler
+                0x0003c742                NonMaskableInt_Handler
+                0x0003c742                TCC2_MC0_Handler
+                0x0003c742                PDEC_OTHER_Handler
+                0x0003c742                PDEC_MC1_Handler
+                0x0003c742                TCC2_MC1_Handler
+                0x0003c742                OSCCTRL_XOSC1_Handler
+                0x0003c742                PDEC_MC0_Handler
+                0x0003c742                EIC_EXTINT_4_Handler
+                0x0003c742                Reserved103
+                0x0003c742                EIC_EXTINT_7_Handler
+                0x0003c742                SERCOM0_OTHER_Handler
+                0x0003c742                EVSYS_OTHER_Handler
+                0x0003c742                Reserved128
+                0x0003c742                SERCOM0_0_Handler
+                0x0003c742                RTC_Handler
+                0x0003c742                UsageFault_Handler
+                0x0003c742                SERCOM4_0_Handler
+                0x0003c742                Reserved101
+                0x0003c742                TCC1_MC0_Handler
+                0x0003c742                SERCOM1_OTHER_Handler
+                0x0003c742                TCC2_OTHER_Handler
+                0x0003c742                EIC_EXTINT_11_Handler
+                0x0003c742                SUPC_BODDET_Handler
+                0x0003c742                Reserved79
+                0x0003c742                EIC_EXTINT_14_Handler
+                0x0003c742                OSC32KCTRL_Handler
+                0x0003c742                EVSYS_1_Handler
+                0x0003c742                DMAC_0_Handler
+                0x0003c742                SUPC_OTHER_Handler
+                0x0003c742                Reserved74
+                0x0003c742                WDT_Handler
+                0x0003c742                EIC_EXTINT_15_Handler
+                0x0003c742                Reserved111
+                0x0003c742                EIC_EXTINT_1_Handler
+                0x0003c742                SERCOM5_0_Handler
+                0x0003c742                TC1_Handler
+                0x0003c742                TCC1_MC1_Handler
+                0x0003c742                EIC_EXTINT_0_Handler
+                0x0003c742                TCC1_OTHER_Handler
+                0x0003c742                PAC_Handler
+                0x0003c742                SERCOM4_1_Handler
+                0x0003c742                TC3_Handler
+                0x0003c742                Reserved71
+                0x0003c742                Dummy_Handler
+                0x0003c742                DAC_RESRDY_0_Handler
+                0x0003c742                SERCOM5_1_Handler
+                0x0003c742                Reserved113
+                0x0003c742                DMAC_2_Handler
+                0x0003c742                TCC0_MC4_Handler
+                0x0003c742                USB_TRCPT1_Handler
+                0x0003c742                SERCOM0_1_Handler
+                0x0003c742                Reserved73
+                0x0003c742                Reserved42
+                0x0003c742                TCC0_MC3_Handler
+                0x0003c742                EIC_EXTINT_12_Handler
+                0x0003c742                OSCCTRL_DPLL0_Handler
+                0x0003c742                Reserved76
+                0x0003c742                SERCOM5_OTHER_Handler
+                0x0003c742                PM_Handler
+                0x0003c742                OSCCTRL_DFLL_Handler
+                0x0003c742                Reserved114
+                0x0003c742                DAC_RESRDY_1_Handler
+                0x0003c742                DMAC_1_Handler
+                0x0003c742                USB_OTHER_Handler
+                0x0003c742                TCC0_OTHER_Handler
+                0x0003c742                Reserved78
+                0x0003c742                EIC_EXTINT_10_Handler
+                0x0003c742                TCC1_MC3_Handler
+                0x0003c742                OSCCTRL_XOSC0_Handler
+                0x0003c742                TCC0_MC0_Handler
+                0x0003c742                EIC_EXTINT_2_Handler
+                0x0003c742                SDHC0_Handler
+                0x0003c742                SERCOM1_1_Handler
+                0x0003c742                PCC_Handler
+                0x0003c742                EIC_EXTINT_13_Handler
+                0x0003c742                SERCOM1_0_Handler
+                0x0003c742                Reserved102
+                0x0003c742                Reserved70
+                0x0003c742                PUKCC_Handler
+                0x0003c742                SERCOM2_1_Handler
+                0x0003c742                SERCOM1_2_Handler
+                0x0003c742                SERCOM3_0_Handler
+                0x0003c742                SERCOM4_2_Handler
+                0x0003c742                Reserved112
+                0x0003c742                TCC1_MC2_Handler
+                0x0003c742                ADC1_RESRDY_Handler
+                0x0003c742                NVMCTRL_1_Handler
+                0x0003c742                SERCOM5_2_Handler
+                0x0003c742                SERCOM2_2_Handler
+                0x0003c742                DAC_EMPTY_1_Handler
+                0x0003c742                ADC1_OTHER_Handler
+                0x0003c742                Reserved44
+                0x0003c742                OSCCTRL_DPLL1_Handler
+                0x0003c742                EIC_EXTINT_3_Handler
+                0x0003c742                SERCOM3_OTHER_Handler
+                0x0003c742                Reserved77
+                0x0003c742                Reserved104
+                0x0003c742                EIC_EXTINT_8_Handler
+                0x0003c742                NVMCTRL_0_Handler
+                0x0003c742                ADC0_RESRDY_Handler
+                0x0003c742                ADC0_OTHER_Handler
+                0x0003c742                MCLK_Handler
+                0x0003c742                EVSYS_2_Handler
+                0x0003c742                SERCOM2_OTHER_Handler
+                0x0003c742                BusFault_Handler
+                0x0003c742                FREQM_Handler
+                0x0003c742                TC0_Handler
+                0x0003c742                MemoryManagement_Handler
+                0x0003c742                Reserved105
+                0x0003c742                TCC0_MC1_Handler
+                0x0003c742                DMAC_3_Handler
+                0x0003c742                DebugMonitor_Handler
+                0x0003c742                RAMECC_Handler
+                0x0003c742                SERCOM2_0_Handler
+                0x0003c742                AES_Handler
+                0x0003c742                ICM_Handler
+                0x0003c742                TCC0_MC2_Handler
+                0x0003c742                Reserved75
 
 .text.__dummy_init_tls%132
-                0x0003cb42        0x2
+                0x0003cb72        0x2
  .text.__dummy_init_tls
-                0x0003cb42        0x2 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
-                0x0003cb42                xc32_init_tls
+                0x0003cb72        0x2 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
+                0x0003cb72                xc32_init_tls
 
 .text.__dummy%133
-                0x0003ddfe        0x2
- .text.__dummy  0x0003ddfe        0x2 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o)
-                0x0003ddfe                __init_stdio
-                0x0003ddfe                __init_host
+                0x0003de2e        0x2
+ .text.__dummy  0x0003de2e        0x2 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libc-musl.a(__libc_start_main.o)
+                0x0003de2e                __init_stdio
+                0x0003de2e                __init_host
 
 .text%z103      0x00000000        0x0
  .text          0x00000000        0x0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(pic32_data_init_copy.o)
@@ -3060,7 +3060,7 @@ LOAD data_init
  .text          0x00000000        0x0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/../../../../pic32c/lib/thumb/v7e-m+fp/hard\libpic32c.a(data_init.o)
 
 .text%z139      0x00000000        0x0
- .text          0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\cc88KWFz.o
+ .text          0x00000000        0x0 C:\Users\Saulius\AppData\Local\Temp\ccmjPnbP.o
 
 .text%z140      0x00000000        0x0
  .text          0x00000000        0x0 C:/Program Files/Microchip/xc32/v5.10/bin/bin/../../lib/gcc/pic32c/13.2.1/thumb/v7e-m+fp/hard/crti.o

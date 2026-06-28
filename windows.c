@@ -7,8 +7,16 @@ void UserInterface(Windows_names_t window){
         //ignore init window and do nthing till it will be changed to one window from below list
         case MAIN_WINDOW:{
             if(!Windows.background_updater){
-                ILI9341_fill_color_DMA(DARK_GRAY); //fill screen 
-                ili9341_draw_rect(55, 0, 185, 10, BLACK, 1); //date and time button
+                ILI9341_fill_color_DMA(BLACK); //fill screen 
+                ili9341_draw_rect(0, 0, 240, 16, WHITE, 0); //date and time button
+                
+                ili9341_draw_rect(0, 20, 115, 80, CYAN, 0); //weather data
+                ili9341_draw_rect(117, 20, 123, 80, YELLOW, 0); //sun data
+                
+                ili9341_draw_rect(0, 104, 115, 80, GREEN, 0); //location data
+                ili9341_draw_rect(117, 104, 123, 80, TEAL, 0); //gsm/gnss data
+                
+                ili9341_draw_rect(0, 188, 240, 100, MISTYROSE, 0); //towers data
                 
                 Windows.background_updater = true;
             }
@@ -17,23 +25,20 @@ void UserInterface(Windows_names_t window){
 
                     
             if(Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time){ // update data every second once
-                uint16_t y = 0;
+                uint16_t y = 4;
                 ILI9341_draw_formatted_line(60, &y, WHITE, BLACK,  "%4d-%02d-%02d %02d:%02d:%02d", 
-                        RTC_Date_and_Time.RTC_year + 2000, 
-                        RTC_Date_and_Time.RTC_month, 
-                        RTC_Date_and_Time.RTC_day, 
-                        RTC_Date_and_Time.RTC_hour, 
-                        RTC_Date_and_Time.RTC_minute, 
-                        RTC_Date_and_Time.RTC_second);      
-                y = 0;
-                if(RTC_Date_and_Time.time_sync == NONE_sync)
-                    ILI9341_draw_formatted_line(190, &y, RED, BLACK,  "No fix  ");
-                else if(RTC_Date_and_Time.time_sync == GSM_sync)
-                    ILI9341_draw_formatted_line(190, &y, YELLOW, BLACK,  "GSM fix ");
-                else if(RTC_Date_and_Time.time_sync == GNSS_sync)
-                    ILI9341_draw_formatted_line(190, &y, GREEN, BLACK,  "GNSS fix");
-                else
-                    ILI9341_draw_formatted_line(190, &y, GREEN, BLACK,  "Manual  ");
+                    RTC_Date_and_Time.RTC_year + 2000, 
+                    RTC_Date_and_Time.RTC_month, 
+                    RTC_Date_and_Time.RTC_day, 
+                    RTC_Date_and_Time.RTC_hour, 
+                    RTC_Date_and_Time.RTC_minute, 
+                    RTC_Date_and_Time.RTC_second);      
+                y = 4;
+                ILI9341_draw_formatted_line(190, &y, WHITE, BLACK,  "%s", 
+                    (RTC_Date_and_Time.time_sync == NONE_sync) ? "No fix" : 
+                    (RTC_Date_and_Time.time_sync == GSM_sync) ? "GSM fix " : 
+                    (RTC_Date_and_Time.time_sync == GNSS_sync) ? "GNSS fix" : 
+                    "Manual  ");
                 
                 RTC_read_date_and_time();               
                 BME680_read_t_p_rh();
@@ -42,73 +47,73 @@ void UserInterface(Windows_names_t window){
                 
                 y = 24;
                    
-                ILI9341_draw_formatted_line(10, &y, CYAN, DARK_GRAY, "Weather Data:");
+                ILI9341_draw_formatted_line(15, &y, CYAN, BLACK, "Weather Data:");
                 y -=12;                 
-                ILI9341_draw_formatted_line(140, &y, YELLOW, DARK_GRAY, "Sun Data:\n");      
+                ILI9341_draw_formatted_line(145, &y, YELLOW, BLACK, "Sun Data:\n");      
                 
-                ILI9341_draw_formatted_line(0, &y, CYAN, DARK_GRAY, "Temperature:%3dC° ", (BME680.temperature + 50) / 100);
+                ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Temperature:%3dC° ", (BME680.temperature + 50) / 100);
                 y -=12;
-                ILI9341_draw_formatted_line(120, &y, YELLOW, DARK_GRAY, "Azimuth: %3.02f ", solar_params.azimuth);               
+                ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Azimuth: %3.02f ", solar_params.azimuth);               
                 
-                ILI9341_draw_formatted_line(0, &y, CYAN, DARK_GRAY, "Pressure: %4dhPa ", (BME680.pressure + 50) / 100);                
+                ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Pressure: %4dhPa ", (BME680.pressure + 50) / 100);                
                 y -=12;
-                ILI9341_draw_formatted_line(120, &y, YELLOW, DARK_GRAY, "Elevation: %3.02f ", solar_params.elevated_refracted_elevation);     
+                ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Elevation: %3.02f ", solar_params.elevated_refracted_elevation);     
                 
-                ILI9341_draw_formatted_line(0, &y, CYAN, DARK_GRAY, "Humidity: %3d% ", (BME680.humidity + 500) / 1000);    
-                ILI9341_draw_formatted_line(0, &y, CYAN, DARK_GRAY, "Wind speed: ... NE \n"); //example for layout
+                ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Humidity: %3d% ", (BME680.humidity + 500) / 1000);    
+                ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: 12m/s NE\n"); //example for layout
                 
                                            
-                ILI9341_draw_formatted_line(10, &y, GREEN, DARK_GRAY, "Location Data:");
+                ILI9341_draw_formatted_line(15, &y, GREEN, BLACK, "Location Data:");
                 y -=12;                 
-                ILI9341_draw_formatted_line(140, &y, TEAL, DARK_GRAY, "GSM/GNSS Data:\n"); 
+                ILI9341_draw_formatted_line(145, &y, TEAL, BLACK, "GSM/GNSS Data:\n"); 
                 
-                ILI9341_draw_formatted_line(0, &y, GREEN, DARK_GRAY, "Lat.: %3d.%04d°", solar_params.latitude / 10000, solar_params.latitude % 10000);
+                ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Lat.: %3d.%04d°", solar_params.latitude / 10000, solar_params.latitude % 10000);
                 y -=12;                 
-                ILI9341_draw_formatted_line(120, &y, TEAL, DARK_GRAY, "GSM signal: -57dBm"); 
+                ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GSM signal: -57dBm"); 
                 
-                ILI9341_draw_formatted_line(0, &y, GREEN, DARK_GRAY, "Long.: %3d.%04d°", solar_params.longitude / 10000, solar_params.longitude % 10000);
+                ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Long.: %3d.%04d°", solar_params.longitude / 10000, solar_params.longitude % 10000);
                 y -=12;                 
-                ILI9341_draw_formatted_line(120, &y, TEAL, DARK_GRAY, "GSM: registered");
+                ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GSM: registered");
                 
-                ILI9341_draw_formatted_line(0, &y, GREEN, DARK_GRAY, "Altitude: %4dm", solar_params.altitude);
+                ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Altitude: %4dm", solar_params.altitude);
                 y -=12;                 
-                ILI9341_draw_formatted_line(120, &y, TEAL, DARK_GRAY, "GNSS locked: 2D\n");
+                ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GNSS locked: %s", (A7672EGNSS.mode == 2) ? "2D" : (A7672EGNSS.mode == 3) ? "3D" : "NO");
                 
                 
+                y = 192;
+                ILI9341_draw_formatted_line(85, &y, MISTYROSE, BLACK, "Towers Data:\n");
+                ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Tower ID:");
+                y -=12;
+                ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "1");
+                y -=12;
+                ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "2");
                 
-                ILI9341_draw_formatted_line(80, &y, MISTYROSE, DARK_GRAY, "Towers Data:\n");
-                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Tower ID:");
+                ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Tracker Frame:");
                 y -=12;
-                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "1");
+                ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "179°A 57°E");
                 y -=12;
-                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "2");
+                ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "177°A 56°E");
                 
-                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Tracker Frame:");
+                ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Solar cells:");
                 y -=12;
-                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "179°A 57°E");
+                ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "210V 9.4A");
                 y -=12;
-                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "177°A 56°E");
+                ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "211V 9.5A");
                 
-                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Solar cells:");
+                ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Azimuth Motor:");
                 y -=12;
-                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "210V 9.4A");
+                ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "62V 1A");
                 y -=12;
-                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "211V 9.5A");
+                ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "62V 1A");
                 
-                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Azimuth Motor:");
+                ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Elevation Motor:");
                 y -=12;
-                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "62V 1A");
+                ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "25V 3A");
                 y -=12;
-                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "62V 1A");
+                ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "24V 2A");
                 
-                ILI9341_draw_formatted_line(0, &y, MISTYROSE, DARK_GRAY, "Elevation Motor:");
-                y -=12;
-                ILI9341_draw_formatted_line(100, &y, MISTYROSE, DARK_GRAY, "25V 3A");
-                y -=12;
-                ILI9341_draw_formatted_line(170, &y, MISTYROSE, DARK_GRAY, "24V 2A");
-                
-                
-                ILI9341_draw_formatted_line(0, &y, MAGENTA, DARK_GRAY, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);   
+                y=300;
+                ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);   
     
             }
             Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;       
