@@ -446,6 +446,30 @@ void A7672ReadNEMAGNSS(){   // READS GSM and GNSS date and time if success updat
     }
 }
 
+void A7672ReadGSMBasic(){   // READS GSM signal strength and registration in network status
+    if(A7672E_init.status != WORK)//if not WORK mode 
+        return; //skip further code
+    
+    uint16_t read_interval = 2500; //read every 2.5 s
+    
+    switch(A7672E_work.source){
+        case GNSS: //Read GNSS time
+            dma_receive_time_SM("AT+CGNSSINFO\r", "AT+CGNSSINFO\r\r\n+CGNSSINFO:", read_interval); //cmd and echo, wait 0.3 second
+            if(A7672E_work.cycle) A7672E_work.source = GSM; //if gnss locked, next time after RTC_Date_and_Time.time_sync resting (NONE) it starts with GSM time update. if RTC_Date_and_Time.time_sync reseting with (GSM) it starts GNSS time update
+        break;
+        
+        case GSM: //Read GSM time
+            if(RTC_Date_and_Time.time_sync == NONE_sync){ //if time not synced
+                dma_receive_time_SM("AT+CCLK?\r", "AT+CCLK?\r", read_interval); //cmd and echo, wait 0.1 second
+                if(A7672E_work.cycle) A7672E_work.source = GNSS; //switch to gnss time correction after GSM time is completed and corect
+            }
+            else{ //time is synced with gsm
+                A7672E_work.source = GNSS;
+            }              
+        break;
+    }
+}
+
 void A7672EPowerUpRead(uint16_t * y, char * buf){ //reads all data right away after start up
     switch(A7672E_init.state){
         case SET:

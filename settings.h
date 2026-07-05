@@ -45,6 +45,7 @@ extern "C" {
 #include "windows.h"
 #include "Cosmos.h"
 #include "refraction.h"
+#include "ADC.h"
 
 /* --- GPIO --- */
 // Initialize all required GPIO pins (LCD, SPI, control lines)
@@ -67,7 +68,7 @@ void delay_ms(uint32_t ms);
 // Initialize SERCOM core clock
 void GCLK1_SERCOM_SPIM_core_init();
 
-void GCLK2_SERCOM_I2CM_USARTM_core_init();
+void GCLK2_SERCOM_USARTM_core_init();
         
 void GCLK3_SERCOM_TC_core_init();
 
@@ -133,6 +134,8 @@ void USART_DMA_Circular_BYTE_STOP();
 void USART_DMA_Temp_Circular_BYTE_Init(char *RXBUF, uint16_t len);
 
 void USART_DMA_Circular_BYTE_ENABLE(bool enable);
+
+
 
 
 #ifdef	__cplusplus

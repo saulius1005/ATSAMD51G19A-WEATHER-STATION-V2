@@ -20,10 +20,12 @@ void GPIO_init() {
      */
     PORT_REGS->GROUP[1].PORT_DIRSET = PORT_PB09 | PORT_PB10 | PORT_PB11;
      /* 
+     * PA02 -> ADC0 IN (Wind speed)
+     * PA03 -> ADC0 IN (Wind direction) 
      * PA04 -> MISO SPI (SERCOM0)
      * PA18 -> A767E USART RX (SERCOM3)
      */
-    PORT_REGS->GROUP[0].PORT_DIRCLR = PORT_PA04 | PORT_PA18;
+    PORT_REGS->GROUP[0].PORT_DIRCLR =  PORT_PA02 | PORT_PA03 |PORT_PA04 | PORT_PA18;
     /* 
      * PB08 -> MISO BME680 SPI (SERCOM4)
      */
@@ -34,6 +36,8 @@ void GPIO_init() {
      * PA13 -> SCL I2C (SERCOM2) PAD1
      * no need to declarate
      */   
+    PORT_REGS->GROUP[0].PORT_PINCFG[2] = PORT_PINCFG_PMUXEN_Msk; // PA04 SERCOM0 SPI PAD0 MISO
+    PORT_REGS->GROUP[0].PORT_PINCFG[3] = PORT_PINCFG_PMUXEN_Msk; // PA04 SERCOM0 SPI PAD0 MISO
     PORT_REGS->GROUP[0].PORT_PINCFG[4] = PORT_PINCFG_PMUXEN_Msk; // PA04 SERCOM0 SPI PAD0 MISO
     PORT_REGS->GROUP[0].PORT_PINCFG[5] = PORT_PINCFG_PMUXEN_Msk; // PA05 SERCOM0 SPI PAD1 SCK
     PORT_REGS->GROUP[0].PORT_PINCFG[7] = PORT_PINCFG_PMUXEN_Msk; // PA07 SERCOM0 SPI PAD3 MOSI
@@ -51,6 +55,7 @@ void GPIO_init() {
      * PMUX pairs pins as even+odd: 0+1, 2+3, 4+5, ...
      * Function D = SERCOM (SPI in this case)
      */
+    PORT_REGS->GROUP[0].PORT_PMUX[2 >> 1] = PORT_PMUX_PMUXE_B | PORT_PMUX_PMUXO_B; // PA02 even, PA03 (odd) function B ADC0 AIN0 and AIN1
     PORT_REGS->GROUP[0].PORT_PMUX[4 >> 1] = PORT_PMUX_PMUXE_D | PORT_PMUX_PMUXO_D; // PA04 even, PA05 (odd) SERCOM0 function D
     PORT_REGS->GROUP[0].PORT_PMUX[6 >> 1] = /*PORT_PMUX_PMUXE_D |*/ PORT_PMUX_PMUXO_D; // PA06 even, PA07 odd //uncomment if need to use HW SS (for single device) SERCOM0 function D
     

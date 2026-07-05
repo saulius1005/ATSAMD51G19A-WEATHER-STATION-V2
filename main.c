@@ -12,8 +12,10 @@ int main(void) {
     cpu_120Mhz_DPLL0_XOSC1_init();       // Configure CPU clock to 128 MHz using DPLL0 with XOSC1 source   
     GPIO_init();                         // Initialize all required GPIO pins (SPI, LCD control, etc.)
     GCLK1_SERCOM_SPIM_core_init();
-    GCLK2_SERCOM_I2CM_USARTM_core_init();
+    GCLK2_SERCOM_USARTM_core_init();
     GCLK3_SERCOM_TC_core_init(); //clock core 1Mhz for TC0-us (16bit) and TC2-ms(32bit)
+    GCLK4_SERCOM_ADC_core_init();
+    ADC0_init();
     SERCOM_init(SPI_SCREEN);                    // Initialize SERCOM0 peripheral in SPI master mode
     SERCOM_init(SPI_SENSOR);
     SERCOM_init(USART_RS485);

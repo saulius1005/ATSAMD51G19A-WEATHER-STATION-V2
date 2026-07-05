@@ -59,6 +59,9 @@
       <itemPath>refraction.c</itemPath>
       <itemPath>refraction.h</itemPath>
       <itemPath>refractionVar.h</itemPath>
+      <itemPath>ADC.c</itemPath>
+      <itemPath>ADC.h</itemPath>
+      <itemPath>ADCVar.h</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

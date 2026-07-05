@@ -60,7 +60,10 @@ void UserInterface(Windows_names_t window){
                 ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Elevation: %3.02f ", solar_params.elevated_refracted_elevation);     
                 
                 ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Humidity: %3d% ", (BME680.humidity + 500) / 1000);    
-                ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: 12m/s NE\n"); //example for layout
+                
+                ADC0_read(WIND_SPEED);
+                ADC0_read(WIND_DIR);
+                ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: %dm/s %d\n", WIND.speed, WIND.direction); //example for layout
                 
                                            
                 ILI9341_draw_formatted_line(15, &y, GREEN, BLACK, "Location Data:");
