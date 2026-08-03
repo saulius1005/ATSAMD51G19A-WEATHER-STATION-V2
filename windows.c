@@ -345,7 +345,7 @@ void UserInterface(Windows_names_t window){
             static char posneg[3] = {'+','+','+'}; //latitude, longitude altitude default symbol +
             static uint8_t changing_current_param = 0; //0- none, 1-latitude, 2-longitude, 3-altitude, 4- auto (if gnss locked)
             static uint8_t pressCount[3] = {0}; 
-            static uint8_t countProtection = 55;
+            static uint8_t countProtection[3] = {55};
             uint16_t text_color = WHITE;            
             if(!Windows.background_updater){ //drawing not changing elements            
             keyboard.background_color = DARK_GREEN; 
@@ -383,106 +383,153 @@ void UserInterface(Windows_names_t window){
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color,  "Altitude: %4dm ", solar_params.altitude);
                     Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
                 }
-            }
-            
-            draw_keyboard(Windows.keyboardAction);
-            
-            if(Windows.keyboardAction == OPEN){ 
-                uint16_t y = 130;
-                uint16_t x = 60;
-                if(changing_current_param == 1){
-                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Latitude:", changing_current_param);
-                }
-                else if(changing_current_param == 2){
-                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Longitude:", changing_current_param);
-                    x = 66;
-                }
-                else if(changing_current_param == 3){
-                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Altitude:");
-                }
-                for(uint16_t clr = 0; clr < total[changing_current_param-1]; clr++){ 
-                    y = 130;
-                    uint16_t background = (pressCount[changing_current_param-1] == clr) ? RED : keyboard.background_color;
-                    
-                    if(clr == 0){ //draw latitude symbol - or + (default)
-                        ILI9341_draw_formatted_line(x, &y, text_color, background, "%c", posneg[changing_current_param-1]);
+                
+                draw_keyboard(Windows.keyboardAction);
+
+                if(Windows.keyboardAction == OPEN){ 
+                    uint16_t y = 130;
+                    uint16_t x = 60;
+                    if(changing_current_param == 1){
+                        ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Latitude:", changing_current_param);
                     }
-                    else if(clr < total[changing_current_param-1]){
+                    else if(changing_current_param == 2){
+                        ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Longitude:", changing_current_param);
+                        x = 66;
+                    }
+                    else if(changing_current_param == 3){
+                        ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Altitude:");
+                    }
+                    for(uint16_t clr = 0; clr < total[changing_current_param-1]; clr++){ 
                         y = 130;
-                        ILI9341_draw_formatted_line(x, &y, text_color, background, "%01d", LAT[clr-1]); //draw digits of the date and time                             
-                    }            
-                    x += 6;
-                    
-                    if(changing_current_param-1 < 2){
-                        uint8_t dot = 2;
-                        if(changing_current_param-1 == 1)
-                            dot = 3;
-                        if(clr == dot){//dot after 3 digits for longitude and for latitude dot after 2 digits
-                            y = 130; 
-                            ILI9341_draw_formatted_line(x, &y, text_color, background, ","); 
-                            x += 6;
-                        }                        
+                        uint16_t background = (pressCount[changing_current_param-1] == clr) ? RED : keyboard.background_color;
+
+                        if(clr == 0){ //draw latitude symbol - or + (default)
+                            ILI9341_draw_formatted_line(x, &y, text_color, background, "%c", posneg[changing_current_param-1]);
+                        }
+                        else if(clr < total[changing_current_param-1]){
+                            y = 130;
+                            ILI9341_draw_formatted_line(x, &y, text_color, background, "%01d", LAT[clr-1]); //draw digits of the date and time                             
+                        }            
+                        x += 6;
+
+                        if(changing_current_param-1 < 2){
+                            uint8_t dot = 2;
+                            if(changing_current_param-1 == 1)
+                                dot = 3;
+                            if(clr == dot){//dot after 3 digits for longitude and for latitude dot after 2 digits
+                                y = 130; 
+                                ILI9341_draw_formatted_line(x, &y, text_color, keyboard.background_color, ","); 
+                                x += 6;
+                            }                        
+                        }
+
                     }
-                    
+
+                    if(Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL) //infinite press protection
+                        countProtection[changing_current_param-1] = 55; 
+    ////////////////////////////////////////////////////////////////////////////////
+                    if (Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL) { // if touch pressing hard enough
+                        for(uint8_t i = 0; i < 16; i++){ //find where is pressing
+                            if((Read_XPT2046.X >= keysMap.keyboard_buttons[i].X0) && (Read_XPT2046.X <= keysMap.keyboard_buttons[i].X1) &&  (Read_XPT2046.Y >= keysMap.keyboard_buttons[i].Y0) && (Read_XPT2046.Y <= keysMap.keyboard_buttons[i].Y1)) {
+                                if(countProtection[changing_current_param-1] != pressCount[changing_current_param-1]) { //accept only once and one symbol per pressing
+                                    Windows.once_per_second_update += 1;
+                                    if(keysMap.keyboard_buttons[i].digit <= 9){ 
+                                        if((pressCount[changing_current_param-1] < (total[changing_current_param-1]-1)) && pressCount[changing_current_param-1] > 0){ //changing digits only after + or - symbol
+                                            if(changing_current_param-1 == 0)
+                                                LAT[pressCount[changing_current_param-1]] = keysMap.keyboard_buttons[i].digit; //latitude
+                                            else if(changing_current_param-1 == 1)
+                                                LNG[pressCount[changing_current_param-1]] = keysMap.keyboard_buttons[i].digit;  //longitude
+                                            else if(changing_current_param-1 == 2)
+                                                ALT[pressCount[changing_current_param-1]] = keysMap.keyboard_buttons[i].digit; //altitude
+                                            pressCount[changing_current_param-1]++;
+                                        } 
+                                    }
+                                    else if(pressCount[changing_current_param-1] == 0 && ((keysMap.keyboard_buttons[i].value == '-')||(keysMap.keyboard_buttons[i].value == '+'))){ //only if changing  + or - symbols
+                                        pressCount[changing_current_param-1] ++;
+                                        posneg[changing_current_param-1] = keysMap.keyboard_buttons[i].value;
+                                    }
+
+                                    if(pressCount[changing_current_param-1] == (total[changing_current_param-1]-1) && keysMap.keyboard_buttons[i].value == '>' ){
+                                        //empty for now
+                                    }            
+                                    else if((pressCount[changing_current_param-1] > 2) && (keysMap.keyboard_buttons[i].value == '<')){
+                                        pressCount[changing_current_param-1]--; 
+                                    }
+                                    else if(keysMap.keyboard_buttons[i].value == 'x'){ //clear whole line and close keyboard
+                                        /*for(uint8_t x = 2; x < 14; x++) DT[x] = 0;     */                                       
+                                        pressCount[changing_current_param-1] = 0;
+                                        uint16_t y = 130;
+                                        ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color,"                                             "); 
+                                        Windows.Window = LOCATION_WINDOW;
+                                        Windows.keyboardAction = CLOSE;  
+                                        Windows.once_per_second_update = 88;//just  random digit
+                                    }
+                                    countProtection[changing_current_param-1] = pressCount[changing_current_param-1];
+                                    break; // if button presset stoping for cycle and continue further
+                                }
+                            }                        
+                        }  
+                    }                
+
+    ////////////////////////////////////////////////////////////////////////////////
+                }            
+
+                // Touch button check
+                if(XPT2046_switch(64, 812, 3700, 4000)){ // < 
+                    Windows.background_updater = false; 
+                    Windows.Window = MAIN_WINDOW;
+                    Windows.keyboardAction = CLOSE;
+                    changing_current_param = 0;
+                    Windows.once_per_second_update = 0; 
+                } 
+                else if (XPT2046_switch(844, 1624, 3700, 4000)){  // LATI
+                    if((changing_current_param == 2) || (changing_current_param == 3)){
+                        Windows.background_updater = false;
+                        if(Windows.keyboardAction == CLOSE)
+                            Windows.keyboardAction = OPEN;
+                    }
+                    else{                  
+                       Windows.keyboardAction ^= 1;
+                    }
+                    Windows.once_per_second_update = 0;                
+                    changing_current_param = 1;
                 }
-
-                if(Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL) //infinite press protection
-                    countProtection = 55; 
-
-            }            
+                else if (XPT2046_switch(1656, 2436, 3700, 4000)){ // LONG
+                    if((changing_current_param == 1) || (changing_current_param == 3)){
+                        Windows.background_updater = false;
+                        if(Windows.keyboardAction == CLOSE)
+                            Windows.keyboardAction = OPEN;
+                    }
+                    else{
+                        Windows.keyboardAction ^= 1;
+                    }
+                    Windows.once_per_second_update = 0;               
+                    changing_current_param = 2;
+                }
+                else if (XPT2046_switch(2468, 3248, 3700, 4000)){ // ALTI
+                    if((changing_current_param == 1) || (changing_current_param == 2)){
+                        Windows.background_updater = false;
+                        if(Windows.keyboardAction == CLOSE)
+                            Windows.keyboardAction = OPEN;;
+                    }
+                    else{
+                        Windows.keyboardAction ^= 1;
+                    }
+                    Windows.once_per_second_update = 0;             
+                    changing_current_param = 3;
+                }
+                else if (XPT2046_switch(3280, 4000, 3700, 4000)){ // AUTO
+                    Windows.background_updater = false;
+                    Windows.keyboardAction = CLOSE;
+                    Windows.once_per_second_update = 0; 
+                    Windows.keyboardAction ^= 1;
+                    changing_current_param = 4;
+                }                
+                
+            }
             
-            // Touch button check
-            if(XPT2046_switch(64, 812, 3700, 4000)){ // < 
-                Windows.background_updater = false; 
-                Windows.Window = MAIN_WINDOW;
-                Windows.keyboardAction = CLOSE;
-                changing_current_param = 0;
-                Windows.once_per_second_update = 0; 
-            } 
-            else if (XPT2046_switch(844, 1624, 3700, 4000)){  // LATI
-                if((changing_current_param == 2) || (changing_current_param == 3)){
-                    Windows.background_updater = false;
-                    if(Windows.keyboardAction == CLOSE)
-                        Windows.keyboardAction = OPEN;
-                }
-                else{                  
-                   Windows.keyboardAction ^= 1;
-                }
-                Windows.once_per_second_update = 0;                
-                changing_current_param = 1;
-            }
-            else if (XPT2046_switch(1656, 2436, 3700, 4000)){ // LONG
-                if((changing_current_param == 1) || (changing_current_param == 3)){
-                    Windows.background_updater = false;
-                    if(Windows.keyboardAction == CLOSE)
-                        Windows.keyboardAction = OPEN;
-                }
-                else{
-                    Windows.keyboardAction ^= 1;
-                }
-                Windows.once_per_second_update = 0;               
-                changing_current_param = 2;
-            }
-            else if (XPT2046_switch(2468, 3248, 3700, 4000)){ // ALTI
-                if((changing_current_param == 1) || (changing_current_param == 2)){
-                    Windows.background_updater = false;
-                    if(Windows.keyboardAction == CLOSE)
-                        Windows.keyboardAction = OPEN;;
-                }
-                else{
-                    Windows.keyboardAction ^= 1;
-                }
-                Windows.once_per_second_update = 0;             
-                changing_current_param = 3;
-            }
-            else if (XPT2046_switch(3280, 4000, 3700, 4000)){ // AUTO
-                Windows.background_updater = false;
-                Windows.keyboardAction = CLOSE;
-                Windows.once_per_second_update = 0; 
-                Windows.keyboardAction ^= 1;
-                changing_current_param = 4;
-            }
-        }break;
+        }
+        break;
         case TOWER_WINDOW:
         break;
         case SETTINGS_WINDOW:
