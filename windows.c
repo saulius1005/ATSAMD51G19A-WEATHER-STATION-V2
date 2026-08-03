@@ -22,7 +22,7 @@ void UserInterface(Windows_names_t window){
             }
             else { //if background was drawed show other data         
                 
-
+            ADC0_read(WIND_SPEED); //read wind speed to catch gust of wind
                     
             if(Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time){ // update data every second once
                 uint16_t y = 4;
@@ -61,9 +61,8 @@ void UserInterface(Windows_names_t window){
                 
                 ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Humidity: %3d% ", (BME680.humidity + 500) / 1000);    
                 
-                ADC0_read(WIND_SPEED);
-                ADC0_read(WIND_DIR);
-                ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: %dm/s %d\n", WIND.speed, WIND.direction); //example for layout
+                ADC0_read(WIND_DIR); //read wind direction every second;
+                ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: %dm/s %s\n", WIND.speed, WindDirNames()); //example for layout
                 
                                            
                 ILI9341_draw_formatted_line(15, &y, GREEN, BLACK, "Location Data:");
@@ -72,11 +71,17 @@ void UserInterface(Windows_names_t window){
                 
                 ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Lat.: %3d.%04d°", solar_params.latitude / 10000, solar_params.latitude % 10000);
                 y -=12;                 
-                ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GSM signal: -57dBm"); 
+                
+                if(A7672E_GSM_STATUS.bad_signal){ //if rssi is 32...99 
+                    ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GSM: No Signal!"); 
+                }
+                else{
+                    ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GSM signal: %3ddBm ", A7672E_GSM_STATUS.rssi);                     
+                }          
                 
                 ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Long.: %3d.%04d°", solar_params.longitude / 10000, solar_params.longitude % 10000);
                 y -=12;                 
-                ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GSM: registered");
+                ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GSM Registration: %d", A7672E_GSM_STATUS.reg_status);
                 
                 ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Altitude: %4dm", solar_params.altitude);
                 y -=12;                 

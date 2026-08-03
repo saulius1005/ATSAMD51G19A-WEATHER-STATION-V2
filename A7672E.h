@@ -41,6 +41,11 @@ typedef enum {
 }A7672Etime_source_t;
 
 typedef enum {
+    SIGNAL = 0,
+    REGISTRATION
+}A7672EgsmSR_source_t;
+
+typedef enum {
     SET = 0,
     WAIT,
     DONE
@@ -82,6 +87,12 @@ typedef struct {
     A7672states_t state;
 }A7672E_work_list_t;
 
+typedef struct {
+    bool cycle;
+    A7672EgsmSR_source_t source;
+    A7672states_t state;
+}A7672E_regsig_list_t;
+
 
 typedef struct {
     uint8_t GNSS_year;
@@ -106,6 +117,17 @@ typedef struct {
     
 } A7672E_gnss_gsm_calendar_t;
 
+
+typedef struct {
+    int8_t rssi; //dBm
+    uint8_t ber; //% not using but described
+    bool bad_signal; //flag for signal is unavailable
+    uint8_t reg_status;
+    uint8_t n; // if creg first digit is 2 returns additional information - not used but described
+    
+} A7672E_gsm_status_t;
+
+
 typedef struct { // for cmd list at initialization of http or gnss
     CommandList_t *list; //array for cmd storage
     uint8_t size; // cmd count in total
@@ -119,6 +141,8 @@ extern GNSS_data_list_t A7672EGNSS;
 extern A7672E_gnss_gsm_calendar_t A7672EGSM;
 extern A7672E_init_list_t A7672E_init;
 extern A7672E_work_list_t A7672E_work;
+extern A7672E_regsig_list_t A7672E_GSM_STATUS_STATE;
+extern A7672E_gsm_status_t A7672E_GSM_STATUS;
 
 
 void A7672EInit(); //initialization of module HTTP, GPS
@@ -130,6 +154,8 @@ void A7672EsendCommandsInit(); //sending at commands from list at a7672var.h
 bool is_time_correct(uint8_t Y, uint8_t M, uint8_t D, uint8_t h, uint8_t m, uint8_t s, bool checkRTC); //check if date and time is correct
 
 void apply_timezone(volatile uint8_t *year, volatile uint8_t *month, volatile uint8_t *day, volatile uint8_t *hour, int8_t TZ); // aplying time zone
+
+void A7672ReadGSMBasic(); //read gsm rssi strength and gsm resgistration status in network
 
 #ifdef	__cplusplus
 }

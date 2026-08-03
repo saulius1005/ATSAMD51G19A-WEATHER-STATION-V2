@@ -46,6 +46,7 @@ extern "C" {
 #include "Cosmos.h"
 #include "refraction.h"
 #include "ADC.h"
+#include "TCC.h"
 
 /* --- GPIO --- */
 // Initialize all required GPIO pins (LCD, SPI, control lines)

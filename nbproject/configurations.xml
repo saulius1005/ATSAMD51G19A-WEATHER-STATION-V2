@@ -62,6 +62,9 @@
       <itemPath>ADC.c</itemPath>
       <itemPath>ADC.h</itemPath>
       <itemPath>ADCVar.h</itemPath>
+      <itemPath>TCC.h</itemPath>
+      <itemPath>TCCVar.h</itemPath>
+      <itemPath>TCC.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

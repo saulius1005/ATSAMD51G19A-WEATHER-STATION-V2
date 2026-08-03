@@ -1,0 +1,28 @@
+/* 
+ * File:   TCC.h
+ * Author: Saulius
+ *
+ * Created on Pirmadienis, 2026, rugpjûtis 3, 09.14
+ */
+
+#ifndef TCC_H
+#define	TCC_H
+
+#ifdef	__cplusplus
+extern "C" {
+#endif
+
+extern volatile bool TCC0_timeout;
+
+void TCC0_init(); //TCC0 used for GSM status update rssi, registration and so on
+void TCC0_OFF();
+void TCC0_ON(uint32_t period_us);
+void TCC0_CHECKER();
+
+
+#ifdef	__cplusplus
+}
+#endif
+
+#endif	/* TCC_H */
+

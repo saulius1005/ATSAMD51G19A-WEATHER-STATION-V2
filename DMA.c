@@ -73,3 +73,5 @@ void USART_DMA_Circular_BYTE_ENABLE(bool enable){
         DMAC_REGS->CHANNEL[1].DMAC_CHCTRLA &= ~DMAC_CHCTRLA_ENABLE_Msk;
     }
 }
+
+

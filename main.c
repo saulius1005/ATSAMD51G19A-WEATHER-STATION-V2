@@ -22,6 +22,7 @@ int main(void) {
     SERCOM_init(USART_GSM);
     TC0_init();    
     TC2_init(); 
+    TCC0_init();
     RTC_init_calendar();
     ILI9341_CS_HIGH();
     XPT2046_CS_HIGH();
@@ -36,22 +37,18 @@ int main(void) {
     //delay_ms(500); 
     //ILI9341_draw_image_DMA(windmill); //draw windmill
     //delay_ms(500);  
-
-    //Source_data touch_areas[] = { //for blue square button- touch map
-    //{448, 1660, 3168, 3552, 100, 0, BTN_0} //x0, x1, y0, y1, z1(z0),keypad closed, id
-    //};
-
         
     while(1){
         A7672EInit(); //SIMCOM A7672E initialization active until reach WORK mode
-        A7672ReadNEMAGNSS(); //read SIMCOM A7672E GNNS and GSM time (interrupt+ machine state) active when A7672E_init.status == WORK           
+        A7672ReadNEMAGNSS(); //read SIMCOM A7672E GNNS and GSM time (interrupt+ machine state) active when A7672E_init.status == WORK         
+        A7672ReadGSMBasic(); //read rssi signal strength and gsm registration status in network. active when A7672E_init.status == WORK and RTC_Date_and_Time.time_sync > NONE_sync
         XPT2046_Read_All(); //checking touch screen
-        //source(&touch_areas[0]);//read touch screen. Keyboard image control by pressing blue square  
         UserInterface(Windows.Window); //after initialization show main window
         RTC_date_and_time_update(); //update rtc time with gsm or gnss 
         RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                
         TC0_CHECKER(); //check tc0 timeout
         TC2_CHECKER(); //check tc2 timeout
+        TCC0_CHECKER(); //check tcc0 timeout checking gsm signal strength and registration in network status
 
     }
 }

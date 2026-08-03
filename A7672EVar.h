@@ -98,6 +98,20 @@ A7672E_work_list_t A7672E_work = {
  
 };
 
+A7672E_regsig_list_t A7672E_GSM_STATUS_STATE = {
+    .cycle = false,
+    .state = SET,
+    .source = SIGNAL,
+};
+
+A7672E_gsm_status_t A7672E_GSM_STATUS = {
+    .rssi = 0,
+    .ber = 0,
+    .bad_signal = false,
+    .reg_status = 0,
+    .n = 0,
+};
+
 #ifdef	__cplusplus
 }
 #endif

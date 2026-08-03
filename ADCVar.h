@@ -8,8 +8,6 @@
 #ifndef ADCVAR_H
 #define	ADCVAR_H
 
-#include "ADC.h"
-
 
 #ifdef	__cplusplus
 extern "C" {
