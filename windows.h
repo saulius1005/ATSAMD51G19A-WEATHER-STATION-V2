@@ -16,7 +16,7 @@ typedef enum {
     INIT_WINDOW = 0,
     MAIN_WINDOW,
     TIME_WINDOW,
-    SENSOR_WINDOW,
+    LOCATION_WINDOW,
     TOWER_WINDOW,
     SETTINGS_WINDOW,
 }Windows_names_t;

@@ -66,6 +66,7 @@
       <itemPath>TCCVar.h</itemPath>
       <itemPath>TCC.c</itemPath>
     </logicalFolder>
+    <itemPath>button.c</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

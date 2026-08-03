@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c windows.c Cosmos.c refraction.c ADC.c TCC.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c windows.c Cosmos.c refraction.c ADC.c TCC.c button.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o ${OBJECTDIR}/windows.o ${OBJECTDIR}/Cosmos.o ${OBJECTDIR}/refraction.o ${OBJECTDIR}/ADC.o ${OBJECTDIR}/TCC.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/CLK.o.d ${OBJECTDIR}/ILI9341.o.d ${OBJECTDIR}/SERCOM.o.d ${OBJECTDIR}/DMA.o.d ${OBJECTDIR}/GPIO.o.d ${OBJECTDIR}/XPT2046.o.d ${OBJECTDIR}/keyboard.o.d ${OBJECTDIR}/TC.o.d ${OBJECTDIR}/A7672E.o.d ${OBJECTDIR}/RTC.o.d ${OBJECTDIR}/BME680.o.d ${OBJECTDIR}/windows.o.d ${OBJECTDIR}/Cosmos.o.d ${OBJECTDIR}/refraction.o.d ${OBJECTDIR}/ADC.o.d ${OBJECTDIR}/TCC.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o ${OBJECTDIR}/windows.o ${OBJECTDIR}/Cosmos.o ${OBJECTDIR}/refraction.o ${OBJECTDIR}/ADC.o ${OBJECTDIR}/TCC.o ${OBJECTDIR}/button.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/CLK.o.d ${OBJECTDIR}/ILI9341.o.d ${OBJECTDIR}/SERCOM.o.d ${OBJECTDIR}/DMA.o.d ${OBJECTDIR}/GPIO.o.d ${OBJECTDIR}/XPT2046.o.d ${OBJECTDIR}/keyboard.o.d ${OBJECTDIR}/TC.o.d ${OBJECTDIR}/A7672E.o.d ${OBJECTDIR}/RTC.o.d ${OBJECTDIR}/BME680.o.d ${OBJECTDIR}/windows.o.d ${OBJECTDIR}/Cosmos.o.d ${OBJECTDIR}/refraction.o.d ${OBJECTDIR}/ADC.o.d ${OBJECTDIR}/TCC.o.d ${OBJECTDIR}/button.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o ${OBJECTDIR}/windows.o ${OBJECTDIR}/Cosmos.o ${OBJECTDIR}/refraction.o ${OBJECTDIR}/ADC.o ${OBJECTDIR}/TCC.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o ${OBJECTDIR}/windows.o ${OBJECTDIR}/Cosmos.o ${OBJECTDIR}/refraction.o ${OBJECTDIR}/ADC.o ${OBJECTDIR}/TCC.o ${OBJECTDIR}/button.o
 
 # Source Files
-SOURCEFILES=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c windows.c Cosmos.c refraction.c ADC.c TCC.c
+SOURCEFILES=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c windows.c Cosmos.c refraction.c ADC.c TCC.c button.c
 
 # Pack Options 
 PACK_COMMON_OPTIONS=-I "${CMSIS_DIR}/CMSIS/Core/Include"
@@ -206,6 +206,12 @@ ${OBJECTDIR}/TCC.o: TCC.c  .generated_files/flags/default/5fd98632584e7f15d7c70b
 	@${RM} ${OBJECTDIR}/TCC.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/TCC.o.d" -o ${OBJECTDIR}/TCC.o TCC.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
 	
+${OBJECTDIR}/button.o: button.c  .generated_files/flags/default/b4e546c2c64ef76c92938eb21f88be13f2b3f513 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/button.o.d 
+	@${RM} ${OBJECTDIR}/button.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/button.o.d" -o ${OBJECTDIR}/button.o button.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
+	
 else
 ${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/987a92d7c426dacd49e87ba7632c999a209c2793 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
@@ -308,6 +314,12 @@ ${OBJECTDIR}/TCC.o: TCC.c  .generated_files/flags/default/6b9f6fe60d2ee5052853de
 	@${RM} ${OBJECTDIR}/TCC.o.d 
 	@${RM} ${OBJECTDIR}/TCC.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/TCC.o.d" -o ${OBJECTDIR}/TCC.o TCC.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
+	
+${OBJECTDIR}/button.o: button.c  .generated_files/flags/default/abd5de16dbac3bb3cc173550a10593291aaaf170 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/button.o.d 
+	@${RM} ${OBJECTDIR}/button.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/button.o.d" -o ${OBJECTDIR}/button.o button.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
 	
 endif
 

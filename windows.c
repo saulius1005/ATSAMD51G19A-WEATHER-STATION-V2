@@ -69,7 +69,7 @@ void UserInterface(Windows_names_t window){
                 y -=12;                 
                 ILI9341_draw_formatted_line(145, &y, TEAL, BLACK, "GSM/GNSS Data:\n"); 
                 
-                ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Lat.: %3d.%04d°", solar_params.latitude / 10000, solar_params.latitude % 10000);
+                ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Lat.: %2d.%04d°", solar_params.latitude / 10000, solar_params.latitude % 10000);
                 y -=12;                 
                 
                 if(A7672E_GSM_STATUS.bad_signal){ //if rssi is 32...99 
@@ -126,10 +126,15 @@ void UserInterface(Windows_names_t window){
             }
             Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;       
             
-            if(XPT2046_switch(1000, 3850, 3800, 4000)){//check data and time changing button status
+            if(XPT2046_switch(100, 3850, 3800, 4000)){//touch map for date and time change button
                 Windows.background_updater = false; //prepare to update screen
                 Windows.Window = TIME_WINDOW;
                 Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open
+            }
+            else if(XPT2046_switch(100, 1900, 1890, 2700)){
+                Windows.background_updater = false; //prepare to update screen
+                Windows.Window = LOCATION_WINDOW;
+                Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open                
             }            
         }
 
@@ -331,8 +336,153 @@ void UserInterface(Windows_names_t window){
         }
     } break;
         
-        case SENSOR_WINDOW:
-        break;
+        case LOCATION_WINDOW:{
+            static uint8_t total[3] = {7,8,5};
+            static uint8_t LAT[7] = {0};//show latitude as +00.0000
+            static uint8_t LNG[8] = {0}; //show longitude as +000.0000
+            static uint8_t ALT[5] = {0}; //show altitude as +0000
+            
+            static char posneg[3] = {'+','+','+'}; //latitude, longitude altitude default symbol +
+            static uint8_t changing_current_param = 0; //0- none, 1-latitude, 2-longitude, 3-altitude, 4- auto (if gnss locked)
+            static uint8_t pressCount[3] = {0}; 
+            static uint8_t countProtection = 55;
+            uint16_t text_color = WHITE;            
+            if(!Windows.background_updater){ //drawing not changing elements            
+            keyboard.background_color = DARK_GREEN; 
+
+            ILI9341_fill_color_DMA(keyboard.background_color); //background
+
+            ili9341_draw_rect(0, 0, 48, 20, BLACK, 1); //and buttons frames
+            uint16_t y = 6;
+            ILI9341_draw_formatted_line(18, &y, WHITE, BLACK,  "<");
+
+            ili9341_draw_rect(48, 0, 48, 20, YELLOW, 1);
+            y = 6;
+            ILI9341_draw_formatted_line(60, &y, BLACK, YELLOW,  "LATI");
+
+            ili9341_draw_rect(96, 0, 48, 20, GREEN, 1);
+            y = 6;
+            ILI9341_draw_formatted_line(108, &y, RED, GREEN,  "LONG");
+
+            ili9341_draw_rect(144, 0, 48, 20, ORANGE, 1);
+            y = 6;
+            ILI9341_draw_formatted_line(156, &y, CYAN, ORANGE,  "ALTI");
+            
+            ili9341_draw_rect(192, 0, 48, 20, RED, 1);
+            y = 6;
+            ILI9341_draw_formatted_line(204, &y, WHITE, RED,  "AUTO");
+
+            Windows.background_updater = true;
+            }
+            else{                                
+                if(Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time){ 
+                    RTC_read_date_and_time();
+                    uint16_t y = 30;
+                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color,  "Latitude: %2d.%04d° ", solar_params.latitude / 10000, solar_params.latitude % 10000);
+                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color,  "Longitude: %3d.%04d° ", solar_params.longitude / 10000, solar_params.longitude % 10000);
+                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color,  "Altitude: %4dm ", solar_params.altitude);
+                    Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
+                }
+            }
+            
+            draw_keyboard(Windows.keyboardAction);
+            
+            if(Windows.keyboardAction == OPEN){ 
+                uint16_t y = 130;
+                uint16_t x = 60;
+                if(changing_current_param == 1){
+                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Latitude:", changing_current_param);
+                }
+                else if(changing_current_param == 2){
+                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Longitude:", changing_current_param);
+                    x = 66;
+                }
+                else if(changing_current_param == 3){
+                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Altitude:");
+                }
+                for(uint16_t clr = 0; clr < total[changing_current_param-1]; clr++){ 
+                    y = 130;
+                    uint16_t background = (pressCount[changing_current_param-1] == clr) ? RED : keyboard.background_color;
+                    
+                    if(clr == 0){ //draw latitude symbol - or + (default)
+                        ILI9341_draw_formatted_line(x, &y, text_color, background, "%c", posneg[changing_current_param-1]);
+                    }
+                    else if(clr < total[changing_current_param-1]){
+                        y = 130;
+                        ILI9341_draw_formatted_line(x, &y, text_color, background, "%01d", LAT[clr-1]); //draw digits of the date and time                             
+                    }            
+                    x += 6;
+                    
+                    if(changing_current_param-1 < 2){
+                        uint8_t dot = 2;
+                        if(changing_current_param-1 == 1)
+                            dot = 3;
+                        if(clr == dot){//dot after 3 digits for longitude and for latitude dot after 2 digits
+                            y = 130; 
+                            ILI9341_draw_formatted_line(x, &y, text_color, background, ","); 
+                            x += 6;
+                        }                        
+                    }
+                    
+                }
+
+                if(Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL) //infinite press protection
+                    countProtection = 55; 
+
+            }            
+            
+            // Touch button check
+            if(XPT2046_switch(64, 812, 3700, 4000)){ // < 
+                Windows.background_updater = false; 
+                Windows.Window = MAIN_WINDOW;
+                Windows.keyboardAction = CLOSE;
+                changing_current_param = 0;
+                Windows.once_per_second_update = 0; 
+            } 
+            else if (XPT2046_switch(844, 1624, 3700, 4000)){  // LATI
+                if((changing_current_param == 2) || (changing_current_param == 3)){
+                    Windows.background_updater = false;
+                    if(Windows.keyboardAction == CLOSE)
+                        Windows.keyboardAction = OPEN;
+                }
+                else{                  
+                   Windows.keyboardAction ^= 1;
+                }
+                Windows.once_per_second_update = 0;                
+                changing_current_param = 1;
+            }
+            else if (XPT2046_switch(1656, 2436, 3700, 4000)){ // LONG
+                if((changing_current_param == 1) || (changing_current_param == 3)){
+                    Windows.background_updater = false;
+                    if(Windows.keyboardAction == CLOSE)
+                        Windows.keyboardAction = OPEN;
+                }
+                else{
+                    Windows.keyboardAction ^= 1;
+                }
+                Windows.once_per_second_update = 0;               
+                changing_current_param = 2;
+            }
+            else if (XPT2046_switch(2468, 3248, 3700, 4000)){ // ALTI
+                if((changing_current_param == 1) || (changing_current_param == 2)){
+                    Windows.background_updater = false;
+                    if(Windows.keyboardAction == CLOSE)
+                        Windows.keyboardAction = OPEN;;
+                }
+                else{
+                    Windows.keyboardAction ^= 1;
+                }
+                Windows.once_per_second_update = 0;             
+                changing_current_param = 3;
+            }
+            else if (XPT2046_switch(3280, 4000, 3700, 4000)){ // AUTO
+                Windows.background_updater = false;
+                Windows.keyboardAction = CLOSE;
+                Windows.once_per_second_update = 0; 
+                Windows.keyboardAction ^= 1;
+                changing_current_param = 4;
+            }
+        }break;
         case TOWER_WINDOW:
         break;
         case SETTINGS_WINDOW:
