@@ -29,8 +29,20 @@ typedef struct {
     
 } Windows_t;
 
+typedef struct { //for location data cheange
+    int32_t max_value;
+    int32_t *target;
+} param_limit_t;
+
+typedef struct {
+    const char *name;
+    uint16_t x;
+} param_text_t;
+
 
 extern Windows_t Windows;
+extern param_limit_t limits[];
+extern param_text_t location_param_names[];
 
 void UserInterface(Windows_names_t window); //show all windows on the screen
 
