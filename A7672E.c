@@ -413,8 +413,10 @@ void A7672ReadNEMAGNSS(){   // READS GSM and GNSS date and time if success updat
     if(A7672E_init.status != WORK)//if not WORK mode 
         return; //skip further code
     
-    if(RTC_Date_and_Time.time_sync == GNSS_sync)//if time is synced with gnss
-        return; //skip further code
+    //if(RTC_Date_and_Time.time_sync == GNSS_sync)//if time is synced with gnss
+    //    return; //skip further code
+    if(A7672E_work.source == GSM_AND_GNSS)
+        return;
 
     uint16_t read_interval = 250; //read every 100 ms
     if(RTC_Date_and_Time.time_sync == GSM) //if synced by GSM read every 500ms of GNSS
