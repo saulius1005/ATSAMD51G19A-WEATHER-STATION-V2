@@ -238,28 +238,29 @@ void UserInterface(Windows_names_t window) {
                         }
                     }
 
-                    if (Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL) //infinite press protection
+                    if (Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL){ //infinite press protection
                         countProtection = 55;
-
-                    if (Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL) { // if touch pressing hard enough
+                    }
+                    else { // if touch pressing hard enough
                         for (uint8_t i = 0; i < 16; i++) { //find where is pressing
-                            if ((Read_XPT2046.X >= keysMap.keyboard_buttons[i].X0) && (Read_XPT2046.X <= keysMap.keyboard_buttons[i].X1) && (Read_XPT2046.Y >= keysMap.keyboard_buttons[i].Y0) && (Read_XPT2046.Y <= keysMap.keyboard_buttons[i].Y1)) {
+                            key_data *key = &keysMap.keyboard_buttons[i];
+                            if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X <= key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y <= key->Y1)) {
                                 if (countProtection != pressCount) { //accept only once and one symbol per pressing
                                     Windows.once_per_second_update += 1;
-                                    if (keysMap.keyboard_buttons[i].digit <= 9) {
+                                    if (key->digit <= 9) {
                                         if (pressCount < 14) { //changing Date and Time digits
-                                            DT[pressCount] = keysMap.keyboard_buttons[i].digit;
+                                            DT[pressCount] = key->digit;
                                             pressCount++;
                                         } else if (pressCount <= 16) {
-                                            TZ[pressCount - 15] = keysMap.keyboard_buttons[i].digit; //change time zone digits  
+                                            TZ[pressCount - 15] = key->digit; //change time zone digits  
                                             pressCount++;
                                         }
-                                    } else if (pressCount == 14 && ((keysMap.keyboard_buttons[i].value == '-') || (keysMap.keyboard_buttons[i].value == '+'))) { //only if changing time zone and using + or - symbols
+                                    } else if (pressCount == 14 && ((key->value == '-') || (key->value == '+'))) { //only if changing time zone and using + or - symbols
                                         pressCount++;
-                                        TZside = keysMap.keyboard_buttons[i].value;
+                                        TZside = key->value;
                                     }
 
-                                    if (pressCount == 17 && keysMap.keyboard_buttons[i].value == '>') {
+                                    if (pressCount == 17 && key->value == '>') {
                                         uint8_t yy = (DT[2] * 10) + DT[3];
                                         uint8_t MM = (DT[4] * 10) + DT[5];
                                         uint8_t dd = (DT[6] * 10) + DT[7];
@@ -276,14 +277,14 @@ void UserInterface(Windows_names_t window) {
                                             ILI9341_draw_formatted_line(204, &y, GREEN, NAVY, "SAVED");
                                             RTC_Date_and_Time.RTC_time_zone = tzcheck; //update time zone
 
-                                            apply_timezone(&yy, &MM, &dd, &hh, RTC_Date_and_Time.RTC_time_zone);
+                                            //apply_timezone(&yy, &MM, &dd, &hh, RTC_Date_and_Time.RTC_time_zone);
                                             RTC_date_and_time_sync(datetime_to_RTC_format(yy, MM, dd, hh, mm, ss), MAN_sync);
                                         } else {
                                             ILI9341_draw_formatted_line(204, &y, RED, NAVY, "ERROR");
                                         }
-                                    } else if ((pressCount > 2) && (keysMap.keyboard_buttons[i].value == '<')) {
+                                    } else if ((pressCount > 2) && (key->value == '<')) {
                                         pressCount--;
-                                    } else if (keysMap.keyboard_buttons[i].value == 'x') { //clear whole line and close keyboard
+                                    } else if (key->value == 'x') { //clear whole line and close keyboard
                                         for (uint8_t x = 2; x < 14; x++) DT[x] = 0;
                                         pressCount = 2;
                                         uint16_t y = 130;
@@ -400,23 +401,16 @@ void UserInterface(Windows_names_t window) {
                     uint16_t y = 130;
                     uint16_t x = 60;
                     uint8_t location_param = changing_current_param - 1;
-                    uint8_t *target_buffer;
-
-                    switch (location_param) { //switch pointer to parameter
-                        case 0: target_buffer = LAT;
-                            break;
-                        case 1: target_buffer = LNG;
-                            break;
-                        default: target_buffer = ALT;
-                            break;
-                    }
+                    uint8_t *buffers[] = { LAT, LNG, ALT };
+                    uint8_t *target_buffer = buffers[location_param];
+                    uint8_t *press = &pressCount[location_param];
 
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, location_param_names[location_param].name);
                     x = location_param_names[location_param].x;
 
                     for (uint16_t clr = 0; clr < total[location_param] + 1; clr++) {
                         y = 130;
-                        uint16_t background = (pressCount[location_param] == clr) ? RED : keyboard.background_color;
+                        uint16_t background = (*press == clr) ? RED : keyboard.background_color;
 
                         if (clr == 0) { //draw latitude symbol - or + (default)
                             ILI9341_draw_formatted_line(x, &y, text_color, background, "%c", posneg[location_param]);
@@ -427,16 +421,11 @@ void UserInterface(Windows_names_t window) {
                             ILI9341_draw_formatted_line(x, &y, text_color, background, "%01d", value); //draw current data                          
                         }
                         x += 6;
-
-                        if (location_param < 2) {
-                            uint8_t dot = 2;
-                            if (location_param == 1)
-                                dot = 3;
-                            if (clr == dot) {//dot after 3 digits for longitude and for latitude dot after 2 digits
-                                y = 130;
-                                ILI9341_draw_formatted_line(x, &y, text_color, keyboard.background_color, ",");
-                                x += 6;
-                            }
+                        const int8_t dot_pos[] = {2, 3, -1};
+                        if (clr == dot_pos[location_param]) { // draw , for laitude after 2 digits and for longitude after 3 digits and skip for altitude
+                            y = 130;
+                            ILI9341_draw_formatted_line(x, &y, text_color, keyboard.background_color, ",");
+                            x += 6;
                         }
 
                     }
@@ -444,52 +433,47 @@ void UserInterface(Windows_names_t window) {
                     if (Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL) { //infinite press protection
                         countProtection[location_param] = 55;
                     } else { // if touch pressing hard enough
+                        uint8_t digits = total[location_param];                        
                         for (uint8_t i = 0; i < 16; i++) { //find where is pressing
                             key_data *key = &keysMap.keyboard_buttons[i];
                             if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X <= key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y <= key->Y1)) {
-                                if (countProtection[location_param] != pressCount[location_param]) { //accept only once and one symbol per pressing
+                                if (countProtection[location_param] != *press) { //accept only once and one symbol per pressing
                                     Windows.once_per_second_update += 1;
                                     if (key->digit <= 9) {
-                                        if ((pressCount[location_param] < (total[location_param])) && pressCount[location_param] > 0) { //changing digits only after + or - symbol                                                                                    
-                                            target_buffer[pressCount[location_param] - 1] = key->digit;
-                                            pressCount[location_param]++;
+                                        if ((*press < digits) && *press > 0) { //changing digits only after + or - symbol                                                                                    
+                                            target_buffer[(*press) - 1] = key->digit;
+                                            (*press)++;
                                         }
-                                    } else if (pressCount[location_param] == 0 && ((key->value == '-') || (key->value == '+'))) { //only if changing  + or - symbols
-                                        pressCount[location_param]++;
+                                    } else if (*press == 0 && ((key->value == '-') || (key->value == '+'))) { //only if changing  + or - symbols
+                                        (*press)++;
                                         posneg[location_param] = key->value;
                                     }
 
-                                    if (pressCount[location_param] == total[location_param] && key->value == '>') {// pressing done button
-                                        int32_t final_result = digits_to_number(target_buffer, total[location_param] - 1); //extract digit from buffer
+                                    if (*press == digits && key->value == '>') {// pressing done button
+                                        int32_t final_result = digits_to_number(target_buffer, digits - 1); //extract digit from buffer
                                         if (final_result > limits[location_param].max_value) { //check limits if they are too big
-                                            ILI9341_draw_formatted_line(
-                                                    204, &y, RED, keyboard.background_color, "ERROR"
-                                                    );
+                                            ILI9341_draw_formatted_line( 204, &y, RED, keyboard.background_color, "ERROR" );
                                         }
                                         else { //if long, lat and alt is correct
                                             if (posneg[location_param] == '-') { //if it was negative
                                                 final_result = -final_result;
                                             }
                                             *limits[location_param].target = final_result;
-                                            ILI9341_draw_formatted_line(
-                                                    204, &y, GREEN, keyboard.background_color, "SAVED"
-                                                    );
+                                            ILI9341_draw_formatted_line( 204, &y, GREEN, keyboard.background_color, "SAVED" );
                                         }
-                                    } else if ((pressCount[location_param] > 0) && (key->value == '<')) {
-                                        pressCount[location_param]--;
+                                    } else if ((*press > 0) && (key->value == '<')) {
+                                        (*press)--;
                                     } else if (key->value == 'x') { //clear whole line and close keyboard  
-                                        for (uint8_t x = 0; x < total[location_param]; x++) {
-                                            memset(target_buffer, 0, total[location_param]);
-                                            posneg[location_param] = '+'; //set back default symbol
-                                        }
-                                        pressCount[location_param] = 0;
+                                        memset(target_buffer, 0, digits);
+                                        posneg[location_param] = '+'; //set back default symbol
+                                        *press = 0;
                                         uint16_t y = 130;
                                         ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "                                             ");
                                         Windows.background_updater = false;
                                         Windows.keyboardAction = CLOSE;
                                         Windows.once_per_second_update = 88; //just  random digit
                                     }
-                                    countProtection[location_param] = pressCount[location_param];
+                                    countProtection[location_param] = *press;
                                     break; // if button presset stoping for cycle and continue further
                                 }
                             }
