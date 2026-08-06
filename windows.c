@@ -34,7 +34,12 @@ void UserInterface(Windows_names_t window) {
                 ADC0_read(WIND_SPEED); //read wind speed to catch gust of wind
 
                 if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) { // update data every second once
-                    uint16_t y = 4;
+                    RTC_read_date_and_time();
+                    BME680_read_t_p_rh();
+                    calculate_solar_position();
+                    apply_all_elevation_modifies();    
+                    
+                    uint16_t y = 4;                    
                     ILI9341_draw_formatted_line(60, &y, WHITE, BLACK, "%4d-%02d-%02d %02d:%02d:%02d",
                             RTC_Date_and_Time.RTC_year + 2000,
                             RTC_Date_and_Time.RTC_month,
@@ -48,11 +53,6 @@ void UserInterface(Windows_names_t window) {
                             (RTC_Date_and_Time.time_sync == GSM_sync) ? "GSM fix " :
                             (RTC_Date_and_Time.time_sync == GNSS_sync) ? "GNSS fix" :
                             "Manual  ");
-
-                    RTC_read_date_and_time();
-                    BME680_read_t_p_rh();
-                    calculate_solar_position();
-                    apply_all_elevation_modifies();
 
                     y = 24;
 
@@ -144,7 +144,6 @@ void UserInterface(Windows_names_t window) {
                     Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open                
                 }
             }
-
         }
             break;
         case TIME_WINDOW:
@@ -196,7 +195,7 @@ void UserInterface(Windows_names_t window) {
                         ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "GNSS lock at: no GNSS lock");
                     else
                         ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "GNSS lock at: %4d-%02d-%02d %02d:%02d:%02d", A7672EGSM.GNSS_year + 2000, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);
-                    ILI9341_draw_formatted_line(0, &y, WHITE, DARK_GRAY, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
+                    //ILI9341_draw_formatted_line(0, &y, WHITE, DARK_GRAY, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
 
                     Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
                 }
@@ -273,11 +272,10 @@ void UserInterface(Windows_names_t window) {
                                         if (TZside == '-')// if time zone is negative
                                             tzcheck = 0 - tzcheck; //update time zone
 
-                                        if (is_time_correct(yy, MM, dd, hh, mm, ss, false) && ((tzcheck >= -12) && (tzcheck <= 14))) {
+                                        if (is_time_correct(yy, MM, dd, hh, mm, ss/*, false*/) && ((tzcheck >= -12) && (tzcheck <= 14))) {
                                             ILI9341_draw_formatted_line(204, &y, GREEN, NAVY, "SAVED");
                                             RTC_Date_and_Time.RTC_time_zone = tzcheck; //update time zone
-
-                                            //apply_timezone(&yy, &MM, &dd, &hh, RTC_Date_and_Time.RTC_time_zone);
+                                            //apply_timezone(&yy, &MM, &dd, &hh, RTC_Date_and_Time.RTC_time_zone); //uncomet if set utc time
                                             RTC_date_and_time_sync(datetime_to_RTC_format(yy, MM, dd, hh, mm, ss), MAN_sync);
                                         } else {
                                             ILI9341_draw_formatted_line(204, &y, RED, NAVY, "ERROR");
@@ -313,10 +311,10 @@ void UserInterface(Windows_names_t window) {
                 } else if (XPT2046_switch(2032, 2948, 3700, 4000)) { // GSM
                     Windows.once_per_second_update = 0;
                     uint16_t y = 130;
-                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "           GSM time reset!            ");
-                    RTC_Date_and_Time.time_sync = NONE_sync;
-                    RTC_Date_and_Time.RTC_sys_time = 0;
+                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "           GSM time reset!              ");
+                    //RTC_Date_and_Time.time_sync = NONE_sync;          
                     A7672E_work.source = GSM;
+                    A7672EGSM.GSM_time_corect = false;
                     A7672E_work.cycle = false;
                     A7672E_work.state = SET;
                     if (Windows.keyboardAction == OPEN) {
@@ -328,13 +326,14 @@ void UserInterface(Windows_names_t window) {
                     Windows.once_per_second_update = 0;
                     uint16_t y = 130;
                     if (A7672EGNSS.mode != 0) {
-                        ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "           GNSS time reset!          ");
-                        RTC_Date_and_Time.time_sync = GSM_sync;
+                        ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "           GNSS time reset!            ");
+                        //RTC_Date_and_Time.time_sync = GSM_sync;
                         A7672E_work.source = GNSS;
                         A7672E_work.cycle = false;
+                        A7672EGSM.GNSS_time_corect = false;
                         A7672E_work.state = SET;
                     } else {
-                        ILI9341_draw_formatted_line(0, &y, RED, NAVY, "              NO GNSS lock!            ");
+                        ILI9341_draw_formatted_line(0, &y, RED, NAVY, "              NO GNSS lock!              ");
                     }
                     if (Windows.keyboardAction == OPEN) {
                         Windows.Window = TIME_WINDOW;

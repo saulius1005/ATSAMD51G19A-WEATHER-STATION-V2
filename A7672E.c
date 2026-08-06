@@ -240,21 +240,13 @@ void apply_timezone(volatile uint8_t *year, volatile uint8_t *month, volatile ui
     *hour = (uint8_t)h;
 }
 
-bool is_time_correct(uint8_t Y, uint8_t M, uint8_t D, uint8_t h, uint8_t m, uint8_t s, bool checkRTC){
+bool is_time_correct(uint8_t Y, uint8_t M, uint8_t D, uint8_t h, uint8_t m, uint8_t s){
 
     if (M < 1 || M > 12) return false; //basic checks
     if (h > 23) return false;
     if (m > 59) return false;
     if (s > 59) return false;
-
     if (D < 1 || D > days_in_month(M, Y)) return false; //check leap year
-    
-    if(checkRTC){ //for GSM time only (first time correction)
-        uint32_t RTC_compare_date = (((uint32_t) RTC_Date_and_Time.RTC_year) * 100000000) + (((uint32_t) RTC_Date_and_Time.RTC_month) * 1000000) + (((uint32_t) RTC_Date_and_Time.RTC_day) * 10000) + (((uint16_t) RTC_Date_and_Time.RTC_hour) * 100) + RTC_Date_and_Time.RTC_minute;        
-        uint32_t GSM_compare_date = (((uint32_t) Y) * 100000000) + (((uint32_t) M) * 1000000) + (((uint32_t) D) * 10000) + (((uint16_t) h) * 100) + m; 
-        if(RTC_compare_date > GSM_compare_date)//if storet RTC time is higher do not update rtc with past date and time
-            return false;
-    }
 
     return true;
 }
@@ -308,7 +300,7 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
     uint8_t mm = (out->UTC_time / 100) % 100;
     uint8_t ss = out->UTC_time % 100;
     
-    if(is_time_correct(yy, MM, dd, hh, mm, ss, false)){ //check only basic date and time, skip rtc time checking
+    if(is_time_correct(yy, MM, dd, hh, mm, ss)){ //check only basic date and time, skip rtc time checking
         A7672EGSM.GNSS_year  = yy;
         A7672EGSM.GNSS_month = MM;
         A7672EGSM.GNSS_day   = dd;
@@ -337,7 +329,7 @@ void parse_gsm_datetime(char *buf) {//example: receiving "26/04/10,18:45:08+12"
     uint32_t ss = (buf[15]-'0')*10 + (buf[16]-'0');
     
     
-    if(is_time_correct(yy, MM, dd, hh, mm, ss, true)){ //Check if time correct and also compare it with rtc time
+    if(is_time_correct(yy, MM, dd, hh, mm, ss)){ //Check if time correct and also compare it with rtc time
         A7672EGSM.GSM_year = yy;
         A7672EGSM.GSM_month = MM;
         A7672EGSM.GSM_day = dd;    
@@ -399,14 +391,14 @@ void dma_receive_time_SM(char * cmd , char * echo, uint32_t wait_ms) {
                 normalize_at_response(buf); //remove \r, \n
                 extract_gsm_time(buf); //get only data 
                 parse_gsm_datetime(buf); // split data from time
+                RTC_date_and_time_update();
                 if(A7672EGSM.GSM_time_corect)
                     A7672E_work.cycle = true;
-                //else
-                //    A7672E_work.cycle = NONE;
             }
             else if(A7672E_work.source == GNSS){ //if it was GNSS time
                 extract_gnss_data(buf); //keep only GNSS data
                 parse_gnss_data(buf, &A7672EGNSS); //keep time and date only
+                RTC_date_and_time_update();
                 if(A7672EGSM.GNSS_time_corect)
                     A7672E_work.cycle = true;
             }
@@ -431,17 +423,12 @@ void A7672ReadNEMAGNSS(){   // READS GSM and GNSS date and time if success updat
     switch(A7672E_work.source){
         case GNSS: //Read GNSS time
             dma_receive_time_SM("AT+CGNSSINFO\r", "AT+CGNSSINFO\r\r\n+CGNSSINFO:", read_interval); //cmd and echo, wait 0.3 second
-            if(A7672E_work.cycle) A7672E_work.source = GSM; //if gnss locked, next time after RTC_Date_and_Time.time_sync resting (NONE) it starts with GSM time update. if RTC_Date_and_Time.time_sync reseting with (GSM) it starts GNSS time update
+            if(A7672E_work.cycle) A7672E_work.source = GSM_AND_GNSS; //gsm synced and corected with gnss
         break;
         
         case GSM: //Read GSM time
-            if(RTC_Date_and_Time.time_sync == NONE_sync){ //if time not synced
                 dma_receive_time_SM("AT+CCLK?\r", "AT+CCLK?\r", read_interval); //cmd and echo, wait 0.1 second
-                if(A7672E_work.cycle) A7672E_work.source = GNSS; //switch to gnss time correction after GSM time is completed and corect
-            }
-            else{ //time is synced with gsm
-                A7672E_work.source = GNSS;
-            }              
+                if(A7672E_work.cycle) A7672E_work.source = GNSS; //switch to gnss time correction after GSM time is completed and corect             
         break;
     }
 }

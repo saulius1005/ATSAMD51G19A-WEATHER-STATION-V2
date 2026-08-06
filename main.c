@@ -40,12 +40,12 @@ int main(void) {
         
     while(1){
         A7672EInit(); //SIMCOM A7672E initialization active until reach WORK mode
-        A7672ReadNEMAGNSS(); //read SIMCOM A7672E GNNS and GSM time (interrupt+ machine state) active when A7672E_init.status == WORK         
+        A7672ReadNEMAGNSS(); //read SIMCOM A7672E GNNS and GSM time (interrupt+ machine state) active when A7672E_init.status == WORK              
+   
         A7672ReadGSMBasic(); //read rssi signal strength and gsm registration status in network. active when A7672E_init.status == WORK and RTC_Date_and_Time.time_sync > NONE_sync
         XPT2046_Read_All(); //checking touch screen
-        UserInterface(Windows.Window); //after initialization show main window
-        RTC_date_and_time_update(); //update rtc time with gsm or gnss 
-        RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                
+        UserInterface(Windows.Window); //after initialization show main window          
+        RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                       
         TC0_CHECKER(); //check tc0 timeout
         TC2_CHECKER(); //check tc2 timeout
         TCC0_CHECKER(); //check tcc0 timeout checking gsm signal strength and registration in network status
