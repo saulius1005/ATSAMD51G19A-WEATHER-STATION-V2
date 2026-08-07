@@ -1,5 +1,4 @@
 #include "settings.h"
-#include "I2C.h"
 #include "USART.h"
 
 
@@ -26,25 +25,6 @@ void GCLK2_SERCOM_USARTM_core_init(){
 void SERCOM_init(sercom_init_t interface){
       
     switch(interface){
-        case USART_RS485:// SERCOM2 RS485 Master
-            
-            GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
-            while (GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
-
-            GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK2 | GCLK_PCHCTRL_CHEN(1);
-                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the same core clock as i2c - 24Mhz
-            
-            MCLK_REGS->MCLK_APBBMASK |= MCLK_APBBMASK_SERCOM3_Msk; //enable module functions
-            SERCOM2_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_ENABLE(0); //disable
-                while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
-            
-            SERCOM2_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
-            SERCOM2_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_32BIT;            
-            SERCOM2_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
-            SERCOM2_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD2 | SERCOM_USART_INT_CTRLA_TXPO_PAD0 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
-                while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
-        break;
-
         case SPI_SCREEN: // SERCOM0 SPI- LCD and Touch
 
             GCLK_REGS->GCLK_PCHCTRL[SERCOM0_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
@@ -69,6 +49,48 @@ void SERCOM_init(sercom_init_t interface){
             while(SERCOM0_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
 
         break;
+        
+        //SERCOM1 not used
+        
+        case USART_RS485:// SERCOM2 RS485 Master
+            
+            GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
+            while (GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
+
+            GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK2 | GCLK_PCHCTRL_CHEN(1);
+                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the same core clock as i2c - 24Mhz
+            
+            MCLK_REGS->MCLK_APBBMASK |= MCLK_APBBMASK_SERCOM3_Msk; //enable module functions
+            SERCOM2_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_ENABLE(0); //disable
+                while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
+            
+            SERCOM2_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
+            SERCOM2_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_32BIT | SERCOM_USART_INT_CTRLC_GTIME(1);//32bit and guard time is 1bit?            
+            SERCOM2_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
+            SERCOM2_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD3 | SERCOM_USART_INT_CTRLA_TXPO_PAD3 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
+                while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
+        break;        
+
+        case USART_GSM: // SERCOM3 A7672E GSM module 
+            
+            GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
+            while (GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
+
+            GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK2 | GCLK_PCHCTRL_CHEN(1);
+                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the same core clock as i2c - 24Mhz
+            
+            MCLK_REGS->MCLK_APBBMASK |= MCLK_APBBMASK_SERCOM3_Msk; //enable module functions
+            SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_ENABLE(0); //disable
+                while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
+            
+            SERCOM3_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
+            SERCOM3_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_32BIT;            
+            SERCOM3_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
+            SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD2 | SERCOM_USART_INT_CTRLA_TXPO_PAD0 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
+                while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
+            
+        break;
+    
         
         case SPI_SENSOR: // SERCOM4 SPI BME680
 
@@ -96,26 +118,8 @@ void SERCOM_init(sercom_init_t interface){
             BME680_CS_HIGH();
 
         break;        
-
-        case USART_GSM: //A7672E GSM module 
-            
-            GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
-            while (GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
-
-            GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK2 | GCLK_PCHCTRL_CHEN(1);
-                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the same core clock as i2c - 24Mhz
-            
-            MCLK_REGS->MCLK_APBBMASK |= MCLK_APBBMASK_SERCOM3_Msk; //enable module functions
-            SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_ENABLE(0); //disable
-                while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
-            
-            SERCOM3_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
-            SERCOM3_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_32BIT;            
-            SERCOM3_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
-            SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD2 | SERCOM_USART_INT_CTRLA_TXPO_PAD0 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
-                while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
-            
-        break;
+        
+        // SERCOM5 NOT USED
     }
 }
 
@@ -160,94 +164,12 @@ void SPI0_Baud_Switch(uint32_t baud){
         while(SERCOM0_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
 }
 
-//I2C
-
-bool I2C_have_error(){
-  if(SERCOM2_REGS->I2CM.SERCOM_INTFLAG & SERCOM_I2CM_INTFLAG_ERROR_Msk){ //only if error 
-        SERCOM2_REGS->I2CM.SERCOM_INTFLAG = SERCOM_I2CM_INTFLAG_ERROR_Msk; //clear error flag
-        I2C_SUCK.FaultCode = SERCOM2_REGS->I2CM.SERCOM_STATUS; //return all fault codes
-        return true;
-  }
-  return false;
-}
-
-static inline void I2C_CMD(i2c_cmd_t cmd){
-    SERCOM2_REGS->I2CM.SERCOM_CTRLB = SERCOM_I2CM_CTRLB_CMD(cmd);
-    while (SERCOM2_REGS->I2CM.SERCOM_SYNCBUSY & SERCOM_I2CM_SYNCBUSY_SYSOP_Msk);
-}
-
 uint32_t swap_and_align(uint32_t data, uint8_t length){
     uint32_t swapped = __builtin_bswap32(data);
     uint32_t shift = (4 - length) * 8;
     return swapped >> shift;
 }
 
-void I2C_write(uint8_t addr, uint32_t data, uint8_t length, i2c_cmd_t endaction){
-
-    uint32_t timeout = 100000; //waiting timout protection    
-    
-    while ((SERCOM2_REGS->I2CM.SERCOM_STATUS & SERCOM_I2CM_STATUS_BUSSTATE_Msk) != SERCOM_I2CM_STATUS_BUSSTATE(1)){//wait till bus state will be idle   
-        if (--timeout == 0) {
-                I2C_SUCK.FaultCode = 4000;//bus state never gets to IDLE
-                return;
-        }
-    }
-    SERCOM2_REGS->I2CM.SERCOM_ADDR = SERCOM_I2CM_ADDR_ADDR(addr | 0) | SERCOM_I2CM_ADDR_LEN(length) | SERCOM_I2CM_ADDR_LENEN_Msk;// START + address + length    
-    timeout = 100000;       
-    while (!(SERCOM2_REGS->I2CM.SERCOM_INTFLAG & (SERCOM_I2CM_INTFLAG_MB_Msk | SERCOM_I2CM_INTFLAG_ERROR_Msk))){// wait MB or error
-        if (--timeout == 0) {
-            I2C_SUCK.FaultCode = 5000;//error after second byte transfering timeout
-            I2C_CMD(I2C_CMD_Stop); //stop
-            return;
-        }
-    } 
-    if(I2C_have_error() == true){ //if error receiving after add initiate stop and go back
-        I2C_CMD(I2C_CMD_Stop); //stop
-        return;         
-    }
-    SERCOM2_REGS->I2CM.SERCOM_DATA = data;  
-
-    if(endaction == I2C_CMD_Stop){
-        timeout = 100000;                   
-        I2C_CMD(I2C_CMD_Stop);         
-        while ((SERCOM2_REGS->I2CM.SERCOM_STATUS & SERCOM_I2CM_STATUS_BUSSTATE_Msk) != SERCOM_I2CM_STATUS_BUSSTATE_IDLE){//go to idle (STOP)
-            if (--timeout == 0) {
-                I2C_SUCK.FaultCode = 6000;           
-                return;
-            }
-        }             
-    }
-    else
-        I2C_CMD(I2C_CMD_RepeatStart);      
- }
-
-uint32_t I2C_read(uint8_t addr, uint8_t readlen){
-    uint32_t timeout = 100000;
-    uint32_t result = 0;
-
-    //I2C_write(addr, reg, writelen, I2C_CMD_Stop);
-
-    SERCOM2_REGS->I2CM.SERCOM_ADDR =  SERCOM_I2CM_ADDR_ADDR(addr | 1) | SERCOM_I2CM_ADDR_LEN(readlen) | SERCOM_I2CM_ADDR_LENEN_Msk;         
-    while (!(SERCOM2_REGS->I2CM.SERCOM_INTFLAG & (SERCOM_I2CM_INTFLAG_SB_Msk | SERCOM_I2CM_INTFLAG_ERROR_Msk))){// wait second byte
-        if (--timeout == 0) {
-            I2C_SUCK.FaultCode = 7000;//error after second byte transfering timeout
-            I2C_CMD(I2C_CMD_Stop); //stop
-            return 0;
-        }
-    } 
-    if(I2C_have_error() == true){ //if error receiving after add initiate stop and go back
-        I2C_CMD(I2C_CMD_Stop); //stop
-        return 0;         
-    }
-    result = swap_and_align(SERCOM2_REGS->I2CM.SERCOM_DATA, readlen); //after everything complete reading data packet and swap bytes
-    while (SERCOM2_REGS->I2CM.SERCOM_SYNCBUSY & SERCOM_I2CM_SYNCBUSY_SYSOP_Msk);//smen make all ack, nack and stop
-    return result;
-}
-
-uint32_t I2C_write_and_read(uint8_t addr, uint32_t reg, uint8_t writelen, uint8_t readlen){
-    I2C_write(addr, reg, writelen, I2C_CMD_Stop);
-    return I2C_read(addr, readlen);
-}
 
 //USART
 

@@ -65,8 +65,11 @@
       <itemPath>TCC.h</itemPath>
       <itemPath>TCCVar.h</itemPath>
       <itemPath>TCC.c</itemPath>
+      <itemPath>Towers.h</itemPath>
+      <itemPath>TowersVar.h</itemPath>
     </logicalFolder>
     <itemPath>button.c</itemPath>
+    <itemPath>Towers.c</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

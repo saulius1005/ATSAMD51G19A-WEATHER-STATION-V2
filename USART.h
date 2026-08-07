@@ -7,10 +7,6 @@
 
 #ifndef USART_H
 #define	USART_H
-
-#include "SERCOM.h"
-
-
 #ifdef	__cplusplus
 extern "C" {
 #endif

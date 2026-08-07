@@ -47,6 +47,7 @@ extern "C" {
 #include "refraction.h"
 #include "ADC.h"
 #include "TCC.h"
+#include "Towers.h"
 
 /* --- GPIO --- */
 // Initialize all required GPIO pins (LCD, SPI, control lines)

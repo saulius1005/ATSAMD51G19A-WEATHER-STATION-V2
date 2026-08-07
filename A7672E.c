@@ -412,9 +412,7 @@ void dma_receive_time_SM(char * cmd , char * echo, uint32_t wait_ms) {
 void A7672ReadNEMAGNSS(){   // READS GSM and GNSS date and time if success update RTC timer
     if(A7672E_init.status != WORK)//if not WORK mode 
         return; //skip further code
-    
-    //if(RTC_Date_and_Time.time_sync == GNSS_sync)//if time is synced with gnss
-    //    return; //skip further code
+
     if(A7672E_work.source == GSM_AND_GNSS)
         return;
 

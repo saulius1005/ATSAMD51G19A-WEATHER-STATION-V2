@@ -13,8 +13,8 @@ extern "C" {
 #endif
 
 
-volatile __attribute__((aligned(16))) dmacdescriptor descriptor_section[2]; //0- SPI, 1-USART
-volatile __attribute__((aligned(16))) dmacdescriptor wrb[2]; //0-SPI, 1-USART
+volatile __attribute__((aligned(16))) dmacdescriptor descriptor_section[3]; //0- SPI, 1-USART, 2-RS485
+volatile __attribute__((aligned(16))) dmacdescriptor wrb[3]; //0-SPI, 1-USART, 2-RS485
 
 volatile uint8_t dma_done = 0;
 

@@ -43,8 +43,8 @@ typedef struct {
     uint8_t is_solid_color;
 } LCD_Transfer_t;
 
-extern volatile dmacdescriptor descriptor_section[2];
-extern volatile dmacdescriptor wrb[2];
+extern volatile dmacdescriptor descriptor_section[3];
+extern volatile dmacdescriptor wrb[3];
 
 extern volatile uint8_t dma_done;
 
