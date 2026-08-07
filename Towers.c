@@ -8,6 +8,23 @@ void Towers_init(){
     }
 }
 
+/*  
+ * 
+ * Old weaather station with AVR64DD32 data frame for towers 
+ * 
+ * //sending data to towers. Id can be 0-255 (0-FF hex). Data from towers will be send to logger from towers directly
+ * 
+ * 
+        USART_printf(0, "{%02x%04x%04x%02x%x%03x%02x}\r\n",
+        (uint8_t)i, //FF 0-255 // 
+        (uint16_t)SUN.adjazimuth, //FFFF 0-35999
+        (uint16_t)SUN.adjelevation, //FFFF 0-8999
+        (uint8_t)readwindspeed.Result, //FF 0-30
+        (uint8_t)readwinddirection.Result, //F 0-7
+        (uint16_t)SUN.sunlevel, //FFF 0-600 //not actual. after reaserch (power generation starts when Sun is about -8 degrees below horizon in clear sky and -6 degrees when is heavy clouds)
+        (uint8_t)crc8_cdma2000(crcbuf,TowerCRC(i, crcbuf)));
+ */
+
 void Tower_COM_sequence(uint8_t id){
     switch(towers[id].state){
         case SEND:

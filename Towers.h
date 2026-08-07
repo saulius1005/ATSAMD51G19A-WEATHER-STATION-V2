@@ -15,7 +15,7 @@ extern "C" {
 #define TOWER_COUNT 2 //for far far future may increase tower count. Maybe    
 
 /* 
- * Tower respond data example from tower controller:
+ * Tower respond data frame example from tower controller:
  * frame start with [ and ends with ]
  * last 2 hex symbols is cdma2000 crc8
  * 

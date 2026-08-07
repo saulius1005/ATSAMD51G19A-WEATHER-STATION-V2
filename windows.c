@@ -272,7 +272,7 @@ void UserInterface(Windows_names_t window) {
                                         if (TZside == '-')// if time zone is negative
                                             tzcheck = 0 - tzcheck; //update time zone
 
-                                        if (is_time_correct(yy, MM, dd, hh, mm, ss/*, false*/) && ((tzcheck >= -12) && (tzcheck <= 14))) {
+                                        if (is_time_correct(yy, MM, dd, hh, mm, ss) && ((tzcheck >= -12) && (tzcheck <= 14))) {
                                             ILI9341_draw_formatted_line(204, &y, GREEN, NAVY, "SAVED");
                                             RTC_Date_and_Time.RTC_time_zone = tzcheck; //update time zone
                                             //apply_timezone(&yy, &MM, &dd, &hh, RTC_Date_and_Time.RTC_time_zone); //uncomet if set utc time
