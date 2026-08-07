@@ -10,6 +10,7 @@
 int main(void) {
     
     cpu_120Mhz_DPLL0_XOSC1_init();       // Configure CPU clock to 128 MHz using DPLL0 with XOSC1 source   
+    Towers_init(); //create towers list
     GPIO_init();                         // Initialize all required GPIO pins (SPI, LCD control, etc.)
     GCLK1_SERCOM_SPIM_core_init();
     GCLK2_SERCOM_USARTM_core_init();
@@ -22,7 +23,8 @@ int main(void) {
     SERCOM_init(USART_GSM);
     TC0_init();    
     TC2_init(); 
-    TCC0_init();
+    TCC0_init(); //initialization of timer for constant GSM signal strength and registration in network regular check
+    TCC1_init(); //initialization of the timer for RS485 network answer waiting timeout
     RTC_init_calendar();
     ILI9341_CS_HIGH();
     XPT2046_CS_HIGH();
@@ -37,18 +39,23 @@ int main(void) {
     //delay_ms(500); 
     //ILI9341_draw_image_DMA(windmill); //draw windmill
     //delay_ms(500);  
-        
+
     while(1){
         A7672EInit(); //SIMCOM A7672E initialization active until reach WORK mode
         A7672ReadNEMAGNSS(); //read SIMCOM A7672E GNNS and GSM time (interrupt+ machine state) active when A7672E_init.status == WORK              
    
         A7672ReadGSMBasic(); //read rssi signal strength and gsm registration status in network. active when A7672E_init.status == WORK and RTC_Date_and_Time.time_sync > NONE_sync
         XPT2046_Read_All(); //checking touch screen
-        UserInterface(Windows.Window); //after initialization show main window          
+        UserInterface(Windows.Window); //after initialization show main window     
+        
+        Tower_COM();//send data to test towers?
+        
         RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                       
         TC0_CHECKER(); //check tc0 timeout
         TC2_CHECKER(); //check tc2 timeout
         TCC0_CHECKER(); //check tcc0 timeout checking gsm signal strength and registration in network status
+        TCC1_CHECKER(); //check tcc1 timer for RS485 answer waiting timeout
+        
 
     }
 }

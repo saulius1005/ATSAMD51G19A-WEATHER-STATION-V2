@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 volatile bool TCC0_timeout = false;
+volatile bool TCC1_timeout = false;
 
 
 #ifdef	__cplusplus

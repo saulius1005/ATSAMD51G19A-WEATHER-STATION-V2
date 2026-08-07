@@ -48,6 +48,7 @@ extern "C" {
 #include "ADC.h"
 #include "TCC.h"
 #include "Towers.h"
+#include "RS485.h"
 
 /* --- GPIO --- */
 // Initialize all required GPIO pins (LCD, SPI, control lines)

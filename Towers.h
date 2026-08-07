@@ -34,6 +34,12 @@ extern "C" {
 	);
  */    
     
+typedef enum{
+    SEND = 0,
+    WAIT_RESPOND,
+    PROCESS,      
+}tower_com_t;
+    
 typedef struct{
     uint16_t voltage; //PVU ffff - Exp 1500.9V 15009 (0x3aa1), 250.5V 2505 (0x9c9)  , StepperMotor.measuredVoltage, LinearMotor.measuredVoltage
     uint16_t current; //PVI ffff - Exp 21.33A 2133 (0x855)                          , StepperMotor.measuredCurrent, LinearMotor.measuredCurrent
@@ -45,6 +51,7 @@ typedef struct{
 } position_t;
 
 typedef struct{
+    tower_com_t state;
     uint8_t id; // DEVICE_ID_NUMBER 1, 2... , 255 (0-ff)
     uint8_t es; // SensorData.endSwitches not used for now future feature
     position_t position;
@@ -54,6 +61,9 @@ typedef struct{
 } tower_t;
 
 extern tower_t towers[];
+
+void Towers_init(); //create Towers list
+void Tower_COM(); //main RS485 network for Towers function
 
 #ifdef	__cplusplus
 }

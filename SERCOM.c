@@ -58,9 +58,9 @@ void SERCOM_init(sercom_init_t interface){
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
 
             GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK2 | GCLK_PCHCTRL_CHEN(1);
-                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the same core clock as i2c - 24Mhz
+                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the core clock - 24Mhz
             
-            MCLK_REGS->MCLK_APBBMASK |= MCLK_APBBMASK_SERCOM3_Msk; //enable module functions
+            MCLK_REGS->MCLK_APBBMASK |= MCLK_APBBMASK_SERCOM2_Msk; //enable module functions
             SERCOM2_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_ENABLE(0); //disable
                 while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
             
@@ -77,7 +77,7 @@ void SERCOM_init(sercom_init_t interface){
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
 
             GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK2 | GCLK_PCHCTRL_CHEN(1);
-                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the same core clock as i2c - 24Mhz
+                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM3_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the core clock - 24Mhz
             
             MCLK_REGS->MCLK_APBBMASK |= MCLK_APBBMASK_SERCOM3_Msk; //enable module functions
             SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_ENABLE(0); //disable
