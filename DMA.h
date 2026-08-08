@@ -33,6 +33,12 @@ typedef enum {
     DMA_MODE_COLOR
 } DMA_Send_Mode_t;
 
+typedef enum {
+    SPI_CH = 0,
+    GSM_CH,
+    TOWER_CH,
+} DMA_channel_t;
+
 typedef struct {
     union {
         const uint16_t *image_data;

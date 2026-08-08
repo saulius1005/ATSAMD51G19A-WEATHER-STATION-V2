@@ -31,7 +31,8 @@ int main(void) {
     ILI9341_init_simple_32b();           // Initialize ILI9341 LCD in 32-bit transfer mode
     DMA_init();                          // Initialize DMA controller and global descriptors
     DMA_SERCOM0_TX_init();               // Configure DMA channel for SERCOM0 SPI TX transfers
-    DMA_SERCOM3_RX_init();               // Configure DMA channel for SERCOM3 USART RX
+    DMA_USART_RS485_RX_init(GSM_CH);               // Configure DMA channel for SERCOM3 USART RX
+    DMA_USART_RS485_RX_init(TOWER_CH);
     
     uint16_t y = 1;      
 

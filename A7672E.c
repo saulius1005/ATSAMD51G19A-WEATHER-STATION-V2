@@ -368,15 +368,15 @@ void dma_receive_time_SM(char * cmd , char * echo, uint32_t wait_ms) {
             A7672E_work.cycle = false;
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
             USART_printf("%s", cmd); //send 
-            USART_DMA_Temp_Circular_BYTE_Init(buf, UART_RX_BUFFER_SIZE); //set dma settings
-            USART_DMA_Circular_BYTE_ENABLE(true); //enable dma
+            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
+            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma
             TC2_ON(1000 * wait_ms); //set answer waiting time
             A7672E_work.state = WAIT;
         break;
 
         case WAIT:
             if(TC2_timeout){ //after timeout
-                USART_DMA_Circular_BYTE_ENABLE(false);   //stop reading 
+                DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH);   //stop reading 
                 TC2_timeout = false; //reset timer flag
                 A7672E_work.state = DONE;
             }
@@ -469,15 +469,15 @@ void dma_receive_reg_sig(char * cmd , char * echo, uint32_t wait_ms) { //sendin 
             A7672E_GSM_STATUS_STATE.cycle = false;
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
             USART_printf("%s", cmd); //send 
-            USART_DMA_Temp_Circular_BYTE_Init(buf, UART_RX_BUFFER_SIZE); //set dma settings
-            USART_DMA_Circular_BYTE_ENABLE(true); //enable dma
+            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
+            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma
             TCC0_ON(1000 * wait_ms); //set answer waiting time
             A7672E_GSM_STATUS_STATE.state = WAIT;
         break;
 
         case WAIT:
             if(TCC0_timeout){ //after timeout
-                USART_DMA_Circular_BYTE_ENABLE(false);   //stop reading 
+                DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH);   //stop reading 
                 TCC0_timeout = false; //reset timer flag
                 A7672E_GSM_STATUS_STATE.state = DONE;
             }
@@ -524,8 +524,8 @@ void A7672EPowerUpRead(uint16_t * y, char * buf){ //reads all data right away af
         case SET:
             A7672E_init.cycle = false; //start cycle
             terminal_header(y, "INITIALIZATION");
-            USART_DMA_Temp_Circular_BYTE_Init(buf, UART_RX_BUFFER_SIZE);
-            USART_DMA_Circular_BYTE_ENABLE(true); //enable dma usart reading
+            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH);
+            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma usart reading
             TC0_ON(25000000UL); //read all for 25 seconds
             A7672E_init.state = WAIT;
         break;
@@ -534,7 +534,7 @@ void A7672EPowerUpRead(uint16_t * y, char * buf){ //reads all data right away af
             uint16_t temp_y = 12;
             ILI9341_draw_formatted_line(1, &temp_y, GREEN, BLACK, "%s", buf); //till waiting draw all data
             if(TC0_timeout){
-                USART_DMA_Circular_BYTE_ENABLE(false); //stop reading
+                DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH); //stop reading
                 TC0_timeout = false; //reset timer flag
                 A7672E_init.state = SET; //reset state 
                 A7672E_init.cycle = true; //stop cycle    
@@ -556,14 +556,14 @@ void A7672ESetUp(uint16_t *y, char *buf, A7672E_Config_t *cfg){
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
             USART_printf("%s", cmd->ATTX); // cend cmd
             TC0_ON(1000000UL * (cmd->WaitTimeInSeconds)); // wait answer
-            USART_DMA_Temp_Circular_BYTE_Init(buf, UART_RX_BUFFER_SIZE); // set up dma
-            USART_DMA_Circular_BYTE_ENABLE(true); //enable usart dma
+            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); // set up dma
+            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable usart dma
             A7672E_init.state = WAIT;
         break;
 
         case WAIT:
             if (TC0_timeout) { //if time end
-                USART_DMA_Circular_BYTE_ENABLE(false); //disable dma
+                DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH); //disable dma
                 A7672E_init.state = DONE;
             }
         break;

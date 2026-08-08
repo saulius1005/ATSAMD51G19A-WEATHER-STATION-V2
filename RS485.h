@@ -11,6 +11,8 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
+    
+#define RS485_RX_BUFFER_SIZE 128
 
 
 void RS485_printf(const char *fmt, ...);

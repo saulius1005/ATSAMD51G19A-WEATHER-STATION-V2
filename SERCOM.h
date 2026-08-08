@@ -37,7 +37,6 @@ extern "C" {
 
 
 #define UART_RX_BUFFER_SIZE 128 //cgnssinfo one sentance is about ~110symbols including echo of command. need to increase
-#define UART_RX_FRAME_LENGTH 12
 
 /* 
  * SERCOM peripheral operating mode selector.
@@ -67,19 +66,6 @@ typedef enum {
     UART_TX, // send
     UART_RX  // receive
 } uart_dir_t;
-
-typedef struct {
-    uint8_t FaultCode;
-    uint32_t Data;
-    char CycleStorage[UART_RX_BUFFER_SIZE];
-    //volatile char RAWData[UART_RX_BUFFER_SIZE];
-    char FrameData[UART_RX_FRAME_LENGTH+1];
-    bool frame_ready;
-    uint32_t TimeoutCounter;
-    uint16_t rx_read_index;
-} USARTFAULTS_t;
-    
-extern USARTFAULTS_t USART_SUCK;
 
 #ifdef	__cplusplus
 }

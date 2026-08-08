@@ -26,16 +26,19 @@ void Towers_init(){
  */
 
 void Tower_COM_sequence(uint8_t id){
+    static char buf[RS485_RX_BUFFER_SIZE] = {0};
     switch(towers[id].state){
         case SEND:
+            memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
             RS485_printf("test to id %02x\r\n",id);
             towers[id].state = WAIT_RESPOND;
             TCC1_ON(2000000); //send test every 2 seconds?
-            //start reading using DMA
+            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
+            DMA_USART_RS485_Circular_BYTE_ENABLE(true, TOWER_CH); //enable dma
         break;
         case WAIT_RESPOND:
             if(TCC1_timeout){ //after timeout 
-                //stop reading using DMA
+                DMA_USART_RS485_Circular_BYTE_ENABLE(false, TOWER_CH);   //stop reading 
                 TCC1_timeout = false; //reset timer flag
                 towers[id].state = PROCESS;
             }           

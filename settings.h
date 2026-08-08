@@ -119,7 +119,7 @@ void USART_read_data_frame(uint8_t frame_length);
 
 void USART_read_data_frame_by_one_byte(uint8_t frame_length);
 
-void DMA_SERCOM3_RX_init();
+void DMA_USART_RS485_RX_init(DMA_channel_t channel);
 
 void USART_set_read_length(uint8_t length);
 
@@ -134,9 +134,9 @@ uint16_t USART_DMA_read_progress();
 void USART_DMA_Circular_BYTE_STOP();
 
 
-void USART_DMA_Temp_Circular_BYTE_Init(char *RXBUF, uint16_t len);
+void DMA_USART_RS485_Temp_Circular_BYTE_init(char *RXBUF, uint16_t len, DMA_channel_t channel);
 
-void USART_DMA_Circular_BYTE_ENABLE(bool enable);
+void DMA_USART_RS485_Circular_BYTE_ENABLE(bool enable, DMA_channel_t channel);
 
 
 

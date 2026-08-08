@@ -52,25 +52,33 @@ void SPI_DMA_LCD_send_area(const LCD_Transfer_t *transfer, uint16_t x0, uint16_t
     ILI9341_CS_HIGH();
 }
 
-void DMA_SERCOM3_RX_init(){
-    DMAC_REGS->CHANNEL[1].DMAC_CHCTRLA = DMAC_CHCTRLA_TRIGSRC(SERCOM3_DMAC_ID_RX) | DMAC_CHCTRLA_TRIGACT_BURST | DMAC_CHCTRLA_BURSTLEN_SINGLE | DMAC_CHCTRLA_THRESHOLD_1BEAT;
+void DMA_USART_RS485_RX_init(DMA_channel_t channel){ //channels: 0- spi not used, 1- GSM A767E module USART, 2- TOWERS RS485
+    if(!channel) // if selected SPI channel ignore further code
+        return;
+    DMAC_REGS->CHANNEL[channel].DMAC_CHCTRLA = DMAC_CHCTRLA_TRIGSRC(channel == GSM_CH? SERCOM3_DMAC_ID_RX : SERCOM2_DMAC_ID_RX) | DMAC_CHCTRLA_TRIGACT_BURST | DMAC_CHCTRLA_BURSTLEN_SINGLE | DMAC_CHCTRLA_THRESHOLD_1BEAT;
 }
 
-void USART_DMA_Temp_Circular_BYTE_Init(char *RXBUF, uint16_t len){
-    USART_set_read_length(1);//set length to one byte       
-    descriptor_section[1].BTCTRL = DMAC_BTCTRL_VALID_Msk | DMAC_BTCTRL_DSTINC_Msk | DMAC_BTCTRL_BEATSIZE_BYTE | DMAC_BTCTRL_BLOCKACT_NOACT;
-    descriptor_section[1].BTCNT = len ;
-    descriptor_section[1].SRCADDR = (uint32_t)&SERCOM3_REGS->USART_INT.SERCOM_DATA; //pointer to storage array
-    descriptor_section[1].DSTADDR = (uint32_t)RXBUF + len;
-    descriptor_section[1].DESCADDR = 0; //if array full stop    
+void DMA_USART_RS485_Temp_Circular_BYTE_init(char *RXBUF, uint16_t len, DMA_channel_t channel){//channels: 0- spi not used, 1- GSM A767E module USART, 2- TOWERS RS485
+    if(!channel) // if selected SPI channel ignore further code
+        return;
+    USART_set_read_length(channel);//set length to one byte       
+    descriptor_section[channel].BTCTRL = DMAC_BTCTRL_VALID_Msk | DMAC_BTCTRL_DSTINC_Msk | DMAC_BTCTRL_BEATSIZE_BYTE | DMAC_BTCTRL_BLOCKACT_NOACT;
+    descriptor_section[channel].BTCNT = len ;
+    
+    descriptor_section[channel].SRCADDR = channel == GSM_CH?(uint32_t)&SERCOM3_REGS->USART_INT.SERCOM_DATA: (uint32_t)&SERCOM2_REGS->USART_INT.SERCOM_DATA;
+    
+    descriptor_section[channel].DSTADDR = (uint32_t)RXBUF + len;
+    descriptor_section[channel].DESCADDR = 0; //if array full stop    
 }
 
-void USART_DMA_Circular_BYTE_ENABLE(bool enable){
+void DMA_USART_RS485_Circular_BYTE_ENABLE(bool enable, DMA_channel_t channel){//channels: 0- spi not used, 1- GSM A767E module USART, 2- TOWERS RS485
+    if(!channel) // if selected SPI channel ignore further code
+        return;
     if(enable){        
-        DMAC_REGS->CHANNEL[1].DMAC_CHCTRLA |= DMAC_CHCTRLA_ENABLE_Msk; //enable channell 
+        DMAC_REGS->CHANNEL[channel].DMAC_CHCTRLA |= DMAC_CHCTRLA_ENABLE_Msk; //enable channell 
     }
     else{
-        DMAC_REGS->CHANNEL[1].DMAC_CHCTRLA &= ~DMAC_CHCTRLA_ENABLE_Msk;
+        DMAC_REGS->CHANNEL[channel].DMAC_CHCTRLA &= ~DMAC_CHCTRLA_ENABLE_Msk;
     }
 }
 
