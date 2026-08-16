@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c windows.c Cosmos.c refraction.c ADC.c TCC.c Towers.c button.c RS485.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c windows.c Cosmos.c refraction.c ADC.c TCC.c Towers.c button.c RS485.c crc8.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o ${OBJECTDIR}/windows.o ${OBJECTDIR}/Cosmos.o ${OBJECTDIR}/refraction.o ${OBJECTDIR}/ADC.o ${OBJECTDIR}/TCC.o ${OBJECTDIR}/Towers.o ${OBJECTDIR}/button.o ${OBJECTDIR}/RS485.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/CLK.o.d ${OBJECTDIR}/ILI9341.o.d ${OBJECTDIR}/SERCOM.o.d ${OBJECTDIR}/DMA.o.d ${OBJECTDIR}/GPIO.o.d ${OBJECTDIR}/XPT2046.o.d ${OBJECTDIR}/keyboard.o.d ${OBJECTDIR}/TC.o.d ${OBJECTDIR}/A7672E.o.d ${OBJECTDIR}/RTC.o.d ${OBJECTDIR}/BME680.o.d ${OBJECTDIR}/windows.o.d ${OBJECTDIR}/Cosmos.o.d ${OBJECTDIR}/refraction.o.d ${OBJECTDIR}/ADC.o.d ${OBJECTDIR}/TCC.o.d ${OBJECTDIR}/Towers.o.d ${OBJECTDIR}/button.o.d ${OBJECTDIR}/RS485.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o ${OBJECTDIR}/windows.o ${OBJECTDIR}/Cosmos.o ${OBJECTDIR}/refraction.o ${OBJECTDIR}/ADC.o ${OBJECTDIR}/TCC.o ${OBJECTDIR}/Towers.o ${OBJECTDIR}/button.o ${OBJECTDIR}/RS485.o ${OBJECTDIR}/crc8.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/CLK.o.d ${OBJECTDIR}/ILI9341.o.d ${OBJECTDIR}/SERCOM.o.d ${OBJECTDIR}/DMA.o.d ${OBJECTDIR}/GPIO.o.d ${OBJECTDIR}/XPT2046.o.d ${OBJECTDIR}/keyboard.o.d ${OBJECTDIR}/TC.o.d ${OBJECTDIR}/A7672E.o.d ${OBJECTDIR}/RTC.o.d ${OBJECTDIR}/BME680.o.d ${OBJECTDIR}/windows.o.d ${OBJECTDIR}/Cosmos.o.d ${OBJECTDIR}/refraction.o.d ${OBJECTDIR}/ADC.o.d ${OBJECTDIR}/TCC.o.d ${OBJECTDIR}/Towers.o.d ${OBJECTDIR}/button.o.d ${OBJECTDIR}/RS485.o.d ${OBJECTDIR}/crc8.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o ${OBJECTDIR}/windows.o ${OBJECTDIR}/Cosmos.o ${OBJECTDIR}/refraction.o ${OBJECTDIR}/ADC.o ${OBJECTDIR}/TCC.o ${OBJECTDIR}/Towers.o ${OBJECTDIR}/button.o ${OBJECTDIR}/RS485.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/CLK.o ${OBJECTDIR}/ILI9341.o ${OBJECTDIR}/SERCOM.o ${OBJECTDIR}/DMA.o ${OBJECTDIR}/GPIO.o ${OBJECTDIR}/XPT2046.o ${OBJECTDIR}/keyboard.o ${OBJECTDIR}/TC.o ${OBJECTDIR}/A7672E.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/BME680.o ${OBJECTDIR}/windows.o ${OBJECTDIR}/Cosmos.o ${OBJECTDIR}/refraction.o ${OBJECTDIR}/ADC.o ${OBJECTDIR}/TCC.o ${OBJECTDIR}/Towers.o ${OBJECTDIR}/button.o ${OBJECTDIR}/RS485.o ${OBJECTDIR}/crc8.o
 
 # Source Files
-SOURCEFILES=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c windows.c Cosmos.c refraction.c ADC.c TCC.c Towers.c button.c RS485.c
+SOURCEFILES=main.c CLK.c ILI9341.c SERCOM.c DMA.c GPIO.c XPT2046.c keyboard.c TC.c A7672E.c RTC.c BME680.c windows.c Cosmos.c refraction.c ADC.c TCC.c Towers.c button.c RS485.c crc8.c
 
 # Pack Options 
 PACK_COMMON_OPTIONS=-I "${CMSIS_DIR}/CMSIS/Core/Include"
@@ -224,6 +224,12 @@ ${OBJECTDIR}/RS485.o: RS485.c  .generated_files/flags/default/b77f3218656db44c99
 	@${RM} ${OBJECTDIR}/RS485.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/RS485.o.d" -o ${OBJECTDIR}/RS485.o RS485.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
 	
+${OBJECTDIR}/crc8.o: crc8.c  .generated_files/flags/default/544fe51f877725cca0aeba5bb589020253f0d954 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/crc8.o.d 
+	@${RM} ${OBJECTDIR}/crc8.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/crc8.o.d" -o ${OBJECTDIR}/crc8.o crc8.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
+	
 else
 ${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/987a92d7c426dacd49e87ba7632c999a209c2793 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
@@ -344,6 +350,12 @@ ${OBJECTDIR}/RS485.o: RS485.c  .generated_files/flags/default/bb2f36086e99cca914
 	@${RM} ${OBJECTDIR}/RS485.o.d 
 	@${RM} ${OBJECTDIR}/RS485.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/RS485.o.d" -o ${OBJECTDIR}/RS485.o RS485.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
+	
+${OBJECTDIR}/crc8.o: crc8.c  .generated_files/flags/default/ccb19a3a87831c2cf5009b581e1fcfdce6d8b3b4 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/crc8.o.d 
+	@${RM} ${OBJECTDIR}/crc8.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -O0 -fno-common -MP -MMD -MF "${OBJECTDIR}/crc8.o.d" -o ${OBJECTDIR}/crc8.o crc8.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}/samd51a" ${PACK_COMMON_OPTIONS} 
 	
 endif
 

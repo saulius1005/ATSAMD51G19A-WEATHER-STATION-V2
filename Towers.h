@@ -13,26 +13,7 @@ extern "C" {
 #endif
     
 #define TOWER_COUNT 2 //for far far future may increase tower count. Maybe    
-
-/* 
- * Tower respond data frame example from tower controller:
- * frame start with [ and ends with ]
- * last 2 hex symbols is cdma2000 crc8
- * 
-  USART_printf(0, "[%02x%04x%04x%03x%03x%x%03x%03x%03x%03x%02x]\r\n",
-	(uint8_t)DEVICE_ID_NUMBER,
-	(uint16_t)SensorData.HPElevation,
-	(uint16_t)SensorData.HPAzimuth,
-	(uint16_t)SensorData.PVU,
-	(uint16_t)abs(SensorData.PVI),
-	(uint8_t)SensorData.endSwitches,
-	(uint16_t)StepperMotor.measuredVoltage,
-	(uint16_t)abs(StepperMotor.measuredCurrent),
-	(uint16_t)LinearMotor.measuredVoltage,
-	(uint16_t)abs(LinearMotor.measuredCurrent),
-	(uint8_t)crc8_cdma2000_id(DEVICE_ID_NUMBER)
-	);
- */    
+  
     
 typedef enum{
     SEND = 0,

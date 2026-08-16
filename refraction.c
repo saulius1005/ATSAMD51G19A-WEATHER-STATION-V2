@@ -34,11 +34,13 @@ void apply_altitude_dip(){ //it depends  :D
         double dip_rad = acos(R_eff / (R_eff + abs_h));
         solar_params.elevated_refracted_elevation = solar_params.refracted_elevation - (float)(dip_rad * RAD_TO_DEG);
     }
+    
 }
 
 void apply_all_elevation_modifies(){
     correct_solar_angles();
     apply_altitude_dip();
+    solar_params.coarse_elevation = (int16_t)(solar_params.elevated_refracted_elevation * 100);
     
     //start Sun tracking when elevation is -8 -4 degree below horizon
     //2026-05-12 power generation starts 4:40 (some clouds- average day) sun at the moment was -5.14 (elevation)

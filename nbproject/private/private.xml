@@ -5,7 +5,6 @@
         <group>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/windows.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/TowersVar.h</file>
-            <file>file:/C:/Program%20Files/Microchip/MPLABX/v6.30/packs/Microchip/SAMD51_DFP/3.8.246/samd51a/include/samd51g19a.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/ILI9341.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/windows.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/font.h</file>
@@ -14,6 +13,7 @@
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/XPT2046.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/RTCVar.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/DMA.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/crc8Var.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/windowsVar.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/keyboard.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/DMA.c</file>
@@ -25,16 +25,16 @@
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/CosmosVar.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/TCVar.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/RTC.c</file>
-            <file>file:/C:/Program%20Files/Microchip/MPLABX/v6.30/packs/Microchip/SAMD51_DFP/3.8.246/samd51a/include/component/rtc.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/ADC.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/SERCOM.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/A7672E.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/crc8.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/SERCOM.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/DMAVar.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/USART.h</file>
-            <file>file:/C:/Program%20Files/Microchip/MPLABX/v6.30/packs/Microchip/SAMD51_DFP/3.8.246/samd51a/include/component/adc.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/Cosmos.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/ADC.h</file>
+            <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/crc8.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/Cosmos.h</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/RS485.c</file>
             <file>file:/C:/Users/Saulius/Documents/Atmel%20Studio/MPLAB%20XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/A7672EVar.h</file>

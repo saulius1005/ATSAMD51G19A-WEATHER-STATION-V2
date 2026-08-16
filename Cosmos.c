@@ -188,4 +188,5 @@ void calculate_solar_position(){
     if(azimuth >= 360.0) azimuth -= 360.0;
 
     solar_params.azimuth = azimuth;
+    solar_params.coarse_azimuth = (uint16_t)(azimuth*100);
 }

@@ -32,6 +32,8 @@ typedef struct {
     double refracted_elevation;
     double elevated_refracted_elevation;
     double azimuth;        /**< Solar azimuth angle (in degrees) */
+    uint16_t coarse_azimuth; //**< Solar azimuth angle for towers without floating point */
+    int16_t coarse_elevation; //**< Solar elevation angle for towers without floating point */
 } SolarPositionParameters;
 
 // Declare the global solar position parameters object, which will hold the current solar position data

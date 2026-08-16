@@ -10,7 +10,7 @@ void Towers_init(){
 
 /*  
  * 
- * Old weaather station with AVR64DD32 data frame for towers 
+ * Old weaather station with AVR64DD32 data frame for towers (original v1.0):
  * 
  * //sending data to towers. Id can be 0-255 (0-FF hex). Data from towers will be send to logger from towers directly
  * 
@@ -25,17 +25,39 @@ void Towers_init(){
         (uint8_t)crc8_cdma2000(crcbuf,TowerCRC(i, crcbuf)));
  */
 
+/* 
+ * Tower respond data frame example from tower controller(original v1.0):
+ * frame start with [ and ends with ]
+ * last 2 hex symbols is cdma2000 crc8
+ * 
+  USART_printf(0, "[%02x%04x%04x%03x%03x%x%03x%03x%03x%03x%02x]\r\n",
+	(uint8_t)DEVICE_ID_NUMBER,
+	(uint16_t)SensorData.HPElevation,
+	(uint16_t)SensorData.HPAzimuth,
+	(uint16_t)SensorData.PVU,
+	(uint16_t)abs(SensorData.PVI),
+	(uint8_t)SensorData.endSwitches,
+	(uint16_t)StepperMotor.measuredVoltage,
+	(uint16_t)abs(StepperMotor.measuredCurrent),
+	(uint16_t)LinearMotor.measuredVoltage,
+	(uint16_t)abs(LinearMotor.measuredCurrent),
+	(uint8_t)crc8_cdma2000_id(DEVICE_ID_NUMBER)
+	);
+ */  
+
 void Tower_COM_sequence(uint8_t id){
     static char buf[RS485_RX_BUFFER_SIZE] = {0};
+    
     switch(towers[id].state){
-        case SEND:
+        case SEND:{ 
+            uint8_t crcbuf[16] ={0};
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
-            RS485_printf("test to id %02x\r\n",id);
+            RS485_printf("{%02x%04x%04x%02x%x%02x}\r\n", id, solar_params.coarse_azimuth, solar_params.coarse_elevation, WIND.speed, WIND.direction, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
             towers[id].state = WAIT_RESPOND;
             TCC1_ON(2000000); //send test every 2 seconds?
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
             DMA_USART_RS485_Circular_BYTE_ENABLE(true, TOWER_CH); //enable dma
-        break;
+        }break;
         case WAIT_RESPOND:
             if(TCC1_timeout){ //after timeout 
                 DMA_USART_RS485_Circular_BYTE_ENABLE(false, TOWER_CH);   //stop reading 

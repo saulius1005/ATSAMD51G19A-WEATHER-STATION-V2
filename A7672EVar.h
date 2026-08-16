@@ -16,8 +16,10 @@ extern "C" {
 #endif
 
 CommandList_t A7672ESetGPSList[] = { //most command response time is max 9sec
-    {"AT+CGNSSPWR=1,1,1\r", 9, 2}, //turn on gnss module,hot flash start, use dynamic flash
+    {"AT+CGNSSPWR=1,1,1\r", 9, 2}, //turn on gnss module,hot flash start, use dynamic flash    
+    {"AT+CGNSSPROD\r", 9, 2}, //get gnss module info only after power on module
     {"AT+CGPSCOLD\r", 1, 1}, //cold start
+    //AT+CGNSSTST=1 //send data to nmea port
     {"AT+CGNSSMODE=3\r", 1, 1}, //GPS+GLONASS+GALILEO+SBAS+QZSS (1,2,3,4)
     {"AT+CGPSNMEARATE=1\r", 1, 1}, //update rate 1 hz (1,2,5)
     {"AT+CAGPS\r", 5, 2}, //get data from assistant agnss server

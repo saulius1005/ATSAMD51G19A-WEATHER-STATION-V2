@@ -49,6 +49,7 @@ extern "C" {
 #include "TCC.h"
 #include "Towers.h"
 #include "RS485.h"
+#include "crc8.h"
 
 /* --- GPIO --- */
 // Initialize all required GPIO pins (LCD, SPI, control lines)

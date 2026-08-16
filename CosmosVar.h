@@ -23,7 +23,10 @@ SolarPositionParameters solar_params = {
 	
 	// Azimuth is calculated from South (180°) with an offset towards the East
 	.azimuth = 171.4,              /**< Azimuth direction (180° = South, 171.4° is 8.6° East of South) */
-    .refracted_elevation = 37.3
+    .refracted_elevation = 37.3,
+    .coarse_azimuth = 17140,
+    .coarse_elevation = 3730,
+    
 };
 
 #endif /* COSMOSVAR_H_ */
