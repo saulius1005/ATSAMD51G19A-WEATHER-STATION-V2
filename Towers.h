@@ -18,7 +18,8 @@ extern "C" {
 typedef enum{
     SEND = 0,
     WAIT_RESPOND,
-    PROCESS,      
+    PROCESS,   
+    COMPLETE,
 }tower_com_t;
     
 typedef struct{

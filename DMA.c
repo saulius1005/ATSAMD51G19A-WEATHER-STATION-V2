@@ -61,7 +61,7 @@ void DMA_USART_RS485_RX_init(DMA_channel_t channel){ //channels: 0- spi not used
 void DMA_USART_RS485_Temp_Circular_BYTE_init(char *RXBUF, uint16_t len, DMA_channel_t channel){//channels: 0- spi not used, 1- GSM A767E module USART, 2- TOWERS RS485
     if(!channel) // if selected SPI channel ignore further code
         return;
-    USART_set_read_length(channel);//set length to one byte       
+    USART_set_read_length(1, channel);//set length to one byte       
     descriptor_section[channel].BTCTRL = DMAC_BTCTRL_VALID_Msk | DMAC_BTCTRL_DSTINC_Msk | DMAC_BTCTRL_BEATSIZE_BYTE | DMAC_BTCTRL_BLOCKACT_NOACT;
     descriptor_section[channel].BTCNT = len ;
     

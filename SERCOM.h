@@ -67,6 +67,8 @@ typedef enum {
     UART_RX  // receive
 } uart_dir_t;
 
+void USART_set_read_length(uint8_t length, DMA_channel_t channel);
+
 #ifdef	__cplusplus
 }
 #endif

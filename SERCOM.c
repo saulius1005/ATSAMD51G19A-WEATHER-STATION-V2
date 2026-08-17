@@ -173,9 +173,16 @@ uint32_t swap_and_align(uint32_t data, uint8_t length){
 
 //USART
 
-void USART_set_read_length(uint8_t length){ //how much bytes we need to read
-    SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;
-    while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync
+void USART_set_read_length(uint8_t length, DMA_channel_t channel){ //how much bytes we need to read
+    if(channel == GSM_CH){
+        SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;
+        while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync        
+    }
+    else if (channel == TOWER_CH){
+        SERCOM2_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;
+        while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync  
+    }
+
 }
 
 void USART_write_str(char *str){

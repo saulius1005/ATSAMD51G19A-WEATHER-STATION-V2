@@ -95,36 +95,38 @@ void UserInterface(Windows_names_t window) {
                     y -= 12;
                     ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GNSS locked: %s", (A7672EGNSS.mode == 2) ? "2D" : (A7672EGNSS.mode == 3) ? "3D" : "NO");
 
+                    //tower window part is not dynamic need to change or make as time change (separate window)
+                    tower_t *tower0 = &towers[0];
 
                     y = 192;
                     ILI9341_draw_formatted_line(85, &y, MISTYROSE, BLACK, "Towers Data:\n");
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Tower ID:");
                     y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "1");
+                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%01d", tower0 -> id);
                     y -= 12;
                     ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "2");
 
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Tracker Frame:");
                     y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "179°A 57°E");
+                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%3d.%02d°A %2d.%02d°E", tower0 -> position.azimuth / 100, tower0 -> position.azimuth % 100, tower0 -> position.elevation / 100, tower0 -> position.elevation % 100);
                     y -= 12;
                     ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "177°A 56°E");
 
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Solar cells:");
                     y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "210V 9.4A");
+                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%3d.%01dV %2d.%02dA", tower0 -> panel.voltage / 10, tower0 -> panel.voltage % 10, tower0 -> panel.current / 100, tower0 -> panel.current % 100);
                     y -= 12;
                     ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "211V 9.5A");
 
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Azimuth Motor:");
                     y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "62V 1A");
+                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%2d.%01dV %2d.%02dA", tower0 -> az_motor.voltage / 10, tower0 -> az_motor.voltage % 10, tower0 -> az_motor.current / 100, tower0 -> az_motor.current % 100);
                     y -= 12;
                     ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "62V 1A");
 
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Elevation Motor:");
                     y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "25V 3A");
+                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%2d.%01dV %2d.%02dA", tower0 -> el_motor.voltage / 10,tower0 -> el_motor.voltage % 10, tower0 -> el_motor.current / 100, tower0 -> el_motor.current % 100);
                     y -= 12;
                     ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "24V 2A");
 

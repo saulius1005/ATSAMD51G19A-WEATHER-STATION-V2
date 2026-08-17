@@ -33,12 +33,12 @@ extern "C" {
 #include <math.h>
 
 #include "ILI9341.h"
+#include "DMA.h"    
 #include "SERCOM.h"
 #include "A7672E.h"    
 #include "XPT2046.h"
 #include "keyboard.h"
 #include "TC.h"
-#include "DMA.h"
 #include "image.h"
 #include "RTC.h"
 #include "BME680.h"
@@ -112,7 +112,6 @@ void USART_write_str(char * str);
 
 void USART_printf(const char *fmt, ...);
 
-void USART_set_read_length(uint8_t length);
 
 void USART_read_string(uint8_t total_length);
 
@@ -122,7 +121,6 @@ void USART_read_data_frame_by_one_byte(uint8_t frame_length);
 
 void DMA_USART_RS485_RX_init(DMA_channel_t channel);
 
-void USART_set_read_length(uint8_t length);
 
 void process_usart_data_frame();
 
