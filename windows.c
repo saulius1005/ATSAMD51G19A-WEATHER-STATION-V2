@@ -592,7 +592,8 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %3d.%01dV", tower0 -> panel.voltage / 10, tower0 -> panel.voltage % 10);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> panel.current / 100, tower0 -> panel.current % 100);
                     uint32_t power = (uint32_t) tower0 -> panel.voltage * tower0 -> panel.current;
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %4d.%02dkW", power / 1000000, power % 1000000);
+                    uint32_t power_kw_x100 = (power + 5000) / 10000;
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %4d.%02dkW", power_kw_x100 / 100, power_kw_x100 % 100);
                     
                     y += 12;
                     
@@ -601,7 +602,8 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %2d.%01dV", tower0 -> az_motor.voltage / 10, tower0 -> az_motor.voltage % 10);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> az_motor.current / 100, tower0 -> az_motor.current % 100);
                     power = (uint32_t) tower0 -> az_motor.voltage * tower0 -> az_motor.current;
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power / 1000, power % 1000);
+                    uint32_t power_w_x10 = (power + 5) / 10;
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power_w_x10/100, power_w_x10%100);
                     
                     y += 12;
 
@@ -610,7 +612,8 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %2d.%01dV", tower0 -> el_motor.voltage / 10,tower0 -> el_motor.voltage % 10);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> el_motor.current / 100, tower0 -> el_motor.current % 100);
                     power = (uint32_t) tower0 -> el_motor.voltage * tower0 -> el_motor.current;
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power / 1000, power % 1000);
+                    power_w_x10 = (power + 5) / 10;
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power_w_x10/100, power_w_x10%100);
 
                     ILI9341_draw_formatted_line(5, &y, MAGENTA, keyboard.background_color, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
                     Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;

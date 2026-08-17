@@ -131,7 +131,7 @@ void Tower_COM_sequence(uint8_t id){
             //converting elevation to uint type and do NOT FORGET use int16_t at receiver side
             RS485_printf("{%02x%04x%04x%02x%x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, WIND.speed, WIND.direction, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
             towers[id].state = WAIT_RESPOND;
-            TCC1_ON(2000000); //send data request every 2 seconds?
+            TCC1_ON(2000000 / TOWER_COUNT); //dynamic data request time interval added EASY :D
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
             DMA_USART_RS485_Circular_BYTE_ENABLE(true, TOWER_CH); //enable dma
         }break;
