@@ -17,7 +17,17 @@ uint8_t TowerCRC(uint8_t device_id, uint8_t* buf){
 uint8_t crc8_cdma2000(uint8_t* buf, uint8_t i){
 	uint8_t crc = 0xFF;
 	for (uint8_t j = 0; j < i; j++)
-	crc = crc8_table2[crc ^ buf[j]];
+	crc = crc8_table[crc ^ buf[j]];
 
 	return crc;
+}
+
+bool verify_crc8_cdma2000(uint8_t *data, uint8_t length, uint8_t crc) {
+	uint8_t calculatedcrc = 0xFF;
+	for (size_t i = 0; i < length; i++) { // length = 8 baitai
+		calculatedcrc = crc8_table[calculatedcrc ^ data[i]];
+	}
+    
+	return calculatedcrc == crc;
+
 }

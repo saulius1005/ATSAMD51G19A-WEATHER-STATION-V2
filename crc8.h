@@ -14,6 +14,7 @@ extern "C" {
 
 uint8_t TowerCRC(uint8_t device_id, uint8_t* buf); //fill 8 bit buffer for crc
 uint8_t crc8_cdma2000(uint8_t* buf, uint8_t i); //calculate crc
+bool verify_crc8_cdma2000(uint8_t *data, uint8_t length, uint8_t crc); //checking if message calculated crc (calculate inside from *data array), also this function need to know total bytes in array and it check as received crc
 
 
 #ifdef	__cplusplus

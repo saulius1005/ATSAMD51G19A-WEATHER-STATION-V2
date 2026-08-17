@@ -136,13 +136,17 @@ void UserInterface(Windows_names_t window) {
                 }
                 Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
 
-                if (XPT2046_switch(100, 3850, 3800, 4000)) {//touch map for date and time change button
+                if (XPT2046_switch(64, 4000, 3800, 4000)) {//touch map for date and time change button
                     Windows.background_updater = false; //prepare to update screen
                     Windows.Window = TIME_WINDOW;
                     Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open
-                } else if (XPT2046_switch(100, 1900, 1890, 2700)) {
+                } else if (XPT2046_switch(64, 1900, 1890, 2700)) {
                     Windows.background_updater = false; //prepare to update screen
                     Windows.Window = LOCATION_WINDOW;
+                    Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open                
+                } else if (XPT2046_switch(64, 4000, 700, 1800)) {
+                    Windows.background_updater = false; //prepare to update screen
+                    Windows.Window = TOWER_WINDOW;
                     Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open                
                 }
             }
@@ -540,6 +544,92 @@ void UserInterface(Windows_names_t window) {
         }
             break;
         case TOWER_WINDOW:
+        {
+            uint16_t text_color = MISTYROSE;
+
+            if (!Windows.background_updater) { //drawing not changing elements            
+                keyboard.background_color = DARK_BLUE;
+
+                ILI9341_fill_color_DMA(keyboard.background_color); //background
+
+                ili9341_draw_rect(0, 0, 48, 20, BLACK, 1); //and buttons frames
+                uint16_t y = 6;
+                ILI9341_draw_formatted_line(18, &y, WHITE, BLACK, "<");
+
+                ili9341_draw_rect(48, 0, 48, 20, YELLOW, 1);
+                y = 6;
+                ILI9341_draw_formatted_line(60, &y, BLACK, YELLOW, "View");
+
+                ili9341_draw_rect(96, 0, 48, 20, GREEN, 1);
+                y = 6;
+                ILI9341_draw_formatted_line(108, &y, RED, GREEN, "SET");
+
+
+                Windows.background_updater = true;
+            } else {
+                if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) { //update every second except...
+                    RTC_read_date_and_time();
+                    uint16_t y = 30;
+                    
+                    tower_t *tower0 = &towers[0];
+
+                    ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Towers Data:");
+                    
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Total towers: %3d", TOWER_COUNT);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Tower in view by ID: %02d", tower0 -> id);
+                                       
+                    y += 12;
+                    
+                    ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Tracker Frame:");
+                    
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Azimuth: %3d.%02d°", tower0 -> position.azimuth / 100, tower0 -> position.azimuth % 100);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Elevation: %2d.%02d°", tower0 -> position.elevation / 100, tower0 -> position.elevation % 100);
+                    
+                    y += 12;
+                    
+                    ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Solar cells:");
+                    
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %3d.%01dV", tower0 -> panel.voltage / 10, tower0 -> panel.voltage % 10);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> panel.current / 100, tower0 -> panel.current % 100);
+                    uint32_t power = (uint32_t) tower0 -> panel.voltage * tower0 -> panel.current;
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %4d.%02dkW", power / 1000000, power % 1000000);
+                    
+                    y += 12;
+                    
+                    ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Azimuth Motor:");
+
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %2d.%01dV", tower0 -> az_motor.voltage / 10, tower0 -> az_motor.voltage % 10);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> az_motor.current / 100, tower0 -> az_motor.current % 100);
+                    power = (uint32_t) tower0 -> az_motor.voltage * tower0 -> az_motor.current;
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power / 1000, power % 1000);
+                    
+                    y += 12;
+
+                    ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Elevation Motor:");
+
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %2d.%01dV", tower0 -> el_motor.voltage / 10,tower0 -> el_motor.voltage % 10);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> el_motor.current / 100, tower0 -> el_motor.current % 100);
+                    power = (uint32_t) tower0 -> el_motor.voltage * tower0 -> el_motor.current;
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power / 1000, power % 1000);
+
+                    ILI9341_draw_formatted_line(5, &y, MAGENTA, keyboard.background_color, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
+                    Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
+                }
+
+                //draw_keyboard(Windows.keyboardAction);
+
+
+                // Touch button check
+                if (XPT2046_switch(64, 812, 3700, 4000)) { // < 
+                    Windows.background_updater = false;
+                    Windows.Window = MAIN_WINDOW;
+                    Windows.keyboardAction = CLOSE;
+                    Windows.once_per_second_update = 0;
+                } 
+
+            }
+
+        }            
             break;
         case SETTINGS_WINDOW:
             break;

@@ -54,6 +54,7 @@ extern "C" {
 #define CRIMSON		0xd8a7
 #define MISTYROSE	0xff1b
 #define LIGHT_BLUE	0xaebc
+#define DARK_BLUE   0x000b
 #define BLACK       0x0000
 #define WHITE       0xFFFF
 #define LIGHT_GRAY  0x7BEF
