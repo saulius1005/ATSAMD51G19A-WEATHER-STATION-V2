@@ -25,12 +25,22 @@ typedef enum{
 typedef struct{
     uint16_t voltage; //PVU ffff - Exp 1500.9V 15009 (0x3aa1), 250.5V 2505 (0x9c9)  , StepperMotor.measuredVoltage, LinearMotor.measuredVoltage
     uint16_t current; //PVI ffff - Exp 21.33A 2133 (0x855)                          , StepperMotor.measuredCurrent, LinearMotor.measuredCurrent
+    uint32_t power; //calculated from received data
 } electrical_t;
 
 typedef struct{
     uint16_t azimuth; //HPAzimuth ffff- Exp 359.99 3599 (0x8c9f)
     uint16_t elevation; //HPElevation ffff- Exp 89.99 3599 (0x2327)
 } position_t;
+
+typedef struct{
+    uint16_t year;
+    uint8_t month;
+    uint8_t day;
+    uint8_t hour;
+    uint8_t minute;
+    uint8_t second;
+} last_update_t;
 
 typedef struct{
     tower_com_t state;
@@ -40,6 +50,7 @@ typedef struct{
     electrical_t panel;
     electrical_t az_motor;
     electrical_t el_motor;
+    last_update_t update_time;
 } tower_t;
 
 extern tower_t towers[];

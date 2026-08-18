@@ -1,18 +1,11 @@
 #include "settings.h"
 #include "TowersVar.h"
 
-void Towers_init(){
-    for (uint8_t i = 0; i < TOWER_COUNT; i++){
-        towers[i].state = SEND;
-        towers[i].id = i; //start id form 0 to 255 it will be total up to 256 towers
-    }
-}
-
 /*  
  * 
- * Old weaather station with AVR64DD32 data frame for towers (original v1.0):
+ * Old weather station with AVR64DD32 data frame for towers (original v1.0):
  * 
- * //sending data to towers. Id can be 0-255 (0-FF hex). Data from towers will be send to logger from towers directly
+ * //sending data to towers. Id can be 0-255 (0-FF hex). Data from towers will be send to logger from towers directly (never implemented)
  * 
  * 
         USART_printf(0, "{%02x%04x%04x%02x%x%03x%02x}\r\n",
@@ -23,6 +16,22 @@ void Towers_init(){
         (uint8_t)readwinddirection.Result, //F 0-7
         (uint16_t)SUN.sunlevel, //FFF 0-600 //not actual. after reaserch (power generation starts when Sun is about -8 degrees below horizon in clear sky and -6 degrees when is heavy clouds)
         (uint8_t)crc8_cdma2000(crcbuf,TowerCRC(i, crcbuf)));
+ */
+
+/*
+ *
+ * New weather stattion with ATSAMD51G19A data frame for towers (2.0):
+ * 
+ * sending data to towers. Id can be 0-255 (0-FF hex). Data from towers sending directly back to weather station
+ 
+        RS485_printf("{%02x%04x%04x%02x%x%02x}\r\n", 
+        id, //0-255
+        solar_params.coarse_azimuth, //0-35999
+        (uint16_t)solar_params.coarse_elevation, //sending as uint16_t but actualy it is signed exmp: -700 : 8999 
+        WIND.speed, //0-30
+        WIND.direction, //0-7
+                        //sun level removed
+        crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf))); //0-255
  */
 
 /* 
@@ -44,6 +53,21 @@ void Towers_init(){
 	(uint8_t)crc8_cdma2000_id(DEVICE_ID_NUMBER)
 	);
  */  
+
+/*
+ * Tower respond data frame example (v2.0):
+ * frame start with [ and ends with ]
+ * last 2 hex symbols is cdma2000 crc8
+ 
+    same as v 1.0, only PVU is 4 Bytes instead of 3
+ 
+ */
+void Towers_init(){
+    for (uint8_t i = 0; i < TOWER_COUNT; i++){
+        towers[i].state = SEND;
+        towers[i].id = i; //start id form 0 to 255 it will be total up to 256 towers
+    }
+}
 
 uint16_t fast_atoi_hex(const char *p, uint8_t digits){// char to hex, also char int to int are in a7672e.c, also char float to int also in a7672e.c
     uint16_t value = 0;
@@ -109,14 +133,24 @@ void Tower_COM_DATA_Parser(char* buf, uint8_t id){
 
         tower -> panel.voltage = PVU;
         tower -> panel.current = PVI;
+        tower -> panel.power = (uint32_t)PVU*PVI;
 
         tower -> es = ES;
 
         tower -> az_motor.voltage = SU;
         tower -> az_motor.current = SI;
+        tower -> az_motor.power = (uint32_t)SU*SI;
 
         tower -> el_motor.voltage = LU;
-        tower -> el_motor.current = LI;                     
+        tower -> el_motor.current = LI;  
+        tower -> el_motor.power = (uint32_t)LU*LI;
+
+        tower -> update_time.year = RTC_Date_and_Time.RTC_year + 2000;
+        tower -> update_time.month = RTC_Date_and_Time.RTC_month;
+        tower -> update_time.day = RTC_Date_and_Time.RTC_day;
+        tower -> update_time.hour = RTC_Date_and_Time.RTC_hour;
+        tower -> update_time.minute = RTC_Date_and_Time.RTC_minute;
+        tower -> update_time.second = RTC_Date_and_Time.RTC_second;
     
     }
 }

@@ -100,35 +100,25 @@ void UserInterface(Windows_names_t window) {
 
                     y = 192;
                     ILI9341_draw_formatted_line(85, &y, MISTYROSE, BLACK, "Towers Data:\n");
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Tower ID:");
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Towers :");
                     y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%01d", tower0 -> id);
+                    ILI9341_draw_formatted_line(125, &y, MISTYROSE, BLACK, "%3d", TOWER_COUNT);
+                    
+                    uint64_t total_power = 0;
+                    for(uint8_t i = 0; i< TOWER_COUNT; i++){ //calculate all towers power
+                        total_power += towers[i].panel.power;
+                    }
+                    
+                    uint32_t power_kw_x100 = (total_power + 5000) / 10000;
+                    
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Total PV Power:");
                     y -= 12;
-                    ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "2");
+                    ILI9341_draw_formatted_line(125, &y, MISTYROSE, BLACK, "%4d.%02dkW", power_kw_x100 / 100, power_kw_x100 % 100);
 
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Tracker Frame:");
                     y -= 12;
                     ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%3d.%02d°A %2d.%02d°E", tower0 -> position.azimuth / 100, tower0 -> position.azimuth % 100, tower0 -> position.elevation / 100, tower0 -> position.elevation % 100);
-                    y -= 12;
-                    ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "177°A 56°E");
 
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Solar cells:");
-                    y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%3d.%01dV %2d.%02dA", tower0 -> panel.voltage / 10, tower0 -> panel.voltage % 10, tower0 -> panel.current / 100, tower0 -> panel.current % 100);
-                    y -= 12;
-                    ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "211V 9.5A");
-
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Azimuth Motor:");
-                    y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%2d.%01dV %2d.%02dA", tower0 -> az_motor.voltage / 10, tower0 -> az_motor.voltage % 10, tower0 -> az_motor.current / 100, tower0 -> az_motor.current % 100);
-                    y -= 12;
-                    ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "62V 1A");
-
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Elevation Motor:");
-                    y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%2d.%01dV %2d.%02dA", tower0 -> el_motor.voltage / 10,tower0 -> el_motor.voltage % 10, tower0 -> el_motor.current / 100, tower0 -> el_motor.current % 100);
-                    y -= 12;
-                    ILI9341_draw_formatted_line(175, &y, MISTYROSE, BLACK, "24V 2A");
 
                     y = 300;
                     ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
@@ -577,8 +567,14 @@ void UserInterface(Windows_names_t window) {
 
                     ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Towers Data:");
                     
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Total towers: %3d", TOWER_COUNT);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Tower in view by ID: %02d", tower0 -> id);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Last update: %04d-%02d-%02d %02d:%02d:%02d", 
+                            tower0 -> update_time.year, 
+                            tower0 -> update_time.month, 
+                            tower0 -> update_time.day, 
+                            tower0 -> update_time.hour, 
+                            tower0 -> update_time.minute, 
+                            tower0 -> update_time.second);
                                        
                     y += 12;
                     
@@ -593,8 +589,8 @@ void UserInterface(Windows_names_t window) {
                     
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %3d.%01dV", tower0 -> panel.voltage / 10, tower0 -> panel.voltage % 10);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> panel.current / 100, tower0 -> panel.current % 100);
-                    uint32_t power = (uint32_t) tower0 -> panel.voltage * tower0 -> panel.current;
-                    uint32_t power_kw_x100 = (power + 5000) / 10000;
+                    
+                    uint32_t power_kw_x100 = (tower0 -> panel.power + 5000) / 10000;
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %4d.%02dkW", power_kw_x100 / 100, power_kw_x100 % 100);
                     
                     y += 12;
@@ -603,8 +599,8 @@ void UserInterface(Windows_names_t window) {
 
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %2d.%01dV", tower0 -> az_motor.voltage / 10, tower0 -> az_motor.voltage % 10);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> az_motor.current / 100, tower0 -> az_motor.current % 100);
-                    power = (uint32_t) tower0 -> az_motor.voltage * tower0 -> az_motor.current;
-                    uint32_t power_w_x10 = (power + 5) / 10;
+                    
+                    uint32_t power_w_x10 = (tower0 -> az_motor.power + 5) / 10;
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power_w_x10/100, power_w_x10%100);
                     
                     y += 12;
@@ -613,8 +609,8 @@ void UserInterface(Windows_names_t window) {
 
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %2d.%01dV", tower0 -> el_motor.voltage / 10,tower0 -> el_motor.voltage % 10);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> el_motor.current / 100, tower0 -> el_motor.current % 100);
-                    power = (uint32_t) tower0 -> el_motor.voltage * tower0 -> el_motor.current;
-                    power_w_x10 = (power + 5) / 10;
+                    
+                    power_w_x10 = (tower0 -> el_motor.power + 5) / 10;
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power_w_x10/100, power_w_x10%100);
 
                     ILI9341_draw_formatted_line(5, &y, MAGENTA, keyboard.background_color, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
