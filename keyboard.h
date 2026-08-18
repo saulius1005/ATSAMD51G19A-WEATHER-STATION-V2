@@ -22,72 +22,31 @@ extern "C" {
 typedef enum {
     CLOSE,    //0
     OPEN       //1
-} keyboard_t;
+} keyboard_status_t;
 
 typedef struct {
     uint16_t background_color;   
 } KeyBoard_data;
 
-typedef enum { //windows names where presed keypad will pop up
-    BTN_0,
-    BTN_1,
-    BTN_2
-} ButtonID;
-
 typedef struct {
     uint16_t X0;
     uint16_t X1;
     uint16_t Y0;
     uint16_t Y1;
     uint16_t Z0;
-    keyboard_t action;
-    ButtonID id;     
-    uint8_t pressed;
-} Source_data;
-
-typedef enum {
-    key0,
-    key1,
-    key2,
-    key3,
-    key4,
-    key5,
-    key6,
-    key7,        
-    key8,
-    key9,
-    keyback,
-    keyok,
-    keydelete,
-    keyplus,
-    keyminus,
-    keydot
-} KeyID;
-
-typedef struct {
-    uint16_t X0;
-    uint16_t X1;
-    uint16_t Y0;
-    uint16_t Y1;
-    uint16_t Z0;
-    KeyID id;     
-    uint8_t pressed;
     uint8_t digit;
     char value;
 } key_data;
 
-
 typedef struct {
+    keyboard_status_t status;
+    uint16_t background_color;
     key_data keyboard_buttons[KEY_COUNT];
-} keys_data;
+}keyboard_t;
 
+extern keyboard_t keyboard;
 
-extern KeyBoard_data keyboard;
-extern keys_data keysMap;
-
-
-void source(Source_data *btn); //keyboard drawing and touch screen actions
-void draw_keyboard(keyboard_t action);
+void draw_keyboard();
 
 
 #ifdef	__cplusplus

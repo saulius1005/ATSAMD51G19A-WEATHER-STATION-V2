@@ -206,9 +206,9 @@ void UserInterface(Windows_names_t window) {
                     Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
                 }
 
-                draw_keyboard(Windows.keyboardAction);
+                draw_keyboard();
 
-                if (Windows.keyboardAction == OPEN) {
+                if (keyboard.status == OPEN) {
                     uint16_t y = 130;
                     ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "MAN TIME: ");
 
@@ -248,7 +248,7 @@ void UserInterface(Windows_names_t window) {
                     }
                     else { // if touch pressing hard enough
                         for (uint8_t i = 0; i < 16; i++) { //find where is pressing
-                            key_data *key = &keysMap.keyboard_buttons[i];
+                            key_data *key = &keyboard.keyboard_buttons[i];
                             if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X <= key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y <= key->Y1)) {
                                 if (countProtection != pressCount) { //accept only once and one symbol per pressing
                                     Windows.once_per_second_update += 1;
@@ -294,7 +294,7 @@ void UserInterface(Windows_names_t window) {
                                         uint16_t y = 130;
                                         ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "                                             ");
                                         Windows.Window = TIME_WINDOW;
-                                        Windows.keyboardAction = CLOSE;
+                                        keyboard.status = CLOSE;
                                         Windows.once_per_second_update = 88; //just  random digit
                                     }
                                     countProtection = pressCount;
@@ -309,11 +309,11 @@ void UserInterface(Windows_names_t window) {
                 if (XPT2046_switch(100, 916, 3700, 4000)) { // < 
                     Windows.background_updater = false;
                     Windows.Window = MAIN_WINDOW;
-                    Windows.keyboardAction = CLOSE;
+                    keyboard.status = CLOSE;
                     Windows.once_per_second_update = 0;
                 } else if (XPT2046_switch(1016, 1932, 3700, 4000)) { // MAN
                     Windows.once_per_second_update = 0;
-                    Windows.keyboardAction ^= 1;
+                    keyboard.status ^= 1;
                 } else if (XPT2046_switch(2032, 2948, 3700, 4000)) { // GSM
                     Windows.once_per_second_update = 0;
                     uint16_t y = 130;
@@ -323,9 +323,9 @@ void UserInterface(Windows_names_t window) {
                     A7672EGSM.GSM_time_corect = false;
                     A7672E_work.cycle = false;
                     A7672E_work.state = SET;
-                    if (Windows.keyboardAction == OPEN) {
+                    if (keyboard.status == OPEN) {
                         Windows.Window = TIME_WINDOW;
-                        Windows.keyboardAction = CLOSE;
+                        keyboard.status = CLOSE;
                         Windows.once_per_second_update = 89;
                     }
                 } else if (XPT2046_switch(3048, 3964, 3700, 4000)) { // GNSS
@@ -341,9 +341,9 @@ void UserInterface(Windows_names_t window) {
                     } else {
                         ILI9341_draw_formatted_line(0, &y, RED, NAVY, "              NO GNSS lock!              ");
                     }
-                    if (Windows.keyboardAction == OPEN) {
+                    if (keyboard.status == OPEN) {
                         Windows.Window = TIME_WINDOW;
-                        Windows.keyboardAction = CLOSE;
+                        keyboard.status = CLOSE;
                         Windows.once_per_second_update = 89;
                     }
                 }
@@ -398,11 +398,13 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Longitude: %3d.%04d° ", solar_params.longitude / 10000, abs(solar_params.longitude % 10000));
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Altitude: %4dm ", solar_params.altitude);
                     Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
+                    y = 300;
+                    ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
                 }
 
-                draw_keyboard(Windows.keyboardAction);
+                draw_keyboard();
 
-                if (Windows.keyboardAction == OPEN) {
+                if (keyboard.status == OPEN) {
                     uint16_t y = 130;
                     uint16_t x = 60;
                     uint8_t location_param = changing_current_param - 1;
@@ -440,7 +442,7 @@ void UserInterface(Windows_names_t window) {
                     } else { // if touch pressing hard enough
                         uint8_t digits = total[location_param];                        
                         for (uint8_t i = 0; i < 16; i++) { //find where is pressing
-                            key_data *key = &keysMap.keyboard_buttons[i];
+                            key_data *key = &keyboard.keyboard_buttons[i];
                             if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X <= key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y <= key->Y1)) {
                                 if (countProtection[location_param] != *press) { //accept only once and one symbol per pressing
                                     Windows.once_per_second_update += 1;
@@ -475,7 +477,7 @@ void UserInterface(Windows_names_t window) {
                                         uint16_t y = 130;
                                         ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "                                             ");
                                         Windows.background_updater = false;
-                                        Windows.keyboardAction = CLOSE;
+                                        keyboard.status = CLOSE;
                                         Windows.once_per_second_update = 88; //just  random digit
                                     }
                                     countProtection[location_param] = *press;
@@ -490,37 +492,37 @@ void UserInterface(Windows_names_t window) {
                 if (XPT2046_switch(64, 812, 3700, 4000)) { // < 
                     Windows.background_updater = false;
                     Windows.Window = MAIN_WINDOW;
-                    Windows.keyboardAction = CLOSE;
+                    keyboard.status = CLOSE;
                     changing_current_param = 0;
                     Windows.once_per_second_update = 0;
                 } else if (XPT2046_switch(844, 1624, 3700, 4000)) { // LATI
                     if ((changing_current_param == 2) || (changing_current_param == 3)) {
                         Windows.background_updater = false;
-                        if (Windows.keyboardAction == CLOSE)
-                            Windows.keyboardAction = OPEN;
+                        if (keyboard.status == CLOSE)
+                            keyboard.status = OPEN;
                     } else {
-                        Windows.keyboardAction ^= 1;
+                        keyboard.status ^= 1;
                     }
                     Windows.once_per_second_update = 0;
                     changing_current_param = 1;
                 } else if (XPT2046_switch(1656, 2436, 3700, 4000)) { // LONG
                     if ((changing_current_param == 1) || (changing_current_param == 3)) {
                         Windows.background_updater = false;
-                        if (Windows.keyboardAction == CLOSE)
-                            Windows.keyboardAction = OPEN;
+                        if (keyboard.status == CLOSE)
+                            keyboard.status = OPEN;
                     } else {
-                        Windows.keyboardAction ^= 1;
+                        keyboard.status ^= 1;
                     }
                     Windows.once_per_second_update = 0;
                     changing_current_param = 2;
                 } else if (XPT2046_switch(2468, 3248, 3700, 4000)) { // ALTI
                     if ((changing_current_param == 1) || (changing_current_param == 2)) {
                         Windows.background_updater = false;
-                        if (Windows.keyboardAction == CLOSE)
-                            Windows.keyboardAction = OPEN;
+                        if (keyboard.status == CLOSE)
+                            keyboard.status = OPEN;
                         ;
                     } else {
-                        Windows.keyboardAction ^= 1;
+                        keyboard.status ^= 1;
                     }
                     Windows.once_per_second_update = 0;
                     changing_current_param = 3;
@@ -534,7 +536,7 @@ void UserInterface(Windows_names_t window) {
                         solar_params.altitude = (int16_t) A7672EGNSS.alt;
                         ILI9341_draw_formatted_line(100, &y, GREEN, keyboard.background_color, "UPDATED");
                     }
-                    Windows.keyboardAction = CLOSE;
+                    keyboard.status = CLOSE;
                     Windows.once_per_second_update = 0;
                     changing_current_param = 4;
                 }
@@ -626,7 +628,7 @@ void UserInterface(Windows_names_t window) {
                 if (XPT2046_switch(64, 812, 3700, 4000)) { // < 
                     Windows.background_updater = false;
                     Windows.Window = MAIN_WINDOW;
-                    Windows.keyboardAction = CLOSE;
+                    keyboard.status = CLOSE;
                     Windows.once_per_second_update = 0;
                 } 
 

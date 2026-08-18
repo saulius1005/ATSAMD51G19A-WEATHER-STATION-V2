@@ -20,7 +20,6 @@ extern "C" {
         .Window = INIT_WINDOW,
         .background_updater = false,
         .once_per_second_update = 0,
-        .keyboardAction = CLOSE, //set keyboard closed
     };
     
     param_limit_t limits[] = { //location limits for latitude, logitude and altitude
