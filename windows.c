@@ -158,6 +158,7 @@ void UserInterface(Windows_names_t window) {
             if (!Windows.background_updater) { //drawing not changing elements
                 ILI9341_fill_color_DMA(NAVY); //background
                 keyboard.background_color = NAVY;
+                keyboard.type = digits;
 
                 ili9341_draw_rect(0, 0, 60, 20, BLACK, 1); //and buttons frames
                 uint16_t y = 6;
@@ -361,6 +362,7 @@ void UserInterface(Windows_names_t window) {
 
             if (!Windows.background_updater) { //drawing not changing elements            
                 keyboard.background_color = DARK_GREEN;
+                keyboard.type = digits;
 
                 ILI9341_fill_color_DMA(keyboard.background_color); //background
 

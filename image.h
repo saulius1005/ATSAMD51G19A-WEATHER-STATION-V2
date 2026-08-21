@@ -20,7 +20,7 @@ extern "C" {
     
  extern const uint16_t windmill[76800]; //full screen
  extern const uint16_t sunflower[76800]; //full screen
- extern const uint16_t keypad_240x130[31200]; //240x130 //xy macro in keyboard.h
+ extern const uint16_t keypad_digits_240x130[31200]; //240x130 //xy macro in keyboard.h
 
 #ifdef	__cplusplus
 }

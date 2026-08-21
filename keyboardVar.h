@@ -17,6 +17,7 @@ extern "C" {
     
 keyboard_t keyboard = {
     .status = CLOSE,
+    .type = digits,
     .background_color = RED,
     .keyboard_buttons = {
     {1150, 1920, 385, 672, 100, 0, '0'},//0

@@ -34,5 +34,5 @@ MP_CPPC_DIR="C:\Program Files\Microchip\xc32\v5.10\bin"
 MP_AS_DIR="C:\Program Files\Microchip\xc32\v5.10\bin"
 MP_LD_DIR="C:\Program Files\Microchip\xc32\v5.10\bin"
 MP_AR_DIR="C:\Program Files\Microchip\xc32\v5.10\bin"
-CMSIS_DIR=C:/Users/Saulius/.mchp_packs/ARM/CMSIS/6.3.0
 DFP_DIR=C:/Users/Saulius/.mchp_packs/Microchip/SAMD51_DFP/3.9.276
+CMSIS_DIR=C:/Users/Saulius/.mchp_packs/ARM/CMSIS/6.3.0

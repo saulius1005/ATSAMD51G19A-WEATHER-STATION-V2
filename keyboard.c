@@ -10,7 +10,8 @@ void draw_keyboard(){
 
     if (keyboard.status == OPEN && !is_open) { //draw image
         t.is_solid_color = 0;
-        t.source.image_data = keypad_240x130;
+         
+        t.source.image_data = keyboard.type == digits ? keypad_digits_240x130 : keypad_letters_240x130;
         SPI_DMA_LCD_send_area(&t, KEYBOARD_X0, KEYBOARD_Y0, KEYBOARD_X1, KEYBOARD_Y1); //draw keyboard or fill its place with background
         is_open = true;
     } 

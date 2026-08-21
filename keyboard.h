@@ -24,6 +24,11 @@ typedef enum {
     OPEN       //1
 } keyboard_status_t;
 
+typedef enum {
+    digits = 0,
+    letters,
+}keyboard_type_t;
+
 typedef struct {
     uint16_t background_color;   
 } KeyBoard_data;
@@ -40,6 +45,7 @@ typedef struct {
 
 typedef struct {
     keyboard_status_t status;
+    keyboard_type_t type;
     uint16_t background_color;
     key_data keyboard_buttons[KEY_COUNT];
 }keyboard_t;

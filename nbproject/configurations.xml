@@ -90,8 +90,8 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="CMSIS" vendor="ARM" version="6.3.0"/>
         <pack name="SAMD51_DFP" vendor="Microchip" version="3.9.276"/>
+        <pack name="CMSIS" vendor="ARM" version="6.3.0"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -411,7 +411,7 @@
         <property key="ptgSendImage" value="true"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.specifictoolpack"/>
-        <property key="toolpack.updateoptions.packversion" value="2.13.1015"/>
+        <property key="toolpack.updateoptions.packversion" value="2.14.1160"/>
         <property key="voltagevalue" value="3.25"/>
         <property key="x.erase.clearprot" value="true"/>
       </PK5Tool>
@@ -494,7 +494,7 @@
         <property key="script.show_output" value="false"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.specifictoolpack"/>
-        <property key="toolpack.updateoptions.packversion" value="2.13.1015"/>
+        <property key="toolpack.updateoptions.packversion" value="2.14.1160"/>
         <property key="voltagevalue" value="3.25"/>
         <property key="x.erase.clearprot" value="true"/>
       </Tool>
