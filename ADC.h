@@ -23,15 +23,21 @@ typedef enum {
 typedef struct {
     uint16_t speed;
     uint16_t direction;
-} ADCParameters;
+} ADCParameters_wind;
 
-extern ADCParameters WIND;
+typedef struct {
+    uint16_t level;
+} ADCParameters_sun;
+
+
+extern ADCParameters_wind WIND;
+extern ADCParameters_sun SUN;
 
 void ADC0_init(); //initialization of ADC module
 void GCLK4_SERCOM_ADC_core_init(); // initialization of clock engine for adc0
-void ADC0_read(wind_measure_t wind_ch); //reads wind speed or direction 
+void Read_wind(wind_measure_t wind_ch); //reads wind speed or direction 
 char * WindDirNames(); //return name of wind direction such as N, NE, E,....
-void WIND_update();
+void Read_sun();
 
 #ifdef	__cplusplus
 }

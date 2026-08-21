@@ -8,14 +8,21 @@
 #ifndef ADCVAR_H
 #define	ADCVAR_H
 
+#include "ADC.h"
+
+
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
-ADCParameters WIND = {
+ADCParameters_wind WIND = {
     .speed = 0,
     .direction = 0,
+};
+
+ADCParameters_sun SUN = {
+    .level = 0,
 };
 
 

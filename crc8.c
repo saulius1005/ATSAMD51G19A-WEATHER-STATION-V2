@@ -9,8 +9,9 @@ uint8_t TowerCRC(uint8_t device_id, uint8_t* buf){
 		buf[i++] = (uint8_t)(solar_params.coarse_elevation >> 8);//elevation (FFFF)
 		buf[i++] = (uint8_t)(solar_params.coarse_elevation & 0xFF);
 		buf[i++] = (uint8_t) WIND.speed; // wind speed (FF)
-		buf[i++] = (uint8_t)WIND.direction; //split wind direction and part of light level data
-        //removed light level value DO NOT FORGET ABOUT THAT!!!!
+        uint16_t saveOneBit = ((WIND.direction & 0x07) << 12) | (SUN.level & 0x0FFF); //wind direction (F)(values only 0- 7) + light level(FFF)(values only 0-4095) = (F+FFF)
+		buf[i++] = (uint8_t)(saveOneBit >> 8); //split wind direction and part of light level data
+		buf[i++] = (uint8_t)(saveOneBit & 0xFF); // left part of light level
 	return i;
 }
 

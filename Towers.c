@@ -14,7 +14,7 @@
         (uint16_t)SUN.adjelevation, //FFFF 0-8999
         (uint8_t)readwindspeed.Result, //FF 0-30
         (uint8_t)readwinddirection.Result, //F 0-7
-        (uint16_t)SUN.sunlevel, //FFF 0-600 //not actual. after reaserch (power generation starts when Sun is about -8 degrees below horizon in clear sky and -6 degrees when is heavy clouds)
+        (uint16_t)SUN.sunlevel, //FFF 0-600 //
         (uint8_t)crc8_cdma2000(crcbuf,TowerCRC(i, crcbuf)));
  */
 
@@ -24,13 +24,13 @@
  * 
  * sending data to towers. Id can be 0-255 (0-FF hex). Data from towers sending directly back to weather station
  
-        RS485_printf("{%02x%04x%04x%02x%x%02x}\r\n", 
+        RS485_printf("{%02x%04x%04x%02x%x%03x%02x}\r\n", 
         id, //0-255
         solar_params.coarse_azimuth, //0-35999
         (uint16_t)solar_params.coarse_elevation, //sending as uint16_t but actualy it is signed exmp: -700 : 8999 
         WIND.speed, //0-30
         WIND.direction, //0-7
-                        //sun level removed
+        SUN.level, //0-4095
         crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf))); //0-255
  */
 
@@ -113,8 +113,9 @@ void Tower_COM_DATA_Parser(char* buf, uint8_t id){
         uint16_t LI  = fast_atoi_hex(&buf[i], 3); i += 3;
         uint8_t  CC  = (uint8_t)fast_atoi_hex(&buf[i], 2); i += 2;
         
-        //test message: [004792126807dc3fb025a0370ee15b58] //bad crc
-        //test message: [004792126807dc3fb025a0370ee15b10] //crc ok
+        //test message: [004792126807dc3fb025a0370ee15b58] // id 0 ,..., bad crc
+        //test message: [004792126807dc3fb025a0370ee15b10] //id 0 ,...,  crc ok
+        //test message: [01487312c307f3441026202c9680733e] //id 1, ..., crc ok
  
         bool crc_ok = verify_crc8_cdma2000(crc_data,(i - 3)/2, CC);//crc buf, total bytes not symbol count, received crc
 
@@ -163,7 +164,7 @@ void Tower_COM_sequence(uint8_t id){
             uint8_t crcbuf[16] ={0};
             memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
             //converting elevation to uint type and do NOT FORGET use int16_t at receiver side
-            RS485_printf("{%02x%04x%04x%02x%x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, WIND.speed, WIND.direction, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
+            RS485_printf("{%02x%04x%04x%02x%x%03x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, WIND.speed, WIND.direction, SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
             towers[id].state = WAIT_RESPOND;
             TCC1_ON(2000000 / TOWER_COUNT); //dynamic data request time interval added EASY :D
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings

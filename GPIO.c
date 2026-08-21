@@ -22,23 +22,25 @@ void GPIO_init() {
      */
     PORT_REGS->GROUP[1].PORT_DIRSET = PORT_PB09 | PORT_PB10 | PORT_PB11;
      /* 
-     * PA02 -> ADC0 IN (Wind speed)
-     * PA03 -> ADC0 IN (Wind direction) 
+     * PA02 -> ADC0 AIN0 (Wind speed)
+     * PA03 -> ADC0 AIN1 (Wind direction) 
      * PA04 -> MISO SPI IN (SERCOM0)
+     * PA11 -> ADC0 AIN11 (Sun light level)
      * PA15 -> RS485 RX IN (SERCOM2) PAD3 
      * PA18 -> A767E USART RX (IN SERCOM3)
      */
-    PORT_REGS->GROUP[0].PORT_DIRCLR =  PORT_PA02 | PORT_PA03 | PORT_PA04 | PORT_PA15 | PORT_PA18;
+    PORT_REGS->GROUP[0].PORT_DIRCLR =  PORT_PA02 | PORT_PA03 | PORT_PA04 | PORT_PA11 | PORT_PA15 | PORT_PA18;
     /* 
      * PB08 -> MISO BME680 SPI (SERCOM4)
      */
     PORT_REGS->GROUP[1].PORT_DIRCLR = PORT_PB08;
     
-    PORT_REGS->GROUP[0].PORT_PINCFG[2] = PORT_PINCFG_PMUXEN_Msk; // PA04 SERCOM0 SPI PAD0 MISO
-    PORT_REGS->GROUP[0].PORT_PINCFG[3] = PORT_PINCFG_PMUXEN_Msk; // PA04 SERCOM0 SPI PAD0 MISO
+    PORT_REGS->GROUP[0].PORT_PINCFG[2] = PORT_PINCFG_PMUXEN_Msk; // PA02 ADC0 Wind speed
+    PORT_REGS->GROUP[0].PORT_PINCFG[3] = PORT_PINCFG_PMUXEN_Msk; // PA02 ADC0 Wind direction
     PORT_REGS->GROUP[0].PORT_PINCFG[4] = PORT_PINCFG_PMUXEN_Msk; // PA04 SERCOM0 SPI PAD0 MISO
     PORT_REGS->GROUP[0].PORT_PINCFG[5] = PORT_PINCFG_PMUXEN_Msk; // PA05 SERCOM0 SPI PAD1 SCK
     PORT_REGS->GROUP[0].PORT_PINCFG[7] = PORT_PINCFG_PMUXEN_Msk; // PA07 SERCOM0 SPI PAD3 MOSI
+    PORT_REGS->GROUP[0].PORT_PINCFG[11] = PORT_PINCFG_PMUXEN_Msk; // PA11 ADC0 Sun light level
     
     PORT_REGS->GROUP[0].PORT_PINCFG[12] = PORT_PINCFG_PMUXEN_Msk; // PA12 SERCOM2 RS485 PAD0 TX
     PORT_REGS->GROUP[0].PORT_PINCFG[14] = PORT_PINCFG_PMUXEN_Msk; // PA14 SERCOM2 RS485 PAD2 TE 
@@ -58,20 +60,15 @@ void GPIO_init() {
      */
     PORT_REGS->GROUP[0].PORT_PMUX[2 >> 1] = PORT_PMUX_PMUXE_B | PORT_PMUX_PMUXO_B; // PA02 even, PA03 (odd) function B ADC0 AIN0 and AIN1
     PORT_REGS->GROUP[0].PORT_PMUX[4 >> 1] = PORT_PMUX_PMUXE_D | PORT_PMUX_PMUXO_D; // PA04 even, PA05 (odd) SERCOM0 function D
-    PORT_REGS->GROUP[0].PORT_PMUX[6 >> 1] = /*PORT_PMUX_PMUXE_D |*/ PORT_PMUX_PMUXO_D; // PA06 even, PA07 odd //uncomment if need to use HW SS (for single device) SERCOM0 function D
-    
-    PORT_REGS->GROUP[1].PORT_PMUX[8 >> 1] = PORT_PMUX_PMUXE_D | PORT_PMUX_PMUXO_D; // PB08 even, PB09 (odd) SERCOM4 function D
-    PORT_REGS->GROUP[1].PORT_PMUX[10 >> 1] = /*PORT_PMUX_PMUXE_D |*/ PORT_PMUX_PMUXO_D; // PB10 even, PB11 odd //uncomment if need to use HW SS (for single device) SERCOM4 function D
-    
-    /* --- Configure PMUX (peripheral multiplexing) ---
-     * PMUX pairs pins as even+odd: 12 (skip PA13), 14+15, ...
-     * Function C = SERCOM2 (RS485 in this case)
-     */
+    PORT_REGS->GROUP[0].PORT_PMUX[7 >> 1] = PORT_PMUX_PMUXO_D; // PA07 odd SERCOM0 function D
+    PORT_REGS->GROUP[0].PORT_PMUX[11 >> 1] = PORT_PMUX_PMUXO_D; //PA11 ADC0 AIN11 odd (Sun light level)
     PORT_REGS->GROUP[0].PORT_PMUX[12 >> 1] = PORT_PMUX_PMUXE_C; // PA12 use only as  SERCOM2 function C- RS485 TX
-    PORT_REGS->GROUP[0].PORT_PMUX[14 >> 1] = PORT_PMUX_PMUXE_C | PORT_PMUX_PMUXO_C; // PA14 and PA15 as RS485 TE and RX SERCOM2
-    
+    PORT_REGS->GROUP[0].PORT_PMUX[14 >> 1] = PORT_PMUX_PMUXE_C | PORT_PMUX_PMUXO_C; // PA14 and PA15 as RS485 TE and RX SERCOM2   
     PORT_REGS->GROUP[0].PORT_PMUX[17 >> 1] =  PORT_PMUX_PMUXO_D; //only odd pin (17) uses d function (sercom 3) USART A767E TX
     PORT_REGS->GROUP[0].PORT_PMUX[18 >> 1] =  PORT_PMUX_PMUXE_D; //only odd pin (18) uses d function (sercom 3) USART A767E
     
+    PORT_REGS->GROUP[1].PORT_PMUX[8 >> 1] = PORT_PMUX_PMUXE_D | PORT_PMUX_PMUXO_D; // PB08 even, PB09 (odd) SERCOM4 function D
+    PORT_REGS->GROUP[1].PORT_PMUX[10 >> 1] = /*PORT_PMUX_PMUXE_D |*/ PORT_PMUX_PMUXO_D; // PB10 even, PB11 odd //uncomment if need to use HW SS (for single device) SERCOM4 function D
+        
 }
 

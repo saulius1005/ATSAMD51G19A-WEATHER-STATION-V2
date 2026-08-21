@@ -44,7 +44,7 @@ char * WindDirNames(){ // return wind direction short name
 	return "N ";  // North
 }
 
-void ADC0_read(wind_measure_t wind_ch){
+void Read_wind(wind_measure_t wind_ch){
        
     ADC0_REGS->ADC_INPUTCTRL = ADC_INPUTCTRL_MUXNEG_GND | ( wind_ch? ADC_INPUTCTRL_MUXPOS_AIN1 : ADC_INPUTCTRL_MUXPOS_AIN0 ); //connect negative channel part to internal gnd
     while (ADC0_REGS->ADC_SYNCBUSY & ADC_SYNCBUSY_INPUTCTRL_Msk); //sync changed channel
@@ -58,4 +58,15 @@ void ADC0_read(wind_measure_t wind_ch){
         WIND.direction = (ADC0_REGS->ADC_RESULT + 1) / Wind_Direction_step;      
     else
         WIND.speed = ADC0_REGS->ADC_RESULT * Wind_Speed_koef;
+}
+
+void Read_sun(){
+    ADC0_REGS->ADC_INPUTCTRL = ADC_INPUTCTRL_MUXNEG_GND | ADC_INPUTCTRL_MUXPOS_AIN11; //connect negative channel part to internal gnd
+    while (ADC0_REGS->ADC_SYNCBUSY & ADC_SYNCBUSY_INPUTCTRL_Msk); //sync changed channel
+
+    ADC0_REGS->ADC_SWTRIG = ADC_SWTRIG_START_Msk; //start conversion
+    
+    while (!(ADC0_REGS->ADC_INTFLAG & ADC_INTFLAG_RESRDY_Msk)); //wait result
+        ADC0_REGS->ADC_INTFLAG |= ADC_INTFLAG_RESRDY_Msk; //clear result  mask
+    SUN.level = ADC0_REGS->ADC_RESULT;
 }

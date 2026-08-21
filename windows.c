@@ -31,13 +31,15 @@ void UserInterface(Windows_names_t window) {
                 Windows.background_updater = true;
             } else { //if background was drawed show other data         
 
-                ADC0_read(WIND_SPEED); //read wind speed to catch gust of wind
+                Read_wind(WIND_SPEED); //read wind speed to catch gust of wind
 
                 if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) { // update data every second once
                     RTC_read_date_and_time();
                     BME680_read_t_p_rh();
                     calculate_solar_position();
                     apply_all_elevation_modifies();    
+                    Read_wind(WIND_DIR); //read wind direction every second;
+                    Read_sun(); //read sun light level
                     
                     uint16_t y = 4;                    
                     ILI9341_draw_formatted_line(60, &y, WHITE, BLACK, "%4d-%02d-%02d %02d:%02d:%02d",
@@ -69,9 +71,12 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Elevation: %3.02f ", solar_params.elevated_refracted_elevation);
 
                     ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Humidity: %3d% ", (BME680.humidity + 500) / 1000);
-
-                    ADC0_read(WIND_DIR); //read wind direction every second;
+                    y -= 12;
+                    ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Sun l.l.: %dmV", SUN.level); //example for layout
+                    
                     ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: %dm/s %s\n", WIND.speed, WindDirNames()); //example for layout
+                    
+                    
 
 
                     ILI9341_draw_formatted_line(15, &y, GREEN, BLACK, "Location Data:");
@@ -564,10 +569,8 @@ void UserInterface(Windows_names_t window) {
                     uint16_t y = 30;
                     
                     tower_t *tower0 = &towers[0];
-
-                    ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Towers Data:");
                     
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Tower in view by ID: %02d", tower0 -> id);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Tower ID: %02d", tower0 -> id);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Last update: %04d-%02d-%02d %02d:%02d:%02d", 
                             tower0 -> update_time.year, 
                             tower0 -> update_time.month, 
@@ -626,7 +629,13 @@ void UserInterface(Windows_names_t window) {
                     Windows.Window = MAIN_WINDOW;
                     keyboard.status = CLOSE;
                     Windows.once_per_second_update = 0;
-                } 
+                } else if (XPT2046_switch(844, 1624, 3700, 4000)) { // View
+                    keyboard.status ^= 1;
+                    Windows.once_per_second_update = 0;
+                } else if (XPT2046_switch(1656, 2436, 3700, 4000)) { // Set
+                    keyboard.status ^= 1;
+                    Windows.once_per_second_update = 0;
+                }
 
             }
 
