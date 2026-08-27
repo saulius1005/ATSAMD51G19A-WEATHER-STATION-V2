@@ -108,12 +108,20 @@ void ILI9341_draw_image_DMA(const uint16_t *fb){
     SPI_DMA_LCD_send_area(&t, FULL_SCREEN_IMAGE_X0, FULL_SCREEN_IMAGE_Y0, FULL_SCREEN_IMAGE_X1, FULL_SCREEN_IMAGE_Y1); 
 }
 
-void ILI9341_fill_color_DMA(uint16_t color){
+void ILI9341_fill_ALL_color_DMA(uint16_t color){
     LCD_Transfer_t t;
     t.pixel_count = FULL_SCREEN_IMAGE_COUNT;
     t.is_solid_color = 1;
     t.source.color_val = __builtin_bswap16(color);
     SPI_DMA_LCD_send_area(&t, FULL_SCREEN_IMAGE_X0, FULL_SCREEN_IMAGE_Y0, FULL_SCREEN_IMAGE_X1, FULL_SCREEN_IMAGE_Y1); 
+}
+
+void ILI9341_fill_PART_color_DMA(uint16_t color, uint16_t X0, uint16_t X1, uint16_t Y0,uint16_t Y1){
+    LCD_Transfer_t t;
+    t.pixel_count = FULL_SCREEN_IMAGE_COUNT;
+    t.is_solid_color = 1;
+    t.source.color_val = __builtin_bswap16(color);
+    SPI_DMA_LCD_send_area(&t, X0, Y0, X1, Y1); 
 }
 
 void ili9341_set_address_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {

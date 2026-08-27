@@ -12,7 +12,8 @@
 extern "C" {
 #endif
 
-#define KEY_COUNT 16
+#define KEY_COUNT_DIGITS_KEYBOARD 16
+#define KEY_COUNT_LETTERS_KEYBOARD 55
 #define KEYBOARD_X0 0
 #define KEYBOARD_Y0 190
 #define KEYBOARD_X1 239
@@ -38,16 +39,16 @@ typedef struct {
     uint16_t X1;
     uint16_t Y0;
     uint16_t Y1;
-    uint16_t Z0;
-    uint8_t digit;
-    char value;
+    uint8_t ASCII_value;
 } key_data;
 
 typedef struct {
+    bool shift;
     keyboard_status_t status;
     keyboard_type_t type;
     uint16_t background_color;
-    key_data keyboard_buttons[KEY_COUNT];
+    key_data digits_keyboard_buttons[KEY_COUNT_DIGITS_KEYBOARD];
+    key_data letters_keyboard_buttons[KEY_COUNT_LETTERS_KEYBOARD];
 }keyboard_t;
 
 extern keyboard_t keyboard;

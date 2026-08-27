@@ -43,6 +43,10 @@ CommandList_t A7672EHTTPGET[] = { //cmd list to receive GET request
     {"AT+HTTPTERM\r", 1, 1},
 };
 
+A7672E_network_settings_t A7672E_NET = {
+    .APN_USR ={"internet.tele2.lt"},
+};
+
 GNSS_data_list_t A7672EGNSS = {
     .date = 0,
     .alt = 0,

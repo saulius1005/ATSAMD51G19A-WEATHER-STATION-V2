@@ -16,7 +16,7 @@ extern "C" {
 #define XPT_CMD_Y 0x90 //0x98- 8bit
 #define XPT_CMD_Z1 0xB0
 #define XPT_CMD_Z2 0xC0
-#define XPT_PRES_STRENGTH_LVL 100 //how hard need to press
+#define XPT_PRES_STRENGTH_LVL 60 //how hard need to press
     
 #define XPT2046_CS_LOW()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA10) // CS LOW
 #define XPT2046_CS_HIGH()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA10) // CS HIGH

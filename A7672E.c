@@ -64,7 +64,7 @@ bool extract_at_response(char *buf, const char *cmd, uint8_t packs){
 }
 
 void terminal_header(uint16_t *y, const char *title) {
-    ILI9341_fill_color_DMA(BLACK);
+    ILI9341_fill_ALL_color_DMA(BLACK);
     *y = 0;
     ILI9341_draw_formatted_line(65, y, RED, BLACK, "%s", title);
 }

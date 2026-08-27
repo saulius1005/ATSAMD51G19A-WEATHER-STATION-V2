@@ -108,7 +108,9 @@ void ili9341_DATA(uint32_t data, uint8_t length);
 
 void ILI9341_draw_image_DMA(const uint16_t *fb);
 
-void ILI9341_fill_color_DMA(uint16_t color);
+void ILI9341_fill_ALL_color_DMA(uint16_t color); //fill all of screen with selected color using DMA
+
+void ILI9341_fill_PART_color_DMA(uint16_t color, uint16_t X0, uint16_t X1, uint16_t Y0,uint16_t Y1); //fill part of screen with selected color using DMA
 
 void ILI9341_draw_formatted_line(uint16_t x, uint16_t *y, uint16_t fg, uint16_t bg, const char *fmt, ...);
 

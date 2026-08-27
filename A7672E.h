@@ -14,6 +14,9 @@ extern "C" {
 
 #define AT_COMMAND_COUNT(arr) (sizeof(arr) / sizeof((arr)[0])) //calculate command set count
 #define TIME_ZONE 2
+#define APN_ADD_SYMBOLS_COUNT 40
+#define APN_PASS_SYMBOLS_COUNT 40    
+#define SERVER_URL_COUNT 160
     
 typedef struct {
     char *ATTX; //send command array list      
@@ -134,6 +137,13 @@ typedef struct { // for cmd list at initialization of http or gnss
     const char *header; //title which are showing at initialization
 } A7672E_Config_t;
 
+typedef struct {
+    char APN_USR[APN_ADD_SYMBOLS_COUNT];
+    char APN_PSW[APN_PASS_SYMBOLS_COUNT];        
+    char SERVER_URL[SERVER_URL_COUNT];
+    
+}A7672E_network_settings_t;
+
 extern CommandList_t A7672ESetGPSList[];
 extern CommandList_t A7672ESetInternetList[];
 extern CommandList_t A7672EHTTPGET[];
@@ -143,6 +153,7 @@ extern A7672E_init_list_t A7672E_init;
 extern A7672E_work_list_t A7672E_work;
 extern A7672E_regsig_list_t A7672E_GSM_STATUS_STATE;
 extern A7672E_gsm_status_t A7672E_GSM_STATUS;
+extern A7672E_network_settings_t A7672E_NET;
 
 
 void A7672EInit(); //initialization of module HTTP, GPS

@@ -60,7 +60,7 @@ void XPT2046_Read_All(){
 }
 
 bool XPT2046_switch(uint16_t X0, uint16_t X1, uint16_t Y0, uint16_t Y1){
-    bool touched = (Read_XPT2046.X >= X0 && Read_XPT2046.X <= X1 && Read_XPT2046.Y >= Y0 && Read_XPT2046.Y <= Y1/* && Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL*/);
+    bool touched = (Read_XPT2046.X >= X0 && Read_XPT2046.X < X1 && Read_XPT2046.Y >= Y0 && Read_XPT2046.Y < Y1);
         if(!Read_XPT2046.pressed){
             if(Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL && touched){
                 Read_XPT2046.pressed = true;

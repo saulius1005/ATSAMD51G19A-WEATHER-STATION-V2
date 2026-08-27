@@ -18,7 +18,7 @@ typedef enum {
     TIME_WINDOW,
     LOCATION_WINDOW,
     TOWER_WINDOW,
-    SETTINGS_WINDOW,
+    GSM_GNSS_WINDOW,
 }Windows_names_t;
 
 typedef struct {

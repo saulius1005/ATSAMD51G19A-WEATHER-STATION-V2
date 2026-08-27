@@ -17,7 +17,7 @@ void UserInterface(Windows_names_t window) {
         case MAIN_WINDOW:
         {
             if (!Windows.background_updater) {
-                ILI9341_fill_color_DMA(BLACK); //fill screen 
+                ILI9341_fill_ALL_color_DMA(BLACK); //fill screen 
                 ili9341_draw_rect(0, 0, 240, 16, WHITE, 0); //date and time button
 
                 ili9341_draw_rect(0, 20, 115, 80, CYAN, 0); //weather data
@@ -135,13 +135,18 @@ void UserInterface(Windows_names_t window) {
                     Windows.background_updater = false; //prepare to update screen
                     Windows.Window = TIME_WINDOW;
                     Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open
-                } else if (XPT2046_switch(64, 1900, 1890, 2700)) {
+                } else if (XPT2046_switch(64, 1800, 1900, 2700)) {
                     Windows.background_updater = false; //prepare to update screen
                     Windows.Window = LOCATION_WINDOW;
                     Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open                
                 } else if (XPT2046_switch(64, 4000, 700, 1800)) {
                     Windows.background_updater = false; //prepare to update screen
                     Windows.Window = TOWER_WINDOW;
+                    Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open                
+                }
+                else if (XPT2046_switch(1900, 4000, 1900, 2700)) {
+                    Windows.background_updater = false; //prepare to update screen
+                    Windows.Window = GSM_GNSS_WINDOW;
                     Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open                
                 }
             }
@@ -156,7 +161,7 @@ void UserInterface(Windows_names_t window) {
             static uint8_t countProtection = 55;
 
             if (!Windows.background_updater) { //drawing not changing elements
-                ILI9341_fill_color_DMA(NAVY); //background
+                ILI9341_fill_ALL_color_DMA(NAVY); //background
                 keyboard.background_color = NAVY;
                 keyboard.type = digits;
 
@@ -244,24 +249,24 @@ void UserInterface(Windows_names_t window) {
                     }
                     else { // if touch pressing hard enough
                         for (uint8_t i = 0; i < 16; i++) { //find where is pressing
-                            key_data *key = &keyboard.keyboard_buttons[i];
-                            if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X <= key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y <= key->Y1)) {
+                            key_data *key = &keyboard.digits_keyboard_buttons[i];
+                            if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
                                 if (countProtection != pressCount) { //accept only once and one symbol per pressing
                                     Windows.once_per_second_update += 1;
-                                    if (key->digit <= 9) {
+                                    if ( (key->ASCII_value-48 >= 0) && (key->ASCII_value-48 <= 9) ) {
                                         if (pressCount < 14) { //changing Date and Time digits
-                                            DT[pressCount] = key->digit;
+                                            DT[pressCount] = key->ASCII_value-48;
                                             pressCount++;
                                         } else if (pressCount <= 16) {
-                                            TZ[pressCount - 15] = key->digit; //change time zone digits  
+                                            TZ[pressCount - 15] = key->ASCII_value-48; //change time zone digits  
                                             pressCount++;
                                         }
-                                    } else if (pressCount == 14 && ((key->value == '-') || (key->value == '+'))) { //only if changing time zone and using + or - symbols
+                                    } else if (pressCount == 14 && ((key->ASCII_value == '-') || (key->ASCII_value == '+'))) { //only if changing time zone and using + or - symbols
                                         pressCount++;
-                                        TZside = key->value;
+                                        TZside = key->ASCII_value;
                                     }
 
-                                    if (pressCount == 17 && key->value == '>') {
+                                    if (pressCount == 17 && key->ASCII_value == '>') {
                                         uint8_t yy = (DT[2] * 10) + DT[3];
                                         uint8_t MM = (DT[4] * 10) + DT[5];
                                         uint8_t dd = (DT[6] * 10) + DT[7];
@@ -282,9 +287,9 @@ void UserInterface(Windows_names_t window) {
                                         } else {
                                             ILI9341_draw_formatted_line(204, &y, RED, NAVY, "ERROR");
                                         }
-                                    } else if ((pressCount > 2) && (key->value == '<')) {
+                                    } else if ((pressCount > 2) && (key->ASCII_value == '<')) {
                                         pressCount--;
-                                    } else if (key->value == 'x') { //clear whole line and close keyboard
+                                    } else if (key->ASCII_value == 'x') { //clear whole line and close keyboard
                                         for (uint8_t x = 2; x < 14; x++) DT[x] = 0;
                                         pressCount = 2;
                                         uint16_t y = 130;
@@ -364,7 +369,7 @@ void UserInterface(Windows_names_t window) {
                 keyboard.background_color = DARK_GREEN;
                 keyboard.type = digits;
 
-                ILI9341_fill_color_DMA(keyboard.background_color); //background
+                ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
 
                 ili9341_draw_rect(0, 0, 48, 20, BLACK, 1); //and buttons frames
                 uint16_t y = 6;
@@ -394,9 +399,8 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Latitude: %2d.%04d° ", solar_params.latitude / 10000, abs(solar_params.latitude % 10000));
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Longitude: %3d.%04d° ", solar_params.longitude / 10000, abs(solar_params.longitude % 10000));
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Altitude: %4dm ", solar_params.altitude);
-                    Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
-                    y = 300;
-                    ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
+                    Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;                   
+                    //ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
                 }
 
                 draw_keyboard();
@@ -438,22 +442,22 @@ void UserInterface(Windows_names_t window) {
                         countProtection[location_param] = 55;
                     } else { // if touch pressing hard enough
                         uint8_t digits = total[location_param];                        
-                        for (uint8_t i = 0; i < 16; i++) { //find where is pressing
-                            key_data *key = &keyboard.keyboard_buttons[i];
-                            if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X <= key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y <= key->Y1)) {
+                        for (uint8_t i = 0; i < KEY_COUNT_DIGITS_KEYBOARD; i++) { //find where is pressing
+                            key_data *key = &keyboard.digits_keyboard_buttons[i];
+                            if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
                                 if (countProtection[location_param] != *press) { //accept only once and one symbol per pressing
                                     Windows.once_per_second_update += 1;
-                                    if (key->digit <= 9) {
+                                    if ( (key->ASCII_value-48 >= 0) && (key->ASCII_value-48 <= 9) ) {
                                         if ((*press < digits) && *press > 0) { //changing digits only after + or - symbol                                                                                    
-                                            target_buffer[(*press) - 1] = key->digit;
+                                            target_buffer[(*press) - 1] = key->ASCII_value-48;
                                             (*press)++;
                                         }
-                                    } else if (*press == 0 && ((key->value == '-') || (key->value == '+'))) { //only if changing  + or - symbols
+                                    } else if (*press == 0 && ((key->ASCII_value == '-') || (key->ASCII_value == '+'))) { //only if changing  + or - symbols
                                         (*press)++;
-                                        posneg[location_param] = key->value;
+                                        posneg[location_param] = key->ASCII_value;
                                     }
 
-                                    if (*press == digits && key->value == '>') {// pressing done button
+                                    if (*press == digits && key->ASCII_value == '>') {// pressing done button
                                         int32_t final_result = digits_to_number(target_buffer, digits - 1); //extract digit from buffer
                                         if (final_result > limits[location_param].max_value) { //check limits if they are too big
                                             ILI9341_draw_formatted_line( 204, &y, RED, keyboard.background_color, "ERROR" );
@@ -465,9 +469,9 @@ void UserInterface(Windows_names_t window) {
                                             *limits[location_param].target = final_result;
                                             ILI9341_draw_formatted_line( 204, &y, GREEN, keyboard.background_color, "SAVED" );
                                         }
-                                    } else if ((*press > 0) && (key->value == '<')) {
+                                    } else if ((*press > 0) && (key->ASCII_value == '<')) {
                                         (*press)--;
-                                    } else if (key->value == 'x') { //clear whole line and close keyboard  
+                                    } else if (key->ASCII_value == 'x') { //clear whole line and close keyboard  
                                         memset(target_buffer, 0, digits);
                                         posneg[location_param] = '+'; //set back default symbol
                                         *press = 0;
@@ -545,11 +549,10 @@ void UserInterface(Windows_names_t window) {
         case TOWER_WINDOW:
         {
             uint16_t text_color = MISTYROSE;
-
             if (!Windows.background_updater) { //drawing not changing elements            
                 keyboard.background_color = DARK_BLUE;
 
-                ILI9341_fill_color_DMA(keyboard.background_color); //background
+                ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
 
                 ili9341_draw_rect(0, 0, 48, 20, BLACK, 1); //and buttons frames
                 uint16_t y = 6;
@@ -643,7 +646,175 @@ void UserInterface(Windows_names_t window) {
 
         }            
             break;
-        case SETTINGS_WINDOW:
+        case GSM_GNSS_WINDOW:{
+            uint16_t text_color = MISTYROSE;
+            static char APN_name[APN_ADD_SYMBOLS_COUNT];
+            static char APN_pass[APN_PASS_SYMBOLS_COUNT];
+            static char Server_url[SERVER_URL_COUNT];
+            const uint8_t buffer_size[] = { sizeof(APN_name), sizeof(APN_pass), sizeof(Server_url) };
+            static uint8_t changing_current_param = 0;   
+                        
+            static uint8_t pressCount[3] = { 0 };
+            static uint8_t countProtection[3] = { 55 };
+            
+            if (!Windows.background_updater) { //drawing not changing elements            
+                keyboard.background_color = DARK_BLUE;
+                keyboard.type = letters;
+                ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
+
+                ili9341_draw_rect(0, 0, 60, 20, BLACK, 1); //and buttons frames
+                uint16_t y = 6;
+                ILI9341_draw_formatted_line(27, &y, WHITE, BLACK, "<");
+
+                ili9341_draw_rect(60, 0, 60, 20, YELLOW, 1);
+                y = 6;
+                ILI9341_draw_formatted_line(66, &y, BLACK, YELLOW, "APN name");
+
+                ili9341_draw_rect(120, 0, 60, 20, GREEN, 1);
+                y = 6;
+                ILI9341_draw_formatted_line(126, &y, RED, GREEN, "APN pass");
+
+                ili9341_draw_rect(180, 0, 60, 20, ORANGE, 1);
+                y = 6;
+                ILI9341_draw_formatted_line(183, &y, CYAN, ORANGE, "Ser. URL");
+
+
+                Windows.background_updater = true;
+            } else {
+                if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) { //update every second except...
+                    RTC_read_date_and_time();
+                    uint16_t y = 30;
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "APN: %s\n", A7672E_NET.APN_USR);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "APN password: %s\n", A7672E_NET.APN_PSW);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Server url: %s\n", A7672E_NET.SERVER_URL);
+                    //ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
+
+                }
+
+                draw_keyboard();
+                uint16_t y = 135; //text line where all starts symbols count and below it text fill window
+                uint16_t x = 2; //start position on x coordination
+                uint16_t new_y = y; //used for touch buttons  to clear previous symbols counter and text window               
+                
+                if (keyboard.status == OPEN) {                                                       
+                    char *buffers[] = { APN_name, APN_pass, Server_url };
+                    char *save_to_buffers[] = { A7672E_NET.APN_USR, A7672E_NET.APN_PSW, A7672E_NET.SERVER_URL };
+                    uint8_t location_param = changing_current_param - 1;
+                    uint8_t max_size = buffer_size[location_param];
+                    uint16_t text_window_y = ((max_size + 39) / 40); //px place for graphics. 40 symbols in one line max (actually 39)                    
+                    new_y = text_window_y; //line number different count
+                    text_window_y = y + (48 - (text_window_y * 12)) - 12; //max 4 y rows = 48
+                    y = text_window_y;
+                    uint8_t *source_buffer = buffers[location_param]; 
+                    uint8_t *target_buffer = save_to_buffers[location_param];
+                    uint8_t *press = &pressCount[location_param];                    
+                    
+                    if (Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL) { //infinite press protection
+                        countProtection[location_param] = 0;
+                    } 
+                    else { // if touch pressing hard enough                     
+                        for (uint8_t i = 0; i < KEY_COUNT_LETTERS_KEYBOARD; i++) { //find where is pressing
+                            key_data *key = &keyboard.letters_keyboard_buttons[i];
+                            if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
+                                if (countProtection[location_param] != key->ASCII_value){                                    
+                                    
+                                    if(key->ASCII_value == 14){//shift is pressed?
+                                        if(keyboard.shift == true){//if yes
+                                            keyboard.shift = false;
+                                            ili9341_draw_rect(1,269,22,26,WHITE,0); //unmark shift button
+                                        }                                            
+                                        else{
+                                            keyboard.shift = true;
+                                            ili9341_draw_rect(1,269,22,26,RED,0); // mark shift button if it is pressed
+                                        }                                        
+                                    }
+                                    else if(key->ASCII_value == 62){ //if pressed > as enter   
+                                            Windows.background_updater = false;
+                                            keyboard.status = CLOSE;
+                                            keyboard.shift = false;
+                                            Windows.once_per_second_update = 0;
+                                            memcpy(target_buffer, source_buffer, max_size);
+                                    }
+                                    else if(key->ASCII_value == 60){ //if pressed < as delete last one
+                                        if(*press > 0) {//delete last one symbol if its more tan 0
+                                            *press -= 1;// go back by one symbol   
+                                            source_buffer[*press] = 0; //write NULL value to that symbol                                                                                                                     
+                                        }
+                                    }
+                                    else if(key->ASCII_value == 127){ //if pressed X as delete all
+                                        if(*press > 0) {//delete all if its more than 0
+                                            memset(source_buffer, 0, max_size);
+                                            *press = 0;//set zero to press counter
+                                            ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, text_window_y - 3, text_window_y + (12* new_y) + 15); //clear all text window part including counter above
+                                        }
+                                    }
+                                    else if(*press < max_size-1){ //fill only it fits into array
+                                            char letter = key->ASCII_value;
+                                            if( (keyboard.shift) && (key->ASCII_value >= 'a') && (key->ASCII_value <= 'z') ){ //BIG or small letters                                            
+                                                letter -= 32; //from small to big
+                                            }
+                                            source_buffer[*press] = letter;                                        
+                                            (*press)++;                                            
+                                        }        
+                                }       
+                                countProtection[location_param] = key->ASCII_value;
+                                break;
+                                }
+                            }
+                        }
+                    ILI9341_draw_formatted_line(198, &text_window_y, RED, keyboard.background_color, "%3d/%3d", *press, max_size-1);
+                    ili9341_draw_rect(0, text_window_y - 3, 239, (12 * new_y) + 3, YELLOW, 0);
+                    ILI9341_draw_formatted_line(x, &text_window_y, text_color, keyboard.background_color, "%s ", source_buffer);
+                }
+                // Touch button check
+                if (XPT2046_switch(64, 812, 3700, 4000)) { // < 
+                    changing_current_param = 0;
+                    Windows.background_updater = false;
+                    Windows.Window = MAIN_WINDOW;
+                    keyboard.status = CLOSE;
+                    keyboard.shift = false;
+                    Windows.once_per_second_update = 0;
+                } else if (XPT2046_switch(1016, 1932, 3700, 4000)) { // APN name
+                    Windows.once_per_second_update = 0;
+                    if(changing_current_param != 1 && keyboard.status){                        
+                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y-15, y + (12* new_y) + 15);
+                    }
+                    else{
+                        if(keyboard.status){ //if keyboard open before colose
+                            ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y-15, y + (12* new_y) + 15);
+                        }
+                        keyboard.status ^= 1;                       
+                    }
+                    changing_current_param = 1;
+                } else if (XPT2046_switch(2032, 2948, 3700, 4000)) { // APN password
+                    Windows.once_per_second_update = 0;
+                    if(changing_current_param != 2 && keyboard.status){
+                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y-15, y + (12* new_y) + 15);
+                    }
+                    else{
+                        if(keyboard.status){ //if keyboard open before colose
+                            ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y-15, y + (12* new_y) + 15);
+                        }
+                        keyboard.status ^= 1;                       
+                    }
+                    changing_current_param = 2;
+                } else if (XPT2046_switch(3048, 3964, 3700, 4000)) { // Server url
+                    Windows.once_per_second_update = 0;
+                    if(changing_current_param != 3 && keyboard.status){
+                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y-15, y + (12* new_y) + 15);
+                    }
+                    else{
+                        if(keyboard.status){ //if keyboard open before colose
+                            ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y-15, y + (12* new_y) + 15);
+                        }
+                        keyboard.status ^= 1;                       
+                    }
+                    changing_current_param = 3;
+                }
+
+            }
+
+        }
             break;
     }
 }
