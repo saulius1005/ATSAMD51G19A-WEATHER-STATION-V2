@@ -687,6 +687,7 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "APN: %s\n", A7672E_NET.APN_USR);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "APN password: %s\n", A7672E_NET.APN_PSW);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Server url: %s\n", A7672E_NET.SERVER_URL);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "eeprom symbol: %c", A7672E_NET.eeprom_test);
                     //ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
 
                 }
@@ -734,6 +735,9 @@ void UserInterface(Windows_names_t window) {
                                             keyboard.shift = false;
                                             Windows.once_per_second_update = 0;
                                             memcpy(target_buffer, source_buffer, max_size);
+                                            //EEPROM_Write8(0, 62); //eeprom test write > symbol
+                                            //EEPROM_Write8(0,   'A');
+                                            EEPROM_Write8(511, 'Z');
                                     }
                                     else if(key->ASCII_value == 60){ //if pressed < as delete last one
                                         if(*press > 0) {//delete last one symbol if its more tan 0

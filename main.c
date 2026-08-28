@@ -5,6 +5,7 @@
  * Created on Ketvirtadienis, 2026, sausio 29, 14.22
  */
 
+#include "MCU_configs.h"
 #include "settings.h"
 
 int main(void) {
@@ -33,6 +34,8 @@ int main(void) {
     DMA_SERCOM0_TX_init();               // Configure DMA channel for SERCOM0 SPI TX transfers
     DMA_USART_RS485_RX_init(GSM_CH);               // Configure DMA channel for SERCOM3 USART RX
     DMA_USART_RS485_RX_init(TOWER_CH);
+    
+    A7672E_NET.eeprom_test = EEPROM_Read8(511);
     
     uint16_t y = 1;      
 

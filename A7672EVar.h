@@ -44,7 +44,8 @@ CommandList_t A7672EHTTPGET[] = { //cmd list to receive GET request
 };
 
 A7672E_network_settings_t A7672E_NET = {
-    .APN_USR ={"internet.tele2.lt"},
+    .APN_USR = "internet.tele2.lt",
+    .eeprom_test = 57, // should read as symbol 9
 };
 
 GNSS_data_list_t A7672EGNSS = {
