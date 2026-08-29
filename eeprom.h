@@ -14,7 +14,9 @@ extern "C" {
     
 #define SMEEPROM_SIZE 512
 #define SMEEPROM_ADDR 0x44000000UL //smarteeprom starts at 0x44000000 and ends at 0x45000000 //DO NOT CHANGE unless....
+#define EEEPROM_TEST_FIRST_VALUE 0 //for eeprom test if value is not like this, meaning it is first eeprom run and need to fill eeprom with default values
 
+    
 //config bits for Smart EEPROM
     
 extern volatile uint8_t *SmartEEPROM8;
@@ -72,6 +74,8 @@ void EEPROM_Read(uint32_t address, void *data, uint32_t size);//universal read
  * EEPROM_Read(0, &config, sizeof(config)); //read whole struct
  * exmp: EEPROM_Read(0, &A7672E_NET, sizeof(A7672E_NET));
  */
+
+void EEPROM_Check(); //check if it is firs mcu run
 
 
 #ifdef	__cplusplus

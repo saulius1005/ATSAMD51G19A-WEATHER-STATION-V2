@@ -389,8 +389,6 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-7ffff"/>
         <property key="poweroptions.powerenable" value="false"/>
-        <property key="programmerToGoFilePath"
-                  value="C:/Users/Saulius/Documents/Atmel Studio/MPLAB XIDE/ATSAMD51G19A-WEATHER-STATION-V2.X/debug/default/ATSAMD51G19A-SERCOM-SPI-USART-I2C_ptg"/>
         <property key="programmerToGoImageName"
                   value="ATSAMD51G19A-SERCOM-SPI-USART-I2C_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
@@ -417,7 +415,7 @@
         <property key="ptgSendImage" value="true"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.specifictoolpack"/>
-        <property key="toolpack.updateoptions.packversion" value="3.0.1195"/>
+        <property key="toolpack.updateoptions.packversion" value="3.0.1208"/>
         <property key="voltagevalue" value="3.25"/>
         <property key="x.erase.clearprot" value="true"/>
       </PK5Tool>
@@ -500,7 +498,7 @@
         <property key="script.show_output" value="false"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.specifictoolpack"/>
-        <property key="toolpack.updateoptions.packversion" value="3.0.1195"/>
+        <property key="toolpack.updateoptions.packversion" value="3.0.1208"/>
         <property key="voltagevalue" value="3.25"/>
         <property key="x.erase.clearprot" value="true"/>
       </Tool>

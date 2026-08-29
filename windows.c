@@ -651,6 +651,11 @@ void UserInterface(Windows_names_t window) {
             static char APN_name[APN_ADD_SYMBOLS_COUNT];
             static char APN_pass[APN_PASS_SYMBOLS_COUNT];
             static char Server_url[SERVER_URL_COUNT];
+            static const uint16_t eeprom_offset[] = { //automatic place(address) in struct calulation (for eeprom addressing)
+                offsetof(A7672E_network_settings_t, APN_USR),
+                offsetof(A7672E_network_settings_t, APN_PSW),
+                offsetof(A7672E_network_settings_t, SERVER_URL)
+            };
             const uint8_t buffer_size[] = { sizeof(APN_name), sizeof(APN_pass), sizeof(Server_url) };
             static uint8_t changing_current_param = 0;   
                         
@@ -687,7 +692,6 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "APN: %s\n", A7672E_NET.APN_USR);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "APN password: %s\n", A7672E_NET.APN_PSW);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Server url: %s\n", A7672E_NET.SERVER_URL);
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "eeprom symbol: %c", A7672E_NET.eeprom_test);
                     //ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
 
                 }
@@ -733,11 +737,11 @@ void UserInterface(Windows_names_t window) {
                                             Windows.background_updater = false;
                                             keyboard.status = CLOSE;
                                             keyboard.shift = false;
-                                            Windows.once_per_second_update = 0;
-                                            memcpy(target_buffer, source_buffer, max_size);
-                                            //EEPROM_Write8(0, 62); //eeprom test write > symbol
-                                            //EEPROM_Write8(0,   'A');
-                                            EEPROM_Write8(511, 'Z');
+                                            Windows.once_per_second_update = 0;                                                                              
+                                            if (memcmp(target_buffer, source_buffer, max_size) != 0){ //if new value is not the same
+                                                memcpy(target_buffer, source_buffer, max_size); //copy it to permament buffer
+                                                EEPROM_Write( eeprom_offset[location_param], target_buffer, max_size );//and update value in smarteeprom location
+                                            }
                                     }
                                     else if(key->ASCII_value == 60){ //if pressed < as delete last one
                                         if(*press > 0) {//delete last one symbol if its more tan 0

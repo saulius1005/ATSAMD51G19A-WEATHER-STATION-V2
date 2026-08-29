@@ -34,15 +34,7 @@ int main(void) {
     DMA_SERCOM0_TX_init();               // Configure DMA channel for SERCOM0 SPI TX transfers
     DMA_USART_RS485_RX_init(GSM_CH);               // Configure DMA channel for SERCOM3 USART RX
     DMA_USART_RS485_RX_init(TOWER_CH);
-    
-    A7672E_NET.eeprom_test = EEPROM_Read8(511);
-    
-    uint16_t y = 1;      
-
-    //ILI9341_draw_image_DMA(sunflower); //draw sunflower
-    //delay_ms(500); 
-    //ILI9341_draw_image_DMA(windmill); //draw windmill
-    //delay_ms(500);  
+    EEPROM_Check();
 
     while(1){
         A7672EInit(); //SIMCOM A7672E initialization active until reach WORK mode

@@ -138,10 +138,10 @@ typedef struct { // for cmd list at initialization of http or gnss
 } A7672E_Config_t;
 
 typedef struct {
+    uint8_t etester;
     char APN_USR[APN_ADD_SYMBOLS_COUNT];
     char APN_PSW[APN_PASS_SYMBOLS_COUNT];        
     char SERVER_URL[SERVER_URL_COUNT];
-    char eeprom_test;
 }A7672E_network_settings_t;
 
 extern CommandList_t A7672ESetGPSList[];

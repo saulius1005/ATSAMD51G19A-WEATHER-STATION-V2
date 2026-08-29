@@ -25,6 +25,7 @@ extern "C" {
 /* --- Standard and device includes --- */
 #include <xc.h>
 #include <stdio.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h>
