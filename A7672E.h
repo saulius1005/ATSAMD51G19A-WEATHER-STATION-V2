@@ -82,6 +82,7 @@ typedef struct {
     bool enabled;
     A7672Estatus_t status;
     A7672states_t state;
+    char APN[60]; //full apn at command length
 }A7672E_init_list_t;
 
 typedef struct {
@@ -137,7 +138,7 @@ typedef struct { // for cmd list at initialization of http or gnss
     const char *header; //title which are showing at initialization
 } A7672E_Config_t;
 
-typedef struct {
+typedef struct { //data to save in eeprom
     uint8_t etester;
     char APN_USR[APN_ADD_SYMBOLS_COUNT];
     char APN_PSW[APN_PASS_SYMBOLS_COUNT];        

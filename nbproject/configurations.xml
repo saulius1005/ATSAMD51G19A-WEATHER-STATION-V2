@@ -415,7 +415,7 @@
         <property key="ptgSendImage" value="true"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.specifictoolpack"/>
-        <property key="toolpack.updateoptions.packversion" value="3.0.1208"/>
+        <property key="toolpack.updateoptions.packversion" value="3.0.1195"/>
         <property key="voltagevalue" value="3.25"/>
         <property key="x.erase.clearprot" value="true"/>
       </PK5Tool>
@@ -498,7 +498,7 @@
         <property key="script.show_output" value="false"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.specifictoolpack"/>
-        <property key="toolpack.updateoptions.packversion" value="3.0.1208"/>
+        <property key="toolpack.updateoptions.packversion" value="3.0.1195"/>
         <property key="voltagevalue" value="3.25"/>
         <property key="x.erase.clearprot" value="true"/>
       </Tool>

@@ -592,10 +592,11 @@ void A7672EInit() {
             A7672EPowerUpRead(&y, buf);
             if(A7672E_init.cycle) A7672E_init.status = HTTPSETUP;
         break;
-        case HTTPSETUP: //Set up HTTP connection
+        case HTTPSETUP:{ //Set up HTTP connection
+            snprintf(A7672E_init.APN, sizeof(A7672E_init.APN), "AT+CGDCONT=1,\"IP\",\"%s\"\r", A7672E_NET.APN_USR); //use apn name from eeprom instead of hardcoded text
             A7672ESetUp(&y, buf, &http_cfg);
             if(A7672E_init.cycle) A7672E_init.status = GNSSSETUP;
-        break;
+        }break;
         case GNSSSETUP: //Set up GNSS 
             A7672ESetUp(&y, buf, &gps_cfg);
             if(A7672E_init.cycle) A7672E_init.status = SHOW_FIRST_WINDOW;
