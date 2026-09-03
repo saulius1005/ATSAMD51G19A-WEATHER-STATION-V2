@@ -37,7 +37,7 @@ void TCC0_OFF(){
 void TCC0_ON(uint32_t period_us){
     TCC0_OFF();
 
-    TCC0_timeout = false;
+    //TCC0_timeout = false;
 
     // Clear old overflow flag
     TCC0_REGS->TCC_INTFLAG = TCC_INTFLAG_OVF_Msk;
@@ -60,12 +60,29 @@ void TCC0_CHECKER(){
     {
         TCC0_REGS->TCC_INTFLAG = TCC_INTFLAG_OVF_Msk;
 
-        TCC0_timeout = true;
+        //TCC0_timeout = true;
 
-        TCC0_OFF();
+        //TCC0_OFF();
+        
+        Periodic_Checker.period_counter++; //dont care if it overfill :D and if so it starts from 0
+
+        
+        if(Periodic_Checker_Devices.GSM.update_stat == UPDATED && (Periodic_Checker.period_counter % Periodic_Checker_Devices.GSM.update_time == 0)){
+            Periodic_Checker_Devices.GSM.update_stat = PREPARED;
+            Periodic_Checker_Devices.GSM.start_at = Periodic_Checker.period_counter;           
+        }
+        else if(Periodic_Checker_Devices.TIME.update_stat == UPDATED && (Periodic_Checker.period_counter % Periodic_Checker_Devices.TIME.update_time == 0)){
+            Periodic_Checker_Devices.TIME.update_stat = PREPARED;
+            Periodic_Checker_Devices.TIME.start_at = Periodic_Checker.period_counter;
+        }
+        else if(Periodic_Checker_Devices.TOWERS.update_stat == UPDATED){
+            Periodic_Checker_Devices.TOWERS.update_stat = PREPARED;
+        }
+        else if(Periodic_Checker_Devices.SERVER.update_stat == UPDATED){
+            Periodic_Checker_Devices.SERVER.update_stat = PREPARED;
+        }
     }
 }
-
 
 void TCC1_init(){
     // Disable generic clock

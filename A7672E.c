@@ -360,7 +360,7 @@ void extract_gsm_time(char *buf) {
     memmove(buf, start, strlen(start) + 1);
 }
 
-void dma_receive_time_SM(char * cmd , char * echo, uint32_t wait_ms) {
+void dma_receive_time_SM(char * cmd , char * echo/*, uint32_t wait_ms*/) {
     static char buf[UART_RX_BUFFER_SIZE] = {0};
     
     switch(A7672E_work.state){
@@ -369,17 +369,21 @@ void dma_receive_time_SM(char * cmd , char * echo, uint32_t wait_ms) {
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
             USART_printf("%s", cmd); //send 
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
-            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma
-            TC2_ON(1000 * wait_ms); //set answer waiting time
+            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma            
+            //TC2_ON(1000 * wait_ms); //set answer waiting time
             A7672E_work.state = WAIT;
         break;
 
         case WAIT:
-            if(TC2_timeout){ //after timeout
+            //if(TC2_timeout){ //after timeout
+            if( (Periodic_Checker_Devices.TIME.update_stat == PREPARED) && (Periodic_Checker.period_counter == (Periodic_Checker_Devices.TIME.start_at + Periodic_Checker_Devices.TIME.respond_time)) ){
                 DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH);   //stop reading 
-                TC2_timeout = false; //reset timer flag
+                //TC2_timeout = false; //reset timer flag
+                Periodic_Checker.GSM_GNSS_update_flag = false;
                 A7672E_work.state = DONE;
+                Periodic_Checker_Devices.TIME.update_stat = UPDATING;
             }
+            
         break;
         
         case DONE:
@@ -403,7 +407,7 @@ void dma_receive_time_SM(char * cmd , char * echo, uint32_t wait_ms) {
                     A7672E_work.cycle = true;
             }
             A7672E_work.state = SET;
-            
+            Periodic_Checker_Devices.TIME.update_stat = UPDATED;
             
         break;
     }
@@ -416,18 +420,21 @@ void A7672ReadNEMAGNSS(){   // READS GSM and GNSS date and time if success updat
     if(A7672E_work.source == GSM_AND_GNSS)
         return;
 
-    uint16_t read_interval = 250; //read every 100 ms
-    if(RTC_Date_and_Time.time_sync == GSM) //if synced by GSM read every 500ms of GNSS
-        read_interval = 500;
+    //uint16_t read_interval = 250; //read every 100 ms
+    Periodic_Checker_Devices.TIME.update_time = 250;
+    if(RTC_Date_and_Time.time_sync == GSM){ //if synced by GSM read every 500ms of GNSS
+        //read_interval = 500;
+        Periodic_Checker_Devices.TIME.update_time = 500;
+    }
     
     switch(A7672E_work.source){
         case GNSS: //Read GNSS time
-            dma_receive_time_SM("AT+CGNSSINFO\r", "AT+CGNSSINFO\r\r\n+CGNSSINFO:", read_interval); //cmd and echo, wait 0.3 second
+            dma_receive_time_SM("AT+CGNSSINFO\r", "AT+CGNSSINFO\r\r\n+CGNSSINFO:"/*, read_interval*/); //cmd and echo, wait 0.3 second
             if(A7672E_work.cycle) A7672E_work.source = GSM_AND_GNSS; //gsm synced and corected with gnss
         break;
         
         case GSM: //Read GSM time
-                dma_receive_time_SM("AT+CCLK?\r", "AT+CCLK?\r", read_interval); //cmd and echo, wait 0.1 second
+                dma_receive_time_SM("AT+CCLK?\r", "AT+CCLK?\r"/*, read_interval*/); //cmd and echo, wait 0.1 second
                 if(A7672E_work.cycle) A7672E_work.source = GNSS; //switch to gnss time correction after GSM time is completed and corect             
         break;
     }
@@ -461,7 +468,7 @@ void extract_reg_status(char *buf){
     }    
 };
 
-void dma_receive_reg_sig(char * cmd , char * echo, uint32_t wait_ms) { //sendin and receiving gsm signal signal strength and registration status
+void dma_receive_reg_sig(char * cmd , char * echo) { //sending and receiving gsm signal signal strength and registration status
     static char buf[UART_RX_BUFFER_SIZE] = {0};
     
     switch(A7672E_GSM_STATUS_STATE.state){
@@ -471,15 +478,15 @@ void dma_receive_reg_sig(char * cmd , char * echo, uint32_t wait_ms) { //sendin 
             USART_printf("%s", cmd); //send 
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
             DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma
-            TCC0_ON(1000 * wait_ms); //set answer waiting time
             A7672E_GSM_STATUS_STATE.state = WAIT;
         break;
 
         case WAIT:
-            if(TCC0_timeout){ //after timeout
+            //if(Periodic_Checker_Devices.GSM.update_stat == PREPARED){
+            if( (Periodic_Checker_Devices.GSM.update_stat == PREPARED) && (Periodic_Checker.period_counter == (Periodic_Checker_Devices.GSM.start_at + Periodic_Checker_Devices.GSM.respond_time)) ){
                 DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH);   //stop reading 
-                TCC0_timeout = false; //reset timer flag
                 A7672E_GSM_STATUS_STATE.state = DONE;
+                Periodic_Checker_Devices.GSM.update_stat = UPDATING;
             }
         break;
         
@@ -493,7 +500,7 @@ void dma_receive_reg_sig(char * cmd , char * echo, uint32_t wait_ms) { //sendin 
             }
             A7672E_GSM_STATUS_STATE.state = SET;
             A7672E_GSM_STATUS_STATE.cycle = true;
-            
+            Periodic_Checker_Devices.GSM.update_stat = UPDATED;
         break;
     }
 }
@@ -504,16 +511,14 @@ void A7672ReadGSMBasic(){   // READS GSM signal strength and registration in net
     if(RTC_Date_and_Time.time_sync == NONE_sync) //if no time sync
         return; //skip further code
     
-    uint16_t read_interval = 2000; //read every 2 s
-    
     switch(A7672E_GSM_STATUS_STATE.source){
         case SIGNAL: //Read GSM signal strength
-            dma_receive_reg_sig("AT+CSQ\r", "AT+CSQ\r\r\n+CSQ: ", read_interval); //cmd and echo, wait 2 second
+            dma_receive_reg_sig("AT+CSQ\r", "AT+CSQ\r\r\n+CSQ: "); //cmd and echo, wait 2 second
             if(A7672E_GSM_STATUS_STATE.cycle) A7672E_GSM_STATUS_STATE.source = REGISTRATION; //if gnss locked, next time after RTC_Date_and_Time.time_sync resting (NONE) it starts with GSM time update. if RTC_Date_and_Time.time_sync reseting with (GSM) it starts GNSS time update
         break;
         
         case REGISTRATION: //Read GSM registration status
-            dma_receive_reg_sig("AT+CREG?\r", "AT+CREG?\r\r\n+CREG: ", read_interval); //cmd and echo, wait 2 second
+            dma_receive_reg_sig("AT+CREG?\r", "AT+CREG?\r\r\n+CREG: "); //cmd and echo, wait 2 second
             if(A7672E_GSM_STATUS_STATE.cycle) A7672E_GSM_STATUS_STATE.source = SIGNAL; //switch to gnss time correction after GSM time is completed and corect     
         break;
     }

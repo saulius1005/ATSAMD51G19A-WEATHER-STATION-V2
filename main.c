@@ -23,7 +23,7 @@ int main(void) {
     SERCOM_init(USART_RS485);
     SERCOM_init(USART_GSM);
     TC0_init();    
-    TC2_init(); 
+    //TC2_init(); 
     TCC0_init(); //initialization of timer for constant GSM signal strength and registration in network regular check
     TCC1_init(); //initialization of the timer for RS485 network answer waiting timeout
     RTC_init_calendar();
@@ -35,6 +35,7 @@ int main(void) {
     DMA_USART_RS485_RX_init(GSM_CH);               // Configure DMA channel for SERCOM3 USART RX
     DMA_USART_RS485_RX_init(TOWER_CH);
     EEPROM_Check();
+    TCC0_ON(1000); //set interval every 1ms
 
     while(1){
         A7672EInit(); //SIMCOM A7672E initialization active until reach WORK mode
@@ -48,7 +49,7 @@ int main(void) {
         
         RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                       
         TC0_CHECKER(); //check tc0 timeout
-        TC2_CHECKER(); //check tc2 timeout
+        //TC2_CHECKER(); //check tc2 timeout
         TCC0_CHECKER(); //check tcc0 timeout checking gsm signal strength and registration in network status
         TCC1_CHECKER(); //check tcc1 timer for RS485 answer waiting timeout
         
