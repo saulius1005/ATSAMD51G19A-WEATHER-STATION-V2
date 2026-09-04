@@ -145,6 +145,28 @@ typedef struct { //data to save in eeprom
     char SERVER_URL[SERVER_URL_COUNT];
 }A7672E_network_settings_t;
 
+typedef enum {
+    GSM_TIME = 0,
+    GNSS_TIME,
+    RSSI_SIG,
+    NET_REG,        
+}A7672E_asker_names_t;
+
+typedef struct {
+    A7672E_asker_names_t name;
+    char echo[20];
+    char cmd[20];    
+}A7672E_message_t;
+
+typedef struct {
+    A7672E_message_t GSM_TIME_CMD;
+    A7672E_message_t GNSS_TIME_CMD;
+    A7672E_message_t RSSI_CMD;
+    A7672E_message_t REGISTRATION_CMD;   
+}A7672E_message_request_t;
+
+
+
 extern CommandList_t A7672ESetGPSList[];
 extern CommandList_t A7672ESetInternetList[];
 extern CommandList_t A7672EHTTPGET[];
@@ -155,6 +177,7 @@ extern A7672E_work_list_t A7672E_work;
 extern A7672E_regsig_list_t A7672E_GSM_STATUS_STATE;
 extern A7672E_gsm_status_t A7672E_GSM_STATUS;
 extern A7672E_network_settings_t A7672E_NET;
+extern A7672E_message_request_t A7672E_ASKER;
 
 
 void A7672EInit(); //initialization of module HTTP, GPS
@@ -168,6 +191,8 @@ bool is_time_correct(uint8_t Y, uint8_t M, uint8_t D, uint8_t h, uint8_t m, uint
 void apply_timezone(volatile uint8_t *year, volatile uint8_t *month, volatile uint8_t *day, volatile uint8_t *hour, int8_t TZ); // aplying time zone
 
 void A7672ReadGSMBasic(); //read gsm rssi strength and gsm resgistration status in network
+
+void A7672E_GO_WORK();
 
 #ifdef	__cplusplus
 }

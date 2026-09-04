@@ -205,7 +205,7 @@ void USART_write_str(char *str){
 }
 
 void USART_printf(const char *fmt, ...){
-    char buffer[128];
+    char buffer[256];
     va_list args;
     va_start(args, fmt);
     vsnprintf(buffer, sizeof(buffer), fmt, args);

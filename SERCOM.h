@@ -36,7 +36,7 @@ extern "C" {
 #define SERCOM_I2C_BAUD(Fscl, Trise_ns) ((uint32_t)(( (float)F_S_I2CM_G2 / (2.0 * (Fscl)) ) - 5.0 - ( ((float)F_S_I2CM_G2 * (Trise_ns)) / 2000000000.0 )))// I2C
 
 
-#define UART_RX_BUFFER_SIZE 128 //cgnssinfo one sentance is about ~110symbols including echo of command. need to increase
+#define UART_RX_BUFFER_SIZE 256 //cgnssinfo one sentance is about ~110symbols including echo of command. need to increase
 
 /* 
  * SERCOM peripheral operating mode selector.

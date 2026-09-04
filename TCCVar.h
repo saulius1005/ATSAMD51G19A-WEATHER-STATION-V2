@@ -15,22 +15,11 @@ extern "C" {
 volatile bool TCC0_timeout = false;
 volatile bool TCC1_timeout = false;
 
-regular_update_t Periodic_Checker = {
-    .period_counter = 0,
-    .GSM_GNSS_update = GSM_GNSS_UPDATE_PERIOD,
-    .GSM_GNSS_update_flag = false,
-    .GSM_update = GSM_UPDATE_PERIOD, //up to 4min15s
-    .GSM_update_flag = false,
-    .TOWERS_update = TOWERS_UPDATE_PERIOD, //up to 4min15s
-    .TOWERS_update_flag = false,
-    .SERVER_update = SERVER_UPDATE_PERIOD, //up to 18h12min16sec
-    .SERVER_update_flag = false,
-};
-
 regular_update_devices_t Periodic_Checker_Devices = {
+    .period_counter = 0,
     .GSM = {
-        .update_time = 1000,
-        .respond_time = 10,
+        .update_time = 2000,
+        .respond_time = 250,
         .update_stat = UPDATED,
         .start_at = 0,
         },
@@ -47,8 +36,8 @@ regular_update_devices_t Periodic_Checker_Devices = {
         .start_at = 0,
     },
     .TOWERS = {
-        .update_time = 5000,
-        .respond_time = 1000,
+        .update_time = 5000 / TOWER_COUNT,
+        .respond_time = 500,
         .update_stat = UPDATED,
         .start_at = 0,
     },
