@@ -70,22 +70,22 @@ void TCC0_CHECKER(){
         //data check for A7672E GSM/GNSS module (SERCOM3)
         if(Periodic_Checker_Devices.GSM.update_stat == UPDATED && !(Periodic_Checker_Devices.period_counter % Periodic_Checker_Devices.GSM.update_time)){
             Periodic_Checker_Devices.GSM.update_stat = PREPARED;
-            Periodic_Checker_Devices.GSM.start_at = Periodic_Checker_Devices.period_counter;           
+            //Periodic_Checker_Devices.GSM.start_at = Periodic_Checker_Devices.period_counter;           
         }        
         if(Periodic_Checker_Devices.TIME.update_stat == UPDATED && !(Periodic_Checker_Devices.period_counter % Periodic_Checker_Devices.TIME.update_time)){
             Periodic_Checker_Devices.TIME.update_stat = PREPARED;
-            Periodic_Checker_Devices.TIME.start_at = Periodic_Checker_Devices.period_counter;
+            //Periodic_Checker_Devices.TIME.start_at = Periodic_Checker_Devices.period_counter;
         }
         
         if(Periodic_Checker_Devices.SERVER.update_stat == UPDATED && !(Periodic_Checker_Devices.period_counter % Periodic_Checker_Devices.SERVER.update_time)){
             Periodic_Checker_Devices.SERVER.update_stat = PREPARED;
-            Periodic_Checker_Devices.SERVER.start_at = Periodic_Checker_Devices.period_counter;
+            //Periodic_Checker_Devices.SERVER.start_at = Periodic_Checker_Devices.period_counter;
         }
         
         //data check for Towers using RS485 (SERCOM2)
         if(Periodic_Checker_Devices.TOWERS.update_stat == UPDATED && !(Periodic_Checker_Devices.period_counter % Periodic_Checker_Devices.TOWERS.update_time)){//priority not care
             Periodic_Checker_Devices.TOWERS.update_stat = PREPARED;
-            Periodic_Checker_Devices.TOWERS.start_at = Periodic_Checker_Devices.period_counter;
+            //Periodic_Checker_Devices.TOWERS.start_at = Periodic_Checker_Devices.period_counter;
         }
         
     }

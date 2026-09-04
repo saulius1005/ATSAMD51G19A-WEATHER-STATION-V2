@@ -89,6 +89,9 @@ typedef struct {
     bool cycle;
     A7672Etime_source_t source;
     A7672states_t state;
+    uint32_t response_time; //time interval to receive answer from A7672E
+    uint32_t start_at; //start ofthe beginning time interval (Periodic_Checker_Devices.period_counter value)
+    
 }A7672E_work_list_t;
 
 
@@ -151,6 +154,7 @@ typedef struct {
     A7672E_asker_names_t name;
     char echo[20];
     char cmd[20];    
+    bool sent;
 }A7672E_message_t;
 
 typedef struct {

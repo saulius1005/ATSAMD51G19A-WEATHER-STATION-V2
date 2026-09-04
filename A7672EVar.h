@@ -120,22 +120,26 @@ A7672E_message_request_t A7672E_ASKER = {
     .GSM_TIME_CMD = {
         .name = GSM_TIME,
         .cmd = "AT+CCLK?\r",
-        .echo = "+CCLK: "
+        .echo = "+CCLK: ",
+        .sent = false,
     },
     .GNSS_TIME_CMD = {
         .name = GNSS_TIME,
         .cmd = "AT+CGNSSINFO\r",
-        .echo = "+CGNSSINFO: "
+        .echo = "+CGNSSINFO: ",
+        .sent = false,
     },
     .RSSI_CMD = {
         .name = RSSI_SIG,
         .cmd = "AT+CSQ\r",
-        .echo = "+CSQ: "
+        .echo = "+CSQ: ",
+        .sent = false,
     },
     .REGISTRATION_CMD = {
         .name = NET_REG,
         .cmd = "AT+CREG?\r",
-        .echo = "+CREG: "
+        .echo = "+CREG: ",
+        .sent = false,
     },
     .SERVER_CMD = {
         .name = SERVER_SEND,

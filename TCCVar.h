@@ -30,8 +30,8 @@ regular_update_devices_t Periodic_Checker_Devices = {
         .start_at = 0,
         },
     .SERVER = {
-        .update_time = 30000,
-        .respond_time = 200,
+        .update_time = 120000,
+        .respond_time = 10000,
         .update_stat = UPDATED,
         .start_at = 0,
     },

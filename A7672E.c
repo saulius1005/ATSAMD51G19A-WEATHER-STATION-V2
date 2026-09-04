@@ -480,58 +480,90 @@ void A7672EInit() {
 void A7672E_GO_WORK() {
     if (A7672E_init.status != WORK)//if not WORK mode 
         return; //skip further code
-
-    char CMD[512] = {0};
-    static bool gsm_time = true;
-    static bool gnss_time = true;
-    uint16_t position = 0;
-
-    //time check messages
-    if (RTC_Date_and_Time.time_sync == NONE_sync) { //if time sync is none first try GSM
-        memcpy(CMD + position, A7672E_ASKER.GSM_TIME_CMD.cmd, strlen(A7672E_ASKER.GSM_TIME_CMD.cmd));
-        position += strlen(A7672E_ASKER.GSM_TIME_CMD.cmd);
-    }
-    if (RTC_Date_and_Time.time_sync != GNSS_sync) { //and after GNSS
-        memcpy(CMD + position, A7672E_ASKER.GNSS_TIME_CMD.cmd, strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd));
-        position += strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd);
-    }
-
-    //rssi signal chec
-    memcpy(CMD + position, A7672E_ASKER.RSSI_CMD.cmd, strlen(A7672E_ASKER.RSSI_CMD.cmd));
-    position += strlen(A7672E_ASKER.RSSI_CMD.cmd);
-    //registration in network check
-    memcpy(CMD + position, A7672E_ASKER.REGISTRATION_CMD.cmd, strlen(A7672E_ASKER.REGISTRATION_CMD.cmd));
-    position += strlen(A7672E_ASKER.REGISTRATION_CMD.cmd);
-    
-    //data sending to server without any answer 
-    memcpy(CMD + position, A7672E_ASKER.SERVER_CMD.cmd, strlen(A7672E_ASKER.SERVER_CMD.cmd));
-    position += strlen(A7672E_ASKER.SERVER_CMD.cmd);  
-    
-    char server_data[] = "59880E9510A01240A41B1FE00290401FDF3";
-    char server_get[] = "\"\rAT+HTTPACTION=0\r";
-    
-    memcpy(CMD + position, A7672E_NET.SERVER_URL, strlen(A7672E_NET.SERVER_URL));
-    position += strlen(A7672E_NET.SERVER_URL);
-    memcpy(CMD + position, server_data, strlen(server_data));
-    position += strlen(server_data);
-    memcpy(CMD + position, server_get, strlen(server_get));
-    
-    static char buf[UART_RX_BUFFER_SIZE] = {0};
+    static char buf[UART_RX_BUFFER_SIZE] = {0};   
+    uint32_t response_time = 0; //for waiting time calculations
 
     switch (A7672E_work.state) {
-        case SET:
+        case SET:{
+            char CMD[512] = {0};
+            uint16_t position = 0;
+
+            if (Periodic_Checker_Devices.TIME.update_stat == PREPARED) {
+
+                if (Periodic_Checker_Devices.TIME.respond_time > response_time) //use time respond time
+                    response_time = Periodic_Checker_Devices.TIME.respond_time;
+                
+                if (RTC_Date_and_Time.time_sync == NONE_sync) { //not syncet at all
+                    
+                    A7672E_ASKER.GSM_TIME_CMD.sent = true;
+                    A7672E_ASKER.GNSS_TIME_CMD.sent = true;
+                    
+                    memcpy(CMD + position, A7672E_ASKER.GSM_TIME_CMD.cmd, strlen(A7672E_ASKER.GSM_TIME_CMD.cmd)); //gsm time request
+                    position += strlen(A7672E_ASKER.GSM_TIME_CMD.cmd);
+
+                    memcpy(CMD + position, A7672E_ASKER.GNSS_TIME_CMD.cmd, strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd)); //gnss time request
+                    position += strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd);
+                }
+
+                else if (RTC_Date_and_Time.time_sync == GSM_sync) { //already have GSM sync but try to improve with gnss
+                    
+                    A7672E_ASKER.GNSS_TIME_CMD.sent = true;
+                    
+                    memcpy(CMD + position, A7672E_ASKER.GNSS_TIME_CMD.cmd, strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd));
+                    position += strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd);
+                }
+            }
+
+            if (Periodic_Checker_Devices.GSM.update_stat == PREPARED) {
+                
+                if (Periodic_Checker_Devices.GSM.respond_time > response_time) //use GSM responding taime if it is longer than TIME
+                    response_time = Periodic_Checker_Devices.GSM.respond_time;
+                
+                A7672E_ASKER.RSSI_CMD.sent = true;
+                A7672E_ASKER.REGISTRATION_CMD.sent = true;
+                
+                memcpy(CMD + position, A7672E_ASKER.RSSI_CMD.cmd, strlen(A7672E_ASKER.RSSI_CMD.cmd)); //rssi signal strength request
+                position += strlen(A7672E_ASKER.RSSI_CMD.cmd);
+
+                memcpy(CMD + position, A7672E_ASKER.REGISTRATION_CMD.cmd, strlen(A7672E_ASKER.REGISTRATION_CMD.cmd)); //registration in network request
+                position += strlen(A7672E_ASKER.REGISTRATION_CMD.cmd);
+            }           
+
+            if (Periodic_Checker_Devices.SERVER.update_stat == PREPARED) {
+                
+                if (Periodic_Checker_Devices.SERVER.respond_time > response_time) //use server waiting time if it is longest
+                    response_time = Periodic_Checker_Devices.SERVER.respond_time;
+                
+                char server_data[] = "59880E9510A01240A41B1FE00290401FDF3"; //test data
+                char server_get[] = "\"\rAT+HTTPACTION=0\r";
+                
+                memcpy(CMD + position, A7672E_ASKER.SERVER_CMD.cmd, strlen(A7672E_ASKER.SERVER_CMD.cmd)); //adding cmd for url
+                position += strlen(A7672E_ASKER.SERVER_CMD.cmd);
+
+                memcpy(CMD + position, A7672E_NET.SERVER_URL, strlen(A7672E_NET.SERVER_URL)); //add server url
+                position += strlen(A7672E_NET.SERVER_URL);
+
+                memcpy(CMD + position, server_data, strlen(server_data)); //add server data 
+                position += strlen(server_data);
+
+                memcpy(CMD + position, server_get, strlen(server_get)); //add last part for urlcmd and cmd for GET
+                position += strlen(server_get);
+            }
+            
+            A7672E_work.response_time = response_time;
+            A7672E_work.start_at = Periodic_Checker_Devices.period_counter;
+    
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
             USART_printf("%s", CMD); //send             
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
             DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma            
             A7672E_work.state = WAIT;
-            break;
+        } break;
 
         case WAIT:
-            if ((Periodic_Checker_Devices.GSM.update_stat == PREPARED) && (Periodic_Checker_Devices.period_counter == (Periodic_Checker_Devices.GSM.start_at + Periodic_Checker_Devices.GSM.respond_time))) {
+            if (Periodic_Checker_Devices.period_counter >= A7672E_work.start_at + A7672E_work.response_time) {
                 DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH); //stop reading 
                 A7672E_work.state = DONE;
-                Periodic_Checker_Devices.GSM.update_stat = UPDATING;
             }
             break;
 
@@ -567,28 +599,32 @@ void A7672E_GO_WORK() {
                 } //if echo or text before OK not found just continue buffer should be emty
             }
 
-            for (uint8_t i = 0; i < 4; i++) { //final data parsing
-                switch (i) {
-                    case GSM_TIME:
-                        extract_gsm_time(destinations[i]); //get only data 
-                        parse_gsm_datetime(destinations[i]); // split data from time
-                        RTC_date_and_time_update();
-                        break;
-                    case GNSS_TIME:
-                        parse_gnss_data(destinations[i], &A7672EGNSS); //keep time and date only
-                        RTC_date_and_time_update();
-                        break;
-                    case RSSI_SIG:
-                        extract_rssi(destinations[i]);
-                        break;
-                    case NET_REG:
-                        extract_reg_status(destinations[i]);
-                        break;
-                }
+            if (A7672E_ASKER.GSM_TIME_CMD.sent) { //update gsm time if it is requested
+                extract_gsm_time(GSM_TIME_RESPONSE); //remove symbols such as " and others
+                parse_gsm_datetime(GSM_TIME_RESPONSE);// pasrse data
+                RTC_date_and_time_update(); //and if it is correct update time and sync status
+                A7672E_ASKER.GSM_TIME_CMD.sent = false; //reset for next usage
+                Periodic_Checker_Devices.TIME.update_stat = UPDATED;
+            }
+            if (A7672E_ASKER.GNSS_TIME_CMD.sent) {//update gnss time if it is requested
+                parse_gnss_data(GNSS_TIME_RESPONSE, &A7672EGNSS);
+                RTC_date_and_time_update();
+                A7672E_ASKER.GNSS_TIME_CMD.sent = false;//reset for next usage
+                Periodic_Checker_Devices.TIME.update_stat = UPDATED;
+            }
+            if (A7672E_ASKER.RSSI_CMD.sent) {//same same
+                extract_rssi(RSSI_RESPONSE);
+                A7672E_ASKER.RSSI_CMD.sent = false;//reset for next usage
+                Periodic_Checker_Devices.GSM.update_stat = UPDATED;
+            }
+            if (A7672E_ASKER.REGISTRATION_CMD.sent) { //yea this is easy too
+                extract_reg_status(REGISTRATION_RESPONSE);
+                A7672E_ASKER.REGISTRATION_CMD.sent = false;//reset for next usage
+                Periodic_Checker_Devices.GSM.update_stat = UPDATED;
             }
 
             A7672E_work.state = SET;
-            Periodic_Checker_Devices.GSM.update_stat = UPDATED;
+            Periodic_Checker_Devices.SERVER.update_stat = UPDATED; //set updates status for server in the end
         }
         break;
     }
