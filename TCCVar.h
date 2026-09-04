@@ -18,20 +18,20 @@ volatile bool TCC1_timeout = false;
 regular_update_devices_t Periodic_Checker_Devices = {
     .period_counter = 0,
     .GSM = {
-        .update_time = 2000,
-        .respond_time = 250,
+        .update_time = 1000,
+        .respond_time = 50,
         .update_stat = UPDATED,
         .start_at = 0,
         },
     .TIME = {
         .update_time = 500,
-        .respond_time = 20,
+        .respond_time = 50,
         .update_stat = UPDATED,
         .start_at = 0,
         },
     .SERVER = {
-        .update_time = 8000,
-        .respond_time = 2000,
+        .update_time = 30000,
+        .respond_time = 200,
         .update_stat = UPDATED,
         .start_at = 0,
     },

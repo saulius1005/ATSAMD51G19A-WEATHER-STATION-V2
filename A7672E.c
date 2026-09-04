@@ -296,7 +296,7 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
     uint8_t mm = (out->UTC_time / 100) % 100;
     uint8_t ss = out->UTC_time % 100;
 
-    if (is_time_correct(yy, MM, dd, hh, mm, ss)) { //check only basic date and time, skip rtc time checking
+    if (is_time_correct(yy, MM, dd, hh, mm, ss)) {
         A7672EGSM.GNSS_year = yy;
         A7672EGSM.GNSS_month = MM;
         A7672EGSM.GNSS_day = dd;
@@ -308,6 +308,7 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
         if (out->mode != 0) { //if time locked 2D or 3D
             apply_timezone(&A7672EGSM.GNSS_year, &A7672EGSM.GNSS_month, &A7672EGSM.GNSS_day, &A7672EGSM.GNSS_hour, RTC_Date_and_Time.RTC_time_zone);
             A7672EGSM.GNSS_sys_time = datetime_to_RTC_format(A7672EGSM.GNSS_year, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);
+            RTC_Date_and_Time.time_sync == GNSS_sync;
         }
         A7672EGSM.GNSS_time_corect = true;
     }
@@ -336,6 +337,7 @@ void parse_gsm_datetime(char *buf) {//example: receiving "26/04/10,18:45:08+12"
         A7672EGSM.GSM_second = ss;
 
         A7672EGSM.GSM_sys_time = datetime_to_RTC_format(yy, MM, dd, hh, mm, ss);
+        RTC_Date_and_Time.time_sync == GSM_sync;
         A7672EGSM.GSM_time_corect = true;
     }
 
@@ -479,42 +481,56 @@ void A7672E_GO_WORK() {
     if (A7672E_init.status != WORK)//if not WORK mode 
         return; //skip further code
 
-    char CMD[50] = {0};
+    char CMD[512] = {0};
     static bool gsm_time = true;
     static bool gnss_time = true;
-    uint8_t position = 0;
+    uint16_t position = 0;
 
-    if (gsm_time) {
+    //time check messages
+    if (RTC_Date_and_Time.time_sync == NONE_sync) { //if time sync is none first try GSM
         memcpy(CMD + position, A7672E_ASKER.GSM_TIME_CMD.cmd, strlen(A7672E_ASKER.GSM_TIME_CMD.cmd));
         position += strlen(A7672E_ASKER.GSM_TIME_CMD.cmd);
     }
-    if (gnss_time) {
+    if (RTC_Date_and_Time.time_sync != GNSS_sync) { //and after GNSS
         memcpy(CMD + position, A7672E_ASKER.GNSS_TIME_CMD.cmd, strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd));
         position += strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd);
     }
 
+    //rssi signal chec
     memcpy(CMD + position, A7672E_ASKER.RSSI_CMD.cmd, strlen(A7672E_ASKER.RSSI_CMD.cmd));
     position += strlen(A7672E_ASKER.RSSI_CMD.cmd);
-
+    //registration in network check
     memcpy(CMD + position, A7672E_ASKER.REGISTRATION_CMD.cmd, strlen(A7672E_ASKER.REGISTRATION_CMD.cmd));
     position += strlen(A7672E_ASKER.REGISTRATION_CMD.cmd);
-
+    
+    //data sending to server without any answer 
+    memcpy(CMD + position, A7672E_ASKER.SERVER_CMD.cmd, strlen(A7672E_ASKER.SERVER_CMD.cmd));
+    position += strlen(A7672E_ASKER.SERVER_CMD.cmd);  
+    
+    char server_data[] = "59880E9510A01240A41B1FE00290401FDF3";
+    char server_get[] = "\"\rAT+HTTPACTION=0\r";
+    
+    memcpy(CMD + position, A7672E_NET.SERVER_URL, strlen(A7672E_NET.SERVER_URL));
+    position += strlen(A7672E_NET.SERVER_URL);
+    memcpy(CMD + position, server_data, strlen(server_data));
+    position += strlen(server_data);
+    memcpy(CMD + position, server_get, strlen(server_get));
+    
     static char buf[UART_RX_BUFFER_SIZE] = {0};
 
-    switch (A7672E_GSM_STATUS_STATE.state) {
+    switch (A7672E_work.state) {
         case SET:
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
-            A7672E_GSM_STATUS_STATE.cycle = false;
             USART_printf("%s", CMD); //send             
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
             DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma            
-            A7672E_GSM_STATUS_STATE.state = WAIT;
+            A7672E_work.state = WAIT;
             break;
 
         case WAIT:
             if ((Periodic_Checker_Devices.GSM.update_stat == PREPARED) && (Periodic_Checker_Devices.period_counter == (Periodic_Checker_Devices.GSM.start_at + Periodic_Checker_Devices.GSM.respond_time))) {
                 DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH); //stop reading 
-                A7672E_GSM_STATUS_STATE.state = DONE;
+                A7672E_work.state = DONE;
                 Periodic_Checker_Devices.GSM.update_stat = UPDATING;
             }
             break;
@@ -571,8 +587,7 @@ void A7672E_GO_WORK() {
                 }
             }
 
-            A7672E_GSM_STATUS_STATE.state = SET;
-            A7672E_GSM_STATUS_STATE.cycle = true;
+            A7672E_work.state = SET;
             Periodic_Checker_Devices.GSM.update_stat = UPDATED;
         }
         break;

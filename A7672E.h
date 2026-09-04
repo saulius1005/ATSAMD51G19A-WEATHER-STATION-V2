@@ -91,12 +91,6 @@ typedef struct {
     A7672states_t state;
 }A7672E_work_list_t;
 
-typedef struct {
-    bool cycle;
-    A7672EgsmSR_source_t source;
-    A7672states_t state;
-}A7672E_regsig_list_t;
-
 
 typedef struct {
     uint8_t GNSS_year;
@@ -149,7 +143,8 @@ typedef enum {
     GSM_TIME = 0,
     GNSS_TIME,
     RSSI_SIG,
-    NET_REG,        
+    NET_REG,
+    SERVER_SEND,
 }A7672E_asker_names_t;
 
 typedef struct {
@@ -159,10 +154,16 @@ typedef struct {
 }A7672E_message_t;
 
 typedef struct {
+    A7672E_asker_names_t name;
+    char cmd[200];    
+}A7672E_server_message_t;
+
+typedef struct {
     A7672E_message_t GSM_TIME_CMD;
     A7672E_message_t GNSS_TIME_CMD;
     A7672E_message_t RSSI_CMD;
-    A7672E_message_t REGISTRATION_CMD;   
+    A7672E_message_t REGISTRATION_CMD;
+    A7672E_server_message_t SERVER_CMD;
 }A7672E_message_request_t;
 
 
@@ -174,7 +175,6 @@ extern GNSS_data_list_t A7672EGNSS;
 extern A7672E_gnss_gsm_calendar_t A7672EGSM;
 extern A7672E_init_list_t A7672E_init;
 extern A7672E_work_list_t A7672E_work;
-extern A7672E_regsig_list_t A7672E_GSM_STATUS_STATE;
 extern A7672E_gsm_status_t A7672E_GSM_STATUS;
 extern A7672E_network_settings_t A7672E_NET;
 extern A7672E_message_request_t A7672E_ASKER;

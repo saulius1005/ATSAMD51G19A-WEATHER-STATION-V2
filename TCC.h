@@ -25,14 +25,14 @@ typedef enum {
 }update_status_t;
 
 typedef struct {
-    uint16_t update_time;
+    uint32_t update_time;
     uint16_t respond_time;
     update_status_t update_stat;   
-    uint16_t start_at;
+    uint32_t start_at;
 }regular_update_param_t;
 
 typedef struct {
-    uint16_t period_counter;
+    uint32_t period_counter;
     regular_update_param_t GSM;
     regular_update_param_t TIME;
     regular_update_param_t SERVER;

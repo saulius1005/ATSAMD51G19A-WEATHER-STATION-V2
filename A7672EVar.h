@@ -20,7 +20,7 @@ A7672E_network_settings_t A7672E_NET = {
     .etester = 0,
     .APN_USR = "internet.tele2.lt",
     .APN_PSW = {0},
-    .SERVER_URL = {0},
+    .SERVER_URL = "https://script.google.com/macros/s/AKfycbyps-b_D13lfETv7Xzy61zcjw9j0dr2iXX73-Ci4nFodykgA0Zumc_FTrwwkiHbnfF4/exec?data=",
 };
 
 GNSS_data_list_t A7672EGNSS = {
@@ -69,12 +69,6 @@ A7672E_work_list_t A7672E_work = {
  
 };
 
-A7672E_regsig_list_t A7672E_GSM_STATUS_STATE = {
-    .cycle = false,
-    .state = SET,
-    .source = SIGNAL,
-};
-
 A7672E_gsm_status_t A7672E_GSM_STATUS = {
     .rssi = 0,
     .ber = 0,
@@ -104,7 +98,7 @@ CommandList_t A7672ESetInternetList[] = { //cmd list for http initialization
     {"AT+CTZU=1\r", 1, 1}, //Enable automatic time and time zone update via NITZ   
 };
 CommandList_t A7672EHTTPGET[] = { //cmd list to receive GET request
-    {"AT+HTTPPARA=\"URL\",\"https://api.thingspeak.com/update?api_key=8KEYNF1KHFESA11N&field1=181.8&field2=25.59&field3=14&field4=4&field5=518&field6=1025&field7=22.7&field8=61\"\r", 1, 1}, //test url
+    {"AT+HTTPPARA=\"URL\",\"https://script.google.com/macros/s/AKfycbyps-b_D13lfETv7Xzy61zcjw9j0dr2iXX73-Ci4nFodykgA0Zumc_FTrwwkiHbnfF4/exec?\"\r", 1, 1}, //test url
     {"AT+HTTPACTION=0\r", 1, 20},
    // {"AT+HTTPHEAD\r", 1, 1},
     {"AT+HTTPTERM\r", 1, 1},
@@ -142,6 +136,10 @@ A7672E_message_request_t A7672E_ASKER = {
         .name = NET_REG,
         .cmd = "AT+CREG?\r",
         .echo = "+CREG: "
+    },
+    .SERVER_CMD = {
+        .name = SERVER_SEND,
+        .cmd = "AT+HTTPPARA=\"URL\",\"",
     },
 };
 
