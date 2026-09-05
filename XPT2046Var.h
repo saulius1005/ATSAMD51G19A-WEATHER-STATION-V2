@@ -21,7 +21,7 @@ TuchScreen Read_XPT2046 = {
     .Z1 = 0,
     .Z2 = 0,
     .step = 0,
-    .state = SET,
+    .state = SET_DEVICE,
     .pressed = false
 };
 

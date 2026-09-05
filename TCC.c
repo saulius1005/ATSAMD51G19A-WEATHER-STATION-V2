@@ -56,6 +56,8 @@ void TCC0_ON(uint32_t period_us){
 }
 
 void TCC0_CHECKER(){
+    if (A7672E_init.status != WORK)//if not WORK mode do not count
+        return;
     if (TCC0_REGS->TCC_INTFLAG & TCC_INTFLAG_OVF_Msk)
     {
         TCC0_REGS->TCC_INTFLAG = TCC_INTFLAG_OVF_Msk;
@@ -85,7 +87,7 @@ void TCC0_CHECKER(){
         //data check for Towers using RS485 (SERCOM2)
         if(Periodic_Checker_Devices.TOWERS.update_stat == UPDATED && !(Periodic_Checker_Devices.period_counter % Periodic_Checker_Devices.TOWERS.update_time)){//priority not care
             Periodic_Checker_Devices.TOWERS.update_stat = PREPARED;
-            //Periodic_Checker_Devices.TOWERS.start_at = Periodic_Checker_Devices.period_counter;
+            Periodic_Checker_Devices.TOWERS.start_at = Periodic_Checker_Devices.period_counter;
         }
         
     }

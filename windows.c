@@ -123,10 +123,13 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Tracker Frame:");
                     y -= 12;
                     ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%3d.%02d°A %2d.%02d°E", tower0 -> position.azimuth / 100, tower0 -> position.azimuth % 100, tower0 -> position.elevation / 100, tower0 -> position.elevation % 100);
-
-
+                    
+                    
                     y = 300;
-                    ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
+                    ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "TCC0: %09d", Periodic_Checker_Devices.period_counter);
+                    
+                    
+                    ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
 
                 }
                 Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
@@ -323,7 +326,7 @@ void UserInterface(Windows_names_t window) {
                     A7672E_work.source = GSM;
                     A7672EGSM.GSM_time_corect = false;
                     A7672E_work.cycle = false;
-                    A7672E_work.state = SET;
+                    A7672E_work.state = SET_DEVICE;
                     if (keyboard.status == OPEN) {
                         Windows.Window = TIME_WINDOW;
                         keyboard.status = CLOSE;
@@ -338,7 +341,7 @@ void UserInterface(Windows_names_t window) {
                         A7672E_work.source = GNSS;
                         A7672E_work.cycle = false;
                         A7672EGSM.GNSS_time_corect = false;
-                        A7672E_work.state = SET;
+                        A7672E_work.state = SET_DEVICE;
                     } else {
                         ILI9341_draw_formatted_line(0, &y, RED, NAVY, "              NO GNSS lock!              ");
                     }

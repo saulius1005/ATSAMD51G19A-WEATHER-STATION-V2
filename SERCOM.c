@@ -186,7 +186,7 @@ void USART_set_read_length(uint8_t length, DMA_channel_t channel){ //how much by
 }
 
 /*void USART_write_str(char *str){
-    uint16_t length = 0;
+    uint8_t length = 0;
     while(str[length]) length++;//calculate how much bytes in total
 
     SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;//set length to usart hardware once
@@ -236,7 +236,7 @@ void USART_write_str(char *str) {
 }
 
 void USART_printf(const char *fmt, ...){
-    char buffer[512];
+    char buffer[255];
     va_list args;
     va_start(args, fmt);
     vsnprintf(buffer, sizeof(buffer), fmt, args);

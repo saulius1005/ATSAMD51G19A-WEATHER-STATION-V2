@@ -25,11 +25,11 @@ void XPT2046_Read_All(){
     XPT2046_CS_LOW();
     
     switch(Read_XPT2046.state){
-        case SET:
+        case SET_DEVICE:
                 TC0_ON(5000); //set timeout 5ms
-                Read_XPT2046.state = WAIT;
+                Read_XPT2046.state = WAIT_DEVICE;
         break;
-        case WAIT:
+        case WAIT_DEVICE:
             if(TC0_timeout){
                 if(Read_XPT2046.step == 0){
                     Read_XPT2046.X = XPT2046_Read(XPT_CMD_X);
@@ -43,13 +43,13 @@ void XPT2046_Read_All(){
                 else if(Read_XPT2046.step == 3){
                     Read_XPT2046.Z2 = XPT2046_Read(XPT_CMD_Z2);                   
                 }                
-                Read_XPT2046.state = DONE;
+                Read_XPT2046.state = DONE_DEVICE;
             }            
         break;
-        case DONE:       
+        case DONE_DEVICE:       
             if(Read_XPT2046.step++ == 4)
                 Read_XPT2046.step = 0;
-            Read_XPT2046.state = SET;
+            Read_XPT2046.state = SET_DEVICE;
             
         break;           
     }

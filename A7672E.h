@@ -49,9 +49,12 @@ typedef enum {
 }A7672EgsmSR_source_t;
 
 typedef enum {
-    SET = 0,
-    WAIT,
-    DONE
+    SET_DEVICE = 0,
+    WAIT_DEVICE,
+    DONE_DEVICE,
+    SERVER_SEND,
+    SERVER_WAIT,
+    SERVER_DONE,
 }A7672states_t;
 
 typedef struct {
@@ -147,7 +150,6 @@ typedef enum {
     GNSS_TIME,
     RSSI_SIG,
     NET_REG,
-    SERVER_SEND,
 }A7672E_asker_names_t;
 
 typedef struct {
@@ -158,7 +160,6 @@ typedef struct {
 }A7672E_message_t;
 
 typedef struct {
-    A7672E_asker_names_t name;
     char cmd[200];    
 }A7672E_server_message_t;
 

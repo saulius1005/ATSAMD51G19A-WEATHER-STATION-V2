@@ -20,7 +20,7 @@ A7672E_network_settings_t A7672E_NET = {
     .etester = 0,
     .APN_USR = "internet.tele2.lt",
     .APN_PSW = {0},
-    .SERVER_URL = "https://script.google.com/macros/s/AKfycbyps-b_D13lfETv7Xzy61zcjw9j0dr2iXX73-Ci4nFodykgA0Zumc_FTrwwkiHbnfF4/exec?data=",
+    .SERVER_URL = "https://script.google.com/macros/s/AKfycbyk9BWHLr5XXumGt8s6y8FLDWCy5RdMgpfi3wM7hSalW_-dDkcD85Icdo4dmreJXZBQ/exec?data=",
 };
 
 GNSS_data_list_t A7672EGNSS = {
@@ -35,7 +35,7 @@ A7672E_init_list_t A7672E_init = {
     .enabled = false,
     .step = 0,
     .status = INIT,
-    .state = SET,
+    .state = SET_DEVICE,
     .APN = {0},
 };
 
@@ -64,7 +64,7 @@ A7672E_gnss_gsm_calendar_t A7672EGSM = {
 
 A7672E_work_list_t A7672E_work = {
     .cycle = false,
-    .state = SET,
+    .state = SET_DEVICE,
     .source = GSM,
  
 };
@@ -92,8 +92,8 @@ CommandList_t A7672ESetInternetList[] = { //cmd list for http initialization
     {"AT+CSQ\r", 1, 2},//check signal strength max response time 9000ms
     {"AT+CREG?\r", 1, 2},//check network registration
     {"AT+CPSI?\r", 1, 2}, //check network details
-    {A7672E_init.APN, 1, 1},//set apn
-    {"AT+CGACT=1,1\r", 1, 1},    
+    {A7672E_init.APN, 1, 1},//set apn //cid1, IP, apn: internet.tele2.lt
+    {"AT+CGACT=1,1\r", 1, 1},    //cid 1
     {"AT+HTTPINIT\r", 1, 1},
     {"AT+CTZU=1\r", 1, 1}, //Enable automatic time and time zone update via NITZ   
 };
@@ -119,30 +119,33 @@ A7672E_Config_t gps_cfg = {
 A7672E_message_request_t A7672E_ASKER = {
     .GSM_TIME_CMD = {
         .name = GSM_TIME,
-        .cmd = "AT+CCLK?\r",
+        //.cmd = "AT+CCLK?\r",
+        .cmd = "+CCLK?",
         .echo = "+CCLK: ",
         .sent = false,
     },
     .GNSS_TIME_CMD = {
         .name = GNSS_TIME,
-        .cmd = "AT+CGNSSINFO\r",
+        //.cmd = "AT+CGNSSINFO\r",
+        .cmd = "+CGNSSINFO",
         .echo = "+CGNSSINFO: ",
         .sent = false,
     },
     .RSSI_CMD = {
         .name = RSSI_SIG,
-        .cmd = "AT+CSQ\r",
+        //.cmd = "AT+CSQ\r",
+        .cmd = "+CSQ",
         .echo = "+CSQ: ",
         .sent = false,
     },
     .REGISTRATION_CMD = {
         .name = NET_REG,
-        .cmd = "AT+CREG?\r",
+        //.cmd = "AT+CREG?\r",
+        .cmd = "+CREG?",
         .echo = "+CREG: ",
         .sent = false,
     },
     .SERVER_CMD = {
-        .name = SERVER_SEND,
         .cmd = "AT+HTTPPARA=\"URL\",\"",
     },
 };
