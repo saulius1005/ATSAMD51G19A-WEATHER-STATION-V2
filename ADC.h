@@ -22,7 +22,7 @@ typedef enum {
     
 typedef struct {
     uint16_t speed;
-    uint16_t direction;
+    uint8_t direction;
 } ADCParameters_wind;
 
 typedef struct {

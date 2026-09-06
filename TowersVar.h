@@ -19,39 +19,39 @@ tower_t towers[TOWER_COUNT] = {/*{ //uncomment if needde to manualy declarate to
     .state = SEND,
     .id = 1,
     .position = {
-        .azimuth   = 0,
-        .elevation = 0
+        .azimuth   = 18022,
+        .elevation = 5515
     },
     .panel = {
-        .voltage = 0,
-        .current = 0
+        .voltage = 2105,
+        .current = 1122
     },
     .az_motor = {
-        .voltage = 0,
-        .current = 0
+        .voltage = 6003,
+        .current = 278
     },
     .el_motor = {
-        .voltage = 0,
-        .current = 0
+        .voltage = 2430,
+        .current = 432
     }},
 
     {
     .state = SEND,
     .id = 2,
     .position = {
-        .azimuth   = 0,
-        .elevation = 0
+        .azimuth   = 18103,
+        .elevation = 5495
     },
     .panel = {
-        .voltage = 0,
-        .current = 0
+        .voltage = 21522,
+        .current = 1266
     },
     .az_motor = {
-        .voltage = 0,
-        .current = 0
+        .voltage = 5988,
+        .current = 10
     },
     .el_motor = {
-        .voltage = 0,
+        .voltage = 2401,
         .current = 0
     }}*/
 };

@@ -66,6 +66,12 @@ void Towers_init(){
     for (uint8_t i = 0; i < TOWER_COUNT; i++){
         towers[i].state = SEND;
         towers[i].id = i; //start id form 0 to 255 it will be total up to 256 towers
+        if(i == 0)//remove after debugging
+            memcpy(towers[i].prepared_to_server, "004792126807dc3fb025a0370ee15b", 30);
+            //towers[i].prepared_to_server = "004792126807dc3fb025a0370ee15b";//remove after debugging or change 
+        if(i == 1)//remove after debugging
+            memcpy(towers[i].prepared_to_server, "01487312c307f3441026202c968073", 30);
+            //towers[i].prepared_to_server = "01487312c307f3441026202c968073";//remove after debugging
     }
 }
 
@@ -152,6 +158,8 @@ void Tower_COM_DATA_Parser(char* buf, uint8_t id){
         tower -> update_time.hour = RTC_Date_and_Time.RTC_hour;
         tower -> update_time.minute = RTC_Date_and_Time.RTC_minute;
         tower -> update_time.second = RTC_Date_and_Time.RTC_second;
+        
+        //snprintf(A7672E_init.APN, sizeof (A7672E_init.APN), "AT+CGDCONT=1,\"IP\",\"%s\"\r", A7672E_NET.APN_USR);
     
     }
 }

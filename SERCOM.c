@@ -84,7 +84,7 @@ void SERCOM_init(sercom_init_t interface){
                 while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
             
             SERCOM3_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
-            SERCOM3_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_32BIT;            
+            SERCOM3_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_CHSIZE;            
             SERCOM3_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
             SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD2 | SERCOM_USART_INT_CTRLA_TXPO_PAD0 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
                 while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
@@ -185,14 +185,15 @@ void USART_set_read_length(uint8_t length, DMA_channel_t channel){ //how much by
 
 }
 
-void USART_write_str(char *str){
+/*void USART_write_str(char *str){
     uint8_t length = 0;
     while(str[length]) length++;//calculate how much bytes in total
 
     SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;//set length to usart hardware once
     while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk);//wait sync
     
-    const uint32_t* arr = (const uint32_t*) str; //create pointer of 32bit length
+    uint32_t* arr = (uint32_t*) str; //create pointer of 32bit length
+    //uint8_t* arr = (uint8_t*) str;
     
     length = (length+3)>>2;//how much it will be of 32bits
     SERCOM3_REGS->USART_INT.SERCOM_INTFLAG = SERCOM_USART_INT_INTFLAG_TXC_Msk;//clear last flag 
@@ -202,7 +203,18 @@ void USART_write_str(char *str){
     }
     while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_TXC_Msk)); //stop bid set and shift register is empty and no new data  
     SERCOM3_REGS->USART_INT.SERCOM_LENGTH &= ~SERCOM_USART_INT_LENGTH_LENEN_Msk;   
+}*/
+
+
+void USART_write_str(char *str){    
+    while (*str){
+        while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_DRE_Msk)); //is DATA empty?
+        SERCOM3_REGS->USART_INT.SERCOM_DATA = *str++;
+    }
+    while (!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_TXC_Msk)); //is DATA and TXC shift register empty?   
+    SERCOM3_REGS->USART_INT.SERCOM_INTFLAG = SERCOM_USART_INT_INTFLAG_TXC_Msk;
 }
+
 
 /*void USART_write_str(char *str) {
     uint16_t total_length = 0;
@@ -236,7 +248,7 @@ void USART_write_str(char *str){
 }*/
 
 void USART_printf(const char *fmt, ...){
-    char buffer[255];
+    static char buffer[255]={0};
     va_list args;
     va_start(args, fmt);
     vsnprintf(buffer, sizeof(buffer), fmt, args);

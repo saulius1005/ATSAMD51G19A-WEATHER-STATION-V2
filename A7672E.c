@@ -620,11 +620,51 @@ void A7672E_GO_WORK() {
 
         case SERVER_SEND:{
             
-            char server_data[] = "43380E9510A01240A41B1FE00290401FDF3|57780E9510A01240A41B1FE00290401FDF3|"; //test data        
+            //char server_data[] = "58880E9510A01240A41B1FE00290401FDF3"; //test data        
 
             USART_printf("%s", A7672E_ASKER.SERVER_CMD.cmd);//send server cmd
+            //USART_printf("AT+HTTPPARA=\"URL\",\"");
+            
             USART_printf("%s", A7672E_NET.SERVER_URL);//send url
-            USART_printf("%s\";+HTTPACTION=0\r", server_data);
+            //USART_printf("https://script.google.com/macros/s/AKfycbyvNC-9UYr0QNcrA1v_bK2J0t1ajOArNTkflXqoKVus6sxltQOdpJ2aCL-pyEaQZyrd/exec?data=");
+            
+            //USART_printf("487B107E2900AA2273219D4171|004792126807dc3fb025a0370ee15b|01487312c307f3441026202c968073|");
+            
+            USART_printf("%04x%04x%03x%04x%04x%04x%02x%01x|", 
+                    solar_params.coarse_azimuth, 
+                    (uint16_t)solar_params.coarse_elevation, 
+                    SUN.level, 
+                    (uint16_t)(BME680.temperature), 
+                    (uint16_t)(BME680.pressure/10), 
+                    (uint16_t)(BME680.humidity/10), 
+                    WIND.speed, 
+                    WIND.direction);//weather station data 26B
+            
+            for(uint8_t i = 0; i< TOWER_COUNT; i++){
+                USART_printf("%s|",towers[i].prepared_to_server);//add towers data (each tower = 30B)
+            }
+            
+            
+            
+            USART_printf("\";+HTTPACTION=0\r");
+            //USART_printf("%s\";+HTTPACTION=0\r", server_data);
+            
+            USART_printf("0"); //1
+            USART_printf("012");//3
+            USART_printf("0123456");//7
+            USART_printf("0123456789abcde");//15
+            USART_printf("0123456789abcdefgijklmopqrstuvw");//31
+            
+            USART_printf("01");       // 2
+            USART_printf("012345");   // 6
+            USART_printf("0123456789"); // 10
+            USART_printf("0123456789abcd"); // 14
+            
+            USART_write_str("012");
+            USART_write_str("012345");
+            USART_write_str("0123456");
+            USART_write_str("0123456789abcde");
+            
             
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
