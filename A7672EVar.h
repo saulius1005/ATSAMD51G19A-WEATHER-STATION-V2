@@ -84,7 +84,7 @@ CommandList_t A7672ESetGPSList[] = { //most command response time is max 9sec
     //AT+CGNSSTST=1 //send data to nmea port
     {"AT+CGNSSMODE=3\r", 1, 1}, //GPS+GLONASS+GALILEO+SBAS+QZSS (1,2,3,4)
     {"AT+CGPSNMEARATE=1\r", 1, 1}, //update rate 1 hz (1,2,5)
-    {"AT+CAGPS\r", 5, 2}, //get data from assistant agnss server
+    {"AT+CAGPS\r", 10, 2}, //get data from assistant agnss server
 };
 
 CommandList_t A7672ESetInternetList[] = { //cmd list for http initialization
@@ -93,7 +93,9 @@ CommandList_t A7672ESetInternetList[] = { //cmd list for http initialization
     {"AT+CREG?\r", 1, 2},//check network registration
     {"AT+CPSI?\r", 1, 2}, //check network details
     {A7672E_init.APN, 1, 1},//set apn //cid1, IP, apn: internet.tele2.lt
-    {"AT+CGACT=1,1\r", 1, 1},    //cid 1
+    {"AT+CGACT=1,1\r", 1, 1},    //cid 2
+    {"AT+CGACT?\r",1,1},
+    {"AT+CGPADDR=1\r",1,1},//check cid
     {"AT+HTTPINIT\r", 1, 1},
     {"AT+CTZU=1\r", 1, 1}, //Enable automatic time and time zone update via NITZ   
 };

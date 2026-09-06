@@ -481,14 +481,12 @@ void A7672E_GO_WORK() {
     if (A7672E_init.status != WORK)//if not WORK mode 
         return; //skip further code
     static char buf[UART_RX_BUFFER_SIZE] = {0};
-    uint32_t response_time = 0; //for waiting time calculations
-
+    
     switch (A7672E_work.state) {
         case SET_DEVICE:
         {
-            //char CMD[255] = {0};
-            //uint16_t position = 0;
-
+            uint32_t response_time = 0; //for waiting time calculations
+            
             if (Periodic_Checker_Devices.TIME.update_stat == PREPARED) {
 
                 if (Periodic_Checker_Devices.TIME.respond_time > response_time) //use time respond time
@@ -498,21 +496,12 @@ void A7672E_GO_WORK() {
 
                     A7672E_ASKER.GSM_TIME_CMD.sent = true;
                     A7672E_ASKER.GNSS_TIME_CMD.sent = true;
-                    
-                    
 
-                   /* memcpy(CMD + position, A7672E_ASKER.GSM_TIME_CMD.cmd, strlen(A7672E_ASKER.GSM_TIME_CMD.cmd)); //gsm time request
-                    position += strlen(A7672E_ASKER.GSM_TIME_CMD.cmd);
-
-                    memcpy(CMD + position, A7672E_ASKER.GNSS_TIME_CMD.cmd, strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd)); //gnss time request
-                    position += strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd);*/
                 }
                 else if (RTC_Date_and_Time.time_sync == GSM_sync) { //already have GSM sync but try to improve with gnss
 
                     A7672E_ASKER.GNSS_TIME_CMD.sent = true;
 
-                   /* memcpy(CMD + position, A7672E_ASKER.GNSS_TIME_CMD.cmd, strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd));
-                    position += strlen(A7672E_ASKER.GNSS_TIME_CMD.cmd);*/
                 }
             }
 
@@ -523,29 +512,32 @@ void A7672E_GO_WORK() {
 
                 A7672E_ASKER.RSSI_CMD.sent = true;
                 A7672E_ASKER.REGISTRATION_CMD.sent = true;
-
-               /* memcpy(CMD + position, A7672E_ASKER.RSSI_CMD.cmd, strlen(A7672E_ASKER.RSSI_CMD.cmd)); //rssi signal strength request
-                position += strlen(A7672E_ASKER.RSSI_CMD.cmd);
-
-                memcpy(CMD + position, A7672E_ASKER.REGISTRATION_CMD.cmd, strlen(A7672E_ASKER.REGISTRATION_CMD.cmd)); //registration in network request
-                position += strlen(A7672E_ASKER.REGISTRATION_CMD.cmd);*/
             }
+            
+            if (!A7672E_ASKER.GSM_TIME_CMD.sent && !A7672E_ASKER.GNSS_TIME_CMD.sent && !A7672E_ASKER.RSSI_CMD.sent && !A7672E_ASKER.REGISTRATION_CMD.sent) //if no data to send
+                break;
 
             A7672E_work.response_time = response_time;
             A7672E_work.start_at = Periodic_Checker_Devices.period_counter;
-
-            memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
-            //USART_printf("%s", CMD); //send             
-            
-                
-            USART_printf("AT");//start message
+                                        
+            USART_printf("AT"); //create message beginning
             if(A7672E_ASKER.GSM_TIME_CMD.sent)
-                USART_printf("%s;", A7672E_ASKER.GSM_TIME_CMD.cmd);
-            if(A7672E_ASKER.GNSS_TIME_CMD.sent)
-                USART_printf("%s;", A7672E_ASKER.GNSS_TIME_CMD.cmd);
-            if(A7672E_ASKER.RSSI_CMD.sent && A7672E_ASKER.REGISTRATION_CMD.sent)//all time both
-                USART_printf("%s;%s\r", A7672E_ASKER.RSSI_CMD.cmd, A7672E_ASKER.REGISTRATION_CMD.cmd);
+                USART_printf("%s", A7672E_ASKER.GSM_TIME_CMD.cmd); //add gsm time reques if needed
+            if(A7672E_ASKER.GNSS_TIME_CMD.sent){
+                if(A7672E_ASKER.GSM_TIME_CMD.sent)
+                    USART_printf(";%s", A7672E_ASKER.GNSS_TIME_CMD.cmd); //if needed gsm and gnss time request
+                else
+                    USART_printf("%s", A7672E_ASKER.GNSS_TIME_CMD.cmd); //if only gnss time
+            }
+            if(A7672E_ASKER.RSSI_CMD.sent && A7672E_ASKER.REGISTRATION_CMD.sent){//all time both
+                if(A7672E_ASKER.GNSS_TIME_CMD.sent || A7672E_ASKER.GSM_TIME_CMD.sent) //if gsm or gnss time rques is send
+                    USART_printf(";%s;%s", A7672E_ASKER.RSSI_CMD.cmd, A7672E_ASKER.REGISTRATION_CMD.cmd);
+                else
+                    USART_printf("%s;%s", A7672E_ASKER.RSSI_CMD.cmd, A7672E_ASKER.REGISTRATION_CMD.cmd);
+            }
+            USART_printf("\r");
             
+            memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf  
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
             DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma    
             
@@ -628,40 +620,13 @@ void A7672E_GO_WORK() {
 
         case SERVER_SEND:{
             
-           // char SER_CMD[255] = {0};
-            //uint16_t position = 0;
-            
-            char server_data[] = "43380E9510A01240A41B1FE00290401FDF3|57780E9510A01240A41B1FE00290401FDF3|"; //test data
-            //char server_get[] = "\"\rAT+HTTPACTION=0\r";
-            char server_get[] = "\";+HTTPACTION=0\r";
+            char server_data[] = "43380E9510A01240A41B1FE00290401FDF3|57780E9510A01240A41B1FE00290401FDF3|"; //test data        
 
-           // memcpy(SER_CMD + position, A7672E_ASKER.SERVER_CMD.cmd, strlen(A7672E_ASKER.SERVER_CMD.cmd)); //adding cmd for url
-           // position += strlen(A7672E_ASKER.SERVER_CMD.cmd);
-
-           // memcpy(SER_CMD + position, A7672E_NET.SERVER_URL, strlen(A7672E_NET.SERVER_URL)); //add server url
-           //position += strlen(A7672E_NET.SERVER_URL);
-           // USART_printf("%s", SER_CMD);
-
-           // position = 0;
-
-            //memcpy(SER_CMD + position, server_data, strlen(server_data)); //add server data 
-           // position += strlen(server_data);
-                       
-
-            //memcpy(SER_CMD + position, server_get, strlen(server_get)); //add last part for urlcmd and cmd for GET
-            //position += strlen(server_get);
-
-
-            memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
-            //USART_printf("%s", SER_CMD);// send data packet and get command
-            
-            
-            
             USART_printf("%s", A7672E_ASKER.SERVER_CMD.cmd);//send server cmd
             USART_printf("%s", A7672E_NET.SERVER_URL);//send url
-            USART_printf("%s", server_data);//only data
-            USART_printf("%s", server_get);//part of send to server cmd end and get cmd     
+            USART_printf("%s\";+HTTPACTION=0\r", server_data);
             
+            memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
             DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
             DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma 
 
@@ -681,7 +646,6 @@ void A7672E_GO_WORK() {
 
 
         case SERVER_DONE:
-            // èia apdorojam serverio atsakymà
             
             Periodic_Checker_Devices.SERVER.update_stat = UPDATED; //set updates status for server in the end
 

@@ -185,7 +185,7 @@ void USART_set_read_length(uint8_t length, DMA_channel_t channel){ //how much by
 
 }
 
-/*void USART_write_str(char *str){
+void USART_write_str(char *str){
     uint8_t length = 0;
     while(str[length]) length++;//calculate how much bytes in total
 
@@ -202,9 +202,9 @@ void USART_set_read_length(uint8_t length, DMA_channel_t channel){ //how much by
     }
     while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_TXC_Msk)); //stop bid set and shift register is empty and no new data  
     SERCOM3_REGS->USART_INT.SERCOM_LENGTH &= ~SERCOM_USART_INT_LENGTH_LENEN_Msk;   
-}*/
+}
 
-void USART_write_str(char *str) {
+/*void USART_write_str(char *str) {
     uint16_t total_length = 0;
 
     while (str[total_length])
@@ -233,7 +233,7 @@ void USART_write_str(char *str) {
         SERCOM3_REGS->USART_INT.SERCOM_LENGTH &= ~SERCOM_USART_INT_LENGTH_LENEN_Msk;
         position += length;
     }
-}
+}*/
 
 void USART_printf(const char *fmt, ...){
     char buffer[255];
