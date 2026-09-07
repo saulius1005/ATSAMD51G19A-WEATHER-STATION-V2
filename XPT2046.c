@@ -21,12 +21,12 @@ void XPT2046_Read_All(){
     if(A7672E_init.status != WORK) // if GSM module still not initialized skip further code
         return;
     
-    SPI0_Baud_Switch(2000000);//switch baudrate to 0.1Mhz
+    SPI0_Baud_Switch(2000000);//switch baudrate to 2Mhz
     XPT2046_CS_LOW();
     
     switch(Read_XPT2046.state){
         case SET_DEVICE:
-                TC0_ON(5000); //set timeout 5ms
+                TC0_ON(5000); //set timeout 10ms
                 Read_XPT2046.state = WAIT_DEVICE;
         break;
         case WAIT_DEVICE:

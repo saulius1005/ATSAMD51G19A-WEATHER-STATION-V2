@@ -109,8 +109,10 @@ void I2C_write(uint8_t addr, uint32_t data, uint8_t length, i2c_cmd_t endaction)
 uint32_t I2C_write_and_read(uint8_t addr, uint32_t reg, uint8_t writelen, uint8_t readlen);
 
 
-
 void USART_write_str(char * str);
+
+//void USART_write_str(uint32_t *str);
+
 
 void USART_printf(const char *fmt, ...);
 

@@ -14,8 +14,8 @@ extern "C" {
 
 #define AT_COMMAND_COUNT(arr) (sizeof(arr) / sizeof((arr)[0])) //calculate command set count
 #define TIME_ZONE 2
-#define APN_ADD_SYMBOLS_COUNT 40
-#define APN_PASS_SYMBOLS_COUNT 40    
+#define APN_ADD_SYMBOLS_COUNT 30
+#define TRUSTED_PHONE_SYMBOLS_COUNT 12    
 #define SERVER_URL_COUNT 160
     
 typedef struct {
@@ -141,7 +141,7 @@ typedef struct { // for cmd list at initialization of http or gnss
 typedef struct { //data to save in eeprom
     uint8_t etester;
     char APN_USR[APN_ADD_SYMBOLS_COUNT];
-    char APN_PSW[APN_PASS_SYMBOLS_COUNT];        
+    char TRST_PHN[TRUSTED_PHONE_SYMBOLS_COUNT];        
     char SERVER_URL[SERVER_URL_COUNT];
 }A7672E_network_settings_t;
 

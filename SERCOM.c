@@ -205,8 +205,25 @@ void USART_set_read_length(uint8_t length, DMA_channel_t channel){ //how much by
     SERCOM3_REGS->USART_INT.SERCOM_LENGTH &= ~SERCOM_USART_INT_LENGTH_LENEN_Msk;   
 }*/
 
+/*void USART_write_str(uint32_t *str){
+    uint8_t length = 0;
+    while(str[length]) length++;//calculate how much bytes in total
+    SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;//set length to usart hardware once
+    while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk);//wait sync
+   
+    length = (length+3)>>2;
+    while(length--){
+        while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_DRE_Msk));//is DATA empty?
+        SERCOM3_REGS->USART_INT.SERCOM_DATA = *str++;
+    }
+    while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_TXC_Msk)); //is DATA and TXC shift register empty?  
+    SERCOM3_REGS->USART_INT.SERCOM_INTFLAG = SERCOM_USART_INT_INTFLAG_TXC_Msk;//clear last flag 
+    SERCOM3_REGS->USART_INT.SERCOM_LENGTH &= ~SERCOM_USART_INT_LENGTH_LENEN_Msk;   //turn off length usage
+    while (SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk);
+}*/
 
-void USART_write_str(char *str){    
+
+void USART_write_str(char *str){//for character type of transmitter
     while (*str){
         while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_DRE_Msk)); //is DATA empty?
         SERCOM3_REGS->USART_INT.SERCOM_DATA = *str++;
@@ -253,5 +270,6 @@ void USART_printf(const char *fmt, ...){
     va_start(args, fmt);
     vsnprintf(buffer, sizeof(buffer), fmt, args);
     va_end(args);
-    USART_write_str(buffer); 
+    USART_write_str(/*(uint32_t*)*/buffer); 
+    
 }

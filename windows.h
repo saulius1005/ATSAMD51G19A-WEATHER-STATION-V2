@@ -18,7 +18,7 @@ typedef enum {
     TIME_WINDOW,
     LOCATION_WINDOW,
     TOWER_WINDOW,
-    GSM_GNSS_WINDOW,
+    NETWORK_WINDOW,
 }Windows_names_t;
 
 typedef struct {
@@ -37,10 +37,19 @@ typedef struct {
     uint16_t x;
 } param_text_t;
 
+typedef struct {
+    char *edit_buffer;
+    char *target_buffer;
+    uint16_t eeprom_offset;
+    uint8_t size;
+    char name[30];
+} GSM_NET_param_t;
+
 
 extern Windows_t Windows;
 extern param_limit_t limits[];
 extern param_text_t location_param_names[];
+extern GSM_NET_param_t win_params[];
 
 void UserInterface(Windows_names_t window); //show all windows on the screen
 

@@ -21,9 +21,6 @@ void normalize_at_response(char *buf) {
     if (w > 0 && buf[w - 1] == ' ')
         w--;
 
-    // 3. pridedam vienà \r\n gale
-    //buf[w++] = '\r';
-    //buf[w++] = '\n';
     buf[w] = '\0';
 }
 
@@ -659,11 +656,6 @@ void A7672E_GO_WORK() {
             USART_printf("012345");   // 6
             USART_printf("0123456789"); // 10
             USART_printf("0123456789abcd"); // 14
-            
-            USART_write_str("012");
-            USART_write_str("012345");
-            USART_write_str("0123456");
-            USART_write_str("0123456789abcde");
             
             
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
