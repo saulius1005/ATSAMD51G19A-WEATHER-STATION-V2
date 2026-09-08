@@ -16,6 +16,7 @@ void UserInterface(Windows_names_t window) {
             //ignore init window and do nthing till it will be changed to one window from below list
         case MAIN_WINDOW:
         {
+            keyboard.type = none;
             if (!Windows.background_updater) {
                 ILI9341_fill_ALL_color_DMA(BLACK); //fill screen 
                 ili9341_draw_rect(0, 0, 240, 16, WHITE, 0); //date and time button
@@ -162,11 +163,18 @@ void UserInterface(Windows_names_t window) {
             static char TZside = '+'; //time zone direction symbol
             static uint8_t pressCount = 2;
             static uint8_t countProtection = 55;
+            uint16_t text_color = WHITE;
+            static uint16_t status_txt_color = WHITE;
+            static uint16_t gsm_txt_color = WHITE;
+            static uint16_t gnss_txt_color = WHITE;
+            
 
             if (!Windows.background_updater) { //drawing not changing elements
-                ILI9341_fill_ALL_color_DMA(NAVY); //background
-                keyboard.background_color = NAVY;
+                keyboard.background_color = DARK_GRAY;
                 keyboard.type = digits;
+                ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
+                
+                
 
                 ili9341_draw_rect(0, 0, 60, 20, BLACK, 1); //and buttons frames
                 uint16_t y = 6;
@@ -180,9 +188,9 @@ void UserInterface(Windows_names_t window) {
                 y = 6;
                 ILI9341_draw_formatted_line(141, &y, RED, GREEN, "GSM");
 
-                ili9341_draw_rect(180, 0, 60, 20, ORANGE, 1);
+                ili9341_draw_rect(180, 0, 60, 20, DARK_BLUE, 1);
                 y = 6;
-                ILI9341_draw_formatted_line(198, &y, CYAN, ORANGE, "GNSS");
+                ILI9341_draw_formatted_line(198, &y, CYAN, DARK_BLUE, "GNSS");
 
                 Windows.background_updater = true;
             } else {
@@ -190,67 +198,79 @@ void UserInterface(Windows_names_t window) {
                     RTC_read_date_and_time();
 
                     uint16_t y = 30;
-                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "RTC time: %4d-%02d-%02d %02d:%02d:%02d", RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second);
-                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "T.Z.: %2d ", RTC_Date_and_Time.RTC_time_zone);
-                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "D.S.T: %s", is_daylight_saving_time(RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour) ? "YES" : "NO");
+                    ILI9341_draw_formatted_line(0, &y, status_txt_color, keyboard.background_color, "RTC time: %4d-%02d-%02d %02d:%02d:%02d", RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second);
+                    ILI9341_draw_formatted_line(0, &y, status_txt_color, keyboard.background_color, "T.Z.: %2d ", RTC_Date_and_Time.RTC_time_zone);
+                    ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "D.S.T: %s", is_daylight_saving_time(RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour) ? "YES" : "NO ");
 
                     const char *timesourceintext =
                             (RTC_Date_and_Time.time_sync == NONE_sync) ? "NONE        " :
                             (RTC_Date_and_Time.time_sync == GSM_sync) ? "GSM Module  " :
                             (RTC_Date_and_Time.time_sync == GNSS_sync) ? "GNSS Module " : "Manual input";
-                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "Date/time source: %s", timesourceintext);
+                    ILI9341_draw_formatted_line(0, &y, status_txt_color, keyboard.background_color, "Date/time source: %s", timesourceintext);
 
-                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "GSM lock at: %4d-%02d-%02d %02d:%02d:%02d", A7672EGSM.GSM_year + 2000, A7672EGSM.GSM_month, A7672EGSM.GSM_day, A7672EGSM.GSM_hour, A7672EGSM.GSM_minute, A7672EGSM.GSM_second);
+                    ILI9341_draw_formatted_line(0, &y, gsm_txt_color, keyboard.background_color, "GSM lock at: %4d-%02d-%02d %02d:%02d:%02d", A7672EGSM.GSM_year + 2000, A7672EGSM.GSM_month, A7672EGSM.GSM_day, A7672EGSM.GSM_hour, A7672EGSM.GSM_minute, A7672EGSM.GSM_second);
                     if (A7672EGSM.GNSS_year + A7672EGSM.GNSS_month + A7672EGSM.GNSS_day + A7672EGSM.GNSS_hour + A7672EGSM.GNSS_minute + A7672EGSM.GNSS_second == 0)
-                        ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "GNSS lock at: no GNSS lock");
+                        ILI9341_draw_formatted_line(0, &y, gnss_txt_color, keyboard.background_color, "GNSS lock at: no GNSS lock");
                     else
-                        ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "GNSS lock at: %4d-%02d-%02d %02d:%02d:%02d", A7672EGSM.GNSS_year + 2000, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);
-                    //ILI9341_draw_formatted_line(0, &y, WHITE, DARK_GRAY, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
-
+                        ILI9341_draw_formatted_line(0, &y, gnss_txt_color, keyboard.background_color, "GNSS lock at: %4d-%02d-%02d %02d:%02d:%02d", A7672EGSM.GNSS_year + 2000, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);
+                    //ILI9341_draw_formatted_line(0, &y, text_color, DARK_GRAY, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
+                    if(status_txt_color != text_color)
+                        status_txt_color = text_color;
+                    if(gsm_txt_color != text_color)
+                        gsm_txt_color = text_color;
+                    if(gnss_txt_color != text_color)
+                        gnss_txt_color = text_color;
                     Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
                 }
 
                 draw_keyboard();
+                uint16_t y = 173;
 
-                if (keyboard.status == OPEN) {
-                    uint16_t y = 130;
-                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "MAN TIME: ");
-
+                if (keyboard.status == OPEN) { 
+                    
                     uint16_t x = 60;
-                    for (uint16_t clr = 0; clr < 17; clr++) {
-                        y = 130;
-                        uint16_t background = (pressCount == clr) ? RED : NAVY;
-
-                        if ((clr < 14))
-                            ILI9341_draw_formatted_line(x, &y, GREEN, background, "%01d", DT[clr]); //draw digits of the date and time
-                        else if (clr == 14)
-                            ILI9341_draw_formatted_line(x, &y, GREEN, background, "%c", TZside); //draw time zone direction
-                        else if (clr > 14 && clr < 17)
-                            ILI9341_draw_formatted_line(x, &y, GREEN, background, "%01d", TZ[clr - 15]); //draw digits of the time zone
-                        x += 6;
-                        if (clr == 3 || clr == 5) {//Year-Month-Day
-                            y = 130;
-                            ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, "-");
-                            x += 6;
-                        } else if (clr == 7) {//Year-Month-Day //space
-                            y = 130;
-                            ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, " ");
-                            x += 6;
-                        } else if (clr == 9 || clr == 11) {//Year-Month-Day Hour:Minutes:Seconds
-                            y = 130;
-                            ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, ":");
-                            x += 6;
-                        } else if (clr == 13) {//Year-Month-Day Hour:Minutes:Seconds //space
-                            y = 130;
-                            ILI9341_draw_formatted_line(x, &y, GREEN, NAVY, " ");
-                            x += 6;
-                        }
-                    }
 
                     if (Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL){ //infinite press protection
                         countProtection = 55;
                     }
-                    else { // if touch pressing hard enough
+                    else { // if touch pressing hard enough                      
+                                               
+                        y = 161;                                               
+                        ILI9341_draw_formatted_line(2, &y, YELLOW, keyboard.background_color, "MAN TIME: ");
+                        
+                        ili9341_draw_rect(0, y-3, 239, 15, YELLOW, 0);
+
+                        
+                        for (uint16_t clr = 0; clr < 17; clr++) {
+                            y = 173;
+                            uint16_t background = (pressCount == clr) ? RED : keyboard.background_color;
+
+                            if ((clr < 14))
+                                ILI9341_draw_formatted_line(x, &y, text_color, background, "%01d", DT[clr]); //draw digits of the date and time
+                            else if (clr == 14)
+                                ILI9341_draw_formatted_line(x, &y, text_color, background, "%c", TZside); //draw time zone direction
+                            else if (clr > 14 && clr < 17)
+                                ILI9341_draw_formatted_line(x, &y, text_color, background, "%01d", TZ[clr - 15]); //draw digits of the time zone
+                            x += 6;
+                            if (clr == 3 || clr == 5) {//Year-Month-Day
+                                y = 173;
+                                ILI9341_draw_formatted_line(x, &y, text_color, keyboard.background_color, "-");
+                                x += 6;
+                            } else if (clr == 7) {//Year-Month-Day //space
+                                y = 173;
+                                ILI9341_draw_formatted_line(x, &y, text_color, keyboard.background_color, " ");
+                                x += 6;
+                            } else if (clr == 9 || clr == 11) {//Year-Month-Day Hour:Minutes:Seconds
+                                y = 173;
+                                ILI9341_draw_formatted_line(x, &y, text_color, keyboard.background_color, ":");
+                                x += 6;
+                            } else if (clr == 13) {//Year-Month-Day Hour:Minutes:Seconds //space
+                                y = 173;
+                                ILI9341_draw_formatted_line(x, &y, text_color, keyboard.background_color, " ");
+                                x += 6;
+                            }
+                        }                        
+                        
                         for (uint8_t i = 0; i < 16; i++) { //find where is pressing
                             key_data *key = &keyboard.digits_keyboard_buttons[i];
                             if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
@@ -277,28 +297,31 @@ void UserInterface(Windows_names_t window) {
                                         uint8_t mm = (DT[10] * 10) + DT[11];
                                         uint8_t ss = (DT[12] * 10) + DT[13];
 
-                                        y = 130;
+                                       
                                         int8_t tzcheck = (TZ[0] * 10) + TZ[1];
                                         if (TZside == '-')// if time zone is negative
                                             tzcheck = 0 - tzcheck; //update time zone
 
                                         if (is_time_correct(yy, MM, dd, hh, mm, ss) && ((tzcheck >= -12) && (tzcheck <= 14))) {
-                                            ILI9341_draw_formatted_line(204, &y, GREEN, NAVY, "SAVED");
+                                            y = 161;
+                                            status_txt_color = GREEN;
+                                            ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y+23);
                                             RTC_Date_and_Time.RTC_time_zone = tzcheck; //update time zone
+                                            keyboard.status = CLOSE;
                                             //apply_timezone(&yy, &MM, &dd, &hh, RTC_Date_and_Time.RTC_time_zone); //uncomet if set utc time
                                             RTC_date_and_time_sync(datetime_to_RTC_format(yy, MM, dd, hh, mm, ss), MAN_sync);
                                         } else {
-                                            ILI9341_draw_formatted_line(204, &y, RED, NAVY, "ERROR");
+                                            status_txt_color = RED;
                                         }
                                     } else if ((pressCount > 2) && (key->ASCII_value == '<')) {
                                         pressCount--;
                                     } else if (key->ASCII_value == 'X') { //clear whole line and close keyboard
                                         for (uint8_t x = 2; x < 14; x++) DT[x] = 0;
                                         pressCount = 2;
-                                        uint16_t y = 130;
-                                        ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "                                             ");
-                                        Windows.Window = TIME_WINDOW;
-                                        keyboard.status = CLOSE;
+                                        y = 173;
+                                        //ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "                                             ");
+                                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y+23);
+                                        
                                         Windows.once_per_second_update = 88; //just  random digit
                                     }
                                     countProtection = pressCount;
@@ -310,46 +333,67 @@ void UserInterface(Windows_names_t window) {
                 }
 
                 // Touch button check
-                if (XPT2046_switch(100, 916, 3700, 4000)) { // < 
+                if (XPT2046_switch(100, 916, 3700, 4000)) { // <  
+                    
                     Windows.background_updater = false;
                     Windows.Window = MAIN_WINDOW;
                     keyboard.status = CLOSE;
                     Windows.once_per_second_update = 0;
+                    status_txt_color = text_color;
+                    gsm_txt_color = text_color;
+                    gnss_txt_color = text_color;
+                    
+                    
                 } else if (XPT2046_switch(1016, 1932, 3700, 4000)) { // MAN
+                    
                     Windows.once_per_second_update = 0;
-                    keyboard.status ^= 1;
+                    
+                    if(keyboard.status){ //if keyboard open before close
+                        y = 161;
+                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y+23);
+                    }
+                    keyboard.status ^= 1;                       
+                    
                 } else if (XPT2046_switch(2032, 2948, 3700, 4000)) { // GSM
+                    
                     Windows.once_per_second_update = 0;
-                    uint16_t y = 130;
-                    ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "           GSM time reset!              ");
+                    status_txt_color = GREEN;
+                    gsm_txt_color = GREEN; 
+                    //ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "           GSM time reset!              ");
                     //RTC_Date_and_Time.time_sync = NONE_sync;          
                     A7672E_work.source = GSM;
                     A7672EGSM.GSM_time_corect = false;
                     A7672E_work.cycle = false;
                     A7672E_work.state = SET_DEVICE;
-                    if (keyboard.status == OPEN) {
-                        Windows.Window = TIME_WINDOW;
+                    if (keyboard.status) {
                         keyboard.status = CLOSE;
-                        Windows.once_per_second_update = 89;
+                        Windows.once_per_second_update = 0;
                     }
+                    
                 } else if (XPT2046_switch(3048, 3964, 3700, 4000)) { // GNSS
                     Windows.once_per_second_update = 0;
-                    uint16_t y = 130;
+
                     if (A7672EGNSS.mode != 0) {
-                        ILI9341_draw_formatted_line(0, &y, GREEN, NAVY, "           GNSS time reset!            ");
+                        //ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "           GNSS time reset!            ");
+                        
+                        status_txt_color = GREEN;
+                        gnss_txt_color = GREEN;
+                        
                         //RTC_Date_and_Time.time_sync = GSM_sync;
                         A7672E_work.source = GNSS;
                         A7672E_work.cycle = false;
                         A7672EGSM.GNSS_time_corect = false;
                         A7672E_work.state = SET_DEVICE;
                     } else {
-                        ILI9341_draw_formatted_line(0, &y, RED, NAVY, "              NO GNSS lock!              ");
+                        status_txt_color = RED;
+                        gnss_txt_color = RED;
+                        //ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "              NO GNSS lock!              ");
                     }
-                    if (keyboard.status == OPEN) {
-                        Windows.Window = TIME_WINDOW;
+                    if (keyboard.status) {
                         keyboard.status = CLOSE;
-                        Windows.once_per_second_update = 89;
+                        Windows.once_per_second_update = 0;
                     }
+                    
                 }
             }
         }
@@ -368,6 +412,10 @@ void UserInterface(Windows_names_t window) {
             static uint8_t countProtection[3] = {55};
             uint16_t text_color = WHITE;
             static uint16_t gnss_txt_color = WHITE; 
+            static uint16_t lat_txt_color = WHITE;
+            static uint16_t lng_txt_color = WHITE;
+            static uint16_t alt_txt_color = WHITE;
+            
 
             if (!Windows.background_updater) { //drawing not changing elements            
                 keyboard.background_color = DARK_GRAY;
@@ -404,9 +452,9 @@ void UserInterface(Windows_names_t window) {
                     RTC_read_date_and_time();
                 uint16_t y = 30;
                 
-                ILI9341_draw_formatted_line(0, &y, gnss_txt_color, keyboard.background_color, "Latitude: %2d.%04d° ", solar_params.latitude / 10000, abs(solar_params.latitude % 10000));
-                ILI9341_draw_formatted_line(0, &y, gnss_txt_color, keyboard.background_color, "Longitude: %3d.%04d° ", solar_params.longitude / 10000, abs(solar_params.longitude % 10000));
-                ILI9341_draw_formatted_line(0, &y, gnss_txt_color, keyboard.background_color, "Altitude: %4dm ", solar_params.altitude);
+                ILI9341_draw_formatted_line(0, &y, lat_txt_color, keyboard.background_color, "Latitude: %2d.%04d° ", solar_params.latitude / 10000, abs(solar_params.latitude % 10000));
+                ILI9341_draw_formatted_line(0, &y, lng_txt_color, keyboard.background_color, "Longitude: %3d.%04d° ", solar_params.longitude / 10000, abs(solar_params.longitude % 10000));
+                ILI9341_draw_formatted_line(0, &y, alt_txt_color, keyboard.background_color, "Altitude: %4dm ", solar_params.altitude);
                     
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Time: %4d-%02d-%02d %02d:%02d:%02d", RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second);
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Signal: %3ddBm ", A7672E_GSM_STATUS.rssi);
@@ -426,6 +474,16 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(0, &y, gnss_txt_color, keyboard.background_color, "GNSS locked: %s", (A7672EGNSS.mode == 2) ? "2D" : (A7672EGNSS.mode == 3) ? "3D" : "NO");
                     if(gnss_txt_color != text_color) //after AUTO button press keep changed text color one second
                         gnss_txt_color = text_color;
+                    
+                    if(lat_txt_color != text_color) //after AUTO button press keep changed text color one second
+                        lat_txt_color = text_color;
+                    
+                    if(lng_txt_color != text_color) //after AUTO button press keep changed text color one second
+                        lng_txt_color = text_color;
+                    
+                    if(alt_txt_color != text_color) //after AUTO button press keep changed text color one second
+                        alt_txt_color = text_color;
+                    
                     Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
                 }
                 
@@ -492,14 +550,35 @@ void UserInterface(Windows_names_t window) {
                                         int32_t final_result = digits_to_number(target_buffer, digits - 1); //extract digit from buffer
                                         if (final_result > limits[location_param].max_value) { //check limits if they are too big
                                             //ILI9341_draw_formatted_line( 204, &y, RED, keyboard.background_color, "ERROR" );
+                                            switch(location_param){
+                                                case 0: 
+                                                    lat_txt_color = RED;
+                                                break;
+                                                case 1:
+                                                    lng_txt_color = RED;
+                                                break;
+                                                case 2:
+                                                    alt_txt_color = RED;
+                                                break;
+                                            }
                                         }
                                         else { //if long, lat and alt is correct
                                             if (posneg[location_param] == '-') { //if it was negative
                                                 final_result = -final_result;
                                             }
                                             *limits[location_param].target = final_result;
+                                            switch(location_param){
+                                                case 0: 
+                                                    lat_txt_color = GREEN;
+                                                break;
+                                                case 1:
+                                                    lng_txt_color = GREEN;
+                                                break;
+                                                case 2:
+                                                    alt_txt_color = GREEN;
+                                                break;
+                                            }
 
-                                            Windows.background_updater = false;
                                             ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y+23);
                                             keyboard.status = CLOSE;
                                         }
@@ -525,7 +604,11 @@ void UserInterface(Windows_names_t window) {
                     Windows.Window = MAIN_WINDOW;
                     keyboard.status = CLOSE;
                     Windows.once_per_second_update = 0;
-                    gnss_txt_color = text_color;
+                    
+                    gnss_txt_color = text_color; 
+                    lat_txt_color = text_color;
+                    lng_txt_color = text_color;
+                    alt_txt_color = text_color;
                     
                 } else if (XPT2046_switch(844, 1624, 3700, 4000)) { // LATI
                     
@@ -576,12 +659,18 @@ void UserInterface(Windows_names_t window) {
                     if (!A7672EGNSS.mode) {                        
                         //ILI9341_draw_formatted_line(80, &y, RED, keyboard.background_color, "NO GNSS LOCK!");
                         gnss_txt_color = RED;
+                        lat_txt_color = RED;
+                        lng_txt_color = RED;
+                        alt_txt_color = RED;
                     } else {
                         solar_params.latitude = (int32_t) A7672EGNSS.lat / 1000;
                         solar_params.longitude = (int32_t) A7672EGNSS.log / 1000;
                         solar_params.altitude = (int16_t) A7672EGNSS.alt;
                         //ILI9341_draw_formatted_line(80, &y, GREEN, keyboard.background_color, "UPDATED");
                         gnss_txt_color = GREEN;
+                        lat_txt_color = GREEN;
+                        lng_txt_color = GREEN;
+                        alt_txt_color = GREEN;
                     }                                       
 
                     changing_current_param = 4;
@@ -593,9 +682,9 @@ void UserInterface(Windows_names_t window) {
             break;
         case TOWER_WINDOW:
         {
-            uint16_t text_color = MISTYROSE;
+            uint16_t text_color = WHITE;
             if (!Windows.background_updater) { //drawing not changing elements            
-                keyboard.background_color = DARK_BLUE;
+                keyboard.background_color = DARK_GRAY;
 
                 ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
 
@@ -692,7 +781,10 @@ void UserInterface(Windows_names_t window) {
         }            
             break;
         case NETWORK_WINDOW:{
-            uint16_t text_color = MISTYROSE;
+            uint16_t text_color = WHITE;
+            static uint16_t apn_txt_color = WHITE;
+            static uint16_t tp_txt_color = WHITE;
+            static uint16_t su_txt_color = WHITE;
 
             static uint8_t changing_current_param = 0;   
                         
@@ -700,7 +792,7 @@ void UserInterface(Windows_names_t window) {
             static uint8_t countProtection[3] = { 55 };
             
             if (!Windows.background_updater) { //drawing not changing elements            
-                keyboard.background_color = DARK_BLUE;
+                keyboard.background_color = DARK_GRAY;
                 //keyboard.type = letters; //default
                 ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
 
@@ -716,17 +808,33 @@ void UserInterface(Windows_names_t window) {
                 y = 6;
                 ILI9341_draw_formatted_line(126, &y, RED, GREEN, "T.Phone");
 
-                ili9341_draw_rect(180, 0, 60, 20, ORANGE, 1);
+                ili9341_draw_rect(180, 0, 60, 20, DARK_BLUE, 1);
                 y = 6;
-                ILI9341_draw_formatted_line(183, &y, CYAN, ORANGE, "Ser. URL");
-                
-                y = 30;
-                ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "APN: %s", A7672E_NET.APN_USR);
-                ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Trusted phone: %s", A7672E_NET.TRST_PHN);
-                ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Server url: %s\n", A7672E_NET.SERVER_URL);                
+                ILI9341_draw_formatted_line(183, &y, CYAN, DARK_BLUE, "Ser. URL");                              
 
                 Windows.background_updater = true;
             } else {
+                
+                if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) {
+                    RTC_read_date_and_time();
+                uint16_t y = 30;
+                
+                    ILI9341_draw_formatted_line(5, &y, apn_txt_color, keyboard.background_color, "APN: %s", A7672E_NET.APN_USR);
+                    ILI9341_draw_formatted_line(5, &y, tp_txt_color, keyboard.background_color, "Trusted phone: %s", A7672E_NET.TRST_PHN);
+                    ILI9341_draw_formatted_line(5, &y, su_txt_color, keyboard.background_color, "Server url: %s\n", A7672E_NET.SERVER_URL); 
+
+                    if(apn_txt_color != text_color) //after AUTO button press keep changed text color one second
+                        apn_txt_color = text_color;
+                    
+                    if(tp_txt_color != text_color) //after AUTO button press keep changed text color one second
+                        tp_txt_color = text_color;
+                    
+                    if(su_txt_color != text_color) //after AUTO button press keep changed text color one second
+                        su_txt_color = text_color;
+                    
+                    Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
+                }
+                
                 draw_keyboard();
                 
                 uint16_t y = 135; //text line where all starts symbols count and below it text fill window                
@@ -752,7 +860,7 @@ void UserInterface(Windows_names_t window) {
                         countProtection[location_param] = 0;
                     } 
                     else { // if touch pressing hard enough                                                  
-                        
+                        bool accept = false;
                         for (uint8_t i = 0; i < KEY_COUNT_LETTERS_KEYBOARD; i++) { //find where is pressing
                             key_data *key = (location_param == 1) ? &keyboard.digits_keyboard_buttons[i] : &keyboard.letters_keyboard_buttons[i]; //selecting touch map. for trusted phone use digits and apn name or url use letters
                             if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
@@ -769,13 +877,35 @@ void UserInterface(Windows_names_t window) {
                                         }                                        
                                     }
                                     else if(key->ASCII_value == 62){ //if pressed > as enter   
-                                            Windows.background_updater = false;
+
                                             keyboard.status = CLOSE;
                                             keyboard.shift = false;
                                                                            
                                             if (memcmp(target_buffer, source_buffer, max_size) != 0){ //if new value is not the same
                                                 memcpy(target_buffer, source_buffer, max_size); //copy it to permament buffer
-                                                EEPROM_Write( param->eeprom_offset, target_buffer, max_size );//and update value in smarteeprom location
+                                                EEPROM_Write( param->eeprom_offset, target_buffer, max_size );//and update value in smarteeprom location                                                                                                                                             
+                                                
+                                                switch(location_param){
+                                                    case 0: 
+                                                        apn_txt_color = GREEN;
+                                                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 30, 239, 30, 40); //clear apn name line background
+                                                    break;
+                                                    case 1:
+                                                        tp_txt_color = GREEN;
+                                                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 90, 239, 42, 54); //clear tp line background
+                                                    break;
+                                                    case 2:
+                                                        su_txt_color = GREEN;
+                                                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 72, 239, 54, 66); //clear su first line
+                                                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, 66, 104); //and other 3 lines
+                                                    break;
+                                                }
+                                                
+                                                ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y + (12* new_y) + 15); // clear text box
+                                                
+                                                accept = true;
+                                                
+                                                
                                             }
                                     }
                                     else if(key->ASCII_value == 60){ //if pressed < as delete last one
@@ -804,17 +934,21 @@ void UserInterface(Windows_names_t window) {
                                 break;
                                 }
                             }
-                            uint16_t x = 2; //start position on x coordination
-                            uint16_t name_y = text_window_y;
-                            ILI9341_draw_formatted_line(x, &name_y, YELLOW, keyboard.background_color, "%s", param->name);
-                            ILI9341_draw_formatted_line(198, &text_window_y, YELLOW, keyboard.background_color, "%3d/%3d", *press, max_size-1);
-                            ili9341_draw_rect(0, text_window_y - 3, 239, (12 * new_y) + 3, YELLOW, 0);
-                            ILI9341_draw_formatted_line(x, &text_window_y, text_color, keyboard.background_color, "%s ", source_buffer);                        
+                            if(!accept){ //dont draw text box while pressed >
+                                uint16_t x = 2; //start position on x coordination
+                                uint16_t name_y = text_window_y;
+                                ILI9341_draw_formatted_line(x, &name_y, YELLOW, keyboard.background_color, "%s", param->name);
+                                ILI9341_draw_formatted_line(198, &text_window_y, YELLOW, keyboard.background_color, "%3d/%3d", *press, max_size-1);
+                                ili9341_draw_rect(0, text_window_y - 3, 239, (12 * new_y) + 3, YELLOW, 0);
+                                ILI9341_draw_formatted_line(x, &text_window_y, text_color, keyboard.background_color, "%s ", source_buffer);                                  
+                            }
+                      
                         }
 
                 }
                 // Touch button check
                 if (XPT2046_switch(64, 812, 3700, 4000)) { // < 
+                    
                     changing_current_param = 0;
                     Windows.background_updater = false;
                     Windows.Window = MAIN_WINDOW;
@@ -822,10 +956,17 @@ void UserInterface(Windows_names_t window) {
                     keyboard.shift = false;
                     Windows.once_per_second_update = 0;
                     
+                    uint16_t apn_txt_color = text_color;
+                    uint16_t tp_txt_color = text_color;
+                    uint16_t su_txt_color = text_color;
+                    
                 } else if (XPT2046_switch(1016, 1932, 3700, 4000)) { // APN name
                     keyboard.type = letters;
                     if(changing_current_param != 1 && keyboard.status){                        
                         ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y + (12* new_y) + 15);
+                        keyboard.status = CLOSE;
+                        draw_keyboard();
+                        keyboard.status = OPEN;
                     }
                     else{
                         if(keyboard.status){ //if keyboard open before colose
@@ -838,6 +979,9 @@ void UserInterface(Windows_names_t window) {
                     keyboard.type = digits;
                     if(changing_current_param != 2 && keyboard.status){
                         ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y + (12* new_y) + 15);
+                        keyboard.status = CLOSE;
+                        draw_keyboard();
+                        keyboard.status = OPEN;
                     }
                     else{
                         if(keyboard.status){ //if keyboard open before colose
@@ -850,6 +994,9 @@ void UserInterface(Windows_names_t window) {
                     keyboard.type = letters;
                     if(changing_current_param != 3 && keyboard.status){
                         ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y + (12* new_y) + 15);
+                        keyboard.status = CLOSE;
+                        draw_keyboard();
+                        keyboard.status = OPEN;
                     }
                     else{
                         if(keyboard.status){ //if keyboard open before colose

@@ -18,7 +18,7 @@ extern "C" {
 keyboard_t keyboard = {
     .shift = false,
     .status = CLOSE,
-    .type = digits,
+    .type = none,
     .background_color = RED,
     .digits_keyboard_buttons = {
     {1150, 1920, 385, 672, 48},//0

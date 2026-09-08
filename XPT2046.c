@@ -21,7 +21,7 @@ void XPT2046_Read_All(){
     if(A7672E_init.status != WORK) // if GSM module still not initialized skip further code
         return;
     
-    SPI0_Baud_Switch(2000000);//switch baudrate to 2Mhz
+    SPI0_Baud_Switch(1500000);//switch baudrate to 1.5Mhz
     XPT2046_CS_LOW();
     
     switch(Read_XPT2046.state){

@@ -22,12 +22,13 @@ extern "C" {
     
 typedef enum {
     CLOSE,    //0
-    OPEN       //1
+    OPEN,       //1
 } keyboard_status_t;
 
 typedef enum {
     digits = 0,
     letters,
+    none,
 }keyboard_type_t;
 
 typedef struct {

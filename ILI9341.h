@@ -58,7 +58,7 @@ extern "C" {
 #define BLACK       0x0000
 #define WHITE       0xFFFF
 #define LIGHT_GRAY  0x7BEF
-#define DARK_GRAY   0x39E7
+#define DARK_GRAY   0x2945
 #define DARK_GREEN	0x0320
 #define RED         0xF800
 #define GREEN       0x07E0
