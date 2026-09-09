@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-tower_t towers[TOWER_COUNT] = {/*{ //uncomment if needde to manualy declarate towers data :D nice joke to my self pfff
+tower_t towers[256] = {/*{ //uncomment if needde to manualy declarate towers data :D nice joke to my self pfff
     .state = SEND,
     .id = 1,
     .position = {

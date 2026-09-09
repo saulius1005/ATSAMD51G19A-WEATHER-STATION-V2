@@ -143,6 +143,7 @@ typedef struct { //data to save in eeprom
     char APN_USR[APN_ADD_SYMBOLS_COUNT];
     char TRST_PHN[TRUSTED_PHONE_SYMBOLS_COUNT];        
     char SERVER_URL[SERVER_URL_COUNT];
+    uint16_t towers_in_total; 
 }A7672E_network_settings_t;
 
 typedef enum {

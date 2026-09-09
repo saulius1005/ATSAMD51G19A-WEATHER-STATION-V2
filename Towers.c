@@ -63,15 +63,15 @@
  
  */
 void Towers_init(){
-    for (uint8_t i = 0; i < TOWER_COUNT; i++){
+    for (uint16_t i = 0; i < A7672E_NET.towers_in_total; i++){
         towers[i].state = SEND;
         towers[i].id = i; //start id form 0 to 255 it will be total up to 256 towers
-        if(i == 0)//remove after debugging
+        /*if(i == 0)//remove after debugging of data sending to server
             memcpy(towers[i].prepared_to_server, "004792126807dc3fb025a0370ee15b", 30);
             //towers[i].prepared_to_server = "004792126807dc3fb025a0370ee15b";//remove after debugging or change 
         if(i == 1)//remove after debugging
             memcpy(towers[i].prepared_to_server, "01487312c307f3441026202c968073", 30);
-            //towers[i].prepared_to_server = "01487312c307f3441026202c968073";//remove after debugging
+            //towers[i].prepared_to_server = "01487312c307f3441026202c968073";//remove after debugging*/
     }
 }
 
@@ -202,7 +202,7 @@ void Tower_COM(){
         return;
 
     if(towers[switcher].state == COMPLETE){// if data processed complete send request to next tower
-        switcher = (switcher + 1) % TOWER_COUNT;
+        switcher = (switcher + 1) % A7672E_NET.towers_in_total;
         towers[switcher].state = SEND;
     }
     else {//if tower state is SEND or WAIT

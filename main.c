@@ -11,7 +11,7 @@
 int main(void) {
     
     cpu_120Mhz_DPLL0_XOSC1_init();       // Configure CPU clock to 128 MHz using DPLL0 with XOSC1 source   
-    Towers_init(); //create towers list
+    Towers_init(); //create empty towers list
     GPIO_init();                         // Initialize all required GPIO pins (SPI, LCD control, etc.)
     GCLK1_SERCOM_SPIM_core_init();
     GCLK2_SERCOM_USARTM_core_init();

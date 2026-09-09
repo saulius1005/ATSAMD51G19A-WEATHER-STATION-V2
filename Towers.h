@@ -12,7 +12,7 @@
 extern "C" {
 #endif
     
-#define TOWER_COUNT 2 //for far far future may increase tower count. Maybe    
+//#define TOWER_COUNT 2 //for far far future may increase tower count. Maybe    
   
     
 typedef enum{

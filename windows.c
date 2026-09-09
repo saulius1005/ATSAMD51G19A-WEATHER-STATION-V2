@@ -1,7 +1,7 @@
 #include "settings.h"
 #include "windowsVar.h"
 
-int32_t digits_to_number(const uint8_t *buffer, uint8_t length) { //for time and location
+int32_t digits_to_number(const uint8_t *buffer, uint8_t length) { //for time and location, towers
     int32_t value = 0;
 
     while (length--) {
@@ -108,10 +108,10 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(85, &y, MISTYROSE, BLACK, "Towers Data:\n");
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Towers :");
                     y -= 12;
-                    ILI9341_draw_formatted_line(125, &y, MISTYROSE, BLACK, "%3d", TOWER_COUNT);
+                    ILI9341_draw_formatted_line(125, &y, MISTYROSE, BLACK, "%3d", A7672E_NET.towers_in_total);
                     
                     uint64_t total_power = 0;
-                    for(uint8_t i = 0; i< TOWER_COUNT; i++){ //calculate all towers power
+                    for(uint16_t i = 0; i< A7672E_NET.towers_in_total; i++){ //calculate all towers power
                         total_power += towers[i].panel.power;
                     }
                     
@@ -678,13 +678,27 @@ void UserInterface(Windows_names_t window) {
 
             }
 
-        }
-            break;
+        }   break;
+        
         case TOWER_WINDOW:
         {
+            static uint8_t changing_current_param = 0;
+            static uint8_t total[2] = {3, 3};
+            static uint8_t View_tower[3] = {0};
+            static uint8_t Set_towers[3] = {0};
+            
+            static uint8_t pressCount[2] = { 0 };
+            static uint8_t countProtection[2] = { 55 };
+            
+            static uint16_t current_id_in_view = 0;            
+            
             uint16_t text_color = WHITE;
+            
+            static uint16_t id_txt_color = WHITE;
+            
             if (!Windows.background_updater) { //drawing not changing elements            
                 keyboard.background_color = DARK_GRAY;
+                keyboard.type = digits;
 
                 ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
 
@@ -707,35 +721,35 @@ void UserInterface(Windows_names_t window) {
                     RTC_read_date_and_time();
                     uint16_t y = 30;
                     
-                    tower_t *tower0 = &towers[0];
+                    tower_t *current_tower = &towers[current_id_in_view];
                     
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Tower ID: %02d", tower0 -> id);
+                    ILI9341_draw_formatted_line(5, &y, id_txt_color, keyboard.background_color, "Tower: %03d of %03d ID: %03d ",current_id_in_view+1, A7672E_NET.towers_in_total, current_tower -> id);
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Last update: %04d-%02d-%02d %02d:%02d:%02d", 
-                            tower0 -> update_time.year, 
-                            tower0 -> update_time.month, 
-                            tower0 -> update_time.day, 
-                            tower0 -> update_time.hour, 
-                            tower0 -> update_time.minute, 
-                            tower0 -> update_time.second);
+                            current_tower -> update_time.year, 
+                            current_tower -> update_time.month, 
+                            current_tower -> update_time.day, 
+                            current_tower -> update_time.hour, 
+                            current_tower -> update_time.minute, 
+                            current_tower -> update_time.second);
                                        
                     y += 12;
                     
-                    ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Tracker Frame:");
+                    ILI9341_draw_formatted_line(5, &y, CYAN, keyboard.background_color, "Tracker Frame:");
                     
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Azimuth: %3d.%02d°", tower0 -> position.azimuth / 100, tower0 -> position.azimuth % 100);
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Elevation: %2d.%02d°", tower0 -> position.elevation / 100, tower0 -> position.elevation % 100);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Azimuth: %3d.%02d°", current_tower -> position.azimuth / 100, current_tower -> position.azimuth % 100);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Elevation: %2d.%02d°", current_tower -> position.elevation / 100, current_tower -> position.elevation % 100);
                     
                     y += 12;
                     
-                    ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Solar cells:");
+                    ILI9341_draw_formatted_line(5, &y, CYAN, keyboard.background_color, "Solar cells:");
                     
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %3d.%01dV", tower0 -> panel.voltage / 10, tower0 -> panel.voltage % 10);
-                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", tower0 -> panel.current / 100, tower0 -> panel.current % 100);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Voltage: %3d.%01dV", current_tower -> panel.voltage / 10, current_tower -> panel.voltage % 10);
+                    ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Current: %2d.%02dA", current_tower -> panel.current / 100, current_tower -> panel.current % 100);
                     
-                    uint32_t power_kw_x100 = (tower0 -> panel.power + 5000) / 10000;
+                    uint32_t power_kw_x100 = (current_tower -> panel.power + 5000) / 10000;
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %4d.%02dkW", power_kw_x100 / 100, power_kw_x100 % 100);
                     
-                    y += 12;
+                    /*y += 12;
                     
                     ILI9341_draw_formatted_line(5, &y, RED, keyboard.background_color, "Azimuth Motor:");
 
@@ -755,11 +769,104 @@ void UserInterface(Windows_names_t window) {
                     power_w_x10 = (tower0 -> el_motor.power + 5) / 10;
                     ILI9341_draw_formatted_line(5, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power_w_x10/100, power_w_x10%100);
 
-                    ILI9341_draw_formatted_line(5, &y, MAGENTA, keyboard.background_color, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
+                    ILI9341_draw_formatted_line(5, &y, MAGENTA, keyboard.background_color, "\nTouch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);*/
+                    
+                    if(id_txt_color != text_color) //after AUTO button press keep changed text color one second
+                        id_txt_color = text_color;
+                    
                     Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
                 }
 
-                //draw_keyboard(Windows.keyboardAction);
+                
+                draw_keyboard();
+                uint16_t y = 173;
+                
+                if (keyboard.status == OPEN) {
+                    
+                    uint16_t x = 2;
+                    uint8_t location_param = changing_current_param - 1;
+                    uint8_t *buffers[] = {View_tower, Set_towers};
+                    uint8_t *target_buffer = buffers[location_param];
+                    uint8_t *press = &pressCount[location_param];
+                  
+                    if (Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL) { //infinite press protection
+                        countProtection[location_param] = 55;
+                    } else { // if touch pressing hard enough
+                        
+                        ili9341_draw_rect(0, y-3, 239, 15, YELLOW, 0);
+                        
+                        y=161;
+                        ILI9341_draw_formatted_line(2, &y, YELLOW, keyboard.background_color, "%s", location_param == 0 ? "View tower by ID" : "Set total towers number");
+                        
+                        for (uint16_t clr = 0; clr < total[location_param]; clr++) {
+                            y = 173;
+                            uint16_t background = (*press == clr) ? RED : keyboard.background_color;                            
+                            uint8_t value = target_buffer[clr];
+                            
+                            ILI9341_draw_formatted_line(x, &y, text_color, background, "%01d", value); //draw current data                          
+                            x += 6;  
+                        }
+                        
+                        y=161;
+                        uint8_t digits = total[location_param];                        
+                        for (uint8_t i = 0; i < KEY_COUNT_DIGITS_KEYBOARD; i++) { //find where is pressing
+                            key_data *key = &keyboard.digits_keyboard_buttons[i];
+                            if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
+                                if (countProtection[location_param] != key->ASCII_value) { //accept only once and one symbol per pressing
+                                    Windows.once_per_second_update += 1;
+                                    if ( (key->ASCII_value-48 >= 0) && (key->ASCII_value-48 <= 9) ) {
+                                        if (*press < digits) { //changing digits only after + or - symbol                                                                                    
+                                            target_buffer[(*press)] = key->ASCII_value-48; // swap bites in places 001 is 1 not 100 (for id and total number digit begins from left to right)
+                                            (*press)++;
+                                        }
+                                    }
+
+                                    if (*press == digits && key->ASCII_value == '>') { // pressing done button
+
+                                        uint16_t final_result = digits_to_number(target_buffer, digits);
+                                       
+                                        if (final_result > (255 + location_param) ) {// tower count can't be 255 for view and 256 for set
+                                            id_txt_color = RED;
+                                        }
+                                        else if (location_param == 0) { // view id from 0 to 254
+                                            if (final_result > A7672E_NET.towers_in_total-1) {
+                                                id_txt_color = RED;
+                                            }
+                                            else {
+                                                current_id_in_view = final_result;
+                                                id_txt_color = GREEN;
+                                                ILI9341_fill_PART_color_DMA( keyboard.background_color, 0, 239, y, y + 23 );
+                                                keyboard.status = CLOSE;
+                                            }
+                                        }
+                                        else if (location_param == 1) { // set total towers number from 1 to 254
+                                            if(final_result == 0){
+                                                id_txt_color = RED;
+                                            }
+                                            else if (A7672E_NET.towers_in_total != final_result) {
+                                                if(current_id_in_view > final_result - 1)// if current is above max towers int total count set to view last tower data
+                                                    current_id_in_view = final_result - 1;
+                                                A7672E_NET.towers_in_total = final_result;
+                                                EEPROM_Write( offsetof(A7672E_network_settings_t, towers_in_total), &A7672E_NET.towers_in_total, sizeof(A7672E_NET.towers_in_total) );// find place in structure, set variable and size
+                                                Towers_init(); //init new towers (ne restart requaired)
+                                                id_txt_color = GREEN;
+                                                ILI9341_fill_PART_color_DMA( keyboard.background_color, 0, 239, y, y + 23 );
+                                                keyboard.status = CLOSE;                                                
+                                            }
+                                        }
+                                    } else if ((*press > 0) && (key->ASCII_value == '<')) {
+                                        (*press)--;
+                                    } else if (key->ASCII_value == 'X') { //clear whole line and close keyboard  
+                                        memset(target_buffer, 0, digits);
+                                        *press = 0;
+                                    }
+                                    countProtection[location_param] = key->ASCII_value;
+                                    break; // if button presset stoping for cycle and continue further
+                                }
+                            }
+                        }
+                    }
+                }
 
 
                 // Touch button check
@@ -768,18 +875,41 @@ void UserInterface(Windows_names_t window) {
                     Windows.Window = MAIN_WINDOW;
                     keyboard.status = CLOSE;
                     Windows.once_per_second_update = 0;
-                } else if (XPT2046_switch(844, 1624, 3700, 4000)) { // View
-                    keyboard.status ^= 1;
-                    Windows.once_per_second_update = 0;
-                } else if (XPT2046_switch(1656, 2436, 3700, 4000)) { // Set
-                    keyboard.status ^= 1;
-                    Windows.once_per_second_update = 0;
+                    changing_current_param = 0;
+                    
+                    uint16_t id_txt_color = text_color;
+                    
+                } else if (XPT2046_switch(844, 1624, 3700, 4000)) { // View Tower data by id
+                    
+                    if(changing_current_param != 1 && keyboard.status){                        
+                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y+23);
+                    }
+                    else{
+                        if(keyboard.status){ //if keyboard open before close
+                            ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y+23);
+                        }
+                        keyboard.status ^= 1;                       
+                    }
+                    changing_current_param = 1;
+                    
+                } else if (XPT2046_switch(1656, 2436, 3700, 4000)) { // Set total towers in system
+                    
+                    if(changing_current_param != 2 && keyboard.status){                        
+                        ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y+23);
+                    }
+                    else{
+                        if(keyboard.status){ //if keyboard open before close
+                            ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y+23);
+                        }
+                        keyboard.status ^= 1;                       
+                    }
+                    changing_current_param = 2;
                 }
 
             }
 
-        }            
-            break;
+        }   break;
+            
         case NETWORK_WINDOW:{
             uint16_t text_color = WHITE;
             static uint16_t apn_txt_color = WHITE;
@@ -793,7 +923,7 @@ void UserInterface(Windows_names_t window) {
             
             if (!Windows.background_updater) { //drawing not changing elements            
                 keyboard.background_color = DARK_GRAY;
-                //keyboard.type = letters; //default
+
                 ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
 
                 ili9341_draw_rect(0, 0, 60, 20, BLACK, 1); //and buttons frames
