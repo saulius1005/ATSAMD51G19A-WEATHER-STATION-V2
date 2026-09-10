@@ -307,7 +307,6 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
             A7672EGSM.GNSS_sys_time = datetime_to_RTC_format(A7672EGSM.GNSS_year, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);
             RTC_Date_and_Time.time_sync == GNSS_sync;
         }
-        A7672EGSM.GNSS_time_corect = true;
     }
 
 }
@@ -335,7 +334,6 @@ void parse_gsm_datetime(char *buf) {//example: receiving "26/04/10,18:45:08+12"
 
         A7672EGSM.GSM_sys_time = datetime_to_RTC_format(yy, MM, dd, hh, mm, ss);
         RTC_Date_and_Time.time_sync == GSM_sync;
-        A7672EGSM.GSM_time_corect = true;
     }
 
 }
@@ -543,7 +541,6 @@ void A7672E_GO_WORK() {
         break;
 
         case WAIT_DEVICE:
-            //if (Periodic_Checker_Devices.period_counter >= A7672E_work.start_at + A7672E_work.response_time) {
             if ((Periodic_Checker_Devices.period_counter - A7672E_work.start_at) >= A7672E_work.response_time) {
                 DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH); //stop reading 
                 A7672E_work.state = DONE_DEVICE;

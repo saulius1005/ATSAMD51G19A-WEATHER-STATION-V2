@@ -64,9 +64,7 @@ A7672E_gnss_gsm_calendar_t A7672EGSM = {
 };
 
 A7672E_work_list_t A7672E_work = {
-    .cycle = false,
     .state = SET_DEVICE,
-    .source = GSM,
  
 };
 

@@ -171,7 +171,7 @@ void UserInterface(Windows_names_t window) {
 
             if (!Windows.background_updater) { //drawing not changing elements
                 keyboard.background_color = DARK_GRAY;
-                keyboard.type = digits;
+                Keyboard_SetType(digits);
                 ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
                 
                 
@@ -233,8 +233,8 @@ void UserInterface(Windows_names_t window) {
                     if (Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL){ //infinite press protection
                         countProtection = 0;
                     }
-                    else { // if touch pressing hard enough                      
-                                               
+                    else { // if touch pressing hard enough       
+                        
                         y = 161;                                               
                         ILI9341_draw_formatted_line(2, &y, YELLOW, keyboard.background_color, "MAN TIME: ");
                         
@@ -269,12 +269,12 @@ void UserInterface(Windows_names_t window) {
                                 ILI9341_draw_formatted_line(x, &y, text_color, keyboard.background_color, " ");
                                 x += 6;
                             }
-                        }                        
-                        
-                        for (uint8_t i = 0; i < KEY_COUNT_DIGITS_KEYBOARD; i++) { //find where is pressing
-                            key_data *key = &keyboard.digits_keyboard_buttons[i];
+                        }
+                                                                                              
+                        for (uint8_t i = 0; i < keyboard.key_count; i++) { //find where is pressing
+                            key_data *key = &keyboard.keys[i];
                             if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
-                                if (countProtection != pressCount) { //accept only once and one symbol per pressing
+                                if (countProtection != key->ASCII_value) { //accept only once and one symbol per pressing
                                     Windows.once_per_second_update += 1;
                                     if ( (key->ASCII_value-48 >= 0) && (key->ASCII_value-48 <= 9) ) {
                                         if (pressCount < 14) { //changing Date and Time digits
@@ -315,9 +315,9 @@ void UserInterface(Windows_names_t window) {
                                         }
                                     } else if ((pressCount > 2) && (key->ASCII_value == '<')) {
                                         pressCount--;
-                                    } else if (key->ASCII_value == 127) { //clear whole line and close keyboard
+                                    } else if (key->ASCII_value == 127) { //clear whole line
                                         for (uint8_t x = 2; x < 14; x++) DT[x] = 0;
-                                        pressCount = 2;
+                                        pressCount = 0;
                                     }
                                     countProtection = key->ASCII_value;
                                     break; // if button presset stoping for cycle and continue further
@@ -354,10 +354,7 @@ void UserInterface(Windows_names_t window) {
                     Windows.once_per_second_update = 0;
                     status_txt_color = GREEN;
                     gsm_txt_color = GREEN; 
-                    //RTC_Date_and_Time.time_sync = NONE_sync;          
-                    A7672E_work.source = GSM;
-                    A7672EGSM.GSM_time_corect = false;
-                    A7672E_work.cycle = false;
+                    RTC_Date_and_Time.time_sync = NONE_sync;          
                     A7672E_work.state = SET_DEVICE;
                     if (keyboard.status) {
                         keyboard.status = CLOSE;
@@ -372,10 +369,7 @@ void UserInterface(Windows_names_t window) {
                         status_txt_color = GREEN;
                         gnss_txt_color = GREEN;
                         
-                        //RTC_Date_and_Time.time_sync = GSM_sync;
-                        A7672E_work.source = GNSS;
-                        A7672E_work.cycle = false;
-                        A7672EGSM.GNSS_time_corect = false;
+                        RTC_Date_and_Time.time_sync = GSM_sync;
                         A7672E_work.state = SET_DEVICE;
                     } else {
                         status_txt_color = RED;
@@ -411,7 +405,7 @@ void UserInterface(Windows_names_t window) {
 
             if (!Windows.background_updater) { //drawing not changing elements            
                 keyboard.background_color = DARK_GRAY;
-                keyboard.type = digits;
+                Keyboard_SetType(digits);
 
                 ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
 
@@ -523,8 +517,8 @@ void UserInterface(Windows_names_t window) {
                         
                         y=161;
                         uint8_t digits = total[location_param];                        
-                        for (uint8_t i = 0; i < KEY_COUNT_DIGITS_KEYBOARD; i++) { //find where is pressing
-                            key_data *key = &keyboard.digits_keyboard_buttons[i];
+                        for (uint8_t i = 0; i < keyboard.key_count; i++) { //find where is pressing
+                            key_data *key = &keyboard.keys[i];
                             if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
                                 if (countProtection[location_param] != key->ASCII_value) { //accept only once and one symbol per pressing
                                     Windows.once_per_second_update += 1;
@@ -541,7 +535,6 @@ void UserInterface(Windows_names_t window) {
                                     if (*press == digits && key->ASCII_value == '>') {// pressing done button
                                         int32_t final_result = digits_to_number(target_buffer, digits - 1); //extract digit from buffer
                                         if (final_result > limits[location_param].max_value) { //check limits if they are too big
-                                            //ILI9341_draw_formatted_line( 204, &y, RED, keyboard.background_color, "ERROR" );
                                             switch(location_param){
                                                 case 0: 
                                                     lat_txt_color = RED;
@@ -649,17 +642,15 @@ void UserInterface(Windows_names_t window) {
                         keyboard.status = CLOSE;
                     }  
                     
-                    if (!A7672EGNSS.mode) {                        
-                        //ILI9341_draw_formatted_line(80, &y, RED, keyboard.background_color, "NO GNSS LOCK!");
+                    if (A7672EGNSS.mode != 0) { //it not resets gnss time sync. It writes stored value. If needed to reset gnss go to time settings and reset gnss time sync with button not in code :D                    
                         gnss_txt_color = RED;
                         lat_txt_color = RED;
                         lng_txt_color = RED;
                         alt_txt_color = RED;
-                    } else {
+                    } else { //gnss locked
                         solar_params.latitude = (int32_t) A7672EGNSS.lat / 1000;
                         solar_params.longitude = (int32_t) A7672EGNSS.log / 1000;
                         solar_params.altitude = (int16_t) A7672EGNSS.alt;
-                        //ILI9341_draw_formatted_line(80, &y, GREEN, keyboard.background_color, "UPDATED");
                         gnss_txt_color = GREEN;
                         lat_txt_color = GREEN;
                         lng_txt_color = GREEN;
@@ -691,7 +682,7 @@ void UserInterface(Windows_names_t window) {
             
             if (!Windows.background_updater) { //drawing not changing elements            
                 keyboard.background_color = DARK_GRAY;
-                keyboard.type = digits;
+                Keyboard_SetType(digits);
 
                 ILI9341_fill_ALL_color_DMA(keyboard.background_color); //background
 
@@ -808,8 +799,8 @@ void UserInterface(Windows_names_t window) {
                         
                         y=161;
                         uint8_t digits = total[location_param];                        
-                        for (uint8_t i = 0; i < KEY_COUNT_DIGITS_KEYBOARD; i++) { //find where is pressing
-                            key_data *key = &keyboard.digits_keyboard_buttons[i];
+                        for (uint8_t i = 0; i < keyboard.key_count; i++) { //find where is pressing
+                            key_data *key = &keyboard.keys[i];
                             if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
                                 if (countProtection[location_param] != key->ASCII_value) { //accept only once and one symbol per pressing
                                     Windows.once_per_second_update += 1;
@@ -990,9 +981,9 @@ void UserInterface(Windows_names_t window) {
                     } 
                     else { // if touch pressing hard enough                                                  
                         bool accept = false;
-                        uint8_t key_count = (location_param == 1) ? KEY_COUNT_DIGITS_KEYBOARD : KEY_COUNT_LETTERS_KEYBOARD;
-                        for (uint8_t i = 0; i < key_count; i++) { //find where is pressing
-                            key_data *key = (location_param == 1) ? &keyboard.digits_keyboard_buttons[i] : &keyboard.letters_keyboard_buttons[i]; //selecting touch map. for trusted phone use digits and apn name or url use letters
+                        //uint8_t key_count = (location_param == 1) ? KEY_COUNT_DIGITS_KEYBOARD : KEY_COUNT_LETTERS_KEYBOARD;
+                        for (uint8_t i = 0; i < /*key_count*/keyboard.key_count; i++) { //find where is pressing
+                            key_data *key = &keyboard.keys[i];//selecting touch map. for trusted phone use digits and apn name or url use letters
                             if ((Read_XPT2046.X >= key->X0) && (Read_XPT2046.X < key->X1) && (Read_XPT2046.Y >= key->Y0) && (Read_XPT2046.Y < key->Y1)) {
                                 if (countProtection[location_param] != key->ASCII_value){                                    
                                     
@@ -1091,7 +1082,7 @@ void UserInterface(Windows_names_t window) {
                     uint16_t su_txt_color = text_color;
                     
                 } else if (XPT2046_switch(1016, 1932, 3700, 4000)) { // APN name
-                    keyboard.type = letters;
+                    Keyboard_SetType(letters);
                     if(changing_current_param != 1 && keyboard.status){                        
                         ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y + (12* new_y) + 15);
                         keyboard.status = CLOSE;
@@ -1106,7 +1097,7 @@ void UserInterface(Windows_names_t window) {
                     }
                     changing_current_param = 1;
                 } else if (XPT2046_switch(2032, 2948, 3700, 4000)) { // trusted phone
-                    keyboard.type = digits;
+                    Keyboard_SetType(digits);
                     if(changing_current_param != 2 && keyboard.status){
                         ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y + (12* new_y) + 15);
                         keyboard.status = CLOSE;

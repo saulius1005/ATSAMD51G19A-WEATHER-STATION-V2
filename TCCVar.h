@@ -31,13 +31,13 @@ regular_update_devices_t Periodic_Checker_Devices = {
         },
     .SERVER = {
         .update_time = 60000,//60s
-        .respond_time = 30000,//30s
+        .respond_time = 20000,//20s
         .update_stat = UPDATED,
         .start_at = 0,
     },
     .TOWERS = {
-        .update_time = 5000,
-        .respond_time = 500,
+        .update_time = 1000,
+        .respond_time = 250,
         .update_stat = UPDATED,
         .start_at = 0,
     },

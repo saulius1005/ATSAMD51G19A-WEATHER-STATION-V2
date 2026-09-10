@@ -159,7 +159,7 @@ void Tower_COM_DATA_Parser(char* buf, uint8_t id){
         tower -> update_time.minute = RTC_Date_and_Time.RTC_minute;
         tower -> update_time.second = RTC_Date_and_Time.RTC_second;
         
-        //snprintf(A7672E_init.APN, sizeof (A7672E_init.APN), "AT+CGDCONT=1,\"IP\",\"%s\"\r", A7672E_NET.APN_USR);
+        memcpy(tower ->prepared_to_server, buf, 30); //prepare data to server
     
     }
 }
@@ -169,21 +169,24 @@ void Tower_COM_sequence(uint8_t id){
     
     switch(towers[id].state){
         case SEND:{ 
-            uint8_t crcbuf[16] ={0};
-            memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
-            //converting elevation to uint type and do NOT FORGET use int16_t at receiver side
-            RS485_printf("{%02x%04x%04x%02x%x%03x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, WIND.speed, WIND.direction, SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
-            towers[id].state = WAIT_RESPOND;
-            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
-            DMA_USART_RS485_Circular_BYTE_ENABLE(true, TOWER_CH); //enable dma
+            if (Periodic_Checker_Devices.TOWERS.update_stat == PREPARED) {
+                uint8_t crcbuf[16] ={0};
+                memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
+                //converting elevation to uint type and do NOT FORGET use int16_t at receiver side
+                RS485_printf("{%02x%04x%04x%02x%x%03x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, WIND.speed, WIND.direction, SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
+                towers[id].state = WAIT_RESPOND;
+                DMA_USART_RS485_Temp_Circular_BYTE_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
+                DMA_USART_RS485_Circular_BYTE_ENABLE(true, TOWER_CH); //enable dma
+            }
         }break;
-        case WAIT_RESPOND:
-            if( (Periodic_Checker_Devices.TOWERS.update_stat == PREPARED) && (Periodic_Checker_Devices.period_counter == (Periodic_Checker_Devices.TOWERS.start_at + Periodic_Checker_Devices.TOWERS.respond_time)) ){
+        case WAIT_RESPOND:{
+            //if( (Periodic_Checker_Devices.TOWERS.update_stat == PREPARED) && (Periodic_Checker_Devices.period_counter == (Periodic_Checker_Devices.TOWERS.start_at + Periodic_Checker_Devices.TOWERS.respond_time)) ){
+            if ((Periodic_Checker_Devices.period_counter - Periodic_Checker_Devices.TOWERS.start_at) >= Periodic_Checker_Devices.TOWERS.respond_time){
                 DMA_USART_RS485_Circular_BYTE_ENABLE(false, TOWER_CH);   //stop reading 
                 towers[id].state = PROCESS;
-                Periodic_Checker_Devices.TOWERS.update_stat = UPDATING;
+                //Periodic_Checker_Devices.TOWERS.update_stat = UPDATING;
             }           
-        break;
+        }break;
         case PROCESS:
             //RS485_printf("process %01d", id);//for debug
             Tower_COM_DATA_Parser(buf, id);            

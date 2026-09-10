@@ -22,3 +22,24 @@ void draw_keyboard(){
         is_open = false;
     }
 }
+
+void Keyboard_SetType(keyboard_type_t type) { //select touch map according to keyboard type and sets key count in keyboard
+    keyboard.type = type;
+
+    switch (type) {
+        case digits:
+            keyboard.keys = keyboard.digits_keyboard_buttons;
+            keyboard.key_count = KEY_COUNT_DIGITS_KEYBOARD;
+            break;
+
+        case letters:
+            keyboard.keys = keyboard.letters_keyboard_buttons;
+            keyboard.key_count = KEY_COUNT_LETTERS_KEYBOARD;
+            break;
+
+        default:
+            keyboard.keys = NULL;
+            keyboard.key_count = 0;
+            break;
+    }
+}

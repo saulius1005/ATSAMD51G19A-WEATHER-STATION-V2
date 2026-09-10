@@ -14,7 +14,7 @@ extern "C" {
     
 #define GSM_GNSS_UPDATE_PERIOD 250//GSM and GNSS time sync checking interval
 #define GSM_UPDATE_PERIOD 250 //rssi reg status check interval
-#define TOWERS_UPDATE_PERIOD 5000 //towers data exchange interval
+#define TOWERS_UPDATE_PERIOD 1000 //towers data exchange interval
 #define SERVER_UPDATE_PERIOD 8000 //data send to server interval
 
     

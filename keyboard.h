@@ -48,6 +48,10 @@ typedef struct {
     keyboard_status_t status;
     keyboard_type_t type;
     uint16_t background_color;
+      
+    key_data *keys;
+    uint8_t key_count;
+  
     key_data digits_keyboard_buttons[KEY_COUNT_DIGITS_KEYBOARD];
     key_data letters_keyboard_buttons[KEY_COUNT_LETTERS_KEYBOARD];
 }keyboard_t;
@@ -55,6 +59,7 @@ typedef struct {
 extern keyboard_t keyboard;
 
 void draw_keyboard();
+void Keyboard_SetType(keyboard_type_t type);
 
 
 #ifdef	__cplusplus

@@ -61,10 +61,6 @@ void TCC0_CHECKER(){
     if (TCC0_REGS->TCC_INTFLAG & TCC_INTFLAG_OVF_Msk)
     {
         TCC0_REGS->TCC_INTFLAG = TCC_INTFLAG_OVF_Msk;
-
-        //TCC0_timeout = true;
-
-        //TCC0_OFF();
         
         Periodic_Checker_Devices.period_counter++; //dont care if it overfill :D and if so it starts from 0
 
@@ -85,7 +81,7 @@ void TCC0_CHECKER(){
         }
         
         //data check for Towers using RS485 (SERCOM2)
-        if(Periodic_Checker_Devices.TOWERS.update_stat == UPDATED && !(Periodic_Checker_Devices.period_counter % Periodic_Checker_Devices.TOWERS.update_time)){//priority not care
+        if(Periodic_Checker_Devices.TOWERS.update_stat == UPDATED && !(Periodic_Checker_Devices.period_counter % (Periodic_Checker_Devices.TOWERS.update_time / A7672E_NET.towers_in_total))){
             Periodic_Checker_Devices.TOWERS.update_stat = PREPARED;
             Periodic_Checker_Devices.TOWERS.start_at = Periodic_Checker_Devices.period_counter;
         }

@@ -38,12 +38,6 @@ typedef enum {
 }A7672Estatus_t;
 
 typedef enum {
-    GNSS = 0,
-    GSM,
-    GSM_AND_GNSS,
-}A7672Etime_source_t;
-
-typedef enum {
     SIGNAL = 0,
     REGISTRATION
 }A7672EgsmSR_source_t;
@@ -85,16 +79,13 @@ typedef struct {
     bool enabled;
     A7672Estatus_t status;
     A7672states_t state;
-    char APN[60]; //full apn at command length
+    char APN[APN_ADD_SYMBOLS_COUNT]; //full apn at command length
 }A7672E_init_list_t;
 
 typedef struct {
-    bool cycle;
-    A7672Etime_source_t source;
     A7672states_t state;
     uint32_t response_time; //time interval to receive answer from A7672E
-    uint32_t start_at; //start ofthe beginning time interval (Periodic_Checker_Devices.period_counter value)
-    
+    uint32_t start_at; //start ofthe beginning time interval (Periodic_Checker_Devices.period_counter value)   
 }A7672E_work_list_t;
 
 
