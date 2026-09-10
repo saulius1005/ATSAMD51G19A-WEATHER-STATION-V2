@@ -71,6 +71,8 @@ extern "C" {
 #define PURPLE      0x780F
 #define NAVY        0x000F
 #define TEAL        0x0410
+#define LAVANDER    0xe73e
+#define SEASHELL    0xffbd
     
 typedef struct {  //for draw_colored_line text coloring function
     const char *text; //text array
