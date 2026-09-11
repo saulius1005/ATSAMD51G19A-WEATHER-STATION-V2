@@ -23,9 +23,9 @@ Windows_t Windows = {
 };
 
 param_limit_t limits[] = { //location limits for latitude, logitude and altitude
-    {900000,  &solar_params.latitude},
-    {1800000, &solar_params.longitude},
-    {9999,    &solar_params.altitude}
+    {900000,  &A7672E_NET.latitude},
+    {1800000, &A7672E_NET.longitude},
+    {9999,    &A7672E_NET.altitude}
 };
 
 param_text_t location_param_names[] = {

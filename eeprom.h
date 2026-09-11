@@ -15,7 +15,6 @@ extern "C" {
 #define SMEEPROM_SIZE 512
 #define SMEEPROM_ADDR 0x44000000UL //smarteeprom starts at 0x44000000 and ends at 0x45000000 //DO NOT CHANGE unless....
 #define EEEPROM_TEST_FIRST_VALUE 0 //for eeprom test if value is not like this, meaning it is first eeprom run and need to fill eeprom with default values
-
     
 //config bits for Smart EEPROM
     

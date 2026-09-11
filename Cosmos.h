@@ -25,10 +25,7 @@
  * calculated solar position (elevation and azimuth).
  */
 typedef struct {
-    int32_t latitude;       /**< Latitude of the location (in degrees) */
-    int32_t longitude;      /**< Longitude of the location (in degrees) */
     double elevation;      /**< Solar elevation angle (in degrees) */
-    int32_t altitude;
     double refracted_elevation;
     double elevated_refracted_elevation;
     double azimuth;        /**< Solar azimuth angle (in degrees) */

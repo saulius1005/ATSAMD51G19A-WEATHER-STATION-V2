@@ -163,7 +163,7 @@ void calculate_solar_position(){
      * Solar Time
      */
 
-    double solar_time = ( (double)( RTC_Date_and_Time.RTC_hour * 60 + RTC_Date_and_Time.RTC_minute ) + (double)RTC_Date_and_Time.RTC_second / 60.0 + eq_time + 4.0 * ((double)solar_params.longitude / 10000) - 60.0 * timezone_offset ) / 60.0;
+    double solar_time = ( (double)( RTC_Date_and_Time.RTC_hour * 60 + RTC_Date_and_Time.RTC_minute ) + (double)RTC_Date_and_Time.RTC_second / 60.0 + eq_time + 4.0 * ((double)A7672E_NET.longitude / 10000) - 60.0 * timezone_offset ) / 60.0;
 
     /*
      * Hour angle
@@ -173,7 +173,7 @@ void calculate_solar_position(){
     /*
      * Latitude / declination
      */
-    double latitude_rad = ((double)solar_params.latitude / 10000) * DEG_TO_RAD;
+    double latitude_rad = ((double)A7672E_NET.latitude / 10000) * DEG_TO_RAD;
     double declination_rad = declination * DEG_TO_RAD;
     /*
      * Elevation

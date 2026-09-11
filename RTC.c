@@ -49,8 +49,8 @@ void RTC_date_and_time_sync(uint32_t source, RTC_time_update_status_t sync_sourc
 
 void RTC_date_and_time_update(){
 
-    if(RTC_Date_and_Time.time_sync == GNSS_sync) //if rtc is synced with gnss skip further code
-       return;
+    //if(RTC_Date_and_Time.time_sync == GNSS_sync) //if rtc is synced with gnss skip further code
+    //   return;
     
     if((A7672EGSM.GNSS_sys_time != RTC_Date_and_Time.RTC_sys_time) && (A7672EGNSS.mode != 0)&& (RTC_Date_and_Time.time_sync == GSM_sync)){ //use gsm time sync only if gnss is not available
         RTC_date_and_time_sync(A7672EGSM.GNSS_sys_time, GNSS_sync);

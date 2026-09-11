@@ -79,7 +79,7 @@ typedef struct {
     bool enabled;
     A7672Estatus_t status;
     A7672states_t state;
-    char APN[APN_ADD_SYMBOLS_COUNT]; //full apn at command length
+    char APN[APN_ADD_SYMBOLS_COUNT +22]; //full apn at command length +22 symbols for at cmd
 }A7672E_init_list_t;
 
 typedef struct {
@@ -135,6 +135,9 @@ typedef struct { //data to save in eeprom
     char TRST_PHN[TRUSTED_PHONE_SYMBOLS_COUNT];        
     char SERVER_URL[SERVER_URL_COUNT];
     uint16_t towers_in_total; 
+    int32_t latitude;       
+    int32_t longitude;      
+    int32_t altitude;
 }A7672E_network_settings_t;
 
 typedef enum {

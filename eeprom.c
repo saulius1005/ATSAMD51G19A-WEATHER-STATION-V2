@@ -65,5 +65,5 @@ void EEPROM_Check(){ //check if it is firs mcu run
     else{
         EEPROM_Write(0, &A7672E_NET, sizeof(A7672E_NET)); //if not write default values
     }
-    
+ 
 }

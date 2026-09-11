@@ -22,6 +22,9 @@ A7672E_network_settings_t A7672E_NET = {
     .TRST_PHN = {0},
     .SERVER_URL = "https://script.google.com/macros/s/AKfycbw8TuH7N53by3G2elGprMx_OEOvzsrCedQa3OPVG13pWLFHJRh2RmS7X1iYDlPwDpdf/exec?data=",
     .towers_in_total = 2,
+    .latitude = 551234,
+    .longitude = 249876,
+    .altitude = 112,
 };
 
 GNSS_data_list_t A7672EGNSS = {
@@ -91,9 +94,15 @@ CommandList_t A7672ESetInternetList[] = { //cmd list for http initialization
     {"AT+CSQ\r", 1, 2},//check signal strength max response time 9000ms
     {"AT+CREG?\r", 1, 2},//check network registration
     {"AT+CPSI?\r", 1, 2}, //check network details
-    {A7672E_init.APN, 1, 1},//set apn //cid1, IP, apn: internet.tele2.lt
-    {"AT+CGACT=1,1\r", 1, 1},    //cid 2
-    {"AT+CGACT?\r",1,1},
+    //{"AT+CMGF=1\r", 1, 1}, //turn on sms function
+   // {"AT+CPMS?\r", 2, 1}, //check selected storages
+    //{"AT+CMGD=1,4\r", 5, 1}, //delete all sms
+    //{"AT+CMGS=\"+3.......213\"\r", 1, 10}, //laukiu < ar > þodþiu kaþkurio simbolio
+    //{"testas ið gsm modulio\x1A\r", 1, 5},
+    {A7672E_init.APN, 2, 1},//set apn //cid1, IP, apn: internet.tele2.lt
+    {"AT+CGACT?\r",2,1},
+    {"AT+CGACT=1,1\r", 2, 1},    //cid 2
+       
     {"AT+CGPADDR=1\r",1,1},//check cid
     {"AT+HTTPINIT\r", 1, 1},
     {"AT+CTZU=1\r", 1, 1}, //Enable automatic time and time zone update via NITZ   

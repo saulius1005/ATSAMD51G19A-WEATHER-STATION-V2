@@ -246,12 +246,12 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
 
             case 5: out->lat = fast_atof_1e7(p);
                 break;
-            case 6: out->N_S = *p;
+            case 6: out->N_S = (*p == 'N' || *p == 'S') ? *p : 0;
                 break;
 
             case 7: out->log = fast_atof_1e7(p);
                 break;
-            case 8: out->E_W = *p;
+            case 8: out->E_W = (*p == 'E' || *p == 'W') ? *p : 0;
                 break;
 
             case 9: out->date = fast_atoi(p);
@@ -305,7 +305,7 @@ void parse_gnss_data(char *buf, GNSS_data_list_t *out) {
         if (out->mode != 0) { //if time locked 2D or 3D
             apply_timezone(&A7672EGSM.GNSS_year, &A7672EGSM.GNSS_month, &A7672EGSM.GNSS_day, &A7672EGSM.GNSS_hour, RTC_Date_and_Time.RTC_time_zone);
             A7672EGSM.GNSS_sys_time = datetime_to_RTC_format(A7672EGSM.GNSS_year, A7672EGSM.GNSS_month, A7672EGSM.GNSS_day, A7672EGSM.GNSS_hour, A7672EGSM.GNSS_minute, A7672EGSM.GNSS_second);
-            RTC_Date_and_Time.time_sync == GNSS_sync;
+            //RTC_Date_and_Time.time_sync = GNSS_sync;
         }
     }
 
@@ -322,7 +322,7 @@ void parse_gsm_datetime(char *buf) {//example: receiving "26/04/10,18:45:08+12"
     uint32_t ss = (buf[15] - '0')*10 + (buf[16] - '0');
 
 
-    if (is_time_correct(yy, MM, dd, hh, mm, ss)) { //Check if time correct and also compare it with rtc time
+    if (is_time_correct(yy, MM, dd, hh, mm, ss)) { //Check if time correct
         A7672EGSM.GSM_year = yy;
         A7672EGSM.GSM_month = MM;
         A7672EGSM.GSM_day = dd;
@@ -333,7 +333,7 @@ void parse_gsm_datetime(char *buf) {//example: receiving "26/04/10,18:45:08+12"
         A7672EGSM.GSM_second = ss;
 
         A7672EGSM.GSM_sys_time = datetime_to_RTC_format(yy, MM, dd, hh, mm, ss);
-        RTC_Date_and_Time.time_sync == GSM_sync;
+        //RTC_Date_and_Time.time_sync = GSM_sync;
     }
 
 }
@@ -493,7 +493,7 @@ void A7672E_GO_WORK() {
                     A7672E_ASKER.GNSS_TIME_CMD.sent = true;
 
                 }
-                else if (RTC_Date_and_Time.time_sync == GSM_sync) { //already have GSM sync but try to improve with gnss
+                else /*if (RTC_Date_and_Time.time_sync == GSM_sync)*/ { //already have GSM sync but try to improve with gnss //send all time gnss request
 
                     A7672E_ASKER.GNSS_TIME_CMD.sent = true;
 

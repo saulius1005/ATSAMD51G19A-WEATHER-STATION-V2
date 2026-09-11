@@ -84,7 +84,7 @@ void UserInterface(Windows_names_t window) {
                     y -= 12;
                     ILI9341_draw_formatted_line(140, &y, TEAL, BLACK, "Network Data\n");
 
-                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Lat.: %2d.%04d°", solar_params.latitude / 10000, abs(solar_params.latitude % 10000));
+                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Lat.: %2d.%04d°", A7672E_NET.latitude / 10000, abs(A7672E_NET.latitude % 10000));
                     y -= 12;
 
                     if (A7672E_GSM_STATUS.bad_signal) { //if rssi is 32...99 
@@ -93,11 +93,11 @@ void UserInterface(Windows_names_t window) {
                         ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "Signal: %3ddBm ", A7672E_GSM_STATUS.rssi);
                     }
 
-                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Long.: %3d.%04d°", solar_params.longitude / 10000, abs(solar_params.longitude % 10000));
+                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Long.: %3d.%04d°", A7672E_NET.longitude / 10000, abs(A7672E_NET.longitude % 10000));
                     y -= 12;
                     ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "Registration: %d", A7672E_GSM_STATUS.reg_status);
 
-                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Altitude: %4dm", solar_params.altitude);
+                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Altitude: %4dm", A7672E_NET.altitude);
                     y -= 12;
                     ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GNSS locked: %s", (A7672EGNSS.mode == 2) ? "2D" : (A7672EGNSS.mode == 3) ? "3D" : "NO");
 
@@ -438,9 +438,9 @@ void UserInterface(Windows_names_t window) {
                     RTC_read_date_and_time();
                 uint16_t y = 30;
                 
-                ILI9341_draw_formatted_line(0, &y, lat_txt_color, keyboard.background_color, "Latitude: %2d.%04d° ", solar_params.latitude / 10000, abs(solar_params.latitude % 10000));
-                ILI9341_draw_formatted_line(0, &y, lng_txt_color, keyboard.background_color, "Longitude: %3d.%04d° ", solar_params.longitude / 10000, abs(solar_params.longitude % 10000));
-                ILI9341_draw_formatted_line(0, &y, alt_txt_color, keyboard.background_color, "Altitude: %4dm ", solar_params.altitude);
+                ILI9341_draw_formatted_line(0, &y, lat_txt_color, keyboard.background_color, "Latitude: %2d.%04d° ", A7672E_NET.latitude / 10000, abs(A7672E_NET.latitude % 10000));
+                ILI9341_draw_formatted_line(0, &y, lng_txt_color, keyboard.background_color, "Longitude: %3d.%04d° ", A7672E_NET.longitude / 10000, abs(A7672E_NET.longitude % 10000));
+                ILI9341_draw_formatted_line(0, &y, alt_txt_color, keyboard.background_color, "Altitude: %4dm ", A7672E_NET.altitude);
                     
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Time: %4d-%02d-%02d %02d:%02d:%02d", RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second);
                     ILI9341_draw_formatted_line(0, &y, text_color, keyboard.background_color, "Signal: %3ddBm ", A7672E_GSM_STATUS.rssi);
@@ -550,19 +550,29 @@ void UserInterface(Windows_names_t window) {
                                         else { //if long, lat and alt is correct
                                             if (posneg[location_param] == '-') { //if it was negative
                                                 final_result = -final_result;
-                                            }
+                                            }                              
                                             *limits[location_param].target = final_result;
-                                            switch(location_param){
+                                            switch(location_param){ // i am too lazy make this all in struct...
                                                 case 0: 
+                                                    if(final_result != *limits[location_param].target){                                                        
+                                                        EEPROM_Write( offsetof(A7672E_network_settings_t, latitude), &A7672E_NET.latitude, sizeof(A7672E_NET.latitude)  );                                                         
+                                                    }
                                                     lat_txt_color = GREEN;
                                                 break;
                                                 case 1:
+                                                    if(final_result != *limits[location_param].target){                                                        
+                                                        EEPROM_Write( offsetof(A7672E_network_settings_t, longitude), &A7672E_NET.longitude, sizeof(A7672E_NET.longitude)  );                                                        
+                                                    }
                                                     lng_txt_color = GREEN;
                                                 break;
                                                 case 2:
+                                                    if(final_result != *limits[location_param].target){                                                        
+                                                        EEPROM_Write( offsetof(A7672E_network_settings_t, altitude), &A7672E_NET.altitude, sizeof(A7672E_NET.altitude)  ); 
+                                                    }
                                                     alt_txt_color = GREEN;
                                                 break;
                                             }
+                                            
 
                                             ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y+23);
                                             keyboard.status = CLOSE;
@@ -648,9 +658,9 @@ void UserInterface(Windows_names_t window) {
                         lng_txt_color = RED;
                         alt_txt_color = RED;
                     } else { //gnss locked
-                        solar_params.latitude = (int32_t) A7672EGNSS.lat / 1000;
-                        solar_params.longitude = (int32_t) A7672EGNSS.log / 1000;
-                        solar_params.altitude = (int16_t) A7672EGNSS.alt;
+                        A7672E_NET.latitude = (int32_t) A7672EGNSS.lat / 1000;
+                        A7672E_NET.longitude = (int32_t) A7672EGNSS.log / 1000;
+                        A7672E_NET.altitude = (int16_t) A7672EGNSS.alt;
                         gnss_txt_color = GREEN;
                         lat_txt_color = GREEN;
                         lng_txt_color = GREEN;
@@ -840,7 +850,7 @@ void UserInterface(Windows_names_t window) {
                                                 EEPROM_Write( offsetof(A7672E_network_settings_t, towers_in_total), &A7672E_NET.towers_in_total, sizeof(A7672E_NET.towers_in_total) );// find place in structure, set variable and size
                                                 Towers_init(); //init new towers (ne restart requaired)
                                                 id_txt_color = GREEN;
-                                                ILI9341_fill_PART_color_DMA( keyboard.background_color, 1, 238, y+1, y + 21 );
+                                                ILI9341_fill_PART_color_DMA( keyboard.background_color, 0, 239, y, y + 23 );
                                                 keyboard.status = CLOSE;                                                
                                             }
                                         }
