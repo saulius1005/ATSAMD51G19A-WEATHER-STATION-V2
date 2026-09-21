@@ -173,7 +173,7 @@ void Tower_COM_sequence(uint8_t id){
                 uint8_t crcbuf[16] ={0};
                 memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
                 //converting elevation to uint type and do NOT FORGET use int16_t at receiver side
-                RS485_printf("{%02x%04x%04x%02x%x%03x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, WIND.speed, WIND.direction, SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
+                RS485_printf("{%02x%04x%04x%02x%x%03x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, sensors.WIND.speed, sensors.WIND.direction, sensors.SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
                 towers[id].state = WAIT_RESPOND;
                 DMA_USART_RS485_Temp_Circular_BYTE_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
                 DMA_USART_RS485_Circular_BYTE_ENABLE(true, TOWER_CH); //enable dma

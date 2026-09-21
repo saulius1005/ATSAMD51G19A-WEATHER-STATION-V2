@@ -3,12 +3,12 @@
 
 
 void correct_solar_angles() { //Refraction max ~ 0.5-0.6 degree
-    double T_C = BME680.temperature / 100.0f;// temperature in °C
+    double T_C = sensors.BME680.temperature;// temperature in °C
 
     double es = 6.1121f * expf((18.678f - T_C / 234.5f) * (T_C / (257.14f + T_C))); // saturation vapor pressure (hPa)
-    double mw = (BME680.humidity / 100000.0f) * es; // water vapor pressure (hPa) same as /1000 (to get RH in %) / 100 
+    double mw = (sensors.BME680.humidity / 100.0f) * es; // water vapor pressure (hPa) (to get RH in %)
     double T_K = T_C + 273.15f; // temperature in K (Kelvin)
-    double rho_corr = (BME680.pressure / 101325.00f) * (273.15f / T_K); // air density correction factor same as /100 (Pa to hPa) and / 1013.25
+    double rho_corr = (sensors.BME680.pressure / 1013.25f) * (273.15f / T_K); // air density correction factor(Pa to hPa) and / 1013.25
     double humidity_dip = (mw / 1013.25f) * (11.27f / T_K);// humidity correction term
     double total_corr = rho_corr - humidity_dip; // combined atmospheric correction
 

@@ -42,16 +42,15 @@ extern "C" {
 #include "TC.h"
 #include "image.h"
 #include "RTC.h"
-#include "BME680.h"
 #include "windows.h"
 #include "Cosmos.h"
 #include "refraction.h"
-#include "ADC.h"
 #include "TCC.h"
 #include "Towers.h"
 #include "RS485.h"
 #include "crc8.h"
 #include "eeprom.h"
+#include "Sensors.h"
 
 /* --- GPIO --- */
 // Initialize all required GPIO pins (LCD, SPI, control lines)

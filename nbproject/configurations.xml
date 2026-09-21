@@ -47,9 +47,6 @@
       <itemPath>RTC.h</itemPath>
       <itemPath>RTC.c</itemPath>
       <itemPath>RTCVar.h</itemPath>
-      <itemPath>BME680Var.h</itemPath>
-      <itemPath>BME680.c</itemPath>
-      <itemPath>BME680.h</itemPath>
       <itemPath>windows.c</itemPath>
       <itemPath>windows.h</itemPath>
       <itemPath>windowsVar.h</itemPath>
@@ -59,9 +56,6 @@
       <itemPath>refraction.c</itemPath>
       <itemPath>refraction.h</itemPath>
       <itemPath>refractionVar.h</itemPath>
-      <itemPath>ADC.c</itemPath>
-      <itemPath>ADC.h</itemPath>
-      <itemPath>ADCVar.h</itemPath>
       <itemPath>TCC.h</itemPath>
       <itemPath>TCCVar.h</itemPath>
       <itemPath>TCC.c</itemPath>
@@ -78,6 +72,9 @@
       <itemPath>eeprom.c</itemPath>
       <itemPath>eepromVar.h</itemPath>
       <itemPath>MCU_configs.h</itemPath>
+      <itemPath>Sensors.c</itemPath>
+      <itemPath>Sensors.h</itemPath>
+      <itemPath>SensorsVar.h</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -182,52 +179,6 @@
         <property key="voltagevalue" value=""/>
         <property key="x.erase.clearprot" value="true"/>
       </AtmelIceTool>
-      <C32>
-        <property key="additional-warnings" value="false"/>
-        <property key="addresss-attribute-use" value="false"/>
-        <property key="cast-align" value="false"/>
-        <property key="code-model" value="default"/>
-        <property key="const-model" value="default"/>
-        <property key="data-model" value="default"/>
-        <property key="disable-instruction-scheduling" value="false"/>
-        <property key="enable-app-io" value="false"/>
-        <property key="enable-omit-frame-pointer" value="false"/>
-        <property key="enable-procedural-abstraction" value="false"/>
-        <property key="enable-short-double" value="false"/>
-        <property key="enable-symbols" value="true"/>
-        <property key="enable-unroll-loops" value="false"/>
-        <property key="exclude-floating-point" value="false"/>
-        <property key="expand-pragma-config" value="false"/>
-        <property key="extra-include-directories" value=""/>
-        <property key="generate-16-bit-code" value="false"/>
-        <property key="generate-micro-compressed-code" value="false"/>
-        <property key="isolate-each-function" value="false"/>
-        <property key="keep-inline" value="false"/>
-        <property key="make-warnings-into-errors" value="false"/>
-        <property key="oXC16gcc-errata" value=""/>
-        <property key="oXC16gcc-large-aggregate" value="false"/>
-        <property key="oXC16gcc-mpa-lvl" value=""/>
-        <property key="oXC16gcc-name-text-sec" value=""/>
-        <property key="oXC16gcc-near-chars" value="false"/>
-        <property key="oXC16gcc-no-isr-warn" value="false"/>
-        <property key="oXC16gcc-sfr-warn" value="false"/>
-        <property key="oXC16gcc-smar-io-lvl" value="1"/>
-        <property key="oXC16gcc-smart-io-fmt" value=""/>
-        <property key="optimization-level" value="-O0"/>
-        <property key="place-data-into-section" value="false"/>
-        <property key="post-instruction-scheduling" value="default"/>
-        <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value=""/>
-        <property key="scalar-model" value="default"/>
-        <property key="strict-ansi" value="false"/>
-        <property key="support-ansi" value="false"/>
-        <property key="tentative-definitions" value="-fno-common"/>
-        <property key="toplevel-reordering" value=""/>
-        <property key="unaligned-access" value=""/>
-        <property key="use-cci" value="false"/>
-        <property key="use-iar" value="false"/>
-        <property key="use-indirect-calls" value="false"/>
-      </C32>
       <C32-AR>
         <property key="additional-options-chop-files" value="false"/>
       </C32-AR>

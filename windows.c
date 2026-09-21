@@ -32,15 +32,15 @@ void UserInterface(Windows_names_t window) {
                 Windows.background_updater = true;
             } else { //if background was drawed show other data         
 
-                Read_wind(WIND_SPEED); //read wind speed to catch gust of wind
+                //Read_wind(WIND_SPEED); //read wind speed to catch gust of wind
 
                 if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) { // update data every second once
                     RTC_read_date_and_time();
-                    BME680_read_t_p_rh();
+                    //BME680_read_t_p_rh();
                     calculate_solar_position();
                     apply_all_elevation_modifies();    
-                    Read_wind(WIND_DIR); //read wind direction every second;
-                    Read_sun(); //read sun light level
+                    //Read_wind(WIND_DIR); //read wind direction every second;
+                    //Read_sun(); //read sun light level
                     
                     uint16_t y = 4;                    
                     ILI9341_draw_formatted_line(60, &y, WHITE, BLACK, "%4d-%02d-%02d %02d:%02d:%02d",
@@ -63,19 +63,19 @@ void UserInterface(Windows_names_t window) {
                     y -= 12;
                     ILI9341_draw_formatted_line(145, &y, YELLOW, BLACK, "Sun Data\n");
 
-                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Temperature:%3dC° ", (BME680.temperature + 50) / 100);
+                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Temperature:%3dC° ", sensors.BME680.temperature);
                     y -= 12;
                     ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Azimuth: %3.02f ", solar_params.azimuth);
 
-                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Pressure: %4dhPa ", (BME680.pressure + 50) / 100);
+                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Pressure: %4dhPa ", sensors.BME680.pressure);
                     y -= 12;
                     ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Elevation: %3.02f ", solar_params.elevated_refracted_elevation);
 
-                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Humidity: %3d% ", (BME680.humidity + 500) / 1000);
+                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Humidity: %3d% ", sensors.BME680.humidity);
                     y -= 12;
-                    ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Sun l.l.: %dmV", SUN.level); //example for layout
+                    ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Sun l.l.: %dmV", sensors.SUN.level); //example for layout
                     
-                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: %dm/s %s\n", WIND.speed, WindDirNames()); //example for layout
+                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: %dm/s %s\n", sensors.WIND.speed, WindDirNames()); //example for layout
                     
                     
 

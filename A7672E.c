@@ -615,15 +615,15 @@ void A7672E_GO_WORK() {
         case SERVER_SEND:{
             USART_printf("%s", A7672E_ASKER.SERVER_CMD.cmd);//send server cmd
             USART_printf("%s", A7672E_NET.SERVER_URL);//send url           
-            USART_printf("%04x%04x%03x%04x%04x%04x%02x%01x|", 
-                    solar_params.coarse_azimuth, 
+            USART_printf("%04x%04x%03x%02x%03x%02x%02x%01x|", 
+                    (uint16_t)solar_params.coarse_azimuth, 
                     (uint16_t)solar_params.coarse_elevation, 
-                    SUN.level, 
-                    (uint16_t)(BME680.temperature), 
-                    (uint16_t)(BME680.pressure/10), 
-                    (uint16_t)(BME680.humidity/10), 
-                    WIND.speed, 
-                    WIND.direction);//weather station data 26B
+                    (uint16_t)sensors.SUN.level, 
+                    (uint8_t)(sensors.BME680.temperature), 
+                    (uint16_t)(sensors.BME680.pressure), 
+                    (uint8_t)(sensors.BME680.humidity), 
+                    (uint8_t)sensors.WIND.speed, 
+                    (uint8_t)sensors.WIND.direction);//weather station data 26B
             
             for(uint8_t i = 0; i< A7672E_NET.towers_in_total; i++){
                 USART_printf("%s|",towers[i].prepared_to_server);//add towers data (each tower = 30B)
