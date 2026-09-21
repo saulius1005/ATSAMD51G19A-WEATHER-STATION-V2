@@ -45,8 +45,8 @@ extern "C" {
 typedef enum {
     USART_GSM,   // Universal Synchronous/Asynchronous Receiver/Transmitter
     SPI_SCREEN, //SPI for LCD and Touch screen
-    SPI_SENSOR, //SPI for sensors
-    USART_RS485      // Inter-Integrated Circuit
+    RS485_SENSOR, //SPI for sensors
+    RS485_TOWER      // Inter-Integrated Circuit
 } sercom_init_t;
 
 typedef enum {

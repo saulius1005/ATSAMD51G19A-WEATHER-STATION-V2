@@ -76,7 +76,7 @@ void BME680_reset(){ //reset sensor same as power up reset. Requaired manual BME
     if(BME680.STATUS_spi_mem_page != 0){ //if page 1 change it to 0
         BME680_change_page(BME680_page_0);
     }
-    BME680_exchange_data(((uint16_t)Reset_ADD<<16) | BME680_RESET_value, 2); //ignore what it returns
+    BME680_exchange_data(((uint32_t)Reset_ADD<<16) | BME680_RESET_value, 2); //ignore what it returns
     BME680.RESET = true;
 }
 

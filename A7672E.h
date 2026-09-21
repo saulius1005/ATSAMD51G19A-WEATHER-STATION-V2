@@ -18,6 +18,9 @@ extern "C" {
 #define TRUSTED_PHONE_SYMBOLS_COUNT 12    
 #define SERVER_URL_COUNT 160
     
+#define A7672E_DISABLE()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA19) // disable-low
+#define A7672E_ENABLE()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA19) // enable-high
+    
 typedef struct {
     char *ATTX; //send command array list      
     uint8_t WaitTimeInSeconds; //answer timeout period in seconds mostly A7672E recommendet to wait 9000ms = 9s

@@ -126,11 +126,11 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%3d.%02d°A %2d.%02d°E", tower0 -> position.azimuth / 100, tower0 -> position.azimuth % 100, tower0 -> position.elevation / 100, tower0 -> position.elevation % 100);
                     
                     
-                    y = 300;
-                    ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "TCC0: %09d", Periodic_Checker_Devices.period_counter);
+                    //y = 300;
+                    //ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "TCC0: %09d", Periodic_Checker_Devices.period_counter);
                     
                     
-                    ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
+                    //ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
 
                 }
                 Windows.once_per_second_update = RTC_Date_and_Time.RTC_sys_time;
@@ -551,26 +551,23 @@ void UserInterface(Windows_names_t window) {
                                             if (posneg[location_param] == '-') { //if it was negative
                                                 final_result = -final_result;
                                             }                              
+                                            if(final_result != *limits[location_param].target){
                                             *limits[location_param].target = final_result;
-                                            switch(location_param){ // i am too lazy make this all in struct...
-                                                case 0: 
-                                                    if(final_result != *limits[location_param].target){                                                        
+                                            
+                                                switch(location_param){ // i am too lazy make this all in struct...
+                                                    case 0:                                                       
                                                         EEPROM_Write( offsetof(A7672E_network_settings_t, latitude), &A7672E_NET.latitude, sizeof(A7672E_NET.latitude)  );                                                         
-                                                    }
-                                                    lat_txt_color = GREEN;
-                                                break;
-                                                case 1:
-                                                    if(final_result != *limits[location_param].target){                                                        
+                                                        lat_txt_color = GREEN;
+                                                    break;
+                                                    case 1:                                                    
                                                         EEPROM_Write( offsetof(A7672E_network_settings_t, longitude), &A7672E_NET.longitude, sizeof(A7672E_NET.longitude)  );                                                        
-                                                    }
-                                                    lng_txt_color = GREEN;
-                                                break;
-                                                case 2:
-                                                    if(final_result != *limits[location_param].target){                                                        
+                                                        lng_txt_color = GREEN;
+                                                    break;
+                                                    case 2:
                                                         EEPROM_Write( offsetof(A7672E_network_settings_t, altitude), &A7672E_NET.altitude, sizeof(A7672E_NET.altitude)  ); 
-                                                    }
-                                                    alt_txt_color = GREEN;
-                                                break;
+                                                        alt_txt_color = GREEN;
+                                                    break;
+                                                }
                                             }
                                             
 
@@ -768,8 +765,6 @@ void UserInterface(Windows_names_t window) {
                     y -= 12;
                     power_w_x10 = (current_tower -> el_motor.power + 5) / 10;
                     ILI9341_draw_formatted_line(120, &y, text_color, keyboard.background_color, "Power: %3d.%02dW", power_w_x10/100, power_w_x10%100);
-                    
-                    ILI9341_draw_formatted_line(0, &y, MAGENTA, keyboard.background_color, "Touch X:%04d, Y:%04d, Z1:%04d, Z2:%04d", Read_XPT2046.X, Read_XPT2046.Y, Read_XPT2046.Z1, Read_XPT2046.Z2);
                     
                     if(id_txt_color != text_color) //after AUTO button press keep changed text color one second
                         id_txt_color = text_color;
@@ -1095,9 +1090,7 @@ void UserInterface(Windows_names_t window) {
                     Keyboard_SetType(letters);
                     if(changing_current_param != 1 && keyboard.status){                        
                         ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y + (12* new_y) + 15);
-                        keyboard.status = CLOSE;
-                        draw_keyboard();
-                        keyboard.status = OPEN;
+                        reopen_keyboard();
                     }
                     else{
                         if(keyboard.status){ //if keyboard open before colose
@@ -1110,9 +1103,7 @@ void UserInterface(Windows_names_t window) {
                     Keyboard_SetType(digits);
                     if(changing_current_param != 2 && keyboard.status){
                         ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y + (12* new_y) + 15);
-                        keyboard.status = CLOSE;
-                        draw_keyboard();
-                        keyboard.status = OPEN;
+                        reopen_keyboard();
                     }
                     else{
                         if(keyboard.status){ //if keyboard open before colose
@@ -1122,12 +1113,10 @@ void UserInterface(Windows_names_t window) {
                     }
                     changing_current_param = 2;
                 } else if (XPT2046_switch(3048, 3964, 3700, 4000)) { // Server url
-                    keyboard.type = letters;
+                    Keyboard_SetType(letters);
                     if(changing_current_param != 3 && keyboard.status){
                         ILI9341_fill_PART_color_DMA(keyboard.background_color, 0, 239, y, y + (12* new_y) + 15);
-                        keyboard.status = CLOSE;
-                        draw_keyboard();
-                        keyboard.status = OPEN;
+                        reopen_keyboard();
                     }
                     else{
                         if(keyboard.status){ //if keyboard open before colose

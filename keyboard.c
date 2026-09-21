@@ -23,6 +23,12 @@ void draw_keyboard(){
     }
 }
 
+void reopen_keyboard(){
+    keyboard.status = CLOSE;
+    draw_keyboard();
+    keyboard.status = OPEN;
+}
+
 void Keyboard_SetType(keyboard_type_t type) { //select touch map according to keyboard type and sets key count in keyboard
     keyboard.type = type;
 

@@ -52,7 +52,7 @@ void SERCOM_init(sercom_init_t interface){
         
         //SERCOM1 not used
         
-        case USART_RS485:// SERCOM2 RS485 Master
+        case RS485_TOWER:// SERCOM2 RS485 Master
             
             GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM2_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
@@ -91,10 +91,27 @@ void SERCOM_init(sercom_init_t interface){
             
         break;
     
+        // SERCOM4 Not used
         
-        case SPI_SENSOR: // SERCOM4 SPI BME680
+        case RS485_SENSOR: 
+            
+            GCLK_REGS->GCLK_PCHCTRL[SERCOM5_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
+            while (GCLK_REGS->GCLK_PCHCTRL[SERCOM5_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
 
-            GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
+            GCLK_REGS->GCLK_PCHCTRL[SERCOM5_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK2 | GCLK_PCHCTRL_CHEN(1);
+                while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM5_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the core clock - 24Mhz
+            
+            MCLK_REGS->MCLK_APBDMASK |= MCLK_APBDMASK_SERCOM5_Msk; //enable module functions
+            SERCOM5_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_ENABLE(0); //disable
+                while(SERCOM5_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
+            
+            SERCOM5_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
+            SERCOM5_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_32BIT | SERCOM_USART_INT_CTRLC_GTIME(1);//32bit and guard time is 1bit?            
+            SERCOM5_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
+            SERCOM5_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD3 | SERCOM_USART_INT_CTRLA_TXPO_PAD3 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
+                while(SERCOM5_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
+
+            /*GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
 
             GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK1 | GCLK_PCHCTRL_CHEN(1); //connect sercom4 core to GCLK1
@@ -115,11 +132,9 @@ void SERCOM_init(sercom_init_t interface){
             SERCOM4_REGS->SPIM.SERCOM_CTRLA = SERCOM_SPIM_CTRLA_ENABLE(1) | SERCOM_SPIM_CTRLA_MODE_SPI_MASTER | SERCOM_SPIM_CTRLA_CPOL_IDLE_HIGH | SERCOM_SPIM_CTRLA_CPHA_TRAILING_EDGE| SERCOM_SPIM_CTRLA_DIPO_PAD0 | SERCOM_SPIM_CTRLA_DOPO_PAD2 | SERCOM_SPIM_CTRLA_DORD_MSB;
             while(SERCOM4_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
             
-            BME680_CS_HIGH();
+            BME680_CS_HIGH();*/
 
         break;        
-        
-        // SERCOM5 NOT USED
     }
 }
 

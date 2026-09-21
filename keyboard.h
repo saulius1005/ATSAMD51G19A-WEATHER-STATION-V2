@@ -59,7 +59,9 @@ typedef struct {
 extern keyboard_t keyboard;
 
 void draw_keyboard();
+void reopen_keyboard();
 void Keyboard_SetType(keyboard_type_t type);
+
 
 
 #ifdef	__cplusplus
