@@ -37,7 +37,14 @@ typedef enum {
     SPI_CH = 0,
     GSM_CH,
     TOWER_CH,
+    SENSORS_CH,
 } DMA_channel_t;
+
+typedef struct {
+    DMA_channel_t channel; //for identification
+    uint8_t TRIGSRC; //trigger id value for dma
+    volatile sercom_registers_t *SERCOM; //pointer to sercom 2 , 3, 5
+}DMA_devices_t;
 
 typedef struct {
     union {
@@ -49,10 +56,12 @@ typedef struct {
     uint8_t is_solid_color;
 } LCD_Transfer_t;
 
-extern volatile dmacdescriptor descriptor_section[3];
-extern volatile dmacdescriptor wrb[3];
+extern volatile dmacdescriptor descriptor_section[4];
+extern volatile dmacdescriptor wrb[4];
 
 extern volatile uint8_t dma_done;
+
+extern DMA_devices_t DMA_devices[4];
 
 #ifdef	__cplusplus
 }
