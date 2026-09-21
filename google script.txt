@@ -1,0 +1,332 @@
+
+function doGet(e) {
+  return handleRequest(e);
+}
+
+function doPost(e) {
+  return handleRequest(e);
+}
+
+// HEX -> SIGNED INT16
+
+function hexToInt16(hexStr) {
+  var value = parseInt(hexStr, 16);
+
+  if (value > 0x7FFF) {
+    value -= 0x10000;
+  }
+
+  return value;
+}
+
+// HEX -> SIGNED INT8
+
+function hexToInt8(hexStr) {
+
+  var value = parseInt(hexStr, 16);
+
+  if (value > 0x7F) {
+    value -= 0x100;
+  }
+
+  return value;
+}
+
+
+// MAIN REQUEST HANDLER
+
+function handleRequest(e) {
+
+  try {
+
+    var data = null;
+
+    // GET
+    if (e && e.parameter && e.parameter.data) {
+      data = e.parameter.data;
+    }
+
+    // POST
+
+    if (!data && e && e.postData && e.postData.contents) {
+
+      var body = e.postData.contents;
+
+      if (body.indexOf("data=") === 0) {
+        data = body.substring(5);
+      }
+      else {
+        data = body;
+      }
+    }
+
+    // NO DATA
+
+    if (!data) {
+      return text("NO_DATA");
+    }
+
+    // REMOVE UNWANTED CHARACTERS
+
+    data = data.replace(/[\[\]\s]/g, "");
+
+    // SPLIT ALL PACKETS BY |
+
+    var packets = data.split("|");
+
+
+    // GOOGLE SHEET
+
+    var sheet = SpreadsheetApp
+      .getActiveSpreadsheet()
+      .getSheetByName("Data");
+
+
+    var time = new Date();
+
+    var packetCount = 0;
+
+    // PROCESS EACH PACKET
+
+    for (var p = 0; p < packets.length; p++) {
+
+      var packet = packets[p];
+
+      // EMPTY PACKET
+
+      if (!packet) {
+        continue;
+      }
+
+      // WEATHER STATION
+
+
+      if (p == 0) {
+
+        if (packet.length != 21) { //length of packet
+          Logger.log(
+            "Invalid weather packet length: " +
+            packet.length +
+            " | " +
+            packet
+          );
+
+          continue;
+        }
+
+
+        // WEATHER DATA
+
+        // 0000 - azimuth
+        var weatherAzimuth =
+          parseInt(packet.substring(0, 4), 16) / 100;
+
+
+        // 0000 - elevation
+        var weatherElevation =
+          hexToInt16(packet.substring(4, 8)) / 100; //change it to int16_t
+
+
+        // 000 - SUN.level
+        var sunLevel =
+          parseInt(packet.substring(8, 11), 16);
+
+
+        // 00 - temperature
+        var temperature =
+          hexToInt8(packet.substring(11, 13)); //change it to int8_t
+
+
+        // 000 - pressure
+        var pressure =
+          parseInt(packet.substring(13, 16), 16);
+
+
+        // 00 - humidity
+        var humidity =
+          parseInt(packet.substring(16, 18), 16);
+
+
+        // 00 - wind speed
+        var windSpeed =
+          parseInt(packet.substring(18, 20), 16);
+
+
+        // 0 - wind direction
+        var windDirection =
+          parseInt(packet.substring(20, 21), 16);
+
+
+        // SAVE WEATHER DATA
+
+        sheet.appendRow([
+          time,
+          packet,
+          "WEATHER",
+
+          weatherAzimuth,
+          weatherElevation,
+          sunLevel,
+          temperature,
+          pressure,
+          humidity,
+          windSpeed,
+          windDirection,
+
+          "",     // Tower ID
+          "",     // Tower Azimuth
+          "",     // Tower Elevation
+          "",     // PV Voltage
+          "",     // PV Current
+          "",     // End switch
+          "",     // Az motor voltage
+          "",     // Az motor current
+          "",     // Elev motor voltage
+          ""      // Elev motor current
+        ]);
+
+
+        packetCount++;
+
+        continue;
+      }
+
+
+      // TOWER DATA
+
+      if (packet.length != 30) { //tower data pack length
+
+        Logger.log(
+          "Invalid tower packet length: " +
+          packet.length +
+          " | " +
+          packet
+        );
+
+        continue;
+      }
+
+      // TOWER ID
+
+      // 00
+      var towerID =
+        parseInt(packet.substring(0, 2), 16);
+
+
+      // TOWER AZIMUTH
+
+      // 4792 -> 47.92°
+      var towerAzimuth =
+        parseInt(packet.substring(2, 6), 16) / 100;
+
+      // TOWER ELEVATION
+
+      // 1268 -> 47.12°
+      var towerElevation =
+        hexToInt16(packet.substring(6, 10)) / 100;//change it to int16_t
+
+      // PV VOLTAGE
+
+      // 07DC -> 2012 -> 201.2 V
+      var pvVoltage =
+        parseInt(packet.substring(10, 14), 16) / 10;
+
+      // PV CURRENT
+
+      // 3FB -> 1019 -> 10.19 A
+      var pvCurrent =
+        parseInt(packet.substring(14, 17), 16) / 100;
+
+
+      // END SWITCH
+
+      // 0
+      var endSwitch =
+        parseInt(packet.substring(17, 18), 16); //for now not used but maybe in the future
+
+
+      // AZIMUTH MOTOR VOLTAGE
+
+      // 25A -> 0x25A = 602 -> 60.2 V
+
+      var azMotorVoltage =
+        parseInt(packet.substring(18, 21), 16) / 10;
+
+      // AZIMUTH MOTOR CURRENT
+
+      // 037 -> 55 -> 0.55 A
+
+      var azMotorCurrent =
+        parseInt(packet.substring(21, 24), 16) / 100;
+
+
+      // ELEVATION MOTOR VOLTAGE
+
+      // 0EE -> 238 -> 23.8 V
+
+      var elevMotorVoltage =
+        parseInt(packet.substring(24, 27), 16) / 10;
+
+      // ELEVATION MOTOR CURRENT
+
+      // 15B -> 347 -> 3.47 A
+
+      var elevMotorCurrent =
+        parseInt(packet.substring(27, 30), 16) / 100;
+
+      // SAVE TOWER DATA
+
+      sheet.appendRow([
+        time,
+        packet,
+        "TOWER",
+
+        "",                 // Weather Azimuth
+        "",                 // Weather Elevation
+        "",                 // Sun
+        "",                 // Temperature
+        "",                 // Pressure
+        "",                 // Humidity
+        "",                 // Wind speed
+        "",                 // Wind direction
+
+        towerID,
+        towerAzimuth,
+        towerElevation,
+        pvVoltage,
+        pvCurrent,
+        endSwitch,
+        azMotorVoltage,
+        azMotorCurrent,
+        elevMotorVoltage,
+        elevMotorCurrent
+      ]);
+
+
+      packetCount++;
+    }
+
+
+    // RESPONSE
+
+    return text("OK " + packetCount); //don't care A7672e receive 302 if all ok
+
+
+  }
+  catch (err) {
+
+    Logger.log(err);
+
+    return text("ERROR");
+  }
+}
+
+
+// TEXT RESPONSE
+
+function text(msg) {
+
+  return ContentService
+    .createTextOutput(msg)
+    .setMimeType(ContentService.MimeType.TEXT);
+}

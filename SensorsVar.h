@@ -14,7 +14,7 @@ extern "C" {
 
 sensors_data_t sensors = {
     .BME680 = {
-        27, //in C
+        -3, //in C
         1004, //in hPa
         59, //in %
     },
