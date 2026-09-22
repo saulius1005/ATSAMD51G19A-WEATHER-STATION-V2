@@ -31,6 +31,7 @@ int main(void) {
     DMA_SERCOM0_TX_init();               // Configure DMA channel for SERCOM0 SPI TX transfers
     DMA_USART_RS485_RX_init(GSM_CH);               // Configure DMA channel for SERCOM3 USART RX
     DMA_USART_RS485_RX_init(TOWER_CH);
+    DMA_USART_RS485_RX_init(SENSORS_CH);
     EEPROM_Check();
     TCC0_ON(1000); //set interval every 1ms
     
@@ -42,9 +43,9 @@ int main(void) {
         XPT2046_Read_All(); //checking touch screen
         UserInterface(Windows.Window); //after initialization show main window     
         
-        Sensors_COM();// checking enveroment data
         Tower_COM();//send data to test towers?
-        
+        Sensors_COM();// checking enveroment data
+                
         
         RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                       
         TC0_CHECKER(); //check tc0 timeout
