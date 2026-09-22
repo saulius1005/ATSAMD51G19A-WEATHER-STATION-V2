@@ -45,7 +45,7 @@ regular_update_devices_t Periodic_Checker_Devices = {
         .update_time = 1000,
         .respond_time = 300,
         .update_stat = UPDATED,
-        .start_at = 300,
+        .start_at = 0,
     },
 };
 

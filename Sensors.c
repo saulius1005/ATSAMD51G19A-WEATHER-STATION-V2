@@ -24,10 +24,10 @@ void Sensors_parser(char* buf){
     }
     
     if (i < RS485_RX_BUFFER_SIZE){ //if found 
-        uint8_t crc_data[9];
+        uint8_t crc_data[8];
         i++; //parse data      
 
-        for (uint8_t j = 0; j < 9; j++) {
+        for (uint8_t j = 0; j < 8; j++) {
             crc_data[j] = (uint8_t)fast_atoi_hex(&buf[(j * 2) + 1], 2);
         }
         

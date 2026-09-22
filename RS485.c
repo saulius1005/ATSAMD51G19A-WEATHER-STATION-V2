@@ -28,7 +28,7 @@ void RS485_printf(const char *fmt, ...){
     RS485_write_str(buffer); 
 } */
 
-void RS485_write_str(volatile sercom_registers_t *SERCOM, char *str){
+void RS485_write_str(volatile sercom_registers_t *SERCOM, char *str, uint8_t length){
     /*uint8_t length = 0;
     while(str[length]) length++;
 
@@ -47,6 +47,11 @@ void RS485_write_str(volatile sercom_registers_t *SERCOM, char *str){
     }
     while(!(SERCOM->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_TXC_Msk));
     SERCOM->USART_INT.SERCOM_LENGTH &= ~SERCOM_USART_INT_LENGTH_LENEN_Msk;*/
+    
+    SERCOM->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;
+
+    while(SERCOM->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk);
+    
     while (*str){
         while(!(SERCOM->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_DRE_Msk)); //is DATA empty?
         SERCOM->USART_INT.SERCOM_DATA = *str++;
@@ -62,5 +67,5 @@ void RS485_printf(volatile sercom_registers_t *SERCOM, const char *fmt, ...) {
     vsnprintf(buffer, sizeof(buffer), fmt, args);
     va_end(args);
 
-    RS485_write_str(SERCOM, buffer);
+    RS485_write_str(SERCOM, buffer, (uint8_t)sizeof(buffer));
 }
