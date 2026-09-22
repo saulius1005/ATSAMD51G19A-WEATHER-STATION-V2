@@ -11,10 +11,10 @@
 extern "C" {
 #endif
 
-#define USART_BAUD 115200
-#define USART_SYMBOL_WIDTH 10UL //start + 8 bit data + stop
-#define USART_TIMEOUT_US(symbols) (uint16_t)((USART_SYMBOL_WIDTH * 1000000UL * (symbols)) / (USART_BAUD) + 1) //calculate timeout value for TC1 counter.
-    
+#define TOWERS_BAUD 115200
+#define GSM_BAUD 115200
+#define SENSORS_BAUD 230400
+   
 
 #ifdef	__cplusplus
 }

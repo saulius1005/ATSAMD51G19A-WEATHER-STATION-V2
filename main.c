@@ -42,7 +42,9 @@ int main(void) {
         XPT2046_Read_All(); //checking touch screen
         UserInterface(Windows.Window); //after initialization show main window     
         
+        Sensors_COM();// checking enveroment data
         Tower_COM();//send data to test towers?
+        
         
         RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                       
         TC0_CHECKER(); //check tc0 timeout

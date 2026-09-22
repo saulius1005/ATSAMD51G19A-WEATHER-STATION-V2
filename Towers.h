@@ -58,6 +58,7 @@ extern tower_t towers[];
 
 void Towers_init(); //create Towers list
 void Tower_COM(); //main RS485 network for Towers function
+uint16_t fast_atoi_hex(const char *p, uint8_t digits);// also used in SENSOR.c
 
 #ifdef	__cplusplus
 }

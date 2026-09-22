@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 sensors_data_t sensors = {
+    .state = SEND,
     .BME680 = {
         -3, //in C
         1004, //in hPa

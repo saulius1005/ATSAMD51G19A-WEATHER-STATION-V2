@@ -12,12 +12,6 @@
 extern "C" {
 #endif
     
-#define GSM_GNSS_UPDATE_PERIOD 250//GSM and GNSS time sync checking interval
-#define GSM_UPDATE_PERIOD 250 //rssi reg status check interval
-#define TOWERS_UPDATE_PERIOD 1000 //towers data exchange interval
-#define SERVER_UPDATE_PERIOD 8000 //data send to server interval
-
-    
 typedef enum {
     PREPARED = 0,
     UPDATING,
@@ -37,6 +31,8 @@ typedef struct {
     regular_update_param_t TIME;
     regular_update_param_t SERVER;
     regular_update_param_t TOWERS;
+    regular_update_param_t SENSORS;
+    
 }regular_update_devices_t;
 
 extern volatile bool TCC0_timeout;

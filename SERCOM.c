@@ -66,7 +66,7 @@ void SERCOM_init(sercom_init_t interface){
             
             SERCOM2_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
             SERCOM2_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_32BIT | SERCOM_USART_INT_CTRLC_GTIME(1);//32bit and guard time is 1bit?            
-            SERCOM2_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
+            SERCOM2_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(TOWERS_BAUD);
             SERCOM2_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD3 | SERCOM_USART_INT_CTRLA_TXPO_PAD3 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
                 while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
         break;        
@@ -85,7 +85,7 @@ void SERCOM_init(sercom_init_t interface){
             
             SERCOM3_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
             SERCOM3_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_CHSIZE;            
-            SERCOM3_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
+            SERCOM3_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(GSM_BAUD);
             SERCOM3_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD2 | SERCOM_USART_INT_CTRLA_TXPO_PAD0 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
                 while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
             
@@ -93,7 +93,7 @@ void SERCOM_init(sercom_init_t interface){
     
         // SERCOM4 Not used
         
-        case RS485_SENSOR: 
+        case RS485_SENSOR: //SERCOM5 RS485 Master
             
             GCLK_REGS->GCLK_PCHCTRL[SERCOM5_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
             while (GCLK_REGS->GCLK_PCHCTRL[SERCOM5_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
@@ -102,37 +102,15 @@ void SERCOM_init(sercom_init_t interface){
                 while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM5_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk)); //use the core clock - 24Mhz
             
             MCLK_REGS->MCLK_APBDMASK |= MCLK_APBDMASK_SERCOM5_Msk; //enable module functions
+            
             SERCOM5_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_ENABLE(0); //disable
                 while(SERCOM5_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
             
             SERCOM5_REGS->USART_INT.SERCOM_CTRLB = SERCOM_USART_INT_CTRLB_CHSIZE_8_BIT | SERCOM_USART_INT_CTRLB_SBMODE_1_BIT | SERCOM_USART_INT_CTRLB_RXEN_Msk | SERCOM_USART_INT_CTRLB_TXEN_Msk | SERCOM_USART_INT_CTRLB_SFDE_Msk;//8bit character, 1 stop bit, rx, tx enabled, start frame detection on
             SERCOM5_REGS->USART_INT.SERCOM_CTRLC = SERCOM_USART_INT_CTRLC_DATA32B_DATA_READ_WRITE_32BIT | SERCOM_USART_INT_CTRLC_GTIME(1);//32bit and guard time is 1bit?            
-            SERCOM5_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(USART_BAUD);
+            SERCOM5_REGS->USART_INT.SERCOM_BAUD = SERCOM_USART_ASYNC_ARITH_BAUD(SENSORS_BAUD);
             SERCOM5_REGS->USART_INT.SERCOM_CTRLA = SERCOM_USART_INT_CTRLA_MODE_USART_INT_CLK | SERCOM_USART_INT_CTRLA_RXPO_PAD3 | SERCOM_USART_INT_CTRLA_TXPO_PAD3 | SERCOM_USART_INT_CTRLA_CMODE_ASYNC | SERCOM_USART_INT_CTRLA_DORD_LSB | SERCOM_USART_INT_CTRLA_ENABLE(1); // rx- pad2, tx- pad0, xck pad1
                 while(SERCOM5_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_ENABLE_Msk); //wait sync
-
-            /*GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] = GCLK_PCHCTRL_CHEN(0); // Disable channel before reconfiguration
-            while (GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk);
-
-            GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] = GCLK_PCHCTRL_GEN_GCLK1 | GCLK_PCHCTRL_CHEN(1); //connect sercom4 core to GCLK1
-            while (!(GCLK_REGS->GCLK_PCHCTRL[SERCOM4_GCLK_ID_CORE] & GCLK_PCHCTRL_CHEN_Msk));
-
-            MCLK_REGS->MCLK_APBDMASK |= MCLK_APBDMASK_SERCOM4_Msk;
-
-            SERCOM4_REGS->SPIM.SERCOM_CTRLA = SERCOM_SPIM_CTRLA_ENABLE(0); // Disable before configuration
-            while(SERCOM4_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
-
-            SERCOM4_REGS->SPIM.SERCOM_CTRLB = SERCOM_SPIM_CTRLB_CHSIZE_8_BIT | SERCOM_SPIM_CTRLB_RXEN_Msk; //mssen is used when hw controls SS (single device)
-            while (SERCOM4_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_CTRLB_Msk);
-
-            SERCOM4_REGS->SPIM.SERCOM_CTRLC = SERCOM_SPIM_CTRLC_DATA32B_DATA_TRANS_32BIT;
-
-            SERCOM4_REGS->SPIM.SERCOM_BAUD = SERCOM_SPI_BAUD(10000000);//~10Mhz (Core speed 60Mhz)
-
-            SERCOM4_REGS->SPIM.SERCOM_CTRLA = SERCOM_SPIM_CTRLA_ENABLE(1) | SERCOM_SPIM_CTRLA_MODE_SPI_MASTER | SERCOM_SPIM_CTRLA_CPOL_IDLE_HIGH | SERCOM_SPIM_CTRLA_CPHA_TRAILING_EDGE| SERCOM_SPIM_CTRLA_DIPO_PAD0 | SERCOM_SPIM_CTRLA_DOPO_PAD2 | SERCOM_SPIM_CTRLA_DORD_MSB;
-            while(SERCOM4_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
-            
-            BME680_CS_HIGH();*/
 
         break;        
     }
@@ -189,54 +167,9 @@ uint32_t swap_and_align(uint32_t data, uint8_t length){
 //USART
 
 void USART_set_read_length(uint8_t length, DMA_channel_t channel){ //how much bytes we need to read
-    if(channel == GSM_CH){
-        SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;
-        while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync        
-    }
-    else if (channel == TOWER_CH){
-        SERCOM2_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;
-        while(SERCOM2_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync  
-    }
-
+        DMA_devices[channel].SERCOM->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;
+        while(DMA_devices[channel].SERCOM->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync        
 }
-
-/*void USART_write_str(char *str){
-    uint8_t length = 0;
-    while(str[length]) length++;//calculate how much bytes in total
-
-    SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;//set length to usart hardware once
-    while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk);//wait sync
-    
-    uint32_t* arr = (uint32_t*) str; //create pointer of 32bit length
-    //uint8_t* arr = (uint8_t*) str;
-    
-    length = (length+3)>>2;//how much it will be of 32bits
-    SERCOM3_REGS->USART_INT.SERCOM_INTFLAG = SERCOM_USART_INT_INTFLAG_TXC_Msk;//clear last flag 
-    while(length--){
-        while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_DRE_Msk));
-        SERCOM3_REGS->USART_INT.SERCOM_DATA = *arr++;
-    }
-    while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_TXC_Msk)); //stop bid set and shift register is empty and no new data  
-    SERCOM3_REGS->USART_INT.SERCOM_LENGTH &= ~SERCOM_USART_INT_LENGTH_LENEN_Msk;   
-}*/
-
-/*void USART_write_str(uint32_t *str){
-    uint8_t length = 0;
-    while(str[length]) length++;//calculate how much bytes in total
-    SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;//set length to usart hardware once
-    while(SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk);//wait sync
-   
-    length = (length+3)>>2;
-    while(length--){
-        while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_DRE_Msk));//is DATA empty?
-        SERCOM3_REGS->USART_INT.SERCOM_DATA = *str++;
-    }
-    while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_TXC_Msk)); //is DATA and TXC shift register empty?  
-    SERCOM3_REGS->USART_INT.SERCOM_INTFLAG = SERCOM_USART_INT_INTFLAG_TXC_Msk;//clear last flag 
-    SERCOM3_REGS->USART_INT.SERCOM_LENGTH &= ~SERCOM_USART_INT_LENGTH_LENEN_Msk;   //turn off length usage
-    while (SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk);
-}*/
-
 
 void USART_write_str(char *str){//for character type of transmitter
     while (*str){
@@ -247,44 +180,12 @@ void USART_write_str(char *str){//for character type of transmitter
     SERCOM3_REGS->USART_INT.SERCOM_INTFLAG = SERCOM_USART_INT_INTFLAG_TXC_Msk;
 }
 
-
-/*void USART_write_str(char *str) {
-    uint16_t total_length = 0;
-
-    while (str[total_length])
-        total_length++;
-
-    uint16_t position = 0;
-
-    while (position < total_length) {
-        uint16_t length = total_length - position;
-
-        if (length > 255)
-            length = 255;
-
-        SERCOM3_REGS->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;
-        while (SERCOM3_REGS->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk);
-
-        const uint32_t* arr = (const uint32_t*)(str + position);
-        uint16_t words = (length + 3) >> 2;
-        SERCOM3_REGS->USART_INT.SERCOM_INTFLAG = SERCOM_USART_INT_INTFLAG_TXC_Msk;
-        while (words--) {
-            while (!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_DRE_Msk));
-            SERCOM3_REGS->USART_INT.SERCOM_DATA = *arr++;
-        }
-        while (!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_TXC_Msk));
-
-        SERCOM3_REGS->USART_INT.SERCOM_LENGTH &= ~SERCOM_USART_INT_LENGTH_LENEN_Msk;
-        position += length;
-    }
-}*/
-
 void USART_printf(const char *fmt, ...){
     static char buffer[255]={0};
     va_list args;
     va_start(args, fmt);
     vsnprintf(buffer, sizeof(buffer), fmt, args);
     va_end(args);
-    USART_write_str(/*(uint32_t*)*/buffer); 
+    USART_write_str(buffer); 
     
 }

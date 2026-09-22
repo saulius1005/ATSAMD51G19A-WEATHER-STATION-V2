@@ -11,8 +11,6 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
-
-    
     
 typedef struct{
     int8_t temperature;   
@@ -30,6 +28,7 @@ typedef struct{
 }sunlight_data_t;
 
 typedef struct{
+    tower_com_t state; //use typedef enum from towers
     bme680_data_t BME680;
     wind_data_t WIND;
     sunlight_data_t SUN;
@@ -38,7 +37,7 @@ typedef struct{
 extern sensors_data_t sensors;
 
 char * WindDirNames();
-
+void Sensors_COM();
 
 #ifdef	__cplusplus
 }
