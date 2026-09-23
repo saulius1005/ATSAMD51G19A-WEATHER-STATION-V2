@@ -36,11 +36,8 @@ void UserInterface(Windows_names_t window) {
 
                 if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) { // update data every second once
                     RTC_read_date_and_time();
-                    //BME680_read_t_p_rh();
                     calculate_solar_position();
                     apply_all_elevation_modifies();    
-                    //Read_wind(WIND_DIR); //read wind direction every second;
-                    //Read_sun(); //read sun light level
                     
                     uint16_t y = 4;                    
                     ILI9341_draw_formatted_line(60, &y, WHITE, BLACK, "%4d-%02d-%02d %02d:%02d:%02d",
@@ -100,6 +97,9 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Altitude: %4dm", A7672E_NET.altitude);
                     y -= 12;
                     ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GNSS locked: %s", (A7672EGNSS.mode == 2) ? "2D" : (A7672EGNSS.mode == 3) ? "3D" : "NO");
+                    
+                    ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "Server: %s", (A7672E_work.ssrx == Bad) ? "NO RX " : (A7672E_work.ssrx == Good) ? "ALL OK" : "      ");
+                    A7672E_work.ssrx = Neutral;
 
                     //tower window part is not dynamic need to change or make as time change (separate window)
                     tower_t *tower0 = &towers[0];

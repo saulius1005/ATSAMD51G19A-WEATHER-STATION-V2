@@ -21,6 +21,9 @@ extern "C" {
 #define A7672E_DISABLE()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA19) // disable-low
 #define A7672E_ENABLE()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA19) // enable-high
     
+#define A7672E_SERVER_LED_ON()   (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA16) // enable-low
+#define A7672E_SERVER_LED_OFF()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA16) // disable-high
+    
 typedef struct {
     char *ATTX; //send command array list      
     uint8_t WaitTimeInSeconds; //answer timeout period in seconds mostly A7672E recommendet to wait 9000ms = 9s
@@ -39,6 +42,12 @@ typedef enum {
     SHOW_FIRST_WINDOW,
     WORK
 }A7672Estatus_t;
+
+typedef enum {
+    Bad = 0,
+    Neutral,
+    Good,
+}server_ats_t;
 
 typedef enum {
     SIGNAL = 0,
@@ -89,6 +98,7 @@ typedef struct {
     A7672states_t state;
     uint32_t response_time; //time interval to receive answer from A7672E
     uint32_t start_at; //start ofthe beginning time interval (Periodic_Checker_Devices.period_counter value)   
+    server_ats_t ssrx; //answer type from server
 }A7672E_work_list_t;
 
 

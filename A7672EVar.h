@@ -13,9 +13,8 @@
 
 #ifdef	__cplusplus
 extern "C" {
-#endif
-
-
+#endif    
+    
 A7672E_network_settings_t A7672E_NET = {
     .etester = 0,
     .APN_USR = "internet.tele2.lt",
@@ -68,7 +67,7 @@ A7672E_gnss_gsm_calendar_t A7672EGSM = {
 
 A7672E_work_list_t A7672E_work = {
     .state = SET_DEVICE,
- 
+    .ssrx = Neutral, // neutral answer
 };
 
 A7672E_gsm_status_t A7672E_GSM_STATUS = {

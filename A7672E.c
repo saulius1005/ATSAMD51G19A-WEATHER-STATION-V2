@@ -605,6 +605,7 @@ void A7672E_GO_WORK() {
 
             if (Periodic_Checker_Devices.SERVER.update_stat == PREPARED) {// if server request is needed continue
                 A7672E_work.state = SERVER_SEND;
+                A7672E_SERVER_LED_ON(); //turn on led to mark transsmitting data to the server
             }
             else {
                 A7672E_work.state = SET_DEVICE;
@@ -637,6 +638,7 @@ void A7672E_GO_WORK() {
 
             A7672E_work.start_at = Periodic_Checker_Devices.period_counter;
             A7672E_work.state = SERVER_WAIT;
+            A7672E_SERVER_LED_OFF(); //set transsmition led off
         }break;
 
 
@@ -652,6 +654,11 @@ void A7672E_GO_WORK() {
 
         case SERVER_DONE:
             
+            if (strstr(buf, "HTTPACTION: 0,302,0") != NULL){ //if received valid answer suchas 302 set it as success //~4-5 seconds server answer but this will show after all waiting time
+                A7672E_work.ssrx = Good; //
+            }
+            else
+                A7672E_work.ssrx = Bad;
             Periodic_Checker_Devices.SERVER.update_stat = UPDATED; //set updates status for server in the end
 
             A7672E_work.state = SET_DEVICE;
