@@ -22,14 +22,10 @@ extern "C" {
 #define LCD_WIDTH       240U
 #define LCD_TOTAL_PX    (uint32_t)(LCD_HEIGHT * LCD_WIDTH)   // Total pixel count (used for full-frame transfers)
 
+#define LCD_GO_SLEEP_AFTER 60000 //sleep after 60s
 
-/* --- ILI9341 control pins (direct register access for maximum speed) ---
- * NOTE:
- * These macros assume:
- *   DC  -> PA09
- *   RST -> PA08
- * GPIO must be configured as OUTPUT before usage.
- */
+#define A7672E_LCD_BCKL_ON()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA20) // enable-high
+#define A7672E_LCD_BCKL_OFF()   (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA20) // disable-low    
     
 /*SS control */
 #define ILI9341_CS_LOW()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA06) // CS LOW
@@ -80,6 +76,13 @@ typedef struct {  //for draw_colored_line text coloring function
     uint16_t bg; //background color
 } color_segment_t;
 
+typedef struct {
+    uint32_t start_at;
+    bool sleep;
+}screen_sleep_t;
+
+extern screen_sleep_t screen_sleep;
+
 void ILI9341_init_simple_32b();// Basic LCD initialization using SPI transfers
 
 void ILI9341_fill_color_CPU(uint16_t color);// Fill entire display with color using CPU-driven SPI transfers
@@ -117,6 +120,8 @@ void ILI9341_fill_PART_color_DMA(uint16_t color, uint16_t X0, uint16_t X1, uint1
 void ILI9341_draw_formatted_line(uint16_t x, uint16_t *y, uint16_t fg, uint16_t bg, const char *fmt, ...);
 
 void ILI9341_draw_colored_line(uint16_t x, uint16_t *y, color_segment_t *segments, size_t count);
+
+void ili9341_sleep();
 
 
 #ifdef	__cplusplus

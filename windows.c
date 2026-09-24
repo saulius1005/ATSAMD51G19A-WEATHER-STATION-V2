@@ -11,6 +11,9 @@ int32_t digits_to_number(const uint8_t *buffer, uint8_t length) { //for time and
 }
 
 void UserInterface(Windows_names_t window) {
+    
+    if(screen_sleep.sleep) // if screens sleeping ignore further code
+        return;
 
     switch (window) {
             //ignore init window and do nthing till it will be changed to one window from below list
@@ -32,12 +35,7 @@ void UserInterface(Windows_names_t window) {
                 Windows.background_updater = true;
             } else { //if background was drawed show other data         
 
-                //Read_wind(WIND_SPEED); //read wind speed to catch gust of wind
-
-                if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) { // update data every second once
-                    RTC_read_date_and_time();
-                    calculate_solar_position();
-                    apply_all_elevation_modifies();    
+                if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) { // update data every second once                                     
                     
                     uint16_t y = 4;                    
                     ILI9341_draw_formatted_line(60, &y, WHITE, BLACK, "%4d-%02d-%02d %02d:%02d:%02d",
@@ -195,7 +193,6 @@ void UserInterface(Windows_names_t window) {
                 Windows.background_updater = true;
             } else {
                 if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) {
-                    RTC_read_date_and_time();
 
                     uint16_t y = 30;
                     ILI9341_draw_formatted_line(0, &y, status_txt_color, keyboard.background_color, "RTC time: %4d-%02d-%02d %02d:%02d:%02d", RTC_Date_and_Time.RTC_year + 2000, RTC_Date_and_Time.RTC_month, RTC_Date_and_Time.RTC_day, RTC_Date_and_Time.RTC_hour, RTC_Date_and_Time.RTC_minute, RTC_Date_and_Time.RTC_second);
@@ -435,7 +432,6 @@ void UserInterface(Windows_names_t window) {
             } else {
                 
                 if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) {
-                    RTC_read_date_and_time();
                 uint16_t y = 30;
                 
                 ILI9341_draw_formatted_line(0, &y, lat_txt_color, keyboard.background_color, "Latitude: %2d.%04d° ", A7672E_NET.latitude / 10000, abs(A7672E_NET.latitude % 10000));
@@ -709,7 +705,6 @@ void UserInterface(Windows_names_t window) {
                 Windows.background_updater = true;
             } else {
                 if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) { //update every second except...
-                    RTC_read_date_and_time();
                     uint16_t y = 30;
                     
                     tower_t *current_tower = &towers[current_id_in_view];
@@ -941,7 +936,6 @@ void UserInterface(Windows_names_t window) {
             } else {
                 
                 if (Windows.once_per_second_update != RTC_Date_and_Time.RTC_sys_time) {
-                    RTC_read_date_and_time();
                 uint16_t y = 30;
                 
                     ILI9341_draw_formatted_line(0, &y, apn_txt_color, keyboard.background_color, "APN: %s", A7672E_NET.APN_USR);

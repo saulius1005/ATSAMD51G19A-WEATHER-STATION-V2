@@ -1,4 +1,5 @@
 #include "settings.h"
+#include "ili9341Var.h"
 #include "font.h"
 
 
@@ -18,6 +19,7 @@ void ili9341_DATA(uint32_t data, uint8_t length){
 
 // Minimal ILI9341 initialization using 32-bit SPI transfer helper
 void ILI9341_init_simple_32b(){
+ 
     ILI9341_RST_LOW();
     //TC1_ON(50000);
     delay_ms(8); //about50ms
@@ -51,6 +53,9 @@ void ILI9341_init_simple_32b(){
     //TC1_ON(20000);
     //while(!(TC1_REGS->COUNT16.TC_INTFLAG & TC_INTFLAG_MC0_Msk));
     //TC1_OFF();
+    
+     A7672E_LCD_BCKL_ON(); //turn on lcd backlight   
+    
 }
 
 
@@ -311,6 +316,28 @@ void ili9341_draw_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t 
     for (uint16_t j = 0; j < h; j++) {
         ili9341_draw_pixel(x, y + j, color);
         ili9341_draw_pixel(x + w - 1, y + j, color);
+    }
+}
+
+void ili9341_sleep(){
+    if (A7672E_init.status != WORK)//if not WORK mode 
+        return; //skip further code
+    if (Periodic_Checker_Devices.period_counter >= screen_sleep.start_at + LCD_GO_SLEEP_AFTER) {
+        screen_sleep.sleep = true;
+        ili9341_CMD(0x28, 1); // DISPOFF      
+        A7672E_LCD_BCKL_OFF(); //Turn Off lcd backlight
+        /// ZZZ... ZZZ... ZZZ...
+    }
+    if(XPT2046_switch(64, 4000, 64, 4000)){//wakey wakey
+        screen_sleep.start_at = Periodic_Checker_Devices.period_counter;      
+        if(screen_sleep.sleep){
+            Windows.once_per_second_update = 0;
+            Windows.background_updater = false;
+            ili9341_CMD(0x29,1); //DISPON
+            delay_ms(8);// ~50ms to fill screen with image
+            A7672E_LCD_BCKL_ON();// backlight on
+        }
+        screen_sleep.sleep = false; //GO to WORK !
     }
 }
 

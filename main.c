@@ -43,13 +43,18 @@ int main(void) {
         XPT2046_Read_All(); //checking touch screen
         UserInterface(Windows.Window); //after initialization show main window     
         
-        Tower_COM();//send data to test towers?
+        Tower_COM();//send data to towers?
         Sensors_COM();// checking enveroment data
-                
+                       
+        RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time    
         
-        RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time                       
+        RTC_read_date_and_time();
+        calculate_solar_position();
+        apply_all_elevation_modifies();// uses temperature, pressure and humidity data.
+        
         TC0_CHECKER(); //check tc0 timeout
         TCC0_CHECKER(); //check tcc0 timeout checking gsm signal strength and registration in network status
+        ili9341_sleep(); //check if screen is not touced some time if so go to sleep or waking up
         
 
     }
