@@ -2,18 +2,18 @@
 #include "DMAVar.h"
 
 
-void DMA_init(){// Initialize DMA controller with descriptor base addresses
+void DMA_core_init(){// Initialize DMA controller with descriptor base addresses
     MCLK_REGS->MCLK_AHBMASK |= MCLK_AHBMASK_DMAC_Msk;
     DMAC_REGS->DMAC_BASEADDR = (uint32_t)descriptor_section;
     DMAC_REGS->DMAC_WRBADDR  = (uint32_t)wrb;
     DMAC_REGS->DMAC_CTRL = DMAC_CTRL_DMAENABLE_Msk | DMAC_CTRL_LVLEN0_Msk;
 }
 
-void DMA_SERCOM0_TX_init(){ //for ili9341 lcd controller
+void DMA_SPI_LCD_TX_init(){ //for ili9341 lcd controller
     DMAC_REGS->CHANNEL[SPI_CH].DMAC_CHCTRLA = DMAC_CHCTRLA_TRIGSRC(DMA_devices[SPI_CH].TRIGSRC) | DMAC_CHCTRLA_TRIGACT_BURST | DMAC_CHCTRLA_BURSTLEN_SINGLE | DMAC_CHCTRLA_THRESHOLD_1BEAT;
 }
 
-void SPI_DMA_LCD_send_area(const LCD_Transfer_t *transfer, uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1){//for ili9341 lcd controller fill color or draw pixels
+void DMA_SPI_LCD_send_area(const LCD_Transfer_t *transfer, uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1){//for ili9341 lcd controller fill color or draw pixels
     uint32_t pixels = transfer->pixel_count;
 
     ili9341_set_address_window(x0, y0, x1, y1); //set window 
@@ -57,10 +57,11 @@ void DMA_USART_RS485_RX_init(DMA_channel_t channel){ //channels: 1- GSM A767E mo
     DMAC_REGS->CHANNEL[channel].DMAC_CHCTRLA = DMAC_CHCTRLA_TRIGSRC(DMA_devices[channel].TRIGSRC) | DMAC_CHCTRLA_TRIGACT_BURST | DMAC_CHCTRLA_BURSTLEN_SINGLE | DMAC_CHCTRLA_THRESHOLD_1BEAT;
 }
 
-void DMA_USART_RS485_Temp_Circular_BYTE_init(char *RXBUF, uint16_t len, DMA_channel_t channel){//channels: 1- GSM A767E module USART, 2- TOWERS RS485
+void DMA_USART_RS485_Storage_init(char *RXBUF, uint16_t len, DMA_channel_t channel){//channels: 1- GSM A767E module USART, 2- TOWERS RS485
     if(channel == SPI_CH) // if selected SPI channel ignore further code
         return;
-    USART_set_read_length(1, channel);//set length to one byte       
+    DMA_devices[channel].SERCOM->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(1) | SERCOM_USART_INT_LENGTH_LENEN_Msk;//set length to one byte  
+    while(DMA_devices[channel].SERCOM->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync       
     descriptor_section[channel].BTCTRL = DMAC_BTCTRL_VALID_Msk | DMAC_BTCTRL_DSTINC_Msk | DMAC_BTCTRL_BEATSIZE_BYTE | DMAC_BTCTRL_BLOCKACT_NOACT;
     descriptor_section[channel].BTCNT = len ;
     
@@ -70,7 +71,7 @@ void DMA_USART_RS485_Temp_Circular_BYTE_init(char *RXBUF, uint16_t len, DMA_chan
     descriptor_section[channel].DESCADDR = 0; //if array full stop    
 }
 
-void DMA_USART_RS485_Circular_BYTE_ENABLE(bool enable, DMA_channel_t channel){//channels: 0- spi not used, 1- GSM A767E module USART, 2- TOWERS RS485, 3-Sensors RS485
+void DMA_USART_RS485_Enable(bool enable, DMA_channel_t channel){//channels: 0- spi not used, 1- GSM A767E module USART, 2- TOWERS RS485, 3-Sensors RS485
     if(channel == SPI_CH) // if selected SPI channel ignore further code
         return;
     if(enable){        
@@ -79,6 +80,14 @@ void DMA_USART_RS485_Circular_BYTE_ENABLE(bool enable, DMA_channel_t channel){//
     else{
         DMAC_REGS->CHANNEL[channel].DMAC_CHCTRLA &= ~DMAC_CHCTRLA_ENABLE_Msk;
     }
+}
+
+void DMA_init_all(){
+    DMA_core_init(); // Initialize DMA controller and global descriptors
+    DMA_SPI_LCD_TX_init(); // Configure DMA channel for SERCOM0 SPI TX transfers
+    DMA_USART_RS485_RX_init(GSM_CH); // Configure DMA channel for SERCOM3 USART RX
+    DMA_USART_RS485_RX_init(TOWER_CH); // Configure DMA channel for SERCOM2 USART RX
+    DMA_USART_RS485_RX_init(SENSORS_CH); // Configure DMA channel for SERCOM5 USART RX
 }
 
 

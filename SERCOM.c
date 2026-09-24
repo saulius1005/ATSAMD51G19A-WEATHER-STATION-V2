@@ -1,6 +1,4 @@
 #include "settings.h"
-#include "USART.h"
-
 
 void GCLK1_SERCOM_SPIM_core_init(){
         OSCCTRL_REGS->DPLL[1].OSCCTRL_DPLLCTRLB = OSCCTRL_DPLLCTRLB_REFCLK_XOSC1 | OSCCTRL_DPLLCTRLB_DIV(8);//3Mhz
@@ -133,21 +131,6 @@ void SPI0_Transfer_32b_HW(uint32_t data, uint8_t length){
     while (!(SERCOM0_REGS->SPIM.SERCOM_INTFLAG & SERCOM_SPIM_INTFLAG_TXC_Msk));
 }
 
-void SPI0_Transfer_set_length(uint8_t length){ //once set transfer data length
-    // Configure transfer length in bytes (1?4) using hardware length register
-    SERCOM0_REGS->SPIM.SERCOM_LENGTH = SERCOM_SPIM_LENGTH_LEN(length) | SERCOM_SPIM_LENGTH_LENEN_Msk;
-    while (SERCOM0_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_LENGTH_Msk);
-}
-
-void SPI0_Transfer_32b_HW_cycle(uint32_t data){ //use this function to cycle write to spi
-    // Wait until data register empty
-    while (!(SERCOM0_REGS->SPIM.SERCOM_INTFLAG & SERCOM_SPIM_INTFLAG_DRE_Msk));
-    // Write packed data word
-    SERCOM0_REGS->SPIM.SERCOM_DATA = data;
-    // Wait until transmission is fully complete
-    while (!(SERCOM0_REGS->SPIM.SERCOM_INTFLAG & SERCOM_SPIM_INTFLAG_TXC_Msk));
-}
-
 void SPI0_Baud_Switch(uint32_t baud){
     SERCOM0_REGS->SPIM.SERCOM_CTRLA &= ~SERCOM_SPIM_CTRLA_ENABLE_Msk; // Disable before configuration
         while(SERCOM0_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_ENABLE_Msk);
@@ -164,28 +147,10 @@ uint32_t swap_and_align(uint32_t data, uint8_t length){
 }
 
 
-//USART
-
-void USART_set_read_length(uint8_t length, DMA_channel_t channel){ //how much bytes we need to read
-        DMA_devices[channel].SERCOM->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(length) | SERCOM_USART_INT_LENGTH_LENEN_Msk;
-        while(DMA_devices[channel].SERCOM->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync        
-}
-
-void USART_write_str(char *str){//for character type of transmitter
-    while (*str){
-        while(!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_DRE_Msk)); //is DATA empty?
-        SERCOM3_REGS->USART_INT.SERCOM_DATA = *str++;
-    }
-    while (!(SERCOM3_REGS->USART_INT.SERCOM_INTFLAG & SERCOM_USART_INT_INTFLAG_TXC_Msk)); //is DATA and TXC shift register empty?   
-    SERCOM3_REGS->USART_INT.SERCOM_INTFLAG = SERCOM_USART_INT_INTFLAG_TXC_Msk;
-}
-
-void USART_printf(const char *fmt, ...){
-    static char buffer[255]={0};
-    va_list args;
-    va_start(args, fmt);
-    vsnprintf(buffer, sizeof(buffer), fmt, args);
-    va_end(args);
-    USART_write_str(buffer); 
-    
+void SERCOM_init_all(){
+    SERCOM_init(SPI_SCREEN);//spi S0
+    SERCOM_init(RS485_SENSOR);//rs485 S5
+    SERCOM_init(RS485_TOWER); //rs485 S2
+    SERCOM_init(USART_GSM); //usart S3
+    //S1, S4 - not used
 }

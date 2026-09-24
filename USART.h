@@ -11,10 +11,11 @@
 extern "C" {
 #endif
 
-#define TOWERS_BAUD 115200
-#define GSM_BAUD 115200
-#define SENSORS_BAUD 230400
-   
+#define TOWERS_BAUD 115200 //RS485
+#define GSM_BAUD 115200 //USART
+#define SENSORS_BAUD 230400 //RS485
+    
+#define USART_GSM_REG    SERCOM3_REGS   
 
 #ifdef	__cplusplus
 }

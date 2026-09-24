@@ -62,7 +62,6 @@
       <itemPath>Towers.h</itemPath>
       <itemPath>TowersVar.h</itemPath>
       <itemPath>Towers.c</itemPath>
-      <itemPath>button.c</itemPath>
       <itemPath>RS485.c</itemPath>
       <itemPath>RS485.h</itemPath>
       <itemPath>crc8.c</itemPath>
@@ -76,6 +75,8 @@
       <itemPath>Sensors.h</itemPath>
       <itemPath>SensorsVar.h</itemPath>
       <itemPath>ili9341Var.h</itemPath>
+      <itemPath>CLK.h</itemPath>
+      <itemPath>GPIO.h</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

@@ -66,16 +66,16 @@ void Sensors_COM(){
         case SEND:{ 
             if (Periodic_Checker_Devices.SENSORS.update_stat == PREPARED) {
                 memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
-                RS485_printf(RS485_SENSORS_REG, "{GET}\r\n"); //send data request
+                USART_RS485_printf(RS485_SENSORS_REG, "{GET}\r\n"); //send data request
                 sensors.state = WAIT_RESPOND;
-                DMA_USART_RS485_Temp_Circular_BYTE_init(buf, RS485_RX_BUFFER_SIZE, SENSORS_CH); //set dma settings
-                DMA_USART_RS485_Circular_BYTE_ENABLE(true, SENSORS_CH); //enable dma
+                DMA_USART_RS485_Storage_init(buf, RS485_RX_BUFFER_SIZE, SENSORS_CH); //set dma settings
+                DMA_USART_RS485_Enable(true, SENSORS_CH); //enable dma
             }
         }break;
         case WAIT_RESPOND:{
             if (Periodic_Checker_Devices.period_counter >= Periodic_Checker_Devices.SENSORS.start_at + Periodic_Checker_Devices.SENSORS.respond_time) {
                 //RS485_printf(RS485_SENSORS_REG, "end");//timming is working
-                DMA_USART_RS485_Circular_BYTE_ENABLE(false, SENSORS_CH);   //stop reading 
+                DMA_USART_RS485_Enable(false, SENSORS_CH);   //stop reading 
                 sensors.state = PROCESS;
             }           
         }break;

@@ -83,7 +83,7 @@ typedef struct {
 
 extern screen_sleep_t screen_sleep;
 
-void ILI9341_init_simple_32b();// Basic LCD initialization using SPI transfers
+void ILI9341_init();// Basic LCD initialization using SPI transfers
 
 void ILI9341_fill_color_CPU(uint16_t color);// Fill entire display with color using CPU-driven SPI transfers
 

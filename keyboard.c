@@ -12,13 +12,13 @@ void draw_keyboard(){
         t.is_solid_color = 0;
          
         t.source.image_data = keyboard.type == digits ? keypad_digits_240x130 : keypad_letters_240x130;
-        SPI_DMA_LCD_send_area(&t, KEYBOARD_X0, KEYBOARD_Y0, KEYBOARD_X1, KEYBOARD_Y1); //draw keyboard or fill its place with background
+        DMA_SPI_LCD_send_area(&t, KEYBOARD_X0, KEYBOARD_Y0, KEYBOARD_X1, KEYBOARD_Y1); //draw keyboard or fill its place with background
         is_open = true;
     } 
     else if(keyboard.status == CLOSE && is_open){ //fill keyboard screen part with background color
         t.is_solid_color = 1;
         t.source.color_val = __builtin_bswap16(keyboard.background_color);
-        SPI_DMA_LCD_send_area(&t, KEYBOARD_X0, KEYBOARD_Y0, KEYBOARD_X1, KEYBOARD_Y1); //draw keyboard or fill its place with background        
+        DMA_SPI_LCD_send_area(&t, KEYBOARD_X0, KEYBOARD_Y0, KEYBOARD_X1, KEYBOARD_Y1); //draw keyboard or fill its place with background        
         is_open = false;
     }
 }

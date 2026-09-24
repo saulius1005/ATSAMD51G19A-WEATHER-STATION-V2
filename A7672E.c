@@ -384,8 +384,8 @@ void A7672EPowerUpRead(uint16_t * y, char * buf) { //reads all data right away a
         case SET_DEVICE:
             A7672E_init.cycle = false; //start cycle
             terminal_header(y, "INITIALIZATION");
-            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH);
-            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma usart reading
+            DMA_USART_RS485_Storage_init(buf, UART_RX_BUFFER_SIZE, GSM_CH);
+            DMA_USART_RS485_Enable(true, GSM_CH); //enable dma usart reading
             TC0_ON(25000000UL); //read all for 25 seconds
             A7672E_init.state = WAIT_DEVICE;
             break;
@@ -395,7 +395,7 @@ void A7672EPowerUpRead(uint16_t * y, char * buf) { //reads all data right away a
             uint16_t temp_y = 12;
             ILI9341_draw_formatted_line(1, &temp_y, GREEN, BLACK, "%s", buf); //till waiting draw all data
             if (TC0_timeout) {
-                DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH); //stop reading
+                DMA_USART_RS485_Enable(false, GSM_CH); //stop reading
                 TC0_timeout = false; //reset timer flag
                 A7672E_init.state = SET_DEVICE; //reset state 
                 A7672E_init.cycle = true; //stop cycle    
@@ -416,16 +416,16 @@ void A7672ESetUp(uint16_t *y, char *buf, A7672E_Config_t *cfg) {
                 terminal_header(y, cfg->header); //show title
             }
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
-            USART_printf("%s", cmd->ATTX); // cend cmd
+            USART_RS485_printf(USART_GSM_REG, "%s", cmd->ATTX); // cend cmd
             TC0_ON(1000000UL * (cmd->WaitTimeInSeconds)); // wait answer
-            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); // set up dma
-            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable usart dma
+            DMA_USART_RS485_Storage_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); // set up dma
+            DMA_USART_RS485_Enable(true, GSM_CH); //enable usart dma
             A7672E_init.state = WAIT_DEVICE;
             break;
 
         case WAIT_DEVICE:
             if (TC0_timeout) { //if time end
-                DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH); //disable dma
+                DMA_USART_RS485_Enable(false, GSM_CH); //disable dma
                 A7672E_init.state = DONE_DEVICE;
             }
             break;
@@ -515,26 +515,26 @@ void A7672E_GO_WORK() {
             A7672E_work.response_time = response_time;
             A7672E_work.start_at = Periodic_Checker_Devices.period_counter;
                                         
-            USART_printf("AT"); //create message beginning
+            USART_RS485_printf(USART_GSM_REG, "AT"); //create message beginning
             if(A7672E_ASKER.GSM_TIME_CMD.sent)
-                USART_printf("%s", A7672E_ASKER.GSM_TIME_CMD.cmd); //add gsm time reques if needed
+                USART_RS485_printf(USART_GSM_REG, "%s", A7672E_ASKER.GSM_TIME_CMD.cmd); //add gsm time reques if needed
             if(A7672E_ASKER.GNSS_TIME_CMD.sent){
                 if(A7672E_ASKER.GSM_TIME_CMD.sent)
-                    USART_printf(";%s", A7672E_ASKER.GNSS_TIME_CMD.cmd); //if needed gsm and gnss time request
+                    USART_RS485_printf(USART_GSM_REG, ";%s", A7672E_ASKER.GNSS_TIME_CMD.cmd); //if needed gsm and gnss time request
                 else
-                    USART_printf("%s", A7672E_ASKER.GNSS_TIME_CMD.cmd); //if only gnss time
+                    USART_RS485_printf(USART_GSM_REG, "%s", A7672E_ASKER.GNSS_TIME_CMD.cmd); //if only gnss time
             }
             if(A7672E_ASKER.RSSI_CMD.sent && A7672E_ASKER.REGISTRATION_CMD.sent){//all time both
                 if(A7672E_ASKER.GNSS_TIME_CMD.sent || A7672E_ASKER.GSM_TIME_CMD.sent) //if gsm or gnss time rques is send
-                    USART_printf(";%s;%s", A7672E_ASKER.RSSI_CMD.cmd, A7672E_ASKER.REGISTRATION_CMD.cmd);
+                    USART_RS485_printf(USART_GSM_REG, ";%s;%s", A7672E_ASKER.RSSI_CMD.cmd, A7672E_ASKER.REGISTRATION_CMD.cmd);
                 else
-                    USART_printf("%s;%s", A7672E_ASKER.RSSI_CMD.cmd, A7672E_ASKER.REGISTRATION_CMD.cmd);
+                    USART_RS485_printf(USART_GSM_REG, "%s;%s", A7672E_ASKER.RSSI_CMD.cmd, A7672E_ASKER.REGISTRATION_CMD.cmd);
             }
-            USART_printf("\r");
+            USART_RS485_printf(USART_GSM_REG, "\r");
             
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf  
-            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
-            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma    
+            DMA_USART_RS485_Storage_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
+            DMA_USART_RS485_Enable(true, GSM_CH); //enable dma    
             
             A7672E_work.state = WAIT_DEVICE;
         }
@@ -542,7 +542,7 @@ void A7672E_GO_WORK() {
 
         case WAIT_DEVICE:
             if ((Periodic_Checker_Devices.period_counter - A7672E_work.start_at) >= A7672E_work.response_time) {
-                DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH); //stop reading 
+                DMA_USART_RS485_Enable(false, GSM_CH); //stop reading 
                 A7672E_work.state = DONE_DEVICE;
             }
             break;
@@ -614,9 +614,9 @@ void A7672E_GO_WORK() {
             break;
 
         case SERVER_SEND:{
-            USART_printf("%s", A7672E_ASKER.SERVER_CMD.cmd);//send server cmd
-            USART_printf("%s", A7672E_NET.SERVER_URL);//send url           
-            USART_printf("%04x%04x%03x%02x%03x%02x%02x%01x|", 
+            USART_RS485_printf(USART_GSM_REG, "%s", A7672E_ASKER.SERVER_CMD.cmd);//send server cmd
+            USART_RS485_printf(USART_GSM_REG, "%s", A7672E_NET.SERVER_URL);//send url           
+            USART_RS485_printf(USART_GSM_REG, "%04x%04x%03x%02x%03x%02x%02x%01x|", 
                     (uint16_t)solar_params.coarse_azimuth, 
                     (uint16_t)solar_params.coarse_elevation, 
                     (uint16_t)sensors.SUN.level, 
@@ -627,14 +627,14 @@ void A7672E_GO_WORK() {
                     (uint8_t)sensors.WIND.direction);//weather station data 26B
             
             for(uint8_t i = 0; i< A7672E_NET.towers_in_total; i++){
-                USART_printf("%s|",towers[i].prepared_to_server);//add towers data (each tower = 30B)
+                USART_RS485_printf(USART_GSM_REG, "%s|",towers[i].prepared_to_server);//add towers data (each tower = 30B)
             }
             
-            USART_printf("\";+HTTPACTION=0\r");          
+            USART_RS485_printf(USART_GSM_REG, "\";+HTTPACTION=0\r");          
             
             memset(buf, 0, UART_RX_BUFFER_SIZE); //clear buf
-            DMA_USART_RS485_Temp_Circular_BYTE_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
-            DMA_USART_RS485_Circular_BYTE_ENABLE(true, GSM_CH); //enable dma 
+            DMA_USART_RS485_Storage_init(buf, UART_RX_BUFFER_SIZE, GSM_CH); //set dma settings
+            DMA_USART_RS485_Enable(true, GSM_CH); //enable dma 
 
             A7672E_work.start_at = Periodic_Checker_Devices.period_counter;
             A7672E_work.state = SERVER_WAIT;
@@ -646,7 +646,7 @@ void A7672E_GO_WORK() {
             
             if (Periodic_Checker_Devices.period_counter >= A7672E_work.start_at + Periodic_Checker_Devices.SERVER.respond_time) {
 
-                DMA_USART_RS485_Circular_BYTE_ENABLE(false, GSM_CH); //stop reading 
+                DMA_USART_RS485_Enable(false, GSM_CH); //stop reading 
                 A7672E_work.state = SERVER_DONE;
             }
             break;

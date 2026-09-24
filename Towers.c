@@ -1,67 +1,6 @@
 #include "settings.h"
 #include "TowersVar.h"
 
-/*  
- * 
- * Old weather station with AVR64DD32 data frame for towers (original v1.0):
- * 
- * //sending data to towers. Id can be 0-255 (0-FF hex). Data from towers will be send to logger from towers directly (never implemented)
- * 
- * 
-        USART_printf(0, "{%02x%04x%04x%02x%x%03x%02x}\r\n",
-        (uint8_t)i, //FF 0-255 // 
-        (uint16_t)SUN.adjazimuth, //FFFF 0-35999
-        (uint16_t)SUN.adjelevation, //FFFF 0-8999
-        (uint8_t)readwindspeed.Result, //FF 0-30
-        (uint8_t)readwinddirection.Result, //F 0-7
-        (uint16_t)SUN.sunlevel, //FFF 0-600 //
-        (uint8_t)crc8_cdma2000(crcbuf,TowerCRC(i, crcbuf)));
- */
-
-/*
- *
- * New weather stattion with ATSAMD51G19A data frame for towers (2.0):
- * 
- * sending data to towers. Id can be 0-255 (0-FF hex). Data from towers sending directly back to weather station
- 
-        RS485_printf("{%02x%04x%04x%02x%x%03x%02x}\r\n", 
-        id, //0-255
-        solar_params.coarse_azimuth, //0-35999
-        (uint16_t)solar_params.coarse_elevation, //sending as uint16_t but actualy it is signed exmp: -700 : 8999 
-        WIND.speed, //0-30
-        WIND.direction, //0-7
-        SUN.level, //0-4095
-        crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf))); //0-255
- */
-
-/* 
- * Tower respond data frame example from tower controller(original v1.0):
- * frame start with [ and ends with ]
- * last 2 hex symbols is cdma2000 crc8
- * 
-  USART_printf(0, "[%02x%04x%04x%03x%03x%x%03x%03x%03x%03x%02x]\r\n",
-	(uint8_t)DEVICE_ID_NUMBER,
-	(uint16_t)SensorData.HPElevation,
-	(uint16_t)SensorData.HPAzimuth,
-	(uint16_t)SensorData.PVU,
-	(uint16_t)abs(SensorData.PVI),
-	(uint8_t)SensorData.endSwitches,
-	(uint16_t)StepperMotor.measuredVoltage,
-	(uint16_t)abs(StepperMotor.measuredCurrent),
-	(uint16_t)LinearMotor.measuredVoltage,
-	(uint16_t)abs(LinearMotor.measuredCurrent),
-	(uint8_t)crc8_cdma2000_id(DEVICE_ID_NUMBER)
-	);
- */  
-
-/*
- * Tower respond data frame example (v2.0):
- * frame start with [ and ends with ]
- * last 2 hex symbols is cdma2000 crc8
- 
-    same as v 1.0, only PVU is 4 Bytes instead of 3
- 
- */
 void Towers_init(){
     for (uint16_t i = 0; i < A7672E_NET.towers_in_total; i++){
         towers[i].state = SEND;
@@ -173,15 +112,15 @@ void Tower_COM_sequence(uint8_t id){
                 uint8_t crcbuf[16] ={0};
                 memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
                 //converting elevation to uint type and do NOT FORGET use int16_t at receiver side
-                RS485_printf(RS485_TOWER_REG, "{%02x%04x%04x%02x%x%03x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, sensors.WIND.speed, sensors.WIND.direction, sensors.SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
+                USART_RS485_printf(RS485_TOWER_REG, "{%02x%04x%04x%02x%x%03x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, sensors.WIND.speed, sensors.WIND.direction, sensors.SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
                 towers[id].state = WAIT_RESPOND;
-                DMA_USART_RS485_Temp_Circular_BYTE_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
-                DMA_USART_RS485_Circular_BYTE_ENABLE(true, TOWER_CH); //enable dma
+                DMA_USART_RS485_Storage_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
+                DMA_USART_RS485_Enable(true, TOWER_CH); //enable dma
             }
         }break;
         case WAIT_RESPOND:{
             if (Periodic_Checker_Devices.period_counter >= Periodic_Checker_Devices.TOWERS.start_at + Periodic_Checker_Devices.TOWERS.respond_time) {
-                DMA_USART_RS485_Circular_BYTE_ENABLE(false, TOWER_CH);   //stop reading 
+                DMA_USART_RS485_Enable(false, TOWER_CH);   //stop reading 
                 towers[id].state = PROCESS;
             }           
         }break;
@@ -201,12 +140,20 @@ void Tower_COM(){
 
     if(A7672E_init.status != WORK)//wait all GSM module initialization and start data sending after that (when main window is start showing up
         return;
+    
+    if(!switcher){ //measure and send data once for all towers starting with id1 not id0
+        Sensors_COM();// checking enveroment data
+        RTC_read_date_and_time();
+        calculate_solar_position();
+        apply_all_elevation_modifies();// uses temperature, pressure and humidity data.        
+    }
 
     if(towers[switcher].state == COMPLETE){// if data processed complete send request to next tower
         switcher = (switcher + 1) % A7672E_NET.towers_in_total;
         towers[switcher].state = SEND;
     }
     else {//if tower state is SEND or WAIT
+        
         Tower_COM_sequence(switcher);
     }
 }

@@ -58,10 +58,22 @@ typedef struct {
 
 extern volatile dmacdescriptor descriptor_section[4];
 extern volatile dmacdescriptor wrb[4];
-
 extern volatile uint8_t dma_done;
-
 extern DMA_devices_t DMA_devices[4];
+
+void DMA_core_init(); // initializes DMA core
+
+void DMA_SPI_LCD_TX_init(); // initializes ili9341 lcd controller dma channel for data TX
+
+void DMA_SPI_LCD_send_area(const LCD_Transfer_t *transfer, uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1); // fill screen with color or image
+
+void DMA_USART_RS485_RX_init(DMA_channel_t channel); // initialize USART or RS485 DMA channel for data RX
+
+void DMA_USART_RS485_Storage_init(char *RXBUF, uint16_t len, DMA_channel_t channel);
+
+void DMA_USART_RS485_Enable(bool enable, DMA_channel_t channel);
+
+void DMA_init_all(); //initialization of all devices who use DMA
 
 #ifdef	__cplusplus
 }

@@ -12,6 +12,8 @@
 extern "C" {
 #endif
     
+void GCLK3_SERCOM_TC_core_init();    
+    
 typedef enum {
     PREPARED = 0,
     UPDATING,

@@ -18,30 +18,19 @@ void ili9341_DATA(uint32_t data, uint8_t length){
 }
 
 // Minimal ILI9341 initialization using 32-bit SPI transfer helper
-void ILI9341_init_simple_32b(){
+void ILI9341_init(){
  
     ILI9341_RST_LOW();
-    //TC1_ON(50000);
-    delay_ms(8); //about50ms
-    //while(!(TC1_REGS->COUNT16.TC_INTFLAG & TC_INTFLAG_MC0_Msk));
-    //TC1_OFF();
-    ILI9341_RST_HIGH();
-    //TC1_ON(65000);
-    delay_ms(16); //about100ms
-    //while(!(TC1_REGS->COUNT16.TC_INTFLAG & TC_INTFLAG_MC0_Msk));
-    //TC1_OFF();
+    TC0_ON(5000);
+    while(!TC0_timeout) TC0_CHECKER();
 
-    ili9341_CMD(0x01,1); // SWRESET command
-    //TC1_ON(65000);
-    delay_ms(16); //about100ms
-    //while(!(TC1_REGS->COUNT16.TC_INTFLAG & TC_INTFLAG_MC0_Msk));
-    //TC1_OFF();
+    ILI9341_RST_HIGH();
+    TC0_ON(10000);
+    while(!TC0_timeout) TC0_CHECKER();
 
     ili9341_CMD(0x11,1); // SLPOUT
-    delay_ms(16); //about100ms
-    //TC1_ON(65000);
-    //while(!(TC1_REGS->COUNT16.TC_INTFLAG & TC_INTFLAG_MC0_Msk));
-    //TC1_OFF();
+    TC0_ON(10000);
+    while(!TC0_timeout)TC0_CHECKER();
 
     ili9341_CMD(0x3A,1); // COLMOD
     ili9341_DATA(0x55,1); // 16-bit color
@@ -49,60 +38,7 @@ void ILI9341_init_simple_32b(){
     ili9341_DATA(0x48,1); // MX | MV | RGB
     ili9341_CMD(0x29,1); // DISPON
     
-    delay_ms(4); //about25ms
-    //TC1_ON(20000);
-    //while(!(TC1_REGS->COUNT16.TC_INTFLAG & TC_INTFLAG_MC0_Msk));
-    //TC1_OFF();
-    
-     A7672E_LCD_BCKL_ON(); //turn on lcd backlight   
-    
-}
-
-
-// Fill entire display with a single color using CPU-driven SPI transfers
-void ILI9341_fill_color_CPU(uint16_t color){
-
-    ili9341_CMD(0x2A,1); 
-    ili9341_DATA(0xEF,4);
-    ili9341_CMD(0x2B,1);   
-    ili9341_DATA(0x013F,4);
-    ili9341_CMD(0x2C,1);
-    
-    uint16_t scolor = __builtin_bswap16(color);
-    uint32_t color32 = ((uint32_t)scolor << 16) | scolor; //fill 32bit wit 2 bytes of the same color
-    
-    ILI9341_DC_DATA();
-    ILI9341_CS_LOW();
-    
-    SPI0_Transfer_set_length(4); //set length to 4 bytes
-    uint32_t count = LCD_TOTAL_PX /2;
-    while(count--){ //and do that 2 time less
-        SPI0_Transfer_32b_HW_cycle(color32); 
-    }
-    ILI9341_CS_HIGH();
-}
-
-// Draw full framebuffer using CPU-driven SPI transfers
-void ILI9341_draw_image_CPU(const uint16_t *fb){
-
-    ili9341_CMD(0x2A,1); 
-    ili9341_DATA(0xEF,4);
-    ili9341_CMD(0x2B,1);   
-    ili9341_DATA(0x013F,4);
-    ili9341_CMD(0x2C,1);
-
-    ILI9341_DC_DATA();
-    ILI9341_CS_LOW();  
-
-    SPI0_Transfer_set_length(4); //set transfer size is 4 bytes
-    const uint32_t *fb32 = (const uint32_t *)fb; //set pointer uas 32bit
-    
-    uint32_t count = LCD_TOTAL_PX / 2; //spin times
-
-    while(count--) {
-        SPI0_Transfer_32b_HW_cycle(*fb32++); //twice less spin
-    }
-    ILI9341_CS_HIGH();
+     A7672E_LCD_BCKL_ON(); //turn on lcd backlight      
 }
 
 void ILI9341_draw_image_DMA(const uint16_t *fb){
@@ -110,7 +46,7 @@ void ILI9341_draw_image_DMA(const uint16_t *fb){
     t.pixel_count = FULL_SCREEN_IMAGE_COUNT;
     t.is_solid_color = 0;
     t.source.image_data = fb;
-    SPI_DMA_LCD_send_area(&t, FULL_SCREEN_IMAGE_X0, FULL_SCREEN_IMAGE_Y0, FULL_SCREEN_IMAGE_X1, FULL_SCREEN_IMAGE_Y1); 
+    DMA_SPI_LCD_send_area(&t, FULL_SCREEN_IMAGE_X0, FULL_SCREEN_IMAGE_Y0, FULL_SCREEN_IMAGE_X1, FULL_SCREEN_IMAGE_Y1); 
 }
 
 void ILI9341_fill_ALL_color_DMA(uint16_t color){
@@ -118,7 +54,7 @@ void ILI9341_fill_ALL_color_DMA(uint16_t color){
     t.pixel_count = FULL_SCREEN_IMAGE_COUNT;
     t.is_solid_color = 1;
     t.source.color_val = __builtin_bswap16(color);
-    SPI_DMA_LCD_send_area(&t, FULL_SCREEN_IMAGE_X0, FULL_SCREEN_IMAGE_Y0, FULL_SCREEN_IMAGE_X1, FULL_SCREEN_IMAGE_Y1); 
+    DMA_SPI_LCD_send_area(&t, FULL_SCREEN_IMAGE_X0, FULL_SCREEN_IMAGE_Y0, FULL_SCREEN_IMAGE_X1, FULL_SCREEN_IMAGE_Y1); 
 }
 
 void ILI9341_fill_PART_color_DMA(uint16_t color, uint16_t X0, uint16_t X1, uint16_t Y0,uint16_t Y1){
@@ -126,7 +62,7 @@ void ILI9341_fill_PART_color_DMA(uint16_t color, uint16_t X0, uint16_t X1, uint1
     t.pixel_count = FULL_SCREEN_IMAGE_COUNT;
     t.is_solid_color = 1;
     t.source.color_val = __builtin_bswap16(color);
-    SPI_DMA_LCD_send_area(&t, X0, Y0, X1, Y1); 
+    DMA_SPI_LCD_send_area(&t, X0, Y0, X1, Y1); 
 }
 
 void ili9341_set_address_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
@@ -334,7 +270,6 @@ void ili9341_sleep(){
             Windows.once_per_second_update = 0;
             Windows.background_updater = false;
             ili9341_CMD(0x29,1); //DISPON
-            delay_ms(8);// ~50ms to fill screen with image
             A7672E_LCD_BCKL_ON();// backlight on
         }
         screen_sleep.sleep = false; //GO to WORK !
