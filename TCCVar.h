@@ -13,7 +13,6 @@ extern "C" {
 #endif
 
 volatile bool TCC0_timeout = false;
-volatile bool TCC1_timeout = false;
 
 regular_update_devices_t Periodic_Checker_Devices = {
     .period_counter = 0,

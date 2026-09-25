@@ -6,13 +6,13 @@ uint16_t XPT2046_Read(uint32_t cmd){
     
     uint32_t rx;
     // 3 baitai: CMD + 2 dummy
-    SERCOM0_REGS->SPIM.SERCOM_LENGTH = SERCOM_SPIM_LENGTH_LEN(3) | SERCOM_SPIM_LENGTH_LENEN(1);
-    while (SERCOM0_REGS->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_LENGTH_Msk);
-    while (!(SERCOM0_REGS->SPIM.SERCOM_INTFLAG & SERCOM_SPIM_INTFLAG_DRE_Msk));
-    SERCOM0_REGS->SPIM.SERCOM_DATA = cmd;
+    DMA_devices[SPI_CH].SERCOM->SPIM.SERCOM_LENGTH = SERCOM_SPIM_LENGTH_LEN(3) | SERCOM_SPIM_LENGTH_LENEN(1); //dma does nothing just using same structure and spi channel
+    while (DMA_devices[SPI_CH].SERCOM->SPIM.SERCOM_SYNCBUSY & SERCOM_SPIM_SYNCBUSY_LENGTH_Msk);
+    while (!(DMA_devices[SPI_CH].SERCOM->SPIM.SERCOM_INTFLAG & SERCOM_SPIM_INTFLAG_DRE_Msk));
+    DMA_devices[SPI_CH].SERCOM->SPIM.SERCOM_DATA = cmd;
 
-    while (!(SERCOM0_REGS->SPIM.SERCOM_INTFLAG & SERCOM_SPIM_INTFLAG_RXC_Msk));
-    rx = SERCOM0_REGS->SPIM.SERCOM_DATA;
+    while (!(DMA_devices[SPI_CH].SERCOM->SPIM.SERCOM_INTFLAG & SERCOM_SPIM_INTFLAG_RXC_Msk));
+    rx = DMA_devices[SPI_CH].SERCOM->SPIM.SERCOM_DATA;
       
     return (rx >> 3) & 0xFFF;//12b
 }
@@ -48,7 +48,7 @@ void XPT2046_Read_All(){
         SPI0_Baud_Switch(30000000);//switch baudrate back to 30Mhz
         Read_XPT2046.speed = false;
     }
-    SERCOM0_REGS->SPIM.SERCOM_LENGTH &= ~SERCOM_SPIM_LENGTH_LENEN_Msk;
+    DMA_devices[SPI_CH].SERCOM->SPIM.SERCOM_LENGTH &= ~SERCOM_SPIM_LENGTH_LENEN_Msk; //dma does nothing just same spi line
 }
 
 bool XPT2046_switch(uint16_t X0, uint16_t X1, uint16_t Y0, uint16_t Y1){

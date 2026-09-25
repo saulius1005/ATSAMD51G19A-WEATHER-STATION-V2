@@ -114,12 +114,14 @@ void Tower_COM_sequence(uint8_t id){
                 //converting elevation to uint type and do NOT FORGET use int16_t at receiver side
                 USART_RS485_printf(RS485_TOWER_REG, "{%02x%04x%04x%02x%x%03x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, sensors.WIND.speed, sensors.WIND.direction, sensors.SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
                 towers[id].state = WAIT_RESPOND;
+                Periodic_Checker_Devices.TOWERS.start_at = Periodic_Checker_Devices.period_counter;
                 DMA_USART_RS485_Storage_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
                 DMA_USART_RS485_Enable(true, TOWER_CH); //enable dma
             }
         }break;
         case WAIT_RESPOND:{
             if (Periodic_Checker_Devices.period_counter >= Periodic_Checker_Devices.TOWERS.start_at + Periodic_Checker_Devices.TOWERS.respond_time) {
+                //USART_RS485_printf(RS485_TOWER_REG, "end");//waiting time end debug
                 DMA_USART_RS485_Enable(false, TOWER_CH);   //stop reading 
                 towers[id].state = PROCESS;
             }           

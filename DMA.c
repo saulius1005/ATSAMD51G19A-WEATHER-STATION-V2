@@ -60,8 +60,10 @@ void DMA_USART_RS485_RX_init(DMA_channel_t channel){ //channels: 1- GSM A767E mo
 void DMA_USART_RS485_Storage_init(char *RXBUF, uint16_t len, DMA_channel_t channel){//channels: 1- GSM A767E module USART, 2- TOWERS RS485
     if(channel == SPI_CH) // if selected SPI channel ignore further code
         return;
+    
     DMA_devices[channel].SERCOM->USART_INT.SERCOM_LENGTH = SERCOM_USART_INT_LENGTH_LEN(1) | SERCOM_USART_INT_LENGTH_LENEN_Msk;//set length to one byte  
-    while(DMA_devices[channel].SERCOM->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync       
+        while(DMA_devices[channel].SERCOM->USART_INT.SERCOM_SYNCBUSY & SERCOM_USART_INT_SYNCBUSY_LENGTH_Msk); //wait sync     
+    
     descriptor_section[channel].BTCTRL = DMAC_BTCTRL_VALID_Msk | DMAC_BTCTRL_DSTINC_Msk | DMAC_BTCTRL_BEATSIZE_BYTE | DMAC_BTCTRL_BLOCKACT_NOACT;
     descriptor_section[channel].BTCNT = len ;
     

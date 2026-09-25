@@ -18,10 +18,6 @@
 extern "C" {
 #endif
 
-/* --- CPU configuration --- */
-// Core CPU frequency used for delays and timing calculations
-#define F_CPU 128000000ULL //cpu clock
-
 /* --- Standard and device includes --- */
 #include <xc.h>
 #include <stdio.h>
@@ -42,18 +38,18 @@ extern "C" {
 #include "XPT2046.h"
 #include "keyboard.h"
 #include "TC.h"
+#include "TCC.h"    
 #include "image.h"
 #include "RTC.h"
 #include "windows.h"
 #include "Cosmos.h"
 #include "refraction.h"
-#include "TCC.h"
 #include "RS485.h"   
 #include "USART.h"  
 #include "Towers.h"
+#include "Sensors.h"    
 #include "crc8.h"
 #include "eeprom.h"
-#include "Sensors.h"
 
 #ifdef	__cplusplus
 }

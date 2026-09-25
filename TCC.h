@@ -12,7 +12,7 @@
 extern "C" {
 #endif
     
-void GCLK3_SERCOM_TC_core_init();    
+    
     
 typedef enum {
     PREPARED = 0,
@@ -38,7 +38,6 @@ typedef struct {
 }regular_update_devices_t;
 
 extern volatile bool TCC0_timeout;
-extern volatile bool TCC1_timeout;
 
 extern regular_update_devices_t Periodic_Checker_Devices;
 
@@ -46,11 +45,6 @@ void TCC0_init(); //TCC0 used for GSM status update rssi, registration and so on
 void TCC0_OFF();
 void TCC0_ON(uint32_t period_us);
 void TCC0_CHECKER();
-
-void TCC1_init(); //TCC1 used for RS485 answer waiting timeout
-void TCC1_OFF();
-void TCC1_ON(uint32_t period_us);
-void TCC1_CHECKER();
 
 
 #ifdef	__cplusplus

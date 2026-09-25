@@ -56,8 +56,7 @@ void TCC0_ON(uint32_t period_us){
 void TCC0_CHECKER(){ //check if need to update gsm, tower, server or sesnor data
     if (A7672E_init.status != WORK)//if not WORK mode do not count
         return;
-    if (TCC0_REGS->TCC_INTFLAG & TCC_INTFLAG_OVF_Msk)
-    {
+    if (TCC0_REGS->TCC_INTFLAG & TCC_INTFLAG_OVF_Msk){
         TCC0_REGS->TCC_INTFLAG = TCC_INTFLAG_OVF_Msk;
         
         Periodic_Checker_Devices.period_counter++; //dont care if it overfill :D and if so it starts from 0
@@ -78,13 +77,11 @@ void TCC0_CHECKER(){ //check if need to update gsm, tower, server or sesnor data
         //data check for Towers using RS485 (SERCOM2)
         if(Periodic_Checker_Devices.TOWERS.update_stat == UPDATED && !(Periodic_Checker_Devices.period_counter % (Periodic_Checker_Devices.TOWERS.update_time / A7672E_NET.towers_in_total))){
             Periodic_Checker_Devices.TOWERS.update_stat = PREPARED;
-            Periodic_Checker_Devices.TOWERS.start_at = Periodic_Checker_Devices.period_counter;
         }
         
         //data read from sensors pcb using separate rs485 channel
         if(Periodic_Checker_Devices.SENSORS.update_stat == UPDATED && !(Periodic_Checker_Devices.period_counter % Periodic_Checker_Devices.SENSORS.update_time)){
             Periodic_Checker_Devices.SENSORS.update_stat = PREPARED;
-            Periodic_Checker_Devices.SENSORS.start_at = Periodic_Checker_Devices.period_counter;
         }
         
     }
