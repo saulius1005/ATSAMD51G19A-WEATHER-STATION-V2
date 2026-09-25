@@ -2,8 +2,7 @@
 # ATSAMD51 ILI9341 LCD Demo with DMA and SPI
 ## Wiring Diagram
 
-<img width="2075" height="1331" alt="schema SPI" src="https://github.com/user-attachments/assets/2e3d5340-a2ca-4e16-99ed-1fdddd39b560" />
-
+<img width="640" height="480" alt="atsamd51g19a_weather_station_v_2_0" src="https://github.com/user-attachments/assets/48f80e8a-f2a8-4f0f-8c5a-d4d3a8ad5905" />
 
 ## Overview
 
@@ -46,8 +45,7 @@ The project is intended as a learning and testing platform for high-performance 
   - PA07: SPI MOSI
   - PA08: LCD RESET
   - PA09: LCD DC
-- Optional: External 24Mhz TCXO oscillator (for precise 2 MHz reference)
+- Optional: External 24Mhz TCXO oscillator
 
 ---
 
-Note: This is unofficial code and might have some issues.
