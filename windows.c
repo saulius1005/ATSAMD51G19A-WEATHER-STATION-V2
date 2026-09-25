@@ -645,12 +645,7 @@ void UserInterface(Windows_names_t window) {
                         keyboard.status = CLOSE;
                     }  
                     
-                    if (A7672EGNSS.mode != 0) { //it not resets gnss time sync. It writes stored value. If needed to reset gnss go to time settings and reset gnss time sync with button not in code :D                    
-                        gnss_txt_color = RED;
-                        lat_txt_color = RED;
-                        lng_txt_color = RED;
-                        alt_txt_color = RED;
-                    } else { //gnss locked
+                    if (A7672EGNSS.mode != 0) { //if mode is 2D or 3D update values not when it is 0(no lock)                  
                         A7672E_NET.latitude = (int32_t) A7672EGNSS.lat / 1000;
                         A7672E_NET.longitude = (int32_t) A7672EGNSS.log / 1000;
                         A7672E_NET.altitude = (int16_t) A7672EGNSS.alt;
@@ -658,6 +653,11 @@ void UserInterface(Windows_names_t window) {
                         lat_txt_color = GREEN;
                         lng_txt_color = GREEN;
                         alt_txt_color = GREEN;
+                    } else { //gnss NOT locked!!!
+                        gnss_txt_color = RED;
+                        lat_txt_color = RED;
+                        lng_txt_color = RED;
+                        alt_txt_color = RED;                        
                     }                                       
 
                     changing_current_param = 4;
