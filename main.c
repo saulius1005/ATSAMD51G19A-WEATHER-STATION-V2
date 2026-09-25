@@ -38,13 +38,10 @@ int main(void) {
         
         Tower_COM();//read sensors and send datao to towers                             
         RTC_Date_and_Time.RTC_sys_time = RTC_read_sys_time(); //read system time    
-              
-        
+                     
         TC0_CHECKER(); //check tc0 timeout (A7672E init and ili9341 screen init)
         TCC0_CHECKER(); //check tcc0 timeout to update data from gsm module, sensors, towers, server
-        ili9341_sleep(); //check if screen is not touced some time if so go to sleep or waking up
-        
-
+        ili9341_sleep(); //check if screen is not touced some time if so go to sleep or waking up       
     }
 }
 

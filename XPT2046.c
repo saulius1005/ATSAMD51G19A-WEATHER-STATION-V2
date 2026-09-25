@@ -21,55 +21,49 @@ void XPT2046_Read_All(){
     if(A7672E_init.status != WORK) // if GSM module still not initialized skip further code
         return;
     
-    SPI0_Baud_Switch(1500000);//switch baudrate to 1.5Mhz
+    if(!Read_XPT2046.speed){ //switch only it is ili9341 spi speed
+        SPI0_Baud_Switch(1500000);//switch baudrate to 1.5Mhz      
+    }
     XPT2046_CS_LOW();
     
     switch(Read_XPT2046.state){
         case SET_DEVICE:
-                TC0_ON(5000); //set timeout 10ms
+                TC0_ON(100000); //check touch screen every 100ms (~10 time /s)
                 Read_XPT2046.state = WAIT_DEVICE;
         break;
         case WAIT_DEVICE:
             if(TC0_timeout){
-                if(Read_XPT2046.step == 0){
-                    Read_XPT2046.X = XPT2046_Read(XPT_CMD_X);
-                }
-                else if(Read_XPT2046.step == 1){
-                    Read_XPT2046.Y = XPT2046_Read(XPT_CMD_Y);
-                }
-                else if(Read_XPT2046.step == 2){
-                    Read_XPT2046.Z1 = XPT2046_Read(XPT_CMD_Z1);
-                }
-                else if(Read_XPT2046.step == 3){
-                    Read_XPT2046.Z2 = XPT2046_Read(XPT_CMD_Z2);                   
-                }                
-                Read_XPT2046.state = DONE_DEVICE;
+                Read_XPT2046.Z1 = XPT2046_Read(XPT_CMD_Z1); //every time read Z1                  
+                if(Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL){ // if it is pressed only then read                 
+                     Read_XPT2046.X = XPT2046_Read(XPT_CMD_X); //x    
+                     Read_XPT2046.Y = XPT2046_Read(XPT_CMD_Y); //and y
+                }               
+                Read_XPT2046.state = SET_DEVICE;
             }            
-        break;
-        case DONE_DEVICE:       
-            if(Read_XPT2046.step++ == 4)
-                Read_XPT2046.step = 0;
-            Read_XPT2046.state = SET_DEVICE;
-            
-        break;           
+        break;          
     }
     XPT2046_CS_HIGH();  
     
-    SPI0_Baud_Switch(30000000);//switch baudrate back to 30Mhz
+    if(!screen_sleep.sleep){ //if sleeping do not turn to ili9341 spi speed
+        SPI0_Baud_Switch(30000000);//switch baudrate back to 30Mhz
+        Read_XPT2046.speed = false;
+    }
     SERCOM0_REGS->SPIM.SERCOM_LENGTH &= ~SERCOM_SPIM_LENGTH_LENEN_Msk;
 }
 
 bool XPT2046_switch(uint16_t X0, uint16_t X1, uint16_t Y0, uint16_t Y1){
-    bool touched = (Read_XPT2046.X >= X0 && Read_XPT2046.X < X1 && Read_XPT2046.Y >= Y0 && Read_XPT2046.Y < Y1);
-        if(!Read_XPT2046.pressed){
-            if(Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL && touched){
-                Read_XPT2046.pressed = true;
-                return true;               
-            } 
+  
+    if (Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL) {// first check if touch pressure is sufficient
+        bool touched = (Read_XPT2046.X >= X0 && Read_XPT2046.X < X1 && Read_XPT2046.Y >= Y0 &&  Read_XPT2046.Y < Y1); //the check x y 
+
+        if (!Read_XPT2046.pressed && touched) { //if all ok
+            Read_XPT2046.pressed = true;
+            return true;
         }
-        else if(Read_XPT2046.Z1 < XPT_PRES_STRENGTH_LVL){
-               Read_XPT2046.pressed = false; 
-        }         
+    }
+    else {      
+        Read_XPT2046.pressed = false;//if too low release
+    }
     return false;
 }
 

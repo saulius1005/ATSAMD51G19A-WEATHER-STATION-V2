@@ -15,7 +15,6 @@ extern "C" {
 #define XPT_CMD_X 0xD0 //0xD8- 8bit
 #define XPT_CMD_Y 0x90 //0x98- 8bit
 #define XPT_CMD_Z1 0xB0
-#define XPT_CMD_Z2 0xC0
 #define XPT_PRES_STRENGTH_LVL 60 //how hard need to press
     
 #define XPT2046_CS_LOW()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA10) // CS LOW
@@ -25,11 +24,9 @@ typedef struct {
     uint16_t X;
     uint16_t Y;
     uint16_t Z1;
-    uint16_t Z2;
-    uint8_t step;
     A7672states_t state;
     bool pressed;
-            
+    bool speed;        
 } TuchScreen;
 
 extern TuchScreen Read_XPT2046;

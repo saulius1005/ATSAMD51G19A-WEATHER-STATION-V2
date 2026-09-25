@@ -258,21 +258,26 @@ void ili9341_draw_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t 
 void ili9341_sleep(){
     if (A7672E_init.status != WORK)//if not WORK mode 
         return; //skip further code
-    if (Periodic_Checker_Devices.period_counter >= screen_sleep.start_at + LCD_GO_SLEEP_AFTER) {
-        screen_sleep.sleep = true;
-        ili9341_CMD(0x28, 1); // DISPOFF      
-        A7672E_LCD_BCKL_OFF(); //Turn Off lcd backlight
-        /// ZZZ... ZZZ... ZZZ...
+    
+    if(!screen_sleep.sleep){ //if not sleeping check when its time to sleep 
+        if ( Periodic_Checker_Devices.period_counter >= (screen_sleep.start_at + LCD_GO_SLEEP_AFTER) ) {
+            screen_sleep.sleep = true;
+            ili9341_CMD(0x28, 1); // DISPOFF      
+            A7672E_LCD_BCKL_OFF(); //Turn Off lcd backlight
+            /// ZZZ... ZZZ... ZZZ...
+        }        
     }
-    if(XPT2046_switch(64, 4000, 64, 4000)){//wakey wakey
-        screen_sleep.start_at = Periodic_Checker_Devices.period_counter;      
-        if(screen_sleep.sleep){
-            Windows.once_per_second_update = 0;
-            Windows.background_updater = false;
-            ili9341_CMD(0x29,1); //DISPON
-            A7672E_LCD_BCKL_ON();// backlight on
-        }
-        screen_sleep.sleep = false; //GO to WORK !
+    else{ //and if sleeping check if need to wake up
+        if(XPT2046_switch(64, 4000, 64, 4000)){//wakey wakey
+            screen_sleep.start_at = Periodic_Checker_Devices.period_counter;      
+            if(screen_sleep.sleep){
+                Windows.once_per_second_update = 0;
+                Windows.background_updater = false;
+                ili9341_CMD(0x29,1); //DISPON
+                A7672E_LCD_BCKL_ON();// backlight on
+            }
+            screen_sleep.sleep = false; //GO to WORK !
+        }        
     }
 }
 
