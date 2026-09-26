@@ -99,7 +99,6 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "Server: %s", (A7672E_work.ssrx == Bad) ? "NO RX " : (A7672E_work.ssrx == Good) ? "ALL OK" : "      ");
                     //A7672E_work.ssrx = Neutral;// uncomment if needed mommentary answer
 
-
                     y = 192;
                     ILI9341_draw_formatted_line(15, &y, MISTYROSE, BLACK, "Towers Data:\n");
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Towers :%3d", A7672E_NET.towers_in_total);
@@ -118,18 +117,14 @@ void UserInterface(Windows_names_t window) {
                     }
                     power_kw_x100 = (total_power + 500) / 1000;
                     
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Az.Mot.P: %4dW", power_kw_x100);
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Az.Mot.P: %4dW", power_kw_x100); //all towers azimuth motors power
                     total_power = 0;
                     for(uint16_t i = 0; i< A7672E_NET.towers_in_total; i++){ //calculate all towers power
                         total_power += towers[i].el_motor.power;
                     }
                     power_kw_x100 = (total_power + 500) / 1000;
                     
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "El.Mot.P: %4dW", power_kw_x100);
-                    
-                    
-
-                    
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "El.Mot.P: %4dW", power_kw_x100); ////all towers elevation motors power
                     
                     //y = 300;
                     //ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "TCC0: %09d", Periodic_Checker_Devices.period_counter);

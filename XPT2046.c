@@ -22,7 +22,7 @@ void XPT2046_Read_All(){
         return;
     
     if(!Read_XPT2046.speed){ //switch only it is ili9341 spi speed
-        SPI0_Baud_Switch(1500000);//switch baudrate to 1.5Mhz      
+        SPI0_Baud_Switch(2500000);//2.5Mhz, top is ~4Mhz (if it is too fast top of touch screen starts not respond and increasing speed unresponsive part is also increasing. start point X0 Y4095)      
         Read_XPT2046.speed = true; //if lcd is sleeping change spi speed once
     }
     XPT2046_CS_LOW();
@@ -47,7 +47,7 @@ void XPT2046_Read_All(){
     XPT2046_CS_HIGH();  
     
     if(!screen_sleep.sleep){ //if not sleeping switch spi speed to ili9341
-        SPI0_Baud_Switch(30000000);//switch baudrate back to 30Mhz
+        SPI0_Baud_Switch(30000000);//switch baudrate back to 30Mhz and top ~37Mhz
         Read_XPT2046.speed = false; //switch back flag to xpt speed
     }
     else if(XPT2046_switch(64,4000,64,4000) && screen_sleep.sleep){//if in sleep
