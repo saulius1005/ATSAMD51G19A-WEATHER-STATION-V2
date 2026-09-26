@@ -265,19 +265,7 @@ void ili9341_sleep(){
             ili9341_CMD(0x28, 1); // DISPOFF      
             A7672E_LCD_BCKL_OFF(); //Turn Off lcd backlight
             /// ZZZ... ZZZ... ZZZ...
-        }        
-    }
-    else{ //and if sleeping check if need to wake up
-        if(XPT2046_switch(64, 4000, 64, 4000)){//wakey wakey
-            screen_sleep.start_at = Periodic_Checker_Devices.period_counter;      
-            if(screen_sleep.sleep){
-                Windows.once_per_second_update = 0;
-                Windows.background_updater = false;
-                ili9341_CMD(0x29,1); //DISPON
-                A7672E_LCD_BCKL_ON();// backlight on
-            }
-            screen_sleep.sleep = false; //GO to WORK !
-        }        
-    }
+        }
+    } //wake up logic in xpt2046.c
 }
 

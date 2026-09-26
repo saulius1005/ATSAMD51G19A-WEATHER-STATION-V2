@@ -15,36 +15,6 @@ extern "C" {
 #define SMEEPROM_SIZE 512
 #define SMEEPROM_ADDR 0x44000000UL //smarteeprom starts at 0x44000000 and ends at 0x45000000 //DO NOT CHANGE unless....
 #define EEEPROM_TEST_FIRST_VALUE 0 //for eeprom test if value is not like this, meaning it is first eeprom run and need to fill eeprom with default values
-    
-//config bits for Smart EEPROM
-    
-extern volatile uint8_t *SmartEEPROM8;
-extern volatile uint16_t *SmartEEPROM16;
-extern volatile uint32_t *SmartEEPROM32;
-
-/*
- * exmpl:
- * SmartEEPROM8[0] = 123;
- * SmartEEPROM8[1] = 456;
- * 
- * SmartEEPROM16[0] = 12345;
- * SmartEEPROM16[2] = 23456;
- * 
- * SmartEEPROM32[0] = 7000000;
- * SmartEEPROM32[4] = 123000000;
- */
-
-void EEPROM_Write8(uint32_t address, uint8_t data);//8bit eeprom write
-
-uint8_t EEPROM_Read8(uint32_t address); //8bit read
-
-void EEPROM_Write16(uint32_t address, uint16_t data); //16bit write
-
-uint16_t EEPROM_Read16(uint32_t address); //16bir read
-
-void EEPROM_Write32(uint32_t address, uint32_t data);//32bit write
-
-uint32_t EEPROM_Read32(uint32_t address);//32bit read
 
 /*
  * exmpl:

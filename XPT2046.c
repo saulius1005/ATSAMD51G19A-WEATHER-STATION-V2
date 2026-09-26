@@ -17,12 +17,13 @@ uint16_t XPT2046_Read(uint32_t cmd){
     return (rx >> 3) & 0xFFF;//12b
 }
 
-void XPT2046_Read_All(){
+void XPT2046_Read_All(){    
     if(A7672E_init.status != WORK) // if GSM module still not initialized skip further code
         return;
     
     if(!Read_XPT2046.speed){ //switch only it is ili9341 spi speed
         SPI0_Baud_Switch(1500000);//switch baudrate to 1.5Mhz      
+        Read_XPT2046.speed = true; //if lcd is sleeping change spi speed once
     }
     XPT2046_CS_LOW();
     
@@ -34,9 +35,10 @@ void XPT2046_Read_All(){
         case WAIT_DEVICE:
             if(TC0_timeout){
                 Read_XPT2046.Z1 = XPT2046_Read(XPT_CMD_Z1); //every time read Z1                  
-                if(Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL){ // if it is pressed only then read                 
-                     Read_XPT2046.X = XPT2046_Read(XPT_CMD_X); //x    
-                     Read_XPT2046.Y = XPT2046_Read(XPT_CMD_Y); //and y
+                if(Read_XPT2046.Z1 >= XPT_PRES_STRENGTH_LVL){ // if it is pressed only then read            
+                    Read_XPT2046.X = XPT2046_Read(XPT_CMD_X); //x    
+                    Read_XPT2046.Y = XPT2046_Read(XPT_CMD_Y); //and y                        
+                    screen_sleep.start_at = Periodic_Checker_Devices.period_counter; //and reset sleep start counter                   
                 }               
                 Read_XPT2046.state = SET_DEVICE;
             }            
@@ -44,9 +46,17 @@ void XPT2046_Read_All(){
     }
     XPT2046_CS_HIGH();  
     
-    if(!screen_sleep.sleep){ //if sleeping do not turn to ili9341 spi speed
+    if(!screen_sleep.sleep){ //if not sleeping switch spi speed to ili9341
         SPI0_Baud_Switch(30000000);//switch baudrate back to 30Mhz
-        Read_XPT2046.speed = false;
+        Read_XPT2046.speed = false; //switch back flag to xpt speed
+    }
+    else if(XPT2046_switch(64,4000,64,4000) && screen_sleep.sleep){//if in sleep
+        SPI0_Baud_Switch(30000000);//switch baudrate back to 30Mhz       
+        Windows.once_per_second_update = 0; //update window flag
+        Windows.background_updater = false; //update background update flag
+        ili9341_CMD(0x29,1); //DISPON
+        A7672E_LCD_BCKL_ON();// backlight on
+        screen_sleep.sleep = false; //GO to WORK !    
     }
     DMA_devices[SPI_CH].SERCOM->SPIM.SERCOM_LENGTH &= ~SERCOM_SPIM_LENGTH_LENEN_Msk; //dma does nothing just same spi line
 }

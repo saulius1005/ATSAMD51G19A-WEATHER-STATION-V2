@@ -30,7 +30,7 @@ void UserInterface(Windows_names_t window) {
                 ili9341_draw_rect(0, 104, 115, 80, GREEN, 0); //location data
                 ili9341_draw_rect(117, 104, 123, 80, TEAL, 0); //gsm/gnss data
 
-                ili9341_draw_rect(0, 188, 240, 100, MISTYROSE, 0); //towers data
+                ili9341_draw_rect(0, 188, 115, 80, MISTYROSE, 0); //towers data
 
                 Windows.background_updater = true;
             } else { //if background was drawed show other data         
@@ -97,16 +97,12 @@ void UserInterface(Windows_names_t window) {
                     ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GNSS locked: %s", (A7672EGNSS.mode == 2) ? "2D" : (A7672EGNSS.mode == 3) ? "3D" : "NO");
                     
                     ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "Server: %s", (A7672E_work.ssrx == Bad) ? "NO RX " : (A7672E_work.ssrx == Good) ? "ALL OK" : "      ");
-                    A7672E_work.ssrx = Neutral;
+                    //A7672E_work.ssrx = Neutral;// uncomment if needed mommentary answer
 
-                    //tower window part is not dynamic need to change or make as time change (separate window)
-                    tower_t *tower0 = &towers[0];
 
                     y = 192;
-                    ILI9341_draw_formatted_line(85, &y, MISTYROSE, BLACK, "Towers Data:\n");
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Towers :");
-                    y -= 12;
-                    ILI9341_draw_formatted_line(125, &y, MISTYROSE, BLACK, "%3d", A7672E_NET.towers_in_total);
+                    ILI9341_draw_formatted_line(15, &y, MISTYROSE, BLACK, "Towers Data:\n");
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Towers :%3d", A7672E_NET.towers_in_total);
                     
                     uint64_t total_power = 0;
                     for(uint16_t i = 0; i< A7672E_NET.towers_in_total; i++){ //calculate all towers power
@@ -115,13 +111,24 @@ void UserInterface(Windows_names_t window) {
                     
                     uint32_t power_kw_x100 = (total_power + 5000) / 10000;
                     
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Total PV Power:");
-                    y -= 12;
-                    ILI9341_draw_formatted_line(125, &y, MISTYROSE, BLACK, "%4d.%02dkW", power_kw_x100 / 100, power_kw_x100 % 100);
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "PV P: %4d.%02dkW", power_kw_x100 / 100, power_kw_x100 % 100);
+                    total_power = 0;
+                    for(uint16_t i = 0; i< A7672E_NET.towers_in_total; i++){ //calculate all towers power
+                        total_power += towers[i].az_motor.power;
+                    }
+                    power_kw_x100 = (total_power + 500) / 1000;
+                    
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Az.Mot.P: %4dW", power_kw_x100);
+                    total_power = 0;
+                    for(uint16_t i = 0; i< A7672E_NET.towers_in_total; i++){ //calculate all towers power
+                        total_power += towers[i].el_motor.power;
+                    }
+                    power_kw_x100 = (total_power + 500) / 1000;
+                    
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "El.Mot.P: %4dW", power_kw_x100);
+                    
+                    
 
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Tracker Frame:");
-                    y -= 12;
-                    ILI9341_draw_formatted_line(105, &y, MISTYROSE, BLACK, "%3d.%02d°A %2d.%02d°E", tower0 -> position.azimuth / 100, tower0 -> position.azimuth % 100, tower0 -> position.elevation / 100, tower0 -> position.elevation % 100);
                     
                     
                     //y = 300;
@@ -141,7 +148,7 @@ void UserInterface(Windows_names_t window) {
                     Windows.background_updater = false; //prepare to update screen
                     Windows.Window = LOCATION_WINDOW;
                     Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open                
-                } else if (XPT2046_switch(64, 4000, 700, 1800)) {
+                } else if (XPT2046_switch(64, 1800, 700, 1800)) {
                     Windows.background_updater = false; //prepare to update screen
                     Windows.Window = TOWER_WINDOW;
                     Windows.once_per_second_update = 0; //reset update to show data instantly after new windows is open                
