@@ -34,15 +34,6 @@ typedef struct{
 } position_t;
 
 typedef struct{
-    uint16_t year;
-    uint8_t month;
-    uint8_t day;
-    uint8_t hour;
-    uint8_t minute;
-    uint8_t second;
-} last_update_t;
-
-typedef struct{
     tower_com_t state;
     uint8_t id; // DEVICE_ID_NUMBER 1, 2... , 255 (0-ff)
     uint8_t es; // SensorData.endSwitches not used for now future feature
@@ -50,7 +41,7 @@ typedef struct{
     electrical_t panel;
     electrical_t az_motor;
     electrical_t el_motor;
-    last_update_t update_time;
+    last_update_t update_time; //type from A7672E.h
     char prepared_to_server[30];//all data without crc
 } tower_t;
 

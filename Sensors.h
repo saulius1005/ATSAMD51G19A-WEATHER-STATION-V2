@@ -28,6 +28,7 @@ typedef struct{
 }sunlight_data_t;
 
 typedef struct{
+    last_update_t update_time; //type from A7672E.h
     tower_com_t state; //use typedef enum from towers
     bme680_data_t BME680;
     wind_data_t WIND;

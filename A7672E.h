@@ -94,11 +94,21 @@ typedef struct {
     char APN[APN_ADD_SYMBOLS_COUNT +22]; //full apn at command length +22 symbols for at cmd
 }A7672E_init_list_t;
 
+typedef struct{
+    uint16_t year;
+    uint8_t month;
+    uint8_t day;
+    uint8_t hour;
+    uint8_t minute;
+    uint8_t second;
+} last_update_t;
+
 typedef struct {
     A7672states_t state;
     uint32_t response_time; //time interval to receive answer from A7672E
     uint32_t start_at; //start ofthe beginning time interval (Periodic_Checker_Devices.period_counter value)   
     server_ats_t ssrx; //answer type from server
+    last_update_t update_time; //for server last update time stamp
 }A7672E_work_list_t;
 
 

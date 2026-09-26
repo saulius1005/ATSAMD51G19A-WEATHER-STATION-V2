@@ -55,6 +55,13 @@ void Sensors_parser(char* buf){
         sensors.WIND.direction = wds;
         
         sensors.SUN.level = sls;
+        
+        sensors.update_time.year = RTC_Date_and_Time.RTC_year + 2000; //write time of the suceess trasnfer
+        sensors.update_time.month = RTC_Date_and_Time.RTC_month;
+        sensors.update_time.day = RTC_Date_and_Time.RTC_day;
+        sensors.update_time.hour = RTC_Date_and_Time.RTC_hour;
+        sensors.update_time.minute = RTC_Date_and_Time.RTC_minute;
+        sensors.update_time.second = RTC_Date_and_Time.RTC_second;
     }
 }
 

@@ -656,6 +656,12 @@ void A7672E_GO_WORK() {
             
             if (strstr(buf, "HTTPACTION: 0,302,0") != NULL){ //if received valid answer suchas 302 set it as success //~4-5 seconds server answer but this will show after all waiting time
                 A7672E_work.ssrx = Good; //
+                A7672E_work.update_time.year = RTC_Date_and_Time.RTC_year + 2000; //write time of the suceess trasnfer
+                A7672E_work.update_time.month = RTC_Date_and_Time.RTC_month;
+                A7672E_work.update_time.day = RTC_Date_and_Time.RTC_day;
+                A7672E_work.update_time.hour = RTC_Date_and_Time.RTC_hour;
+                A7672E_work.update_time.minute = RTC_Date_and_Time.RTC_minute;
+                A7672E_work.update_time.second = RTC_Date_and_Time.RTC_second;
             }
             else
                 A7672E_work.ssrx = Bad;

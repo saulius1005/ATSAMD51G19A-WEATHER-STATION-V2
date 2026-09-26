@@ -31,6 +31,7 @@ void UserInterface(Windows_names_t window) {
                 ili9341_draw_rect(117, 104, 123, 80, TEAL, 0); //gsm/gnss data
 
                 ili9341_draw_rect(0, 188, 115, 80, MISTYROSE, 0); //towers data
+                ili9341_draw_rect(117, 188, 123, 80, ORANGE, 0); //update times 
 
                 Windows.background_updater = true;
             } else { //if background was drawed show other data         
@@ -100,8 +101,16 @@ void UserInterface(Windows_names_t window) {
                     //A7672E_work.ssrx = Neutral;// uncomment if needed mommentary answer
 
                     y = 192;
-                    ILI9341_draw_formatted_line(15, &y, MISTYROSE, BLACK, "Towers Data:\n");
+                    ILI9341_draw_formatted_line(15, &y, MISTYROSE, BLACK, "Towers Data:");
+                    y-=12;
+                    ILI9341_draw_formatted_line(140, &y, ORANGE, BLACK, "Last update:\n");
+                    
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Towers :%3d", A7672E_NET.towers_in_total);
+                    y-=12;
+                    ILI9341_draw_formatted_line(125, &y, ORANGE, BLACK, "Server: %02d:%02d:%02d",
+                        A7672E_work.update_time.hour,
+                        A7672E_work.update_time.minute,
+                        A7672E_work.update_time.second);
                     
                     uint64_t total_power = 0;
                     for(uint16_t i = 0; i< A7672E_NET.towers_in_total; i++){ //calculate all towers power
@@ -111,6 +120,13 @@ void UserInterface(Windows_names_t window) {
                     uint32_t power_kw_x100 = (total_power + 5000) / 10000;
                     
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "PV P: %4d.%02dkW", power_kw_x100 / 100, power_kw_x100 % 100);
+                    y-=12;
+                    ILI9341_draw_formatted_line(125, &y, ORANGE, BLACK, "Towers: %02d:%02d:%02d",
+                        towers[0].update_time.hour,
+                        towers[0].update_time.minute,
+                        towers[0].update_time.second);
+                    
+                    
                     total_power = 0;
                     for(uint16_t i = 0; i< A7672E_NET.towers_in_total; i++){ //calculate all towers power
                         total_power += towers[i].az_motor.power;
@@ -118,6 +134,11 @@ void UserInterface(Windows_names_t window) {
                     power_kw_x100 = (total_power + 500) / 1000;
                     
                     ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Az.Mot.P: %4dW", power_kw_x100); //all towers azimuth motors power
+                    y-=12;
+                    ILI9341_draw_formatted_line(125, &y, ORANGE, BLACK, "Sensors: %02d:%02d:%02d",
+                        sensors.update_time.hour,
+                        sensors.update_time.minute,
+                        sensors.update_time.second);
                     total_power = 0;
                     for(uint16_t i = 0; i< A7672E_NET.towers_in_total; i++){ //calculate all towers power
                         total_power += towers[i].el_motor.power;
