@@ -1,7 +1,7 @@
 
 # Weather Station v2.0
 
-(Still in progress. Very early version- Alfa of the Alfa :D )
+*(Still in progress. Very early version- Alfa of the Alfa :D )*
 
 ## Wiring Diagram
 
