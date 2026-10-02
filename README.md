@@ -5,7 +5,7 @@
 
 ## Wiring Diagram
 
-<img width="9631" height="6331" alt="atsamd51g19a_weather_station_v_2_0" src="https://github.com/user-attachments/assets/bc5221d7-8a3f-4956-b523-c6776d961844" />
+<img width="640" height="480" alt="atsamd51g19a_weather_station_v_2_0" src="https://github.com/user-attachments/assets/bc5221d7-8a3f-4956-b523-c6776d961844" />
 
 The main purpose of this weather station is to calculate the position of the Sun in the sky based on environmental, location, and time data. The calculated Sun position and other environmental parameters are then transmitted to the solar tracker towers, which return their operating data. All collected and calculated data is finally transmitted to a server and stored in Google Sheets for monitoring, analysis, and further processing.
 
