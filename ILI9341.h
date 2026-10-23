@@ -24,20 +24,20 @@ extern "C" {
 
 #define LCD_GO_SLEEP_AFTER 60000 //sleep after 60s
 
-#define A7672E_LCD_BCKL_ON()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA20) // enable-high
-#define A7672E_LCD_BCKL_OFF()   (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA20) // disable-low    
+#define A7672E_LCD_BCKL_ON()   (PORT_REGS->GROUP[1].PORT_OUTSET = PORT_PB09) // enable-high
+#define A7672E_LCD_BCKL_OFF()   (PORT_REGS->GROUP[1].PORT_OUTCLR = PORT_PB09) // disable-low    
     
 /*SS control */
-#define ILI9341_CS_LOW()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA06) // CS LOW
-#define ILI9341_CS_HIGH()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA06) // CS HIGH
+#define ILI9341_CS_LOW()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA10) // CS LOW
+#define ILI9341_CS_HIGH()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA10) // CS HIGH
 
 /* Data/Command control */
-#define ILI9341_DC_CMD()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA09) // Select command mode (DC = 0)
-#define ILI9341_DC_DATA()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA09) // Select data mode (DC = 1)
+#define ILI9341_DC_CMD()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA08) // Select command mode (DC = 0)
+#define ILI9341_DC_DATA()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA08) // Select data mode (DC = 1)
 
 /* Hardware reset control */
-#define ILI9341_RST_LOW()   (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA08) // Assert hardware reset
-#define ILI9341_RST_HIGH()  (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA08) // Release hardware reset
+#define ILI9341_RST_LOW()   (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA09) // Assert hardware reset
+#define ILI9341_RST_HIGH()  (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA09) // Release hardware reset
     
 #define CHAR_WIDTH     6
 #define CHAR_HEIGHT    8

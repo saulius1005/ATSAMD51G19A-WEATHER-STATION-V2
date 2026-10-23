@@ -14,7 +14,7 @@ extern "C" {
     
 #define RS485_RX_BUFFER_SIZE 128
     
-#define RS485_TOWER_REG    SERCOM2_REGS
+#define RS485_TOWER_REG    SERCOM3_REGS
 #define RS485_SENSORS_REG  SERCOM5_REGS
 
 //void RS485_printf(const char *fmt, ...);

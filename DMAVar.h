@@ -20,8 +20,8 @@ volatile uint8_t dma_done = 0;
 
 DMA_devices_t DMA_devices[4] = {
     { SPI_CH,     SERCOM0_DMAC_ID_TX, SERCOM0_REGS },
-    { GSM_CH,     SERCOM3_DMAC_ID_RX, SERCOM3_REGS },
-    { TOWER_CH,   SERCOM2_DMAC_ID_RX, SERCOM2_REGS },
+    { GSM_CH,     SERCOM2_DMAC_ID_RX, SERCOM2_REGS },
+    { TOWER_CH,   SERCOM3_DMAC_ID_RX, SERCOM3_REGS },
     { SENSORS_CH, SERCOM5_DMAC_ID_RX, SERCOM5_REGS }
 };
 

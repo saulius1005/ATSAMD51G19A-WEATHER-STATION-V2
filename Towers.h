@@ -13,7 +13,12 @@ extern "C" {
 #endif
     
 //#define TOWER_COUNT 2 //for far far future may increase tower count. Maybe    
-  
+ 
+#define T_TX_LED_ON()   (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA16) // disable-low
+#define T_TX_LED_OFF()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA16) // enable-high
+    
+#define T_RX_LED_ON()   (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA20) // enable-low
+#define T_RX_LED_OFF()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA20) // disable-high
     
 typedef enum{
     SEND = 0,

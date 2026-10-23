@@ -125,8 +125,7 @@ void UserInterface(Windows_names_t window) {
                         towers[0].update_time.hour,
                         towers[0].update_time.minute,
                         towers[0].update_time.second);
-                    
-                    
+                                       
                     total_power = 0;
                     for(uint16_t i = 0; i< A7672E_NET.towers_in_total; i++){ //calculate all towers power
                         total_power += towers[i].az_motor.power;

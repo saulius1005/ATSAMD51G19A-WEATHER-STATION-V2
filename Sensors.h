@@ -12,6 +12,12 @@
 extern "C" {
 #endif
     
+#define S_TX_LED_ON()   (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA22) // disable-low
+#define S_TX_LED_OFF()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA22) // enable-high
+    
+#define S_RX_LED_ON()   (PORT_REGS->GROUP[1].PORT_OUTCLR = PORT_PB23) // enable-low
+#define S_RX_LED_OFF()   (PORT_REGS->GROUP[1].PORT_OUTSET = PORT_PB23) // disable-high
+    
 typedef struct{
     int8_t temperature;   
     uint16_t pressure;

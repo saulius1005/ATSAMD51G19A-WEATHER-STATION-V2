@@ -65,4 +65,20 @@ void apply_all_elevation_modifies(){
 
     if (start_angle > -4.0f)
         start_angle = -4.0f;*/
+    
+    /*Sky observation 2026-09-23 : 09-28
+     * 
+     * 09-23: very heavy clouds all day long from morning to evening average day power generation less than 500-700w/h 
+     * that day power generation starts at 06:43:16 (Sun elevation: -4.52 degree) and ends 19:43:57 (Sun elevation: -4.14 degree) 
+     * 
+     * 09-24: first day part was like day before and after 12:35 clouds starts to thin out but they don't disappear. Power generation starts at 06:44:10 (-4.66) ends 19:52:52 (-5.97),
+     * 
+     * 09-25:09-26 heavy clouds with one or two short periods with the sun. Day and night about 12h each 09-25 more less
+     * 
+     * 09-27: first clear sky morning after full week of heavy clouds (last sunny day with clouds 50-50% was 09-19). Power generation starts 06:44:29 (84.87az -5.54el) and so much of clear sky until 9:12:15 ... sun come back at 15:07:22 and power generation ends at 19:52:40 (276.94 az -7.10el)
+     * 
+     * 09-28: sunny day ~70-80% of the day. Power generation starts 6:40:50 (84.54az -6.28el) ends at 19:46:32 (274.51az -5.87el)
+     * 
+     * all observation in the morning was made when towers is still in last day evening positions.
+     */
 }

@@ -15,7 +15,7 @@ extern "C" {
 #define GSM_BAUD 115200 //USART
 #define SENSORS_BAUD 230400 //RS485
     
-#define USART_GSM_REG    SERCOM3_REGS   
+#define USART_GSM_REG    SERCOM2_REGS   
 
 #ifdef	__cplusplus
 }
