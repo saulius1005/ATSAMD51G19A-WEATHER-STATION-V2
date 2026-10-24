@@ -651,7 +651,6 @@ void A7672E_GO_WORK() {
             }
             break;
 
-
         case SERVER_DONE:
             
             if (strstr(buf, "HTTPACTION: 0,302,0") != NULL){ //if received valid answer suchas 302 set it as success //~4-5 seconds server answer but this will show after all waiting time
