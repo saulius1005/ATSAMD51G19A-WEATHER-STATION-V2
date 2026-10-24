@@ -201,9 +201,16 @@ After the board is powered on, the LCD displays the A7672E initialization sequen
 
 1. The system waits for startup confirmation messages from the SIMCom A7672E module, such as `SMS Ready`, `PB Ready`, etc.
 2. GSM and Internet connectivity functions are then initialized.
-3. The final initialization window displays the GNSS initialization sequence.
+   
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-169" src="https://github.com/user-attachments/assets/a6239b83-3ddb-4c4c-ba8b-eda31f899757" />
+
+4. The final initialization window displays the GNSS initialization sequence.
+   
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-149" src="https://github.com/user-attachments/assets/e7bd53b9-c61c-4312-8fa2-cdb7d309813f" />
 
 After the module has been initialized, the main window is displayed.
+
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-137" src="https://github.com/user-attachments/assets/07e35a8a-a621-41f1-a721-c947a8a95306" />
 
 ---
 
@@ -212,6 +219,9 @@ After the module has been initialized, the main window is displayed.
 The main window contains seven sections:
 
 ## 1. Time
+
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-129" src="https://github.com/user-attachments/assets/426992fb-a70e-4b79-9146-381328b580d6" />
+
 
 The Time section displays the current time and the source used for time synchronization.
 
@@ -264,6 +274,9 @@ Pressing this section does not perform any action.
 
 ## 4. Location Data
 
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-098" src="https://github.com/user-attachments/assets/7d63ffc7-b97f-42c6-8ba9-41c60199bab3" />
+
+
 The Location Data section displays:
 
 * Latitude
@@ -293,6 +306,9 @@ Pressing `<` returns to the main window.
 
 ## 5. Network Data
 
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-052" src="https://github.com/user-attachments/assets/c4e8dce8-ef6c-488c-869f-572dc2c4bdc1" />
+
+
 The Network Data section displays:
 
 * GSM signal strength
@@ -313,6 +329,9 @@ Pressing `<` returns to the main window.
 ---
 
 ## 6. Towers Data
+
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-046" src="https://github.com/user-attachments/assets/f26a8f10-b02d-410f-ac6f-28006d0f3240" />
+
 
 The Towers Data section displays:
 
