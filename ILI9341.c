@@ -25,11 +25,11 @@ void ILI9341_init(){
     while(!TC0_timeout) TC0_CHECKER();
 
     ILI9341_RST_HIGH();
-    TC0_ON(10000);
+    TC0_ON(120000);
     while(!TC0_timeout) TC0_CHECKER();
 
     ili9341_CMD(0x11,1); // SLPOUT
-    TC0_ON(10000);
+    TC0_ON(120000);
     while(!TC0_timeout)TC0_CHECKER();
 
     ili9341_CMD(0x3A,1); // COLMOD
