@@ -21,8 +21,8 @@ extern "C" {
 #define A7672E_DISABLE()    (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA13) // disable-low
 #define A7672E_ENABLE()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA13) // enable-high
     
-#define A7672E_SERVER_LED_ON()   (PORT_REGS->GROUP[1].PORT_OUTCLR = PORT_PB10) // enable-low
-#define A7672E_SERVER_LED_OFF()   (PORT_REGS->GROUP[1].PORT_OUTSET = PORT_PB10) // disable-high
+#define A7672E_SERVER_LED_OFF()   (PORT_REGS->GROUP[1].PORT_OUTCLR = PORT_PB10) // disable-low    
+#define A7672E_SERVER_LED_ON()   (PORT_REGS->GROUP[1].PORT_OUTSET = PORT_PB10) // enable-high
     
 typedef struct {
     char *ATTX; //send command array list      
