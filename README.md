@@ -1,11 +1,16 @@
 
 # Weather Station v2.0
 
-*(Still in progress. Very early version- Alfa of the Alfa :D )*
+*(Still in progress. Very early version- Beta (tested PCB in progress))*
+
+<img width="640" height="480" alt="Ekrano kopija 2026-10-24 224501" src="https://github.com/user-attachments/assets/ef0273e9-515e-4e64-9e54-dea13280e89b" />
+
+<img width="640" height="480" alt="Ekrano kopija 2026-10-24 224515" src="https://github.com/user-attachments/assets/cafec0d6-6eb5-439b-9b80-7675824d39d7" />
 
 ## Wiring Diagram
 
-<img width="640" height="480" alt="atsamd51g19a_weather_station_v_2_0" src="https://github.com/user-attachments/assets/bc5221d7-8a3f-4956-b523-c6776d961844" />
+<img width="640" height="480" alt="atsamd51g19a_weather_station_v_2_0" src="https://github.com/user-attachments/assets/b729922c-9fcf-4927-84ce-f273d6142394" />
+
 
 The main purpose of this weather station is to calculate the position of the Sun in the sky based on environmental, location, and time data. The calculated Sun position and other environmental parameters are then transmitted to the solar tracker towers, which return their operating data. All collected and calculated data is finally transmitted to a server and stored in Google Sheets for monitoring, analysis, and further processing.
 
