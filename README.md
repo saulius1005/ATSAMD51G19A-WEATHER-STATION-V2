@@ -62,7 +62,7 @@ The main board sends a data request:
 The sensor board responds with a frame such as:
 
 ```text
-[1804023e0b0707e88d]
+[1804023e0b77e88d]
 ```
 
 The frame is hexadecimal and contains the following data:
@@ -72,8 +72,8 @@ The frame is hexadecimal and contains the following data:
 0402 - pressure: 1026 hPa
 3e   - humidity: 76 %
 0b   - wind speed: 11 m/s
-07   - wind direction: NW
-07e8 - sunlight sensor voltage: 2024 mV
+7   - wind direction: NW
+7e8 - sunlight sensor voltage: 2024 mV
 8d   - CRC8 CDMA2000
 ```
 
