@@ -121,8 +121,8 @@ The frame contains:
 8918 - Sun azimuth: 350.96°
 e994 - Sun elevation: -57.40°
 0b   - wind speed: 11 m/s
-07   - wind direction: NW
-07e8 - sunlight level: 2024 mV
+7   - wind direction: NW
+7e8 - sunlight level: 2024 mV
 c3   - CRC8 CDMA2000
 ```
 
