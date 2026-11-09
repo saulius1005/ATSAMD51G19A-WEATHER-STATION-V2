@@ -1,11 +1,16 @@
 
 # Weather Station v2.0
 
-*(Still in progress. Very early version- Alfa of the Alfa :D )*
+*(Still in progress. Very early version- Beta (tested PCB in progress))*
+
+<img width="640" height="480" alt="Ekrano kopija 2026-10-24 224501" src="https://github.com/user-attachments/assets/ef0273e9-515e-4e64-9e54-dea13280e89b" />
+
+<img width="640" height="480" alt="Ekrano kopija 2026-10-24 224515" src="https://github.com/user-attachments/assets/cafec0d6-6eb5-439b-9b80-7675824d39d7" />
 
 ## Wiring Diagram
 
-<img width="640" height="480" alt="atsamd51g19a_weather_station_v_2_0" src="https://github.com/user-attachments/assets/bc5221d7-8a3f-4956-b523-c6776d961844" />
+<img width="640" height="480" alt="atsamd51g19a_weather_station_v_2_0" src="https://github.com/user-attachments/assets/b729922c-9fcf-4927-84ce-f273d6142394" />
+
 
 The main purpose of this weather station is to calculate the position of the Sun in the sky based on environmental, location, and time data. The calculated Sun position and other environmental parameters are then transmitted to the solar tracker towers, which return their operating data. All collected and calculated data is finally transmitted to a server and stored in Google Sheets for monitoring, analysis, and further processing.
 
@@ -116,8 +121,8 @@ The frame contains:
 8918 - Sun azimuth: 350.96°
 e994 - Sun elevation: -57.40°
 0b   - wind speed: 11 m/s
-07   - wind direction: NW
-07e8 - sunlight level: 2024 mV
+7   - wind direction: NW
+7e8 - sunlight level: 2024 mV
 c3   - CRC8 CDMA2000
 ```
 
@@ -196,9 +201,16 @@ After the board is powered on, the LCD displays the A7672E initialization sequen
 
 1. The system waits for startup confirmation messages from the SIMCom A7672E module, such as `SMS Ready`, `PB Ready`, etc.
 2. GSM and Internet connectivity functions are then initialized.
-3. The final initialization window displays the GNSS initialization sequence.
+   
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-169" src="https://github.com/user-attachments/assets/a6239b83-3ddb-4c4c-ba8b-eda31f899757" />
+
+4. The final initialization window displays the GNSS initialization sequence.
+   
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-149" src="https://github.com/user-attachments/assets/e7bd53b9-c61c-4312-8fa2-cdb7d309813f" />
 
 After the module has been initialized, the main window is displayed.
+
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-137" src="https://github.com/user-attachments/assets/07e35a8a-a621-41f1-a721-c947a8a95306" />
 
 ---
 
@@ -207,6 +219,9 @@ After the module has been initialized, the main window is displayed.
 The main window contains seven sections:
 
 ## 1. Time
+
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-129" src="https://github.com/user-attachments/assets/426992fb-a70e-4b79-9146-381328b580d6" />
+
 
 The Time section displays the current time and the source used for time synchronization.
 
@@ -259,6 +274,9 @@ Pressing this section does not perform any action.
 
 ## 4. Location Data
 
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-098" src="https://github.com/user-attachments/assets/7d63ffc7-b97f-42c6-8ba9-41c60199bab3" />
+
+
 The Location Data section displays:
 
 * Latitude
@@ -288,6 +306,9 @@ Pressing `<` returns to the main window.
 
 ## 5. Network Data
 
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-052" src="https://github.com/user-attachments/assets/c4e8dce8-ef6c-488c-869f-572dc2c4bdc1" />
+
+
 The Network Data section displays:
 
 * GSM signal strength
@@ -308,6 +329,9 @@ Pressing `<` returns to the main window.
 ---
 
 ## 6. Towers Data
+
+<img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-046" src="https://github.com/user-attachments/assets/f26a8f10-b02d-410f-ac6f-28006d0f3240" />
+
 
 The Towers Data section displays:
 
