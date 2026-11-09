@@ -28,6 +28,13 @@ sensors_data_t sensors = {
     },
 };
 
+sensor_network_t modules = {
+    .sensor_modules[T_P_RH_WS_WD] = { // T_P_RH_WS_WD == 1 // for now only one sensor module
+        .name = T_P_RH_WS_WD, // for now not in use
+        .idcall = "{01}\r\n"
+    }
+};
+
 
 #ifdef	__cplusplus
 }

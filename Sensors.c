@@ -74,7 +74,7 @@ void Sensors_COM(){
             if (Periodic_Checker_Devices.SENSORS.update_stat == PREPARED) {        
                 S_TX_LED_ON();
                 memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
-                USART_RS485_printf(RS485_SENSORS_REG, "{GET}\r\n"); //send data request
+                USART_RS485_printf(RS485_SENSORS_REG, modules.sensor_modules[T_P_RH_WS_WD].idcall); //send data request
                 sensors.state = WAIT_RESPOND;
                 Periodic_Checker_Devices.SENSORS.start_at = Periodic_Checker_Devices.period_counter;
                 DMA_USART_RS485_Storage_init(buf, RS485_RX_BUFFER_SIZE, SENSORS_CH); //set dma settings

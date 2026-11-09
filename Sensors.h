@@ -41,7 +41,23 @@ typedef struct{
     sunlight_data_t SUN;
 }sensors_data_t;
 
+typedef enum{ 
+    //for future updates keep empty places
+    T_P_RH_WS_WD = 0x01 //BME680, wind speed and direction board id number
+            
+}sensor_board_name_t;
+
+typedef struct{
+    sensor_board_name_t name; // for now not in use
+    char idcall[6]; //id number call string
+}sensor_board_module_t;
+
+typedef struct{
+    sensor_board_module_t sensor_modules[5]; //in use only 1 other for further update
+}sensor_network_t;
+
 extern sensors_data_t sensors;
+extern sensor_network_t modules;
 
 char * WindDirNames();
 void Sensors_COM();
