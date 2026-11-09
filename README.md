@@ -53,10 +53,10 @@ Finally, all collected data, including the weather station data and tower respon
 
 The sensor board communicates with the main board using **RS485 at 230400 baud**.
 
-The main board sends a data request:
+The main board sends a data request by ID number:
 
 ```text
-{GET}
+{01}CRLF
 ```
 
 The sensor board responds with a frame such as:
