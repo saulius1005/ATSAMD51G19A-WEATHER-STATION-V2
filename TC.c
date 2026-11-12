@@ -2,7 +2,7 @@
 #include "TCVar.h"
 
 void GCLK3_SERCOM_TC_core_init(){ //used for 1us
-    GCLK_REGS->GCLK_GENCTRL[3] = GCLK_GENCTRL_SRC_XOSC1 | GCLK_GENCTRL_DIV(24) | GCLK_GENCTRL_GENEN_Msk; //GCLK3 base clock speed is 24Mhz/24 = 1Mhz // divsel not used if so it means 24Mhz / 2^24 so do not using it or use if need large div
+    GCLK_REGS->GCLK_GENCTRL[3] = GCLK_GENCTRL_SRC_XOSC1 | GCLK_GENCTRL_DIV(20) | GCLK_GENCTRL_GENEN_Msk; //GCLK3 base clock speed is 20Mhz/20 = 1Mhz // divsel not used if so it means 20Mhz / 2^20 so do not using it or use if need large div
     while (GCLK_REGS->GCLK_SYNCBUSY & GCLK_SYNCBUSY_GENCTRL_GCLK3);
 }
 

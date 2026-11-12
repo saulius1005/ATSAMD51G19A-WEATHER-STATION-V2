@@ -7,12 +7,12 @@ void cpu_120Mhz_DPLL0_XOSC1_init(){
     while (!(OSCCTRL_REGS->OSCCTRL_STATUS & OSCCTRL_STATUS_XOSCRDY1_Msk)); // Wait until stable
 
     // Configure DPLL0 reference clock source and prescaler
-    OSCCTRL_REGS->DPLL[0].OSCCTRL_DPLLCTRLB = OSCCTRL_DPLLCTRLB_REFCLK_XOSC1 | OSCCTRL_DPLLCTRLB_DIV(3); //24Mhz / 2* (1+3) = 24/ 8 = 3Mhz
+    OSCCTRL_REGS->DPLL[0].OSCCTRL_DPLLCTRLB = OSCCTRL_DPLLCTRLB_REFCLK_XOSC1 | OSCCTRL_DPLLCTRLB_DIV(4); //20Mhz / 2* (1+4) = 20/ 10 = 2Mhz
 
     // Set DPLL multiplication ratio:
     // Fout = Fref * (LDR + 1 + LDRFRAC/32)
-    // Effective multiplier here: (39 + 1 + 21/32)
-    OSCCTRL_REGS->DPLL[0].OSCCTRL_DPLLRATIO = OSCCTRL_DPLLRATIO_LDR(39) | OSCCTRL_DPLLRATIO_LDRFRAC(0); //3Mhz * 39+1 = 3*40 = 120Mhz
+    // Effective multiplier here: (59 + 1 + 0)
+    OSCCTRL_REGS->DPLL[0].OSCCTRL_DPLLRATIO = OSCCTRL_DPLLRATIO_LDR(59) | OSCCTRL_DPLLRATIO_LDRFRAC(0); //2Mhz * 59+1 = 2*60 = 120Mhz
     while (OSCCTRL_REGS->DPLL[0].OSCCTRL_DPLLSYNCBUSY & OSCCTRL_DPLLSYNCBUSY_DPLLRATIO_Msk); // Wait for ratio sync
 
     // Enable DPLL0

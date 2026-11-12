@@ -17,8 +17,8 @@
 extern "C" {
 #endif
 
-#define F_S_SPIM_G1 120000000ULL //SPI core clock 
-#define F_S_USART_G3 24000000UL//USART/RS485 core clock
+#define F_S_SPIM_G1 120000000ULL //SPI core clock  120Mhz
+#define F_S_USART_G3 20000000UL//USART/RS485 core clock 20Mhz
 
 #define SERCOM_SPI_BAUD(Fsck) ((uint8_t)((F_S_SPIM_G1 / (2UL * (Fsck))) - 1UL))//SPI
 #define SERCOM_USART_ASYNC_ARITH_BAUD(f_baud) (uint16_t)(65536ULL - ((65536ULL * 16ULL * (f_baud)) / F_S_USART_G3))//USART
