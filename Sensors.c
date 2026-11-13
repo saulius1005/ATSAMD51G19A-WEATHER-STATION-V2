@@ -24,6 +24,7 @@ void Sensors_parser(char* buf){
     }
     
     if (i < RS485_RX_BUFFER_SIZE){ //if found 
+        S_RX_LED_ON(); //if buffer not empty and received start symbol
         uint8_t crc_data[8];
         i++; //parse data      
 
@@ -71,6 +72,7 @@ void Sensors_COM(){
     
     switch(sensors.state){
         case SEND:{            
+            S_RX_LED_OFF();//turn off led after data proccess max out turn on state          
             if (Periodic_Checker_Devices.SENSORS.update_stat == PREPARED) {        
                 S_TX_LED_ON();
                 memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
@@ -79,22 +81,21 @@ void Sensors_COM(){
                 Periodic_Checker_Devices.SENSORS.start_at = Periodic_Checker_Devices.period_counter;
                 DMA_USART_RS485_Storage_init(buf, RS485_RX_BUFFER_SIZE, SENSORS_CH); //set dma settings
                 DMA_USART_RS485_Enable(true, SENSORS_CH); //enable dma
-                S_TX_LED_OFF();
+                
             }            
         }break;
-        case WAIT_RESPOND:{           
-            if (Periodic_Checker_Devices.period_counter >= Periodic_Checker_Devices.SENSORS.start_at + Periodic_Checker_Devices.SENSORS.respond_time) {
-                S_RX_LED_ON(); //turn rx led on and indicate receiving begining (it will be on even if data is not receiving)
+        case WAIT_RESPOND:{    
+            S_TX_LED_OFF(); //to max out led on state
+            if (Periodic_Checker_Devices.period_counter >= Periodic_Checker_Devices.SENSORS.start_at + Periodic_Checker_Devices.SENSORS.respond_time) {              
                 //USART_RS485_printf(RS485_SENSORS_REG, "end");//waiting time end debug
                 DMA_USART_RS485_Enable(false, SENSORS_CH);   //stop reading 
-                sensors.state = PROCESS;
+                sensors.state = PROCESS;               
             }           
         }break;
         case PROCESS:           
             Sensors_parser(buf);
             sensors.state = SEND;
             Periodic_Checker_Devices.SENSORS.update_stat = UPDATED;  
-            S_RX_LED_OFF(); //turn off led after data proccess (if data received led should be on little longer (need to make tests))
         break;
             
     }

@@ -69,9 +69,9 @@ void UserInterface(Windows_names_t window) {
 
                     ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Humidity: %3d% ", sensors.BME680.humidity);
                     y -= 12;
-                    ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Sun l.l.: %dmV", sensors.SUN.level); //example for layout
+                    ILI9341_draw_formatted_line(125, &y, YELLOW, BLACK, "Sun l.l.: %dmV ", sensors.SUN.level); //example for layout
                     
-                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: %dm/s %s\n", sensors.WIND.speed, WindDirNames()); //example for layout
+                    ILI9341_draw_formatted_line(5, &y, CYAN, BLACK, "Wind: %dm/s %s \n", sensors.WIND.speed, WindDirNames()); //example for layout
                     
                     
 
@@ -89,11 +89,11 @@ void UserInterface(Windows_names_t window) {
                         ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "Signal: %3ddBm ", A7672E_GSM_STATUS.rssi);
                     }
 
-                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Long.: %3d.%04d°", A7672E_NET.longitude / 10000, abs(A7672E_NET.longitude % 10000));
+                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Long.: %3d.%04d° ", A7672E_NET.longitude / 10000, abs(A7672E_NET.longitude % 10000));
                     y -= 12;
                     ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "Registration: %d", A7672E_GSM_STATUS.reg_status);
 
-                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Altitude: %4dm", A7672E_NET.altitude);
+                    ILI9341_draw_formatted_line(5, &y, GREEN, BLACK, "Altitude: %4dm ", A7672E_NET.altitude);
                     y -= 12;
                     ILI9341_draw_formatted_line(125, &y, TEAL, BLACK, "GNSS locked: %s", (A7672EGNSS.mode == 2) ? "2D" : (A7672EGNSS.mode == 3) ? "3D" : "NO");
                     
@@ -119,7 +119,7 @@ void UserInterface(Windows_names_t window) {
                     
                     uint32_t power_kw_x100 = (total_power + 5000) / 10000;
                     
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "PV P: %4d.%02dkW", power_kw_x100 / 100, power_kw_x100 % 100);
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "PV P: %4d.%02dkW ", power_kw_x100 / 100, power_kw_x100 % 100);
                     y-=12;
                     ILI9341_draw_formatted_line(125, &y, ORANGE, BLACK, "Towers: %02d:%02d:%02d",
                         towers[0].update_time.hour,
@@ -132,7 +132,7 @@ void UserInterface(Windows_names_t window) {
                     }
                     power_kw_x100 = (total_power + 500) / 1000;
                     
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Az.Mot.P: %4dW", power_kw_x100); //all towers azimuth motors power
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "Az.Mot.P: %4dW ", power_kw_x100); //all towers azimuth motors power
                     y-=12;
                     ILI9341_draw_formatted_line(125, &y, ORANGE, BLACK, "Sensors: %02d:%02d:%02d",
                         sensors.update_time.hour,
@@ -144,7 +144,7 @@ void UserInterface(Windows_names_t window) {
                     }
                     power_kw_x100 = (total_power + 500) / 1000;
                     
-                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "El.Mot.P: %4dW", power_kw_x100); ////all towers elevation motors power
+                    ILI9341_draw_formatted_line(5, &y, MISTYROSE, BLACK, "El.Mot.P: %4dW ", power_kw_x100); ////all towers elevation motors power
                     
                     //y = 300;
                     //ILI9341_draw_formatted_line(5, &y, MAGENTA, BLACK, "TCC0: %09d", Periodic_Checker_Devices.period_counter);

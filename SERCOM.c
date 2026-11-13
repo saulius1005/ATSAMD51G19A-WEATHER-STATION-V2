@@ -153,4 +153,5 @@ void SERCOM_init_all(){
     SERCOM_init(RS485_TOWER); //rs485 S2
     SERCOM_init(USART_GSM); //usart S3
     //S1, S4 - not used
+    all_LED_init(); //set all led status to off
 }

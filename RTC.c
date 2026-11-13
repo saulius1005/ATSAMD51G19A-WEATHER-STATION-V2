@@ -55,7 +55,7 @@ void RTC_date_and_time_update(){
     if((A7672EGSM.GNSS_sys_time != RTC_Date_and_Time.RTC_sys_time) && (A7672EGNSS.mode != 0)&& (RTC_Date_and_Time.time_sync == GSM_sync)){ //use gsm time sync only if gnss is not available
         RTC_date_and_time_sync(A7672EGSM.GNSS_sys_time, GNSS_sync);
     }       
-    else if((A7672EGSM.GSM_sys_time !=  RTC_Date_and_Time.RTC_sys_time) && (RTC_Date_and_Time.time_sync == NONE_sync)){ //use gsm time sync only if gnss is not available
+    else if((A7672EGSM.GSM_sys_time !=  RTC_Date_and_Time.RTC_sys_time) && (RTC_Date_and_Time.time_sync == NONE_sync) && (A7672EGSM.GSM_sys_time != 0)){ //use gsm time sync only if gnss is not available
         RTC_date_and_time_sync(A7672EGSM.GSM_sys_time, GSM_sync);
     }
 }

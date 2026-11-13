@@ -77,6 +77,8 @@
       <itemPath>ili9341Var.h</itemPath>
       <itemPath>CLK.h</itemPath>
       <itemPath>GPIO.h</itemPath>
+      <itemPath>LED.c</itemPath>
+      <itemPath>LED.h</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

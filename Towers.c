@@ -32,6 +32,7 @@ void Tower_COM_DATA_Parser(char* buf, uint8_t id){
         i++;
     }
     if (i < RS485_RX_BUFFER_SIZE){ //if found 
+        T_RX_LED_ON();
         uint8_t crc_data[15];
         i++; //parse data      
 
@@ -101,8 +102,9 @@ void Tower_COM_sequence(uint8_t id){
     static char buf[RS485_RX_BUFFER_SIZE] = {0};
     
     switch(towers[id].state){
-        case SEND:{            
-            if (Periodic_Checker_Devices.TOWERS.update_stat == PREPARED) {
+        case SEND:{      
+            T_RX_LED_OFF();//to max out led on state
+            if (Periodic_Checker_Devices.TOWERS.update_stat == PREPARED) {              
                 T_TX_LED_ON();
                 uint8_t crcbuf[16] ={0};
                 memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
@@ -111,16 +113,15 @@ void Tower_COM_sequence(uint8_t id){
                 towers[id].state = WAIT_RESPOND;
                 Periodic_Checker_Devices.TOWERS.start_at = Periodic_Checker_Devices.period_counter;
                 DMA_USART_RS485_Storage_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings
-                DMA_USART_RS485_Enable(true, TOWER_CH); //enable dma
-                T_TX_LED_OFF();
+                DMA_USART_RS485_Enable(true, TOWER_CH); //enable dma                
             }           
         }break;
         case WAIT_RESPOND:{
+            T_TX_LED_OFF();//to max out led on state
             if (Periodic_Checker_Devices.period_counter >= Periodic_Checker_Devices.TOWERS.start_at + Periodic_Checker_Devices.TOWERS.respond_time) {
-                T_RX_LED_ON();
                 //USART_RS485_printf(RS485_TOWER_REG, "end");//waiting time end debug
                 DMA_USART_RS485_Enable(false, TOWER_CH);   //stop reading 
-                towers[id].state = PROCESS;
+                towers[id].state = PROCESS;               
             }           
         }break;
         case PROCESS:
@@ -128,7 +129,6 @@ void Tower_COM_sequence(uint8_t id){
             Tower_COM_DATA_Parser(buf, id);            
             towers[id].state = COMPLETE;
             Periodic_Checker_Devices.TOWERS.update_stat = UPDATED;
-            T_RX_LED_OFF();
         break;
             
     }

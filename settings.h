@@ -50,6 +50,7 @@ extern "C" {
 #include "Sensors.h"    
 #include "crc8.h"
 #include "eeprom.h"
+#include "LED.h"
 
 #ifdef	__cplusplus
 }
