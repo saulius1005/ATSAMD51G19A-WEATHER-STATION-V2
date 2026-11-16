@@ -11,8 +11,8 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
-    
-//#define TOWER_COUNT 2 //for far far future may increase tower count. Maybe    
+      
+#define STOP_TRACKING_AT -8 // stop azimutht and elevation tracking at -7 degree of the sun elevation
  
 #define T_TX_LED_ON()   (PORT_REGS->GROUP[0].PORT_OUTCLR = PORT_PA16) // disable-low
 #define T_TX_LED_OFF()   (PORT_REGS->GROUP[0].PORT_OUTSET = PORT_PA16) // enable-high
@@ -47,10 +47,16 @@ typedef struct{
     electrical_t az_motor;
     electrical_t el_motor;
     last_update_t update_time; //type from A7672E.h
-    char prepared_to_server[30];//all data without crc
+    char prepared_to_server[29];//all data without crc
 } tower_t;
 
+typedef struct{
+    uint16_t tracking_az;
+    int16_t tracking_el;    
+} track_limiter_t;
+
 extern tower_t towers[];
+extern track_limiter_t towers_track_limiter;
 
 void Towers_init(); //create Towers list
 void Tower_COM(); //main RS485 network for Towers function

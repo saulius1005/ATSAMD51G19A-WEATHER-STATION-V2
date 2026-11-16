@@ -19,7 +19,7 @@ A7672E_network_settings_t A7672E_NET = {
     .etester = 0,
     .APN_USR = "internet.tele2.lt",
     .TRST_PHN = {0},
-    .SERVER_URL = "https://script.google.com/macros/s/AKfycbxW9kfqiDz7xPEY7nezEQJfBDZv7C2zvVsNZpeZZZ7saAG8cegEyoPcK8lXMch-T0Zs/exec?data=",
+    .SERVER_URL = "https://script.google.com/macros/s/AKfycbwPQw8GMnubM7BGnaTIxjgMciZxYsJPF09vbR1cqyrd-YVCzWFHloTqiNcfKNi9HW88/exec?data=",
     .towers_in_total = 2,
     .latitude = 551234,
     .longitude = 249876,
@@ -105,12 +105,6 @@ CommandList_t A7672ESetInternetList[] = { //cmd list for http initialization
     {"AT+CGPADDR=1\r",1,1},//check cid
     {"AT+HTTPINIT\r", 1, 1},
     {"AT+CTZU=1\r", 1, 1}, //Enable automatic time and time zone update via NITZ   
-};
-CommandList_t A7672EHTTPGET[] = { //cmd list to receive GET request
-    {"AT+HTTPPARA=\"URL\",\"https://script.google.com/macros/s/AKfycbyps-b_D13lfETv7Xzy61zcjw9j0dr2iXX73-Ci4nFodykgA0Zumc_FTrwwkiHbnfF4/exec?\"\r", 1, 1}, //test url
-    {"AT+HTTPACTION=0\r", 1, 20},
-   // {"AT+HTTPHEAD\r", 1, 1},
-    {"AT+HTTPTERM\r", 1, 1},
 };
 
 A7672E_Config_t http_cfg = {

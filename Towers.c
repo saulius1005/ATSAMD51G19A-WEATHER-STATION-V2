@@ -39,11 +39,11 @@ void Tower_COM_DATA_Parser(char* buf, uint8_t id){
         for (uint8_t j = 0; j < 15; j++) {
             crc_data[j] = (uint8_t)fast_atoi_hex(&buf[(j * 2) + 1], 2);
         }
-        
+        //corret data sequence according to towers data
         uint8_t  idno  = (uint8_t)fast_atoi_hex(&buf[i], 2); i += 2;
-        uint16_t AZ  = fast_atoi_hex(&buf[i], 4); i += 4;
         uint16_t EL  = fast_atoi_hex(&buf[i], 4); i += 4;
-        uint16_t PVU = fast_atoi_hex(&buf[i], 4); i += 4;
+        uint16_t AZ  = fast_atoi_hex(&buf[i], 4); i += 4;        
+        uint16_t PVU = fast_atoi_hex(&buf[i], 3); i += 3;
         uint16_t PVI = fast_atoi_hex(&buf[i], 3); i += 3;
         uint8_t  ES  = (uint8_t)fast_atoi_hex(&buf[i], 1); i += 1;
 
@@ -52,11 +52,7 @@ void Tower_COM_DATA_Parser(char* buf, uint8_t id){
         uint16_t LU  = fast_atoi_hex(&buf[i], 3); i += 3;
         uint16_t LI  = fast_atoi_hex(&buf[i], 3); i += 3;
         uint8_t  CC  = (uint8_t)fast_atoi_hex(&buf[i], 2); i += 2;
-        
-        //test message: [004792126807dc3fb025a0370ee15b58] // id 0 ,..., bad crc
-        //test message: [004792126807dc3fb025a0370ee15b10] //id 0 ,...,  crc ok
-        //test message: [01487312c307f3441026202c9680733e] //id 1, ..., crc ok
- 
+         
         bool crc_ok = verify_crc8_cdma2000(crc_data,(i - 3)/2, CC);//crc buf, total bytes not symbol count, received crc
 
         //RS485_printf("crc ok? %s\r\n", crc_ok? "YEP":"NOTI NOTI");//for debug
@@ -93,7 +89,7 @@ void Tower_COM_DATA_Parser(char* buf, uint8_t id){
         tower -> update_time.minute = RTC_Date_and_Time.RTC_minute;
         tower -> update_time.second = RTC_Date_and_Time.RTC_second;
         
-        memcpy(tower ->prepared_to_server, buf, 30); //prepare data to server
+        memcpy(tower ->prepared_to_server, buf, 29); //prepare data to server
     
     }
 }
@@ -109,7 +105,11 @@ void Tower_COM_sequence(uint8_t id){
                 uint8_t crcbuf[16] ={0};
                 memset(buf, 0, RS485_RX_BUFFER_SIZE); //clear buf
                 //converting elevation to uint type and do NOT FORGET use int16_t at receiver side
-                USART_RS485_printf(RS485_TOWER_REG, "{%02x%04x%04x%02x%x%03x%02x}\r\n", id, solar_params.coarse_azimuth, (uint16_t)solar_params.coarse_elevation, sensors.WIND.speed, sensors.WIND.direction, sensors.SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
+                if(solar_params.coarse_elevation >= STOP_TRACKING_AT){
+                    towers_track_limiter.tracking_az = solar_params.coarse_azimuth; // if calculated elevation is more or equal to -8 degree set tracking new azimuth value
+                    towers_track_limiter.tracking_el = solar_params.coarse_elevation; // and new elevation value                 
+                }//other case left with last value
+                USART_RS485_printf(RS485_TOWER_REG, "{%02x%04x%04x%02x%x%03x%02x}\r\n", id, towers_track_limiter.tracking_az, (uint16_t)towers_track_limiter.tracking_el, sensors.WIND.speed, sensors.WIND.direction, sensors.SUN.level, crc8_cdma2000(crcbuf,TowerCRC(id, crcbuf)));//id,azimuth,elevation, wind speed, wind direction, crc8
                 towers[id].state = WAIT_RESPOND;
                 Periodic_Checker_Devices.TOWERS.start_at = Periodic_Checker_Devices.period_counter;
                 DMA_USART_RS485_Storage_init(buf, RS485_RX_BUFFER_SIZE, TOWER_CH); //set dma settings

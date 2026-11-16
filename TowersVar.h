@@ -56,6 +56,10 @@ tower_t towers[256] = {/*{ //uncomment if needde to manualy declarate towers dat
     }}*/
 };
 
+track_limiter_t towers_track_limiter = {
+    .tracking_az = 17140,
+    .tracking_el = 3730  
+};
 
 #ifdef	__cplusplus
 }
