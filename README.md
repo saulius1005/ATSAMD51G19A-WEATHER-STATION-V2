@@ -1,11 +1,10 @@
 
 # Weather Station v2.0
 
-*(Still in progress. Very early version- Beta (tested PCB in progress))*
+*(Still in progress. Near to copmletion)*
 
-<img width="640" height="480" alt="Ekrano kopija 2026-10-24 224501" src="https://github.com/user-attachments/assets/ef0273e9-515e-4e64-9e54-dea13280e89b" />
+<img width="640" height="360" alt="IMG_20261114_124412_840" src="https://github.com/user-attachments/assets/7672319d-d7e7-4325-9689-7812c27fa3ba" />
 
-<img width="640" height="480" alt="Ekrano kopija 2026-10-24 224515" src="https://github.com/user-attachments/assets/cafec0d6-6eb5-439b-9b80-7675824d39d7" />
 
 ## Wiring Diagram
 
@@ -200,11 +199,15 @@ After the board is powered on, the LCD displays the A7672E initialization sequen
 ### A7672E Initialization
 
 1. The system waits for startup confirmation messages from the SIMCom A7672E module, such as `SMS Ready`, `PB Ready`, etc.
+
+<img width="360" height="640" alt="IMG_20261114_124946_742" src="https://github.com/user-attachments/assets/5c178500-f06c-4afa-8a32-a229cdd421cd" />
+
+   
 2. GSM and Internet connectivity functions are then initialized.
    
 <img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-169" src="https://github.com/user-attachments/assets/a6239b83-3ddb-4c4c-ba8b-eda31f899757" />
 
-4. The final initialization window displays the GNSS initialization sequence.
+3. The final initialization window displays the GNSS initialization sequence.
    
 <img width="360" height="640" alt="viber_image_2026-10-24_23-02-24-149" src="https://github.com/user-attachments/assets/e7bd53b9-c61c-4312-8fa2-cdb7d309813f" />
 
