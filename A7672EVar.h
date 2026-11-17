@@ -19,7 +19,7 @@ A7672E_network_settings_t A7672E_NET = {
     .etester = 0,
     .APN_USR = "internet.tele2.lt",
     .TRST_PHN = {0},
-    .SERVER_URL = "https://script.google.com/macros/s/AKfycbwPQw8GMnubM7BGnaTIxjgMciZxYsJPF09vbR1cqyrd-YVCzWFHloTqiNcfKNi9HW88/exec?data=",
+    .SERVER_URL = "https://script.google.com/macros/s/AKfycby6ofAzTU3uo0jMOcDXcYGpyoWwRb4nmRcl77fjpagJ26JYASEAdZX_m3Kp831CxqWG/exec?data=",
     .towers_in_total = 2,
     .latitude = 551234,
     .longitude = 249876,
