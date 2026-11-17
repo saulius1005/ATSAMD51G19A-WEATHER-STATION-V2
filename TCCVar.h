@@ -35,8 +35,8 @@ regular_update_devices_t Periodic_Checker_Devices = {
         .start_at = 0,
     },
     .TOWERS = {
-        .update_time = 200, //2 towers meaning each every 100ms
-        .respond_time = 50,
+        .update_time = 5000, //2 towers meaning each every 100ms
+        .respond_time = 100,
         .update_stat = UPDATED,
         .start_at = 0,
     },
