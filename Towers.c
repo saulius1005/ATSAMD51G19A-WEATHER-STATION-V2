@@ -89,7 +89,7 @@ void Tower_COM_DATA_Parser(char* buf, uint8_t id){
         tower -> update_time.minute = RTC_Date_and_Time.RTC_minute;
         tower -> update_time.second = RTC_Date_and_Time.RTC_second;
         
-        memcpy(tower ->prepared_to_server, buf, 29); //prepare data to server
+        memcpy(tower ->prepared_to_server, buf + 1, 29); //prepare data to server
     
     }
 }

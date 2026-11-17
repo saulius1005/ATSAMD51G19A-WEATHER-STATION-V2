@@ -47,7 +47,7 @@ typedef struct{
     electrical_t az_motor;
     electrical_t el_motor;
     last_update_t update_time; //type from A7672E.h
-    char prepared_to_server[29];//all data without crc
+    char prepared_to_server[30];//all data without crc
 } tower_t;
 
 typedef struct{

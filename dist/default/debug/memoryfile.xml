@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <executable name="dist/default/debug/ATSAMD51G19A-WEATHER-STATION-V2.X.debug.elf">
+  <executable name="dist/default/debug/ATSAMD51G19A-WEATHER-STATION-V2.debug.elf">
     <memory name="program">
       <units>bytes</units>
       <length>524288</length>
-      <used>181176</used>
-      <free>343112</free>
+      <used>181180</used>
+      <free>343108</free>
     </memory>
     <memory name="data">
       <units>bytes</units>
